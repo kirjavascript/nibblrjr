@@ -1,0 +1,37 @@
+// TODO //
+
+// new api, print(), commands can be multiple statements, command types await getJSON() -- print(( () => { ... legacy code ... } )(args.legacy))
+// check valid command on the command line - suggest ~api
+// customize trigger
+// ## hide url
+// multiple servers, channels
+// reply in PM
+// 2d3h time
+// REFACTOR
+// create API - nick() etc command params ~()
+// join new channels/servers through the web ui on the fly (!)
+// ~poker
+// command piping return print();
+// special simple syntax parsed for colours {blue} or something
+// ~> == ~eval
+// url scraper -> status code
+// truncate url
+// command whitelist
+// vim code input easier interface +test?
+// help command
+//https://www.npmjs.com/package/ms
+
+// points stats, command use stats
+// trivia stats
+// profanity stats
+// await getJSON example
+
+// write colour lib that can copy the functionality of wrap but also accepts numbers, etc. slow migration to better colour managements, -1 = rainbow, -2 = bold etc
+// http://www.df7cb.de/irc/pisg/pisg-month.html
+
+// add Colourpicker/API info (write()) to nibblr commands
+// track nick list
+
+// document web API / command context
+// event backend
+// about -> github iframe
