@@ -5,10 +5,12 @@ class ServerNode {
     constructor(parent, server) {
 
         Object.assign(this, server, { parent });
-        const { address, channels, trigger, username, password } = this;
+        // { address, channels, trigger, nickname, password }
 
-        this.client = new Client(address, username, {
-            channels: channels,
+        addServerMethods(this);
+
+        this.client = new Client(this.address, this.nickname, {
+            channels: this.channels,
             userName: 'eternium',
             realName: 'none',
             floodProtection: true,
@@ -16,9 +18,9 @@ class ServerNode {
             autoRejoin: true,
         });
 
-        if (password) {
+        if (this.password) {
             this.client.addListener('registered', () => {
-                client.say('nickserv', `identify ${password}`);
+                this.client.say('nickserv', `identify ${this.password}`);
             });
         }
 
@@ -26,7 +28,13 @@ class ServerNode {
             // TODO: log errors to db
         });
 
-        addServerMethods(this);
+        this.client.addListener('message', (from, to, text, message) => {
+            const isPM = to == this.nickname;
+            const target = isPM ? from : to;
+
+            // check memo, reminds
+        });
+
     }
 }
 

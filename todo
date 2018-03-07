@@ -8,9 +8,10 @@
 // reply in PM
 // 2d3h time
 // REFACTOR
+// better editor - vim mode
 // create API - nick() etc command params ~()
 // join new channels/servers through the web ui on the fly (!)
-// ~poker
+// ~poker (do all in the api, one round a time, scoped stats)
 // command piping return print();
 // special simple syntax parsed for colours {blue} or something
 // ~> == ~eval
