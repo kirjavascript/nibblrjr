@@ -1,0 +1,30 @@
+{
+    "trigger": "~",
+    "web": {
+        "domain": "localhost",
+        "port": 8888,
+        "password": "powernap",
+        "secretKey": "N/A"
+    },
+    "servers": [
+        {
+            "address": "irc.rizon.net",
+            "channels": ["#nibblr", "#livingroom"],
+            "nickname": "nibblrjr",
+            "password": false
+        },
+        {
+            "address": "irc.furnet.org",
+            "channels": ["#purplejr"],
+            "nickname": "purpleqt",
+            "password": "milkshake"
+        },
+        {
+            "address": "irc.freenode.net",
+            "trigger": "!",
+            "channels": ["#rubik2"],
+            "nickname": "nibblrjr",
+            "password": false
+        }
+    ]
+}

@@ -1,6 +1,8 @@
 const { Client } = require('irc');
 Client.prototype._updateMaxLineLength = () => {this.maxLineLength = 400};
 
+const { printFactory, noticeFactory } = require('./printer');
+
 class ServerNode {
     constructor(parent, server) {
 
@@ -24,6 +26,8 @@ class ServerNode {
             });
         }
 
+        // TODO: track nicklist?
+
         this.client.addListener('error', function(message) {
             // TODO: log errors to db
         });
@@ -31,8 +35,28 @@ class ServerNode {
         this.client.addListener('message', (from, to, text, message) => {
             const isPM = to == this.nickname;
             const target = isPM ? from : to;
+            const msgData = { from, to, text, message, target, isPM };
+
+            // log message
+            // if (!isPM) {
+            // }
+
+            // print stuff
+            const print = printFactory(this, msgData);
+            const notice = noticeFactory(this, msgData);
 
             // check memo, reminds
+
+            // handle commands
+            const trigger = this.get('trigger');
+
+            if (text.startsWith(trigger)) {
+                const command = text.slice(trigger.length).match(/^\S*/)[0];
+                const input = text.slice(trigger.length + command.length + 1);
+
+                console.log([command, input]);
+            }
+
         });
 
     }
@@ -41,7 +65,7 @@ class ServerNode {
 function addServerMethods(node) {
     // for defaulting values
     node.get = (key) => {
-        return node[key] || parent[key];
+        return node[key] || node.parent[key];
     };
 }
 
