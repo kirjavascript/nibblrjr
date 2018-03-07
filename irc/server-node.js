@@ -2,6 +2,7 @@ const { Client } = require('irc');
 Client.prototype._updateMaxLineLength = () => {this.maxLineLength = 400};
 
 const { printFactory, noticeFactory } = require('./printer');
+const { evaluate } = require('./evaluate');
 
 class ServerNode {
     constructor(parent, server) {
@@ -51,10 +52,20 @@ class ServerNode {
             const trigger = this.get('trigger');
 
             if (text.startsWith(trigger)) {
-                const command = text.slice(trigger.length).match(/^\S*/)[0];
-                const input = text.slice(trigger.length + command.length + 1);
-
-                console.log([command, input]);
+                // eval
+                if (text[trigger.length] == '>') {
+                    const input = text.slice(trigger.length + 1);
+                    if (input.length) {
+                        print(evaluate({ input }));
+                    }
+                }
+                // normal commands
+                else {
+                    const command = text.slice(trigger.length).match(/^\S*/)[0];
+                    const input = text.slice(trigger.length + command.length + 1);
+                    // print with colour parsing mode
+                    console.log('cmd', [command, input]);
+                }
             }
 
         });

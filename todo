@@ -1,10 +1,11 @@
 // TODO //
 
 // new api, print(), commands can be multiple statements, command types await getJSON() -- print(( () => { ... legacy code ... } )(args.legacy)) - port via web ui
+// update legacy tool in web UI
 // ## hide url
 // 2d3h time
 // check valid command on the command line - suggest ~api // force command
-// better editor - vim mode
+// better editor - vim mode - edited
 // create API - nick() etc command params ~()
 // join new channels/servers through the web ui on the fly (!)
 // ~poker (do all in the api, one round a time, scoped stats)
