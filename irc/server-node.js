@@ -56,7 +56,7 @@ class ServerNode {
                 if (text[trigger.length] == '>') {
                     const input = text.slice(trigger.length + 1);
                     if (input.length) {
-                        print(evaluate({ input }));
+                        print(evaluate({ input }, true));
                     }
                 }
                 // normal commands
