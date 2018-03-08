@@ -1,38 +1,57 @@
 // TODO //
 
-// new api, print(), commands can be multiple statements, command types await getJSON() -- print(( () => { ... legacy code ... } )(args.legacy)) - port via web ui
-// update legacy tool in web UI
+// CMD
+// url scraper -> status code
 // ## hide url
+// ~(,)
+
+// CMD API
+new api,
+context .. mut global
+/* print */
+nick
+isomorphic fetch
+commands can be multiple statements
+await getJSON() getText
+print(( () => { ... legacy code ... } )(args.legacy))
+port via web ui
+// {g} {/} colours italic underline rainbow
 // 2d3h time
-// check valid command on the command line - suggest ~api // force command
-// better editor - vim mode - edited
-// create API - nick() etc command params ~()
-// join new channels/servers through the web ui on the fly (!)
+// check valid command on the command line - suggest ~api
+// ~command.new.force() command overwrite
 // ~poker (do all in the api, one round a time, scoped stats)
 // command piping return print();
-// special simple syntax parsed for colours {blue} or something
-// ~> == ~eval
-// url scraper -> status code
-// truncate url
-// command whitelist
-// vim code input easier interface +test?
-// help command
-//https://www.npmjs.com/package/ms
+Async promise chain pipe
+help ?
+// scoped data
+// logs - profanity stats
+// ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 
-// points stats, command use stats
-// trivia stats
-// profanity stats
-// await getJSON?.test?.test example
-
-// write colour lib that can copy the functionality of wrap but also accepts numbers, etc. slow migration to better colour managements, -1 = rainbow, -2 = bold etc
-// http://www.df7cb.de/irc/pisg/pisg-month.html
-// event listeners
-
-// add Colourpicker/API info (write()) to nibblr commands
+// WEB API
+// join new channels/servers
 // track nick list
-// ctcp version display
 
+// UI
+blueprint
+react router
+// db web backup zip
+// subcommands / tree
+
+// EDITOR
+// update legacy tool in web UI
+// better editor - vim mode -
+edited
+testing
+
+
+// http://www.df7cb.de/irc/pisg/pisg-month.html
+https://www.npmjs.com/package/date.js
+https://www.npmjs.com/package/timestring
+
+// await getJSON.test.test example
 // document web API / command context
 // event backend
 // about -> github iframe
 // old prs
+
+Cmd Params parser

@@ -1,7 +1,7 @@
 const util = require('util');
 const vm = require('vm');
 
-Object.assign(util.inspect.styles, { null: 'red' });
+util.inspect.styles.null = 'red';
 
 function evaluate({ input }, debug = false) {
     const context = {};
@@ -31,10 +31,9 @@ function debugColors(evaluation) {
         .replace(new RegExp('\u001b\\[31m', 'g'), '\u000313') // null
         .replace(new RegExp('\u001b\\[33m', 'g'), '\u000307') // num / bool
         .replace(new RegExp('\u001b\\[32m', 'g'), '\u000303')// str
-        .replace(new RegExp('\u001b\\[90m', 'g'), '\u000314')// str
+        .replace(new RegExp('\u001b\\[90m', 'g'), '\u000314')// str?
         .replace(new RegExp('\u001b\\[36m', 'g'), '\u000310');// func
 
-    // console.log('eval', [input, evaluation, output]);
     if (output.length > 396) {
         return output.slice(0, 396) + '\u000f ...';
     }

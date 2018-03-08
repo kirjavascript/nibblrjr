@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "irc": "^0.5.2"
+    "html-entities": "^1.2.1",
+    "irc": "^0.5.2",
+    "isomorphic-fetch": "^2.2.1"
   }
 }

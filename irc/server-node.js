@@ -3,6 +3,7 @@ Client.prototype._updateMaxLineLength = () => {this.maxLineLength = 400};
 
 const { printFactory, noticeFactory } = require('./printer');
 const { evaluate } = require('./evaluate');
+const { fetchURL } = require('./fetch-url');
 
 class ServerNode {
     constructor(parent, server) {
@@ -42,14 +43,14 @@ class ServerNode {
             // if (!isPM) {
             // }
 
-            // print stuff
+            // init print API
             const print = printFactory(this, msgData);
             const notice = noticeFactory(this, msgData);
 
             // check memo, reminds
 
             // handle commands
-            const trigger = this.get('trigger');
+            const trigger = this.get('trigger', '!');
 
             if (text.startsWith(trigger)) {
                 // eval
@@ -67,6 +68,10 @@ class ServerNode {
                     console.log('cmd', [command, input]);
                 }
             }
+            // parse URLs
+            else {
+                fetchURL(text, print);
+            }
 
         });
 
@@ -75,8 +80,8 @@ class ServerNode {
 
 function addServerMethods(node) {
     // for defaulting values
-    node.get = (key) => {
-        return node[key] || node.parent[key];
+    node.get = (key, _default) => {
+        return node[key] || node.parent[key] || _default;
     };
 }
 
