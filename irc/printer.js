@@ -1,16 +1,26 @@
 const { objectDebug } = require('./evaluate');
+const { colorParser } = require('./colors');
 
 const messageFactory = (type, node, msgData) => {
     const { client } = node;
     const { target: defaultTarget } = msgData;
 
-    const send = (text, target = void 0) => {
+    // raw
+    const sendRaw = (text, target = void 0) => {
         client[type](target || defaultTarget, text);
         return text;
     };
 
+    // colours
+    const send = (text, ...args) => {
+        return sendRaw(colorParser(text));
+    };
+
+    send.raw = sendRaw;
+
+    // inspect
     send.log = (text, ...args) => {
-        return send(objectDebug(text), ...args);
+        return sendRaw(objectDebug(text), ...args);
     };
 
     return send;
