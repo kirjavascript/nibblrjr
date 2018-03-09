@@ -3,6 +3,7 @@
 // CMD
 // colours list all unicode
 // {g} {/} colours italic underline rainbow {G} for background
+// IRC.resetBuffer()
 // ~(,)
 commands can be multiple statements
 // 2d3h time
@@ -28,6 +29,7 @@ react router
 // db web backup zip
 // subcommands / tree
 only web ui can kick/part/join
+implement internal commands as
 
 // EDITOR
 // update legacy tool in web UI

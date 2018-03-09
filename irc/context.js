@@ -7,14 +7,17 @@ const mut = {};
 
 function getContext({ print, notice, action, msgData, node }) {
 
-    const nickname = (str) => {
-        node.client.send('NICK', str);
-    };
-
     const IRC = {
         message: msgData,
-        nickname,
+        nickname: (str) => {
+            node.client.send('NICK', str);
+        },
+        resetBuffer: () => {
+            node.client._clearCmdQueue();
+        },
     };
+
+    // add legacy
 
     const ctx = {
         IRC,
