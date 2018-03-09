@@ -1,8 +1,6 @@
 // TODO //
 
 // CMD
-// colours list all unicode - use replacer /{.}/g () => {} (normal print)
-// {g} {/} colours italic underline rainbow {G} for background (check npmjs c) 
 // parse-command.js
 // ~(,)
 commands can be multiple statements
@@ -16,6 +14,7 @@ commands can be multiple statements
 Async (sync only?) promise chain pipe - test when commands are in UI  / only some are async functions and the rest are? sync/whatever
 help ?
 // scoped data
+// hyperslots {g,r} watermelon
 // logs - profanity stats
 // ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 
@@ -23,6 +22,7 @@ help ?
 // join new channels/servers
 // track nick list
 port via print(( () => { ... legacy code ... } )(args.legacy))
+{emoji}
 
 // UI
 blueprint
@@ -48,5 +48,3 @@ https://www.npmjs.com/package/timestring
 // event backend
 // about -> github iframe
 // old prs
-
-Cmd Params parser

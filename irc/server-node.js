@@ -16,10 +16,10 @@ class ServerNode {
 
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels,
-            userName: 'eternium',
-            realName: 'none',
-            floodProtection: true,
-            floodProtectionDelay: 250,
+            userName: this.get('userName', 'eternium'),
+            realName: this.get('realName', 'none'),
+            floodProtection: this.get('floodProtection', true),
+            floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: true,
         });
 
@@ -29,7 +29,7 @@ class ServerNode {
             });
         }
 
-        // TODO: track nicklist?
+        // TODO: track nicklist? (get list every 30 sec?)
 
         this.client.addListener('error', function(message) {
             // TODO: log errors to db

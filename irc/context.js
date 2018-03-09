@@ -9,6 +9,7 @@ function getContext({ print, notice, action, msgData, node }) {
 
     const IRC = {
         message: msgData,
+        trigger: node.get('trigger', '!'),
         nickname: (str) => {
             node.client.send('NICK', str);
         },
