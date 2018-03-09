@@ -1,18 +1,19 @@
 // TODO //
 
 // CMD
-// colours list all unicode
-// {g} {/} colours italic underline rainbow {G} for background
-// IRC.resetBuffer()
+// colours list all unicode - use replacer /{.}/g () => {} (normal print)
+// {g} {/} colours italic underline rainbow {G} for background (check npmjs c) 
+// parse-command.js
 // ~(,)
 commands can be multiple statements
+// IRC.trigger
 // 2d3h time
 // check valid command on the command line - suggest ~api
 // ~command.new.force() command overwrite
 // ~command.new.text
 // ~poker (do all in the api, one round a time, scoped stats)
 // command piping return print();
-Async (sync only?) promise chain pipe
+Async (sync only?) promise chain pipe - test when commands are in UI
 help ?
 // scoped data
 // logs - profanity stats
