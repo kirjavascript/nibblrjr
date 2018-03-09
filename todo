@@ -13,7 +13,7 @@ commands can be multiple statements
 // ~command.new.text
 // ~poker (do all in the api, one round a time, scoped stats)
 // command piping return print();
-Async (sync only?) promise chain pipe - test when commands are in UI Promise.all()
+Async (sync only?) promise chain pipe - test when commands are in UI  / only some are async functions and the rest are? sync/whatever
 help ?
 // scoped data
 // logs - profanity stats
