@@ -1,27 +1,17 @@
 // TODO //
 
 // CMD
-// url scraper -> status code
-// ## hide url
+// colours list all unicode
+// {g} {/} colours italic underline rainbow {G} for background
 // ~(,)
-
-// CMD API
-new api,
-context .. mut global
-/* print */
-nick
-isomorphic fetch
 commands can be multiple statements
-await getJSON() getText
-print(( () => { ... legacy code ... } )(args.legacy))
-port via web ui
-// {g} {/} colours italic underline rainbow
 // 2d3h time
 // check valid command on the command line - suggest ~api
 // ~command.new.force() command overwrite
+// ~command.new.text
 // ~poker (do all in the api, one round a time, scoped stats)
 // command piping return print();
-Async promise chain pipe
+Async (sync only?) promise chain pipe
 help ?
 // scoped data
 // logs - profanity stats
@@ -30,12 +20,14 @@ help ?
 // WEB API
 // join new channels/servers
 // track nick list
+port via print(( () => { ... legacy code ... } )(args.legacy))
 
 // UI
 blueprint
 react router
 // db web backup zip
 // subcommands / tree
+only web ui can kick/part/join
 
 // EDITOR
 // update legacy tool in web UI

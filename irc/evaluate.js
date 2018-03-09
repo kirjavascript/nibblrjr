@@ -3,8 +3,7 @@ const vm = require('vm');
 
 util.inspect.styles.null = 'red';
 
-function evaluate({ input }, debug = false) {
-    const context = {};
+function evaluate({ input, context, colors = true }) {
 
     try {
         const evaluation = vm.runInNewContext(input, context, {
@@ -13,18 +12,19 @@ function evaluate({ input }, debug = false) {
             filename: 'purple',
         });
 
-        if (debug) {
-            return debugColors(evaluation);
-        }
-        else {
-            return evaluation;
-        }
+
+        const output = colors ? objectDebug(evaluation) : evaluation;
+
+        return { output };
     } catch(e) {
-        return `\u000304${e.name}: ${e.message}`;
+        return {
+            output: `\u000304${e.name}: ${e.message}`,
+            error: true,
+        };
     }
 }
 
-function debugColors(evaluation) {
+function objectDebug(evaluation) {
     const output = util.inspect(evaluation, { depth: 2, colors: true })
         .replace(/\s+/g, ' ')
         .replace(new RegExp('\u001b\\[39m', 'g'), '\u000f')// reset
@@ -44,4 +44,5 @@ function debugColors(evaluation) {
 
 module.exports = {
     evaluate,
+    objectDebug,
 };

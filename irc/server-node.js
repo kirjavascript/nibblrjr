@@ -1,9 +1,10 @@
 const { Client } = require('irc');
 Client.prototype._updateMaxLineLength = () => {this.maxLineLength = 400};
 
-const { printFactory, noticeFactory } = require('./printer');
+const { printFactory, noticeFactory, actionFactory } = require('./printer');
 const { evaluate } = require('./evaluate');
 const { fetchURL } = require('./fetch-url');
+const { getContext } = require('./context');
 
 class ServerNode {
     constructor(parent, server) {
@@ -46,6 +47,14 @@ class ServerNode {
             // init print API
             const print = printFactory(this, msgData);
             const notice = noticeFactory(this, msgData);
+            const action = actionFactory(this, msgData);
+            const context = getContext({
+                print,
+                notice,
+                action,
+                msgData,
+                node: this,
+            });
 
             // check memo, reminds
 
@@ -53,11 +62,13 @@ class ServerNode {
             const trigger = this.get('trigger', '!');
 
             if (text.startsWith(trigger)) {
+                const firstChar = text[trigger.length];
                 // eval
-                if (text[trigger.length] == '>') {
+                if (['>','#'].includes(firstChar)) {
                     const input = text.slice(trigger.length + 1);
-                    if (input.length) {
-                        print(evaluate({ input }, true));
+                    const { output, error } = evaluate({ input, context });
+                    if (input.length && firstChar == '>' || error) {
+                        print(output);
                     }
                 }
                 // normal commands
