@@ -29,12 +29,38 @@ const codes = {
     '/': '\u000f',
 };
 
+const rainbow = ['r', 'o', 'y', 'dg', 'b', 'db', 'dp'];
+
 function colorParser(text) {
+    let rainbowIndex = 0;
+
     return text
-        .replace(/{(u|bo|i|bell)}/gm, (str, key) => {
+        // multiline
+        .split('\n')
+        .reduce((a, c) => {
+            const lastLine = a[a.length-1];
+            if (lastLine) {
+                const matches = lastLine.match(/{(.*?)}/g);
+                const last = matches && matches.pop();
+                return [...a, last ? last + c : c];
+            }
+            else {
+                return [...a, c];
+            }
+        },[])
+        .join('\n')
+        // rainbow
+        .replace(/{rb}(.*?)({(.*?)}|$)/gsm, (str, key, key2) => {
+            return [...key].map((ch, i) => {
+                return `{${rainbow[rainbowIndex++%rainbow.length]}}${ch}`;
+            }).join('') + key2;
+        })
+        // formatting
+        .replace(/{(u|bo|i|bell|\/)}/g, (str, key) => {
             return codes[key];
         })
-        .replace(/{(.*?)}/gm, (str, key) => {
+        // fg
+        .replace(/{(.*?)}/gs, (str, key) => {
             if (!codes[key]) {
                 return str;
             }
@@ -42,7 +68,8 @@ function colorParser(text) {
                 return `\u0003${codes[key]}`;
             }
         })
-        .replace(/{(.*?),(.*?)}/gm, (str, key1, key2) => {
+        // fg & bg
+        .replace(/{(.*?),(.*?)}/gsm, (str, key1, key2) => {
             const [a, b] = [key1.trim(), key2.trim()];
             if (codes[a] && codes[b]) {
                 return `\u0003${codes[a]},${codes[b]}`;
