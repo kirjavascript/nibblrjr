@@ -31,7 +31,7 @@ const codes = {
 
 const rainbow = ['r', 'o', 'y', 'dg', 'b', 'db', 'dp'];
 
-function colorParser(text) {
+function parseColors(text) {
     let rainbowIndex = 0;
 
     return text
@@ -81,5 +81,5 @@ function colorParser(text) {
 }
 
 module.exports = {
-    colorParser,
+    parseColors,
 };
