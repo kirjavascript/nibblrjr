@@ -1,9 +1,6 @@
 // TODO //
 
 // CMD
-// parse-command.js
-// ~(,) // fallback?
-commands can be multiple statements
 // 2d3h time
 // check valid command on the command line - suggest ~api
 // ~command.new.force() command overwrite

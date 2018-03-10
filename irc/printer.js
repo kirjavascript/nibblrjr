@@ -1,5 +1,5 @@
 const { objectDebug } = require('./evaluate');
-const { colorParser } = require('./colors');
+const { parseColors } = require('./colors');
 
 const messageFactory = (type, node, msgData) => {
     const { client } = node;
@@ -13,7 +13,7 @@ const messageFactory = (type, node, msgData) => {
 
     // colours
     const send = (text, ...args) => {
-        return sendRaw(colorParser(text));
+        return sendRaw(parseColors(text));
     };
 
     send.raw = sendRaw;

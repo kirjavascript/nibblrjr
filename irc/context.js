@@ -1,6 +1,6 @@
 const fetch = require('isomorphic-fetch');
+const { parseColors } = require('./colors');
 const _ = require('lodash');
-// DOM
 // date-fns
 
 const mut = {};
@@ -8,10 +8,14 @@ const mut = {};
 function getContext({ print, notice, action, msgData, node }) {
 
     const IRC = {
+        parseColors,
         message: msgData,
         trigger: node.get('trigger', '!'),
         nickname: (str) => {
             node.client.send('NICK', str);
+        },
+        topic: (str) => {
+            node.client.send('TOPIC', msgData.target, str);
         },
         resetBuffer: () => {
             node.client._clearCmdQueue();
