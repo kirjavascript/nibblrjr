@@ -2,9 +2,8 @@
 
 // CMD
 // parse-command.js
-// ~(,)
+// ~(,) // fallback?
 commands can be multiple statements
-// IRC.trigger
 // 2d3h time
 // check valid command on the command line - suggest ~api
 // ~command.new.force() command overwrite
@@ -13,10 +12,11 @@ commands can be multiple statements
 // command piping return print();
 Async (sync only?) promise chain pipe - test when commands are in UI  / only some are async functions and the rest are? sync/whatever
 help ?
-// scoped data
+// scoped data | key values store
 // hyperslots {g,r} watermelon
 // logs - profanity stats
 // ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
+// alg.js
 
 // WEB API
 // join new channels/servers
@@ -48,3 +48,4 @@ https://www.npmjs.com/package/timestring
 // event backend
 // about -> github iframe
 // old prs
+bully
