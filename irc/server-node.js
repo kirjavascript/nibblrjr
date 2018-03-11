@@ -24,6 +24,8 @@ class ServerNode {
             autoRejoin: true,
         });
 
+        this.database = parent.database.createServerDB(this);
+
         if (this.password) {
             this.client.addListener('registered', () => {
                 this.client.say('nickserv', `identify ${this.password}`);
@@ -32,8 +34,17 @@ class ServerNode {
 
         // TODO: track nicklist? (get list every 30 sec?)
 
-        this.client.addListener('error', function(message) {
-            // TODO: log errors to db
+        this.client.addListener('error', (message) => {
+            // TODO: log errors
+        });
+
+        this.client.addListener('raw', (message) => {
+            // track nickname
+            if (message.command == 'NICK' && this.nickname == message.nick) {
+                this.nickname = message.args[0];
+            }
+            // log
+            this.database.log(message);
         });
 
         this.client.addListener('message', (from, to, text, message) => {
@@ -77,6 +88,8 @@ class ServerNode {
                     const command = parseCommand({ trigger, text });
                     context.input = command.input;
                     context.IRC.command = command;
+
+                    // attach commands for memo and remind
 
                     parent
                         .database

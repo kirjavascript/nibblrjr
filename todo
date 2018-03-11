@@ -15,7 +15,6 @@ help ?
 // alg.js
 
 // DATABASES
-// commands - global
 // scoped data store.setObj()
 // namespace | key | value
 // log
@@ -42,6 +41,7 @@ implement internal commands as
 edited
 testing
 
+patch the rizon log
 
 // http://www.df7cb.de/irc/pisg/pisg-month.html
 https://www.npmjs.com/package/date.js
