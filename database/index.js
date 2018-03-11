@@ -67,12 +67,12 @@ class Database {
                         INSERT INTO log(user,command,target,message) VALUES (?,?,?,?)
                     `, data);
                 };
-                if ('JOIN PART NICK KICK KILL MODE PRIVMSG QUIT TOPIC'.split(' ').includes(message.command)) {
+                if ('JOIN PART NICK KICK KILL NOTICE MODE PRIVMSG QUIT TOPIC'.split(' ').includes(message.command)) {
                     if (message.command == 'QUIT') {
                         run([message.nick, message.command, '', args.join(' ')]);
                     }
                     // check if not PM
-                    else if ((message.args || [])[0] != node.nickname) {
+                    else if (message.nick && (message.args || [])[0] != node.nickname) {
                         run([
                             message.nick,
                             message.command,
