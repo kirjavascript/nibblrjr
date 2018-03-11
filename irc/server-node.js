@@ -93,12 +93,12 @@ class ServerNode {
                         .database
                         .getCommand(command.path)
                         .then((obj) => {
-                            const {command, locked, disabled} = obj;
+                            const {commandData, locked, disabled} = obj;
                             if (disabled) {
                                 print(`{r}${command.path} has been disabled`);
                             }
                             else {
-                                evaluate({ input: command, context });
+                                evaluate({ input: commandData, context });
                             }
                         })
                         .catch(() => {});
