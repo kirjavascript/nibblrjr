@@ -10,13 +10,16 @@ const messageFactory = (type, node, msgData) => {
         client[type](target || defaultTarget, text);
 
         // log to DB
-        if (!msgData.isPM) {
-            node.database.log({
-                nick: node.nickname,
-                command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
-                target,
-                args: [target || defaultTarget, ...text.split(' ')],
-            });
+        if (!msgData.isPM && typeof text == 'string') {
+            // lag a little so messages are the right order
+            setTimeout(() => {
+                node.database.log({
+                    nick: node.nickname,
+                    command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
+                    target,
+                    args: [target || defaultTarget, ...text.split(' ')],
+                });
+            }, 200);
         }
 
         return text;

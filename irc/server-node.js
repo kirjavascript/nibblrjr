@@ -15,6 +15,9 @@ class ServerNode {
 
         addServerMethods(this);
 
+        this.timeouts = [];
+        this.intervals = [];
+
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels,
             userName: this.get('userName', 'eternium'),
@@ -73,8 +76,8 @@ class ServerNode {
                 const firstChar = text[trigger.length];
                 // eval
                 if (['>','#'].includes(firstChar)) {
-                    context.store = this.database.storeFactory('__eval__');
                     const input = text.slice(trigger.length + 1);
+                    context.store = this.database.storeFactory('__eval__');
                     const { output, error } = evaluate({ input, context });
                     if (input.length && firstChar == '>' || error) {
                         print(output);

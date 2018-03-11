@@ -32,6 +32,10 @@ const rainbow = ['r', 'o', 'y', 'dg', 'b', 'db', 'dp'];
 function parseColors(text) {
     let rainbowIndex = 0;
 
+    if (typeof text != 'string') {
+        text = text && typeof text.toString == 'function' ? text.toString() : '';
+    }
+
     return text
         // multiline
         .split('\n')

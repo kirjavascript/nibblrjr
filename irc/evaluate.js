@@ -25,7 +25,7 @@ function evaluate({ input, context, colors = true }) {
 }
 
 function objectDebug(evaluation) {
-    const output = util.inspect(evaluation, { depth: 2, colors: true })
+    const output = util.inspect(evaluation, { depth: 1, colors: true })
         .replace(/\s+/g, ' ')
         .replace(new RegExp('\u001b\\[39m', 'g'), '\u000f')// reset
         .replace(new RegExp('\u001b\\[31m', 'g'), '\u000313') // null

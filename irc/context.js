@@ -20,6 +20,10 @@ function getContext({ print, notice, action, msgData, node }) {
         },
         resetBuffer: () => {
             node.client._clearCmdQueue();
+            node.intervals.forEach(clearInterval);
+            node.timeouts.forEach(clearTimeout);
+            node.intervals = [];
+            node.timeouts = [];
         },
     };
 
@@ -35,6 +39,12 @@ function getContext({ print, notice, action, msgData, node }) {
         mut,
         fetch,
         _,
+        setTimeout(...args) {
+            return node.timeouts.push(setTimeout(...args));
+        },
+        setInterval(...args) {
+            return node.intervals.push(setInterval(...args));
+        },
     };
 
     return ctx;
@@ -53,7 +63,7 @@ async function getWeb(type, url) {
         return out;
     }
     catch (e) {
-        return e;
+        return type == 'json' ? {} : '';
     }
 }
 

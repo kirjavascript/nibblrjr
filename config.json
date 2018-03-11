@@ -1,7 +1,7 @@
 {
     "trigger": "~",
     "web": {
-        "domain": "localhost",
+        "url": "http://www.nibblr.pw",
         "port": 8888,
         "password": "powernap",
         "secretKey": "N/A"
