@@ -86,13 +86,23 @@ class Database {
             // key/value store
 
             const storeFactory = (namespace) => {
-                const get = (key) => {
+                const get = (key, asObj = false) => {
                     return new Promise((resolve, reject) => {
                         db.get(`
                             SELECT value FROM store WHERE namespace = ? AND key = ?
                         `, [namespace, key], (err, obj) => {
                             if (!err && typeof obj == 'object') {
-                                resolve(obj.value);
+                                if (asObj) {
+                                    try {
+                                        resolve(JSON.parse(obj.value));
+                                    }
+                                    catch(e) {
+                                        reject(e);
+                                    }
+                                }
+                                else {
+                                    resolve(obj.value);
+                                }
                             }
                             else {
                                 reject(err);
@@ -118,11 +128,30 @@ class Database {
                     });
                 };
 
-                // all
-                // setObj
-                // getObj
+                const all = () => {
+                    return new Promise((resolve, reject) => {
+                        db.all(`
+                            SELECT key, value FROM store WHERE namespace = ?
+                        `, [namespace], (err, obj) => {
+                            if (Array.isArray(obj)) {
+                                resolve(obj);
+                            }
+                            else {
+                                reject(err);
+                            }
+                        });
+                    });
+                };
 
-                return { get, set, namespace };
+                const getObj = (key) => {
+                    return get(key, true);
+                };
+
+                const setObj = (key, value) => {
+                    return set(key, JSON.stringify(value));
+                };
+
+                return { get, set, getObj, setObj, all, namespace };
             };
 
             return {
