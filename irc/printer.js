@@ -8,6 +8,17 @@ const messageFactory = (type, node, msgData) => {
     // raw
     const sendRaw = (text, target = void 0) => {
         client[type](target || defaultTarget, text);
+
+        // log to DB
+        if (!msgData.isPM) {
+            node.database.log({
+                nick: node.nickname,
+                command: 'PRIVMSG',
+                target,
+                args: [target || defaultTarget, ...text.split(' ')],
+            });
+        }
+
         return text;
     };
 
