@@ -9,25 +9,32 @@
 // command piping return print();
 Async (sync only?) promise chain pipe - test when commands are in UI  / only some are async functions and the rest are? sync/whatever
 help ?
-// scoped data | key values store
 // hyperslots {g,r} watermelon
 // logs - profanity stats
 // ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 // alg.js
 
+// DATABASES
+// commands - global
+// scoped data store.setObj()
+// namespace | key | value
+// log
+// remind / memo
+
 // WEB API
+// dispatch message on print
 // join new channels/servers
 // track nick list
+// look at old nibblr code to work out the environment
 port via print(( () => { ... legacy code ... } )(args.legacy))
 {emoji}
 
 // UI
-blueprint
-react router
-// db web backup zip
+blueprint / react router / ace editor
 // subcommands / tree
 only web ui can kick/part/join
 implement internal commands as
+// db web backup zip
 
 // EDITOR
 // update legacy tool in web UI
@@ -46,3 +53,6 @@ https://www.npmjs.com/package/timestring
 // about -> github iframe
 // old prs
 bully
+wca
+mdn
+bridges?

@@ -1,2 +1,4 @@
-databases
+storage
+!storage/commands.db
 node_modules
+web/static

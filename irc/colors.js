@@ -1,5 +1,3 @@
-// multiline
-
 const codes = {
     r: '04',
     dr: '05',
