@@ -52,10 +52,6 @@ class ServerNode {
             const target = isPM ? from : to;
             const msgData = { from, to, text, message, target, isPM };
 
-            // log message
-            // if (!isPM) {
-            // }
-
             // init print API
             const print = printFactory(this, msgData);
             const notice = noticeFactory(this, msgData);
@@ -77,6 +73,7 @@ class ServerNode {
                 const firstChar = text[trigger.length];
                 // eval
                 if (['>','#'].includes(firstChar)) {
+                    context.store = this.database.storeFactory('__eval__');
                     const input = text.slice(trigger.length + 1);
                     const { output, error } = evaluate({ input, context });
                     if (input.length && firstChar == '>' || error) {
@@ -88,6 +85,7 @@ class ServerNode {
                     const command = parseCommand({ trigger, text });
                     context.input = command.input;
                     context.IRC.command = command;
+                    context.store = this.database.storeFactory(command.list[0]);
 
                     // attach commands for memo and remind
 
