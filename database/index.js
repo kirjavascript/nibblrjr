@@ -2,6 +2,10 @@ const fs = require('fs');
 const sqlite3 = require('sqlite3');
 const _dir = __dirname + '/../storage/';
 
+const parseBool = (str) => {
+    return str.toLowerCase() == 'true' ? true : false;
+};
+
 class Database {
     constructor(nibblr) {
 
@@ -27,7 +31,11 @@ class Database {
                         reject(err);
                     }
                     else {
-                        resolve(obj);
+                        resolve({
+                            commandData: obj.command,
+                            locked: parseBool(obj.locked),
+                            disabled: parseBool(obj.disabled),
+                        });
                     }
                 });
             });
