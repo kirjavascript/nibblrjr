@@ -32,11 +32,11 @@ class ServerNode {
             });
         }
 
-        // TODO: track nicklist? (get list every 30 sec?)
+        // TODO: track nicklist
 
-        this.client.addListener('error', (message) => {
-            // TODO: log errors
-        });
+        // this.client.addListener('error', (message) => {
+        // TODO: log errors
+        // });
 
         this.client.addListener('raw', (message) => {
             // track nickname
@@ -92,8 +92,14 @@ class ServerNode {
                     parent
                         .database
                         .getCommand(command.path)
-                        .then(({command, locked}) => {
-                            evaluate({ input: command, context });
+                        .then((obj) => {
+                            const {command, locked, disabled} = obj;
+                            if (disabled) {
+                                print(`{r}${command.path} has been disabled`);
+                            }
+                            else {
+                                evaluate({ input: command, context });
+                            }
                         })
                         .catch(() => {});
 

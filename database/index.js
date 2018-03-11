@@ -11,14 +11,17 @@ class Database {
             CREATE TABLE IF NOT EXISTS commands (
                 name VARCHAR (100) PRIMARY KEY UNIQUE,
                 command TEXT,
-                locked BOOLEAN DEFAULT false
+                locked BOOLEAN DEFAULT false,
+                disabled BOOLEAN DEFAULT false
             );
         `);
+
+        // TODO: lock, unlock, set
 
         this.getCommand = (name) => {
             return new Promise((resolve, reject) => {
                 this.commands.get(`
-                    SELECT command, locked FROM commands WHERE name = ?
+                    SELECT command, locked, disabled FROM commands WHERE name = ?
                 `, name, (err, obj) => {
                     if (err || typeof obj == 'undefined') {
                         reject(err);
@@ -29,6 +32,7 @@ class Database {
                 });
             });
         };
+
 
         // server data //
 

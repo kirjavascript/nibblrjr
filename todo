@@ -9,15 +9,13 @@
 // command piping return print();
 Async (sync only?) promise chain pipe - test when commands are in UI  / only some are async functions and the rest are? sync/whatever
 help ?
-// hyperslots {g,r} watermelon
+// hyperslots {g,r} watermelon ฿
 // logs - profanity stats
 // ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 // alg.js
+// search command
 
 // DATABASES
-// scoped data store.setObj()
-// namespace | key | value
-// log
 // remind / memo
 
 // WEB API
