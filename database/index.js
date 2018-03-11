@@ -71,7 +71,7 @@ class Database {
                     if (message.command == 'QUIT') {
                         run([message.nick, message.command, '', args.join(' ')]);
                     }
-                    // check if not PM
+                    // check if has a source and is  not PM
                     else if (message.nick && (message.args || [])[0] != node.nickname) {
                         run([
                             message.nick,
@@ -83,14 +83,55 @@ class Database {
                 }
             };
 
+            // key/value store
+
+            const storeFactory = (namespace) => {
+                const get = (key) => {
+                    return new Promise((resolve, reject) => {
+                        db.get(`
+                            SELECT value FROM store WHERE namespace = ? AND key = ?
+                        `, [namespace, key], (err, obj) => {
+                            if (!err && typeof obj == 'object') {
+                                resolve(obj.value);
+                            }
+                            else {
+                                reject(err);
+                            }
+                        });
+                    });
+                };
+
+                const set = (key, value) => {
+                    db.get(`
+                        SELECT idx FROM store WHERE namespace = ? AND key = ?
+                    `, [namespace, key], (err, obj) => {
+                        if (typeof obj == 'undefined') {
+                            db.run(`
+                                INSERT INTO store(value,namespace,key) VALUES (?,?,?)
+                            `, [value, namespace, key]);
+                        }
+                        else {
+                            db.run(`
+                                UPDATE store SET value = ? WHERE namespace = ? AND key = ?
+                            `, [value, namespace, key]);
+                        }
+                    });
+                };
+
+                // all
+                // setObj
+                // getObj
+
+                return { get, set, namespace };
+            };
+
             return {
                 db,
                 log,
+                storeFactory,
             };
         };
 
-        // .run(str, [params]);
-        // .get / .all / .each
     }
 
     createDB(name, schema) {

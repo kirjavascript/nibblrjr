@@ -13,7 +13,7 @@ const messageFactory = (type, node, msgData) => {
         if (!msgData.isPM) {
             node.database.log({
                 nick: node.nickname,
-                command: 'PRIVMSG',
+                command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
                 target,
                 args: [target || defaultTarget, ...text.split(' ')],
             });
