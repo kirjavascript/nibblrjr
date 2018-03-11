@@ -5,6 +5,7 @@ const { printFactory, noticeFactory, actionFactory } = require('./printer');
 const { evaluate } = require('./evaluate');
 const { fetchURL } = require('./fetch-url');
 const { getContext } = require('./context');
+const { parseCommand } = require('./parse-command');
 
 class ServerNode {
     constructor(parent, server) {
@@ -73,19 +74,19 @@ class ServerNode {
                 }
                 // normal commands
                 else {
-                    const command = text.slice(trigger.length).match(/(^\S*\((.*?)\)|^\S*)/);
-                    const input = text.slice(trigger.length + command[1].length + 1);
-                    const params = command[2];
-                    const paramList = params ? params.split(',') : [];
-                    const commandPath = command[1].slice(0, command[1].length - (params ? params.length + 2 : 0));
-                    const commandList = commandPath.split('.');
+                    const command = parseCommand({ trigger, text });
+                    context.input = command.input;
+                    context.IRC.command = command;
 
-                    context.IRC.commands = {
-                        cmd: commandList,
-                        params: paramList,
-                        input,
-                    };
+                    parent
+                        .database
+                        .getCommand(command.path)
+                        .then(({command, locked}) => {
+                            evaluate({ input: command, context });
+                        })
+                        .catch(() => {});
 
+                    print.log(command);
                 }
             }
             // parse URLs

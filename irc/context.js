@@ -2,6 +2,7 @@ const fetch = require('isomorphic-fetch');
 const { parseColors } = require('./colors');
 const _ = require('lodash');
 // date-fns
+// getJSQN ?
 
 const mut = {};
 
