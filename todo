@@ -5,6 +5,7 @@
 // check valid command on the command line - suggest ~api
 // ~command.new.force() command overwrite
 // ~command.new.text
+// check parent locked
 // ~poker (do all in the api, one round a time, scoped stats)
 // command piping return print();
 Async (sync only?) promise chain pipe - test when commands are in UI  / only some are async functions and the rest are? sync/whatever
@@ -13,7 +14,7 @@ help ?
 // logs - profanity stats
 // ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 // alg.js
-// search command
+for setTimeout, create a list of timers - flush
 
 // DATABASES
 // remind / memo

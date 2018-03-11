@@ -7,7 +7,7 @@ const parseBool = (str) => {
 };
 
 class Database {
-    constructor(nibblr) {
+    constructor(parent) {
 
         // commands //
 
@@ -20,7 +20,7 @@ class Database {
             );
         `);
 
-        // TODO: lock, unlock, set
+        // TODO: lock, unlock, set, search, random
 
         this.getCommand = (name) => {
             return new Promise((resolve, reject) => {
@@ -81,7 +81,7 @@ class Database {
                 };
                 if ('JOIN PART NICK KICK KILL NOTICE MODE PRIVMSG QUIT TOPIC'.split(' ').includes(message.command)) {
                     if (message.command == 'QUIT') {
-                        run([message.nick, message.command, '', args.join(' ')]);
+                        run([message.nick, message.command, '', message.args.join(' ')]);
                     }
                     // check if has a source and is  not PM
                     else if (message.nick && (message.args || [])[0] != node.nickname) {
@@ -109,7 +109,7 @@ class Database {
                                         resolve(JSON.parse(obj.value));
                                     }
                                     catch(e) {
-                                        reject(e);
+                                        resolve({});
                                     }
                                 }
                                 else {
@@ -117,7 +117,7 @@ class Database {
                                 }
                             }
                             else {
-                                reject(err);
+                                resolve(undefined);
                             }
                         });
                     });
@@ -149,7 +149,7 @@ class Database {
                                 resolve(obj);
                             }
                             else {
-                                reject(err);
+                                resolve([]);
                             }
                         });
                     });
@@ -167,7 +167,6 @@ class Database {
             };
 
             return {
-                db,
                 log,
                 storeFactory,
             };

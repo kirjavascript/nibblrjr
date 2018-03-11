@@ -1,9 +1,25 @@
 {
-  "dependencies": {
-    "html-entities": "^1.2.1",
-    "irc": "^0.5.2",
-    "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.5",
-    "sqlite3": "^3.1.13"
-  }
+    "scripts": {
+        "start": "webpack --mode production && node index.js",
+        "dev": "node index.js --dev"
+    },
+    "dependencies": {
+        "babel-core": "^6.26.0",
+        "express": "^4.16.2",
+        "html-entities": "^1.2.1",
+        "irc": "^0.5.2",
+        "isomorphic-fetch": "^2.2.1",
+        "lodash": "^4.17.5",
+        "sqlite3": "^3.1.13",
+        "webpack-dev-middleware": "^3.0.1",
+        "ws": "^5.0.0"
+    },
+    "devDependencies": {
+        "babel-loader": "^7.1.4",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-plugin-transform-react-jsx": "^6.24.1",
+        "babel-preset-stage-0": "^6.24.1",
+        "webpack": "^4.1.1",
+        "webpack-cli": "^2.0.11"
+    }
 }

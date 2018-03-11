@@ -5,14 +5,16 @@ const { Database } = require('../database/index');
 
 process.env.TZ = config.timezone || 'Europe/London';
 
-//observer
+
 new (class Nibblr {
     constructor() {
+        this.dev = process.argv.includes('--dev');
+
         Object.assign(this, config);
         // trigger, web, servers
 
         // load web interface
-        const webServer = initWeb(this);
+        this.web = initWeb(this);
 
         // load databases
         this.database = new Database(this);
@@ -22,11 +24,6 @@ new (class Nibblr {
             new ServerNode(this, server)
         ));
 
-        // setup databases
-
-
-
-        console.log(this);
-        // save config
+        console.info(this);
     }
 });
