@@ -29,11 +29,11 @@ class ServerNode {
 
         this.database = parent.database.createServerDB(this);
 
-        if (this.password) {
-            this.client.addListener('registered', () => {
+        this.client.addListener('registered', () => {
+            if (this.password) {
                 this.client.say('nickserv', `identify ${this.password}`);
-            });
-        }
+            }
+        });
 
         // TODO: track nicklist
 
@@ -94,7 +94,8 @@ class ServerNode {
 
                     parent
                         .database
-                        .getCommand(command.path)
+                        .commands
+                        .get(command.path)
                         .then((obj) => {
                             const {commandData, locked, disabled} = obj;
                             if (disabled) {

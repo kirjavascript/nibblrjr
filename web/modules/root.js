@@ -26,14 +26,21 @@ export class Root extends Component {
         <Button className="pt-minimal" icon="home" text="Home" />
         <Button className="pt-minimal" icon="document" text="Files" />
     </NavbarGroup>
+
+
 </Navbar>
+
             <Tabs id="tabs" vertical={false} onChange={this.handleTabChange} selectedTabId={this.state.tab}>
-                <Tab id="about" title="About" panel={<Test />} />
+                <Tab id="about" icon="home" title="About" panel={<Test />} />
                 <Tab id="commands" title="Commands" panel={<Commands />} />
-                <Tab id="admin" title="Admin" disabled panel={<Test />} />
+                <Tab id="admin" title="Admin" disabled  />
                 <Tabs.Expander />
                 <input className="pt-input" type="text" placeholder="Search..." />
             </Tabs>
+
+            react router Switch
+            /commands
+
         </div>;
     }
 

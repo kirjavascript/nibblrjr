@@ -2,7 +2,6 @@ const fetch = require('isomorphic-fetch');
 const { parseColors } = require('./colors');
 const _ = require('lodash');
 // date-fns
-// getJSQN ?
 
 const mut = {};
 
@@ -12,6 +11,7 @@ function getContext({ print, notice, action, msgData, node }) {
         parseColors,
         message: msgData,
         trigger: node.get('trigger', '!'),
+        webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
         nickname: (str) => {
             node.client.send('NICK', str);
         },
@@ -30,7 +30,6 @@ function getContext({ print, notice, action, msgData, node }) {
     // add legacy
 
     const ctx = {
-        IRC,
         print,
         notice,
         action,
@@ -45,6 +44,7 @@ function getContext({ print, notice, action, msgData, node }) {
         setInterval(...args) {
             return node.intervals.push(setInterval(...args));
         },
+        IRC,
     };
 
     return ctx;
