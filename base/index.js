@@ -1,6 +1,6 @@
 const config = require('../config.json');
 const { ServerNode } = require('../irc/server-node');
-const { initWeb } = require('../web/index');
+const { initWeb } = require('../web/server');
 const { Database } = require('../database/index');
 
 process.env.TZ = config.timezone || 'Europe/London';
