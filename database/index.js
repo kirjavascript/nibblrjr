@@ -11,36 +11,56 @@ class Database {
 
         // commands //
 
-        this.commands = this.createDB('commands', `
-            CREATE TABLE IF NOT EXISTS commands (
-                name VARCHAR (100) PRIMARY KEY UNIQUE,
-                command TEXT,
-                locked BOOLEAN DEFAULT false,
-                disabled BOOLEAN DEFAULT false
-            );
-        `);
+        {
+            const db = this.createDB('commands', `
+                CREATE TABLE IF NOT EXISTS commands (
+                    name VARCHAR (100) PRIMARY KEY UNIQUE,
+                    command TEXT,
+                    locked BOOLEAN DEFAULT false,
+                    disabled BOOLEAN DEFAULT false
+                );
+            `);
+
+            const get = (name) => {
+                return new Promise((resolve, reject) => {
+                    db.get(`
+                        SELECT command, locked, disabled FROM commands WHERE name = ?
+                    `, name, (err, obj) => {
+                        if (err || typeof obj == 'undefined') {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                commandData: obj.command,
+                                locked: parseBool(obj.locked),
+                                disabled: parseBool(obj.disabled),
+                            });
+                        }
+                    });
+                });
+            };
+
+            const list = () => {
+                return new Promise((resolve, reject) => {
+                    db.all(`
+                        SELECT name, locked, disabled FROM commands
+                    `, (err, obj) => {
+                        if (Array.isArray(obj)) {
+                            resolve(obj);
+                        }
+                        else {
+                            reject(null || obj);
+                        }
+                    });
+                });
+            };
+
+            this.commands = {
+                db, get, list, // lock, unlock, set, search, radnom
+            };
+        }
 
         // TODO: lock, unlock, set, search, random
-
-        this.getCommand = (name) => {
-            return new Promise((resolve, reject) => {
-                this.commands.get(`
-                    SELECT command, locked, disabled FROM commands WHERE name = ?
-                `, name, (err, obj) => {
-                    if (err || typeof obj == 'undefined') {
-                        reject(err);
-                    }
-                    else {
-                        resolve({
-                            commandData: obj.command,
-                            locked: parseBool(obj.locked),
-                            disabled: parseBool(obj.disabled),
-                        });
-                    }
-                });
-            });
-        };
-
 
         // server data //
 

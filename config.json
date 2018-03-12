@@ -1,7 +1,7 @@
 {
     "trigger": "~",
     "web": {
-        "url": "http://www.nibblr.pw",
+        "url": "http://nibblr.pw",
         "port": 8888,
         "password": "powernap",
         "secretKey": "N/A"

@@ -1,21 +1,20 @@
 // TODO //
 
+MVP: old commands, memo/remind
+
 // CMD
 // 2d3h time
-// check valid command on the command line - suggest ~api
 // ~command.new.force() command overwrite
 // ~command.new.text
 // check parent locked
 // ~poker (do all in the api, one round a time, scoped stats)
-// command piping return print();
-Async (sync only?) promise chain pipe - test when commands are in UI  / only some are async functions and the rest are? sync/whatever
 help ?
 // hyperslots {g,r} watermelon ฿
 // logs - profanity stats
 // ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 // alg.js
-for setTimeout, create a list of timers - flush
-// ~speak typeerror bofh
+getQuery.then
+cancelable listeners?
 
 // DATABASES
 // remind / memo
@@ -25,8 +24,11 @@ for setTimeout, create a list of timers - flush
 // join new channels/servers
 // track nick list
 // look at old nibblr code to work out the environment
-port via print(( () => { ... legacy code ... } )(args.legacy))
+wget polyfill (lol)
+print.raw((...fn...)(input, input.split(' '), IRC.message)); // legacy wrapper
+print.raw(...);
 {emoji}
+
 
 // UI
 blueprint / react router / ace editor
@@ -52,6 +54,7 @@ https://www.npmjs.com/package/timestring
 // event backend
 // about -> github iframe
 // old prs
+// ~speak typeerror bofh
 bully
 wca
 mdn
