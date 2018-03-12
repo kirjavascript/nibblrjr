@@ -15,6 +15,17 @@ function initWeb(parent) {
         console.log(`Server running on http://localhost:${port}/`)
     });
 
+    // sockets
+    const wss = new WebSocket.Server({server});
+
+    wss.sendAll = (data) => {
+        wss.clients.forEach((client) => {
+            if (client.readyState == WebSocket.OPEN) {
+                client.send(data);
+            }
+        });
+    };
+
     // load webpack middleware
 
     if (parent.dev) {
@@ -23,7 +34,7 @@ function initWeb(parent) {
         app.use(wdm(compiler, {
             reporter: (...args) => {
                 reporter(...args);
-                console.log('reload');
+                wss.sendAll('RELOAD');
             },
         }));
     }
