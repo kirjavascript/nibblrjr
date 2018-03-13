@@ -5,3 +5,7 @@ html, body {
 :focus {
     outline: none;
 }
+
+main {
+    margin: 5px;
+}

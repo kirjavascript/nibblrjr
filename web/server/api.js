@@ -11,6 +11,15 @@ function msgHandler({parent, ws}) {
                     })
                     .catch(() => {});
             }
+            else if (typeof obj.get == 'string') {
+                parent.database.commands.get(obj.get)
+                    .then((obj) => {
+                        we.sendObj('COMMANDS', { info: {
+                            obj
+                        }});
+                    })
+                    .catch(() => {});
+            }
         },
     };
 
