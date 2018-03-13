@@ -46,7 +46,11 @@ class Database {
                         SELECT name, locked, disabled FROM commands
                     `, (err, obj) => {
                         if (Array.isArray(obj)) {
-                            resolve(obj);
+                            resolve(obj.map(d => ({
+                                name: d.name,
+                                locked: parseBool(d.locked),
+                                disabled: parseBool(d.disabled),
+                            })));
                         }
                         else {
                             reject(null || obj);

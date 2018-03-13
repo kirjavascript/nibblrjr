@@ -31,9 +31,8 @@ print.raw(...);
 // join new channels/servers
 // track nick list
 
-
 // UI
-blueprint / react router / ace editor
+react router / ace editor
 // subcommands / tree
 only web ui can kick/part/join
 implement internal commands as
