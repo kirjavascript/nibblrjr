@@ -56,11 +56,10 @@ class Database {
             };
 
             this.commands = {
-                db, get, list, // lock, unlock, set, search, radnom
+                db, get, list,
+                // lock, unlock, set, search, radnom
             };
         }
-
-        // TODO: lock, unlock, set, search, random
 
         // server data //
 

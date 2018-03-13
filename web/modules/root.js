@@ -4,21 +4,21 @@ import ws from './socket';
 
 import { Commands } from './commands';
 
-const Test = () => false;
+// const Test = () => false;
 
-import { Tab, Tabs, Navbar, NavbarGroup, NavbarDivider, NavbarHeading, Alignment, Button } from '@blueprintjs/core';
-
+// import { Tab, Tabs, Navbar, NavbarGroup, NavbarDivider, NavbarHeading, Alignment, Button } from '@blueprintjs/core';
 
 export class Root extends Component {
 
-    state = { tab: 'commands' };
+    // state = { tab: 'commands' };
 
-    handleTabChange = (tab) => {
-        this.setState({tab});
-    };
+    // handleTabChange = (tab) => {
+    //     this.setState({tab});
+    // };
 
     render() {
         return <div>
+            {/*
 <Navbar className="pt-dark">
     <NavbarGroup align={Alignment.LEFT}>
         <NavbarHeading>nibblrjr</NavbarHeading>
@@ -41,10 +41,11 @@ export class Root extends Component {
             react router Switch
             /commands
 
+            */}
+
+            <Commands />
         </div>;
     }
-
 }
-
 
 render(<Root/>, document.body.appendChild(document.createElement('div')));

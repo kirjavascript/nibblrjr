@@ -1,16 +1,24 @@
+import { stringify, parse } from 'zipson';
+
 const ws = new WebSocket('ws://' + location.host);
 
 // save admin to localstorage
 
-// { event: COMMAND, cmd: LIST }
+ws.sendObj = (_type, obj = {}) => {
+    ws.send(stringify({ ...obj, _type }));
+};
 
 ws.addEventListener('message', (e) => {
-    const data = JSON.parse(e.data);
-    if (data.cmd == 'RELOAD') {
-        location.reload();
+    try {
+        const { _type, ...obj } = parse(e.data);
+        if (_type == 'RELOAD') {
+            location.reload();
+        }
+        console.log(_type, obj);
     }
-
-    console.log(data);
+    catch (e) {
+        console.error(e);
+    }
 });
 
 export default ws;

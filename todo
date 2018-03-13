@@ -23,8 +23,11 @@ cancelable listeners?
 // dispatch message on print
 // join new channels/servers
 // track nick list
+
 // look at old nibblr code to work out the environment
 wget polyfill (lol)
+test command
+test parse command
 print.raw((...fn...)(input, input.split(' '), IRC.message)); // legacy wrapper
 print.raw(...);
 {emoji}
