@@ -40,6 +40,7 @@ module.exports = (env={}, args={}) => {
             }
 
         },
+        devtool: env.dev ? 'source-map' : null,
     };
 
     return config;

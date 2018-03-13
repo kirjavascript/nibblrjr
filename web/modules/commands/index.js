@@ -6,7 +6,16 @@ export class Commands extends Component {
     state = { list: [] };
 
     componentDidMount() {
-        // ws.sendObj('COMMANDS', {type: 'list'});
+        this.props.ws.msg.on('COMMANDS', (obj) => {
+            if (obj.list) {
+                this.setState({list: obj.list});
+            }
+        });
+        this.props.ws.sendObj('COMMANDS', {list: true});
+    }
+
+    componentWillUnmount() {
+        this.props.ws.msg.on('COMMANDS', null);
     }
 
     render() {
