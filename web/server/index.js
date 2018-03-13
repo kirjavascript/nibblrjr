@@ -2,7 +2,6 @@ const express = require('express');
 const webpack = require('webpack');
 const wdm = require('webpack-dev-middleware');
 const reporter = require('webpack-dev-middleware/lib/reporter');
-const webpackConfig = require('../../webpack.config.js')({dev:true});
 const initSocket = require('./socket');
 const { readFile } = require('fs');
 
@@ -21,6 +20,7 @@ function initWeb(parent) {
     // load webpack middleware
 
     if (parent.dev) {
+        const webpackConfig = require('../../webpack.config.js')({dev: true});
         webpackConfig.mode = 'development'
         const compiler = webpack(webpackConfig);
         app.use(wdm(compiler, {
@@ -31,6 +31,7 @@ function initWeb(parent) {
         }));
     }
     else {
+        const webpackConfig = require('../../webpack.config.js')();
         webpackConfig.mode = 'production'
         const compiler = webpack(webpackConfig);
         compiler.run((err, stats) => {

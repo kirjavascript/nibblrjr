@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import ws from './socket';
+import { initSocket } from './socket';
 
 import { Commands } from './commands';
 
 // const Test = () => false;
 
 // import { Tab, Tabs, Navbar, NavbarGroup, NavbarDivider, NavbarHeading, Alignment, Button } from '@blueprintjs/core';
+import { Spinner } from '@blueprintjs/core';
 
 export class Root extends Component {
 
-    // state = { tab: 'commands' };
+    state = { tab: 'commands', ws: void 0 };
 
     // handleTabChange = (tab) => {
     //     this.setState({tab});
     // };
+
+    componentDidMount() {
+        initSocket((ws) => {
+            this.setState({ws});
+        });
+    }
 
     render() {
         return <div>
@@ -43,7 +50,7 @@ export class Root extends Component {
 
             */}
 
-            <Commands />
+            {!this.state.ws ? <Spinner /> : <Commands ws={this.state.ws}/>}
         </div>;
     }
 }

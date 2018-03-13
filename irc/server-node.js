@@ -102,7 +102,13 @@ class ServerNode {
                                 print(`{r}${command.path} has been disabled`);
                             }
                             else {
-                                evaluate({ input: commandData, context });
+                                const {
+                                    output,
+                                    error,
+                                } = evaluate({ input: commandData, context });
+                                if (error) {
+                                    print(output);
+                                }
                             }
                         })
                         .catch(() => {});
