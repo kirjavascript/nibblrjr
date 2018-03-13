@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-import { Tab, Tabs } from '@blueprintjs/core';
-
-const Test = () => false;
+import { Editor } from './editor';
 
 export class Commands extends Component {
 
@@ -28,30 +26,24 @@ export class Commands extends Component {
     render() {
         const { search, list } = this.state;
         return <div>
-            <Tabs id="commandList" vertical={true}>
-                <div>
-                    <input
-                        className="pt-input"
-                        type="text"
+            <Editor/>
+            <input
+                type="text"
                         placeholder="Search..."
                         onChange={this.handleSearch}
                         value={search}
                     />
-                </div>
-                <Tabs.Expander />
-                {list
-                    .filter(d => !search || d.name.includes(search))
-                    .map((command) => {
-                    return <Tab
-                        key={command.name}
-                        id={command.name}
-                        title={command.name}
-                        panel={<Test/>}
-                        disabled={command.disabled}
-                    />;
-                })}
-            </Tabs>
-        </div>;
+                <hr />
+            {list
+                .filter(d => !search || d.name.includes(search))
+                .map((command) => {
+                return <div
+                    key={command.name}
+                >
+                    {command.name}
+                </div>;
+            })}
+        </div>
     }
 
 }
