@@ -18,8 +18,6 @@ function initWeb(parent) {
 
     web.wss = initSocket({parent, server});
 
-    // TODO: servers message socket somehow
-
     // load webpack middleware
 
     if (parent.dev) {
@@ -28,7 +26,7 @@ function initWeb(parent) {
         app.use(wdm(compiler, {
             reporter: (...args) => {
                 reporter(...args);
-                web.wss.sendAll({cmd: 'RELOAD'});
+                web.wss.sendAll('RELOAD');
             },
         }));
     }

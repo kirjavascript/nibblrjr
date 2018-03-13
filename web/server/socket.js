@@ -1,23 +1,31 @@
 const WebSocket = require('ws');
+const { stringify, parse } = require('zipson');
 
 module.exports = function initSocket({parent, server}) {
     const wss = new WebSocket.Server({server});
 
-    wss.sendAll = (data) => {
+    // type, data
+    wss.sendAll = (_type, obj = {}) => {
         wss.clients.forEach((client) => {
             if (client.readyState == WebSocket.OPEN) {
-                client.send(JSON.stringify(data));
+                client.send(stringify({ ...obj, _type, }));
             }
         });
     };
 
     wss.on('connection', (ws) =>  {
-        ws.sendObj = (obj) => {
-            return ws.send(JSON.stringify(obj));
+        ws.sendObj = (_type, obj = {}) => {
+            ws.send(stringify({ ...obj, _type, }));
         };
+
         ws.on('message', (message) => {
-            const data = JSON.parse(message);
-            ws.sendObj({list: [1, 2, 3],});
+            try {
+                const { _type, ...obj }= parse(message);
+                console.log(_type);
+            }
+            catch (e) {
+                console.error(e);
+            }
         });
     });
 
