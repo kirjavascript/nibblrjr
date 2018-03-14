@@ -28,6 +28,7 @@ const codes = {
 };
 
 const rainbow = ['r', 'o', 'y', 'dg', 'b', 'db', 'dp'];
+const rand = ['r', 'y', 'p', 'o', 'b', 'c', 'dc'];
 
 function parseColors(text) {
     let rainbowIndex = 0;
@@ -61,6 +62,8 @@ function parseColors(text) {
         .replace(/{(u|bo|i|bell|\/)}/g, (str, key) => {
             return codes[key];
         })
+        // random colour
+        .replace(/{rand}/g, () => `{${rand[0|Math.random()*rand.length]}}`)
         // fg
         .replace(/{(.*?)}/gs, (str, key) => {
             if (!codes[key]) {
