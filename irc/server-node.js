@@ -37,9 +37,10 @@ class ServerNode {
 
         // TODO: track nicklist
 
-        // this.client.addListener('error', (message) => {
-        // TODO: log errors
-        // });
+        this.client.addListener('error', (message) => {
+            // TODO: log errors
+            console.error(message);
+        });
 
         this.client.addListener('raw', (message) => {
             // track nickname

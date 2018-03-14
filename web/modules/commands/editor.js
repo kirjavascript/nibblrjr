@@ -81,14 +81,18 @@ export class Editor extends Component {
                 this.setText(obj.info.commandData);
             }
         });
-        this.props.ws.sendObj('COMMANDS', {
-            getInfo: this.props.command.name,
-        });
+        this.getInfo();
     }
 
     componentWillUnmount() {
         this.props.ws.msg.on(this.commandID, null);
     }
+
+    getInfo = () => {
+        this.props.ws.sendObj('COMMANDS', {
+            getInfo: this.props.command.name,
+        });
+    };
 
     save = () => {
         this.props.ws.sendObj('COMMANDS', {
@@ -99,6 +103,8 @@ export class Editor extends Component {
         });
     };
 
+    // legacy stuff
+
     legacy = () => {
         this.setText(`print.raw(( // legacy command wrapper
    ${this.editor.getValue()}
@@ -108,6 +114,18 @@ export class Editor extends Component {
     legacyStr = () => {
         this.setText(`print.raw(${this.editor.getValue()});`);
     };
+
+    wget = () => {
+        this.setText(` const wget = (url, callback) => {
+    getText(url).then(d => print(callback(null, d)));
+};
+
+${this.editor.getValue()}`);
+    };
+
+ // x => wget("https://github.com/search?q="+x, a => "http://www.github.com" + a('.repo-list-name a').attr('href'))
+ //
+
 
     render() {
         const { vim } = this.state;
@@ -132,8 +150,16 @@ export class Editor extends Component {
                     add legacy (string) wrapper
                 </button>
                 <br />
-                <button type="button">
-                    add wget polyfill (!)
+                <button type="button" onClick={this.asyncWrap}>
+                    async closure wrapper
+                </button>
+                <br />
+                <button type="button" onClick={this.wget}>
+                    add wget polyfill
+                </button>
+                <br />
+                <button type="button" onclick={this.getinfo}>
+                    refetch original
                 </button>
             </div>
         );

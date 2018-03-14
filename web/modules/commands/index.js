@@ -29,7 +29,8 @@ export class Commands extends Component {
 
     render() {
         const { search, list, command } = this.state;
-        const filteredList = list.filter(d => !search || d.name.includes(search));
+        const rx = new RegExp(search);
+        const filteredList = list.filter(d => !search || d.name.match(rx));
         return (
             <div>
                 <div className="fl w-30 command-list">

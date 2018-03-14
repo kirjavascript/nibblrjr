@@ -1,4 +1,5 @@
 const fetch = require('isomorphic-fetch');
+const { JSDOM } = require('jsdom');
 const { parseColors } = require('./colors');
 const _ = require('lodash');
 // date-fns
@@ -34,6 +35,7 @@ function getContext({ print, notice, action, msgData, node }) {
         notice,
         action,
         getJSON,
+        getDOM,
         getText,
         mut,
         fetch,
@@ -56,6 +58,21 @@ async function getText(url) {
 async function getJSON(url) {
     return await getWeb('json', url);
 }
+async function getDOM(url) {
+    const html = await getWeb('text', url);
+    const dom = new JSDOM(html);
+    return {
+        ...dom.window,
+        // DOM shortcuts
+        doc: dom.window.document,
+        qs: (selector) => {
+            return dom.window.document.body.querySelector(selector) || {};
+        },
+        qsa: (selector) => {
+            return [...dom.window.document.body.querySelectorAll(selector)] || [];
+        },
+    };
+}
 async function getWeb(type, url) {
     try {
         const res = await fetch(url);
@@ -63,7 +80,7 @@ async function getWeb(type, url) {
         return out;
     }
     catch (e) {
-        return type == 'json' ? {} : '';
+        throw e;
     }
 }
 
