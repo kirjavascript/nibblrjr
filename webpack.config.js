@@ -29,6 +29,15 @@ module.exports = (env={}, args={}) => {
                         }
                     ]
                 },
+                {
+                    test: /\.scss/,
+                    use: [
+                        { loader:'style-loader' },
+                        { loader:'raw-loader' },
+                        { loader:'sass-loader' },
+                        { loader:'import-glob-loader' },
+                    ]
+                },
             ],
         },
         plugins: [

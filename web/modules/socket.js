@@ -1,14 +1,14 @@
 import { stringify, parse } from 'zipson';
 import { dispatch } from 'd3-dispatch';
 
-const types = ['COMMANDS'];
+const types = ['COMMANDS', 'AUTH'];
 
 function initSocket(callback) {
     const ws = new WebSocket('ws://' + location.host);
 
     // save admin to localstorage
 
-    ws.msg = dispatch(types);
+    ws.msg = dispatch(...types);
 
     ws.sendObj = (_type, obj = {}) => {
         ws.send(stringify({ ...obj, _type }));

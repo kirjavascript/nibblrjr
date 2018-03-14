@@ -3,8 +3,7 @@
     "web": {
         "url": "http://nibblr.pw",
         "port": 8888,
-        "password": "powernap",
-        "secretKey": "N/A"
+        "password": "powernap"
     },
     "servers": [
         {
