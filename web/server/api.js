@@ -40,4 +40,3 @@ function msgHandler({parent, ws}) {
 module.exports = {
     msgHandler,
 };
-print("A23456789⒑JQK".split("")[(Math.random()*13)|0] + ["♠","{r}♥","{r}♦","♣"][(Math.random()*4)|0]);
