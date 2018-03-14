@@ -59,7 +59,7 @@ class Database {
 
             const set = (name, value) => {
                 db.get(`
-                    SELECT idx FROM commands WHERE name = ?
+                    SELECT name FROM commands WHERE name = ?
                 `, [name], (err, obj) => {
                     if (typeof obj == 'undefined') {
                         db.run(`

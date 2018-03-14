@@ -5,6 +5,11 @@ import 'brace/keybinding/vim';
 import 'brace/mode/javascript';
 import 'brace/theme/tomorrow_night_eighties';
 
+// container for copied text
+const textarea = document.body.appendChild(document.createElement('textarea'));
+textarea.style.left = '-999px';
+textarea.style.position = 'absolute';
+
 const uuid = (() => {
     let count = 0;
     return () => (++count).toString(36);
@@ -30,7 +35,7 @@ export class Editor extends Component {
             this.editor.setShowPrintMargin(false);
             this.editor.setHighlightActiveLine(false);
             this.editor.setShowFoldWidgets(false);
-            this.editor.renderer.setScrollMargin(5, 5, 5, 5);
+            this.editor.renderer.setScrollMargin(10, 10, 10, 10);
 
             this.editor.setOptions({
                 fontSize: '14px',
@@ -40,6 +45,18 @@ export class Editor extends Component {
 
             // enable vim mode
             this.editor.setKeyboardHandler('ace/keyboard/vim');
+            ace.config.loadModule('ace/keyboard/vim', (module) => {
+                var VimApi = module.CodeMirror.Vim;
+                VimApi.defineEx('write', 'w', (cm, input) => {
+                    this.save();
+                });
+                VimApi.defineEx('copy', 'c', (cm, input) => {
+                    textarea.value = this.editor.getValue();
+                    textarea.select();
+                    document.execCommand('copy');
+                    textarea.value = '';
+                });
+            });
             // editor.setKeyboardHandler(null);
 
             //     editor.getSession().on('change', (e) => {
@@ -73,6 +90,25 @@ export class Editor extends Component {
         this.props.ws.msg.on(this.commandID, null);
     }
 
+    save = () => {
+        this.props.ws.sendObj('COMMANDS', {
+            setCommand: {
+                name: this.props.command.name,
+                commandData: this.editor.getValue(),
+            },
+        });
+    };
+
+    legacy = () => {
+        this.setText(`print.raw(( // legacy command wrapper
+   ${this.editor.getValue()}
+)(input, input.split(' '), IRC.message));`);
+    };
+
+    legacyStr = () => {
+        this.setText(`print.raw(${this.editor.getValue()});`);
+    };
+
     render() {
         const { vim } = this.state;
 
@@ -80,20 +116,24 @@ export class Editor extends Component {
             <div>
                 <pre>{JSON.stringify(this.props.command)}</pre>
                 <div id={this.id} ref={this.onRef}/>
-                <button type="button">
+                <button type="button" onClick={this.save}>
                     save
                 </button>
                 <br />
                 <button type="button">
-                    lock / unlock
+                    lock / unlock (!)
                 </button>
                 <br />
-                <button type="button">
+                <button type="button" onClick={this.legacy}>
                     add legacy wrapper
                 </button>
                 <br />
+                <button type="button" onClick={this.legacyStr}>
+                    add legacy (string) wrapper
+                </button>
+                <br />
                 <button type="button">
-                    add wget polyfill
+                    add wget polyfill (!)
                 </button>
             </div>
         );
