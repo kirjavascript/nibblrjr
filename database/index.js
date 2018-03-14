@@ -16,24 +16,23 @@ class Database {
                 CREATE TABLE IF NOT EXISTS commands (
                     name VARCHAR (100) PRIMARY KEY UNIQUE,
                     command TEXT,
-                    locked BOOLEAN DEFAULT false,
-                    disabled BOOLEAN DEFAULT false
+                    locked BOOLEAN DEFAULT false
                 );
             `);
 
             const get = (name) => {
                 return new Promise((resolve, reject) => {
                     db.get(`
-                        SELECT command, locked, disabled FROM commands WHERE name = ?
+                        SELECT command, locked FROM commands WHERE name = ?
                     `, name, (err, obj) => {
                         if (err || typeof obj == 'undefined') {
                             reject(err);
                         }
                         else {
                             resolve({
+                                name,
                                 commandData: obj.command,
                                 locked: parseBool(obj.locked),
-                                disabled: parseBool(obj.disabled),
                             });
                         }
                     });
@@ -43,13 +42,12 @@ class Database {
             const list = () => {
                 return new Promise((resolve, reject) => {
                     db.all(`
-                        SELECT name, locked, disabled FROM commands
+                        SELECT name, locked FROM commands
                     `, (err, obj) => {
                         if (Array.isArray(obj)) {
                             resolve(obj.map(d => ({
                                 name: d.name,
                                 locked: parseBool(d.locked),
-                                disabled: parseBool(d.disabled),
                             })));
                         }
                         else {
@@ -59,9 +57,37 @@ class Database {
                 });
             };
 
+            const set = (name, value) => {
+                db.get(`
+                    SELECT idx FROM commands WHERE name = ?
+                `, [name], (err, obj) => {
+                    if (typeof obj == 'undefined') {
+                        db.run(`
+                            INSERT INTO commands(name,command) VALUES (?,?)
+                        `, [name, value]);
+                    }
+                    else {
+                        db.run(`
+                            UPDATE commands SET command = ? WHERE name = ?
+                        `, [value, name]);
+                    }
+                });
+
+            };
+
+            const lock = (name) => {
+                db.run(`
+                    UPDATE commands SET locked = true WHERE name = ?
+                `, [name]);
+            };
+            const unlock = (name) => {
+                db.run(`
+                    UPDATE commands SET locked = false WHERE name = ?
+                `, [name]);
+            };
+
             this.commands = {
-                db, get, list,
-                // lock, unlock, set, search, radnom
+                db, get, set, list, lock, unlock,
             };
         }
 

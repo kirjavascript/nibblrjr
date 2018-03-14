@@ -1,6 +1,6 @@
 // TODO //
 
-MVP: old commands, memo/remind
+MVP: old commands, memo/remind, command creation
 
 // CMD
 // 2d3h time
@@ -13,7 +13,9 @@ help ?
 // logs - profanity stats
 // ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 // alg.js
+can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 getQuery.then
+search, random
 cancelable listeners?
 {emoji}
 
@@ -21,6 +23,7 @@ cancelable listeners?
 // remind / memo
 
 // WEB API
+complete auth
 // look at old nibblr code to work out the environment
 wget polyfill (lol)
 test command

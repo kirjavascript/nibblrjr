@@ -1,12 +1,17 @@
+import './styles/root.scss';
+
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { initSocket } from './socket';
 
+import { initSocket } from './socket';
 import { Commands } from './commands';
 
 export class Root extends Component {
 
-    state = { tab: 'commands', ws: void 0 };
+    state = {
+        ws: void 0,
+        admin: false,
+    };
 
     componentDidMount() {
         initSocket((ws) => {
@@ -16,10 +21,17 @@ export class Root extends Component {
 
     render() {
         return <div>
-            <main>
-                {!this.state.ws ? 'loading...' : <Commands ws={this.state.ws}/>}
-            </main>
-        </div>;
+            {do {
+                if (!this.state.ws) {
+                    <span>loading...</span>
+                }
+                else {
+                    <main>
+                        <Commands {...this.state}/>
+                    </main>
+                }
+            }}
+        </div>
     }
 }
 

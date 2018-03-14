@@ -1,0 +1,19 @@
+html, body {
+    overflow: hidden;
+}
+html, input[type=text] {
+    font-family: 'Inconsolata', monospace;
+}
+
+:focus {
+    outline: none;
+}
+
+main {
+    margin: 5px;
+}
+
+.command-list {
+    height: 100vh;
+    overflow-y: scroll;
+}
