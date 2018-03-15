@@ -32,7 +32,7 @@ export class Commands extends Component {
         const rx = new RegExp(search);
         const filteredList = list.filter(d => !search || d.name.match(rx));
         return (
-            <div>
+            <div className="commands">
                 <div className="fl w-30 command-list">
                     <input
                         type="text"

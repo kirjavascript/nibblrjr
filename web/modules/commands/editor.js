@@ -117,21 +117,28 @@ export class Editor extends Component {
 
     wget = () => {
         this.setText(` const wget = (url, callback) => {
-    getText(url).then(d => print(callback(null, d)));
+    getText(url).then(d => print(callback(null, d))).catch(print.log);
 };
 
 ${this.editor.getValue()}`);
     };
 
- // x => wget("https://github.com/search?q="+x, a => "http://www.github.com" + a('.repo-list-name a').attr('href'))
- //
-
+// if (!input) {
+//     print('{r}~usa <input>')
+// }
+// else {
+//     getDOM("http://textart.io/figlet?text="+input+"&font=usaflag")
+//         .then(dom => {
+//             print(dom.qs('pre').textContent.replace(/\s*$/g,''))
+//         })
+//         .catch(print.log)
+// }
 
     render() {
         const { vim } = this.state;
 
         return (
-            <div>
+            <div className="editor">
                 <pre>{JSON.stringify(this.props.command)}</pre>
                 <div id={this.id} ref={this.onRef}/>
                 <button type="button" onClick={this.save}>
@@ -158,7 +165,7 @@ ${this.editor.getValue()}`);
                     add wget polyfill
                 </button>
                 <br />
-                <button type="button" onclick={this.getinfo}>
+                <button type="button" onClick={this.getInfo}>
                     refetch original
                 </button>
             </div>
