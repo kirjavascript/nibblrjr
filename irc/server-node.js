@@ -78,6 +78,7 @@ class ServerNode {
                 // eval
                 if (['>','#'].includes(firstChar)) {
                     const input = text.slice(trigger.length + 1);
+                    // add store for testing
                     context.store = this.database.storeFactory('__eval__');
                     const { output, error } = evaluate({ input, context });
                     if (input.length && firstChar == '>' || error) {
@@ -87,6 +88,8 @@ class ServerNode {
                 // normal commands
                 else {
                     const command = parseCommand({ trigger, text });
+
+                    // update context with command info
                     context.input = command.input;
                     context.IRC.command = command;
                     context.store = this.database.storeFactory(command.list[0]);
@@ -114,7 +117,9 @@ class ServerNode {
                         })
                         .catch(() => {});
 
-                    print.log(command);
+                    if (parent.dev) {
+                        print.log(command);
+                    }
                 }
             }
             // parse URLs
