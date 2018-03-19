@@ -72,7 +72,6 @@ class Database {
                         `, [value, name]);
                     }
                 });
-
             };
 
             const lock = (name) => {
@@ -158,7 +157,7 @@ class Database {
                                         resolve(JSON.parse(obj.value));
                                     }
                                     catch(e) {
-                                        resolve({});
+                                        reject({});
                                     }
                                 }
                                 else {
@@ -166,7 +165,7 @@ class Database {
                                 }
                             }
                             else {
-                                resolve(undefined);
+                                reject(undefined);
                             }
                         });
                     });

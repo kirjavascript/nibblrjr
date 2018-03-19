@@ -1,6 +1,9 @@
 // TODO //
 
 MVP: old commands (+inbuilt), memo/remind, command creation, auth
+memo/remind check IRC.command
+
+help.commands help.colors help.urls help.eval
 
 // CMD
 // 2d3h time
@@ -9,7 +12,7 @@ MVP: old commands (+inbuilt), memo/remind, command creation, auth
 // check parent locked
 // ~poker (do all in the api, one round a time, scoped stats)
 help ?
-// hyperslots {g,r} watermelon ฿
+// hyperslots {g,r} watermelon ฿ hyperslots bigint
 // logs - profanity stats
 // ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 // alg.js
@@ -18,6 +21,7 @@ getQuery.then
 search, random
 cancelable getRequest
 cancelable listeners?
+fetch queue
 {emoji}
 
 // DATABASES
@@ -39,8 +43,6 @@ implement internal commands as
 // db web backup zip
 
 // EDITOR
-// update legacy tool in web UI
-// better editor - vim mode -
 edited
 testing
 

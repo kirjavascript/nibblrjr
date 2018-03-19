@@ -1,10 +1,7 @@
-const fetch = require('isomorphic-fetch');
-const { JSDOM } = require('jsdom');
+const { getText, getJSON, getDOM } = require('./fetch-context');
 const { parseColors } = require('./colors');
+const dateFns = require('date-fns');
 const _ = require('lodash');
-// date-fns
-
-const mut = {};
 
 function getContext({ print, notice, action, msgData, node }) {
 
@@ -34,11 +31,10 @@ function getContext({ print, notice, action, msgData, node }) {
         print,
         notice,
         action,
+        getText,
         getJSON,
         getDOM,
-        getText,
-        mut,
-        fetch,
+        dateFns,
         _,
         setTimeout(...args) {
             return node.timeouts.push(setTimeout(...args));
@@ -50,38 +46,6 @@ function getContext({ print, notice, action, msgData, node }) {
     };
 
     return ctx;
-}
-
-async function getText(url) {
-    return await getWeb('text', url);
-}
-async function getJSON(url) {
-    return await getWeb('json', url);
-}
-async function getDOM(url) {
-    const html = await getWeb('text', url);
-    const dom = new JSDOM(html);
-    return {
-        ...dom.window,
-        // DOM shortcuts
-        doc: dom.window.document,
-        qs: (selector) => {
-            return dom.window.document.body.querySelector(selector) || {};
-        },
-        qsa: (selector) => {
-            return [...dom.window.document.body.querySelectorAll(selector)] || [];
-        },
-    };
-}
-async function getWeb(type, url) {
-    try {
-        const res = await fetch(url);
-        const out = await res[type]();
-        return out;
-    }
-    catch (e) {
-        throw e;
-    }
 }
 
 module.exports = {

@@ -1,4 +1,3 @@
-
 const fetch = require('isomorphic-fetch');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
