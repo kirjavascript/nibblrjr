@@ -1,33 +1,26 @@
 // TODO //
 
-MVP: old commands (+inbuilt), memo/remind, command creation, auth
+MVP: built in commands, memo/remind, command creation, auth, log, help, slots, poker
 memo/remind check IRC.command
 
 help.commands help.colors help.urls help.eval
 // ~eval has moved to ~>, help.eval for more info
+LOG: IRC.log
 
-// CMD
-// 2d3h time
+MEMO: // 2d3h time
 // ~command.new.force() command overwrite
-// ~command.new.text command.search
+// ~command.new.text
+search, random
+~reddit #
+~speak just uses IRC.log
 // check parent locked
 // ~poker (do all in the api, one round a time, scoped stats)
-help ?
+store.getDefault()
 // hyperslots {g,r} watermelon ฿ hyperslots bigint
 // logs - profanity stats
-// alg.js
-can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
-getQuery.then
-search, random
-cancelable getRequest
+cancelable getRequest (defend infinite loop
 cancelable listeners?
-fetch queue
 roll 7 high scores (hiscore/loscore baleet)
-{emoji}
-~reddit #
-
-// DATABASES
-// remind / memo
 
 // WEB API
 complete auth
@@ -36,12 +29,12 @@ test parse command
 // dispatch message on print
 // join new channels/servers
 // track nick list
+// alg.js
 
 // UI
 react router / ace editor
 // subcommands / tree
 only web ui can kick/part/join
-implement internal commands as
 // db web backup zip
 
 // EDITOR
@@ -49,6 +42,9 @@ edited
 testing
 
 patch the rizon log
+
+require() support
+can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 
 // http://www.df7cb.de/irc/pisg/pisg-month.html
 https://www.npmjs.com/package/date.js

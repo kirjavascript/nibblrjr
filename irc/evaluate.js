@@ -12,20 +12,17 @@ function evaluate({ input, context, colors = true }) {
             filename: 'purple',
         });
 
-
-        const output = colors ? objectDebug(evaluation) : evaluation;
-
-        return { output };
+        return { output: objectDebug(evaluation, colors) };
     } catch(e) {
         return {
-            output: `\u000304${e.name}: ${e.message}`,
+            output: `${(colors?'\u000304':'')}${e.name}: ${e.message}`,
             error: true,
         };
     }
 }
 
-function objectDebug(evaluation) {
-    const output = util.inspect(evaluation, { depth: 1, colors: true })
+function objectDebug(evaluation, colors = true) {
+    const output = util.inspect(evaluation, { depth: 1, colors })
         .replace(/\s+/g, ' ')
         .replace(new RegExp('\u001b\\[39m', 'g'), '\u000f')// reset
         .replace(new RegExp('\u001b\\[31m', 'g'), '\u000313') // null

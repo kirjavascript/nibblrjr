@@ -42,7 +42,7 @@ class Database {
             const list = () => {
                 return new Promise((resolve, reject) => {
                     db.all(`
-                        SELECT name, locked FROM commands
+                        SELECT name, locked FROM commands ORDER BY name ASC
                     `, (err, obj) => {
                         if (Array.isArray(obj)) {
                             resolve(obj.map(d => ({
