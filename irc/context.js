@@ -25,8 +25,6 @@ function getContext({ print, notice, action, msgData, node }) {
         },
     };
 
-    // add legacy
-
     const ctx = {
         print,
         notice,
