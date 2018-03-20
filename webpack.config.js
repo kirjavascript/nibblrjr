@@ -45,11 +45,9 @@ module.exports = (env={}, args={}) => {
         resolve: {
             extensions: ['.js', '.json', '.jsx'],
             alias: {
-                // '#store': __dirname + '/../modules/store',
             }
-
         },
-        devtool: env.dev ? 'source-map' : null,
+        devtool: env.dev ? 'source-map' : false,
     };
 
     return config;
