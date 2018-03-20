@@ -112,7 +112,7 @@ export class Editor extends Component {
     };
 
     legacyStr = () => {
-        this.setText(`print.raw(${this.editor.getValue()});`);
+        this.setText(`print(${this.editor.getValue()});`);
     };
 
     wget = () => {
