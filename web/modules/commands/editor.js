@@ -116,10 +116,19 @@ export class Editor extends Component {
     };
 
     wget = () => {
-        this.setText(` const wget = (url, callback) => {
+        this.setText(`const wget = (url, callback) => {
     getText(url).then(d => print(callback(null, d))).catch(print.log);
 };
 
+${this.editor.getValue()}`);
+    };
+
+    getDOM = () => {
+        this.setText(`getDOM('')
+.then(dom => {
+    dom.qs('')
+})
+.catch(print.log);
 ${this.editor.getValue()}`);
     };
 
@@ -163,6 +172,11 @@ ${this.editor.getValue()}`);
                 <br />
                 <button type="button" onClick={this.wget}>
                     add wget polyfill
+                </button>
+                <br />
+
+                <button type="button" onClick={this.getDOM}>
+                    getDOM
                 </button>
                 <br />
                 <button type="button" onClick={this.getInfo}>

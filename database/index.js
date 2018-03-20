@@ -157,7 +157,7 @@ class Database {
                                         resolve(JSON.parse(obj.value));
                                     }
                                     catch(e) {
-                                        reject({});
+                                        reject({error: 'Error parsing JSON'});
                                     }
                                 }
                                 else {
@@ -165,7 +165,7 @@ class Database {
                                 }
                             }
                             else {
-                                reject(undefined);
+                                reject({error: 'No saved value'});
                             }
                         });
                     });

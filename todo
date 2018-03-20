@@ -4,17 +4,17 @@ MVP: old commands (+inbuilt), memo/remind, command creation, auth
 memo/remind check IRC.command
 
 help.commands help.colors help.urls help.eval
+// ~eval has moved to ~>, help.eval for more info
 
 // CMD
 // 2d3h time
 // ~command.new.force() command overwrite
-// ~command.new.text
+// ~command.new.text command.search
 // check parent locked
 // ~poker (do all in the api, one round a time, scoped stats)
 help ?
 // hyperslots {g,r} watermelon ฿ hyperslots bigint
 // logs - profanity stats
-// ~eval has moved to ~>, help.eval for more info ( ~help lists different helps (help, commands, format)
 // alg.js
 can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 getQuery.then
