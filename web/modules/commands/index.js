@@ -31,6 +31,7 @@ export class Commands extends Component {
         const { search, list, command } = this.state;
         const rx = new RegExp(search);
         const filteredList = list.filter(d => !search || d.name.match(rx));
+
         return (
             <div className="commands">
                 <div className="fl w-30 command-list">
@@ -46,16 +47,17 @@ export class Commands extends Component {
                     </span>
                     <hr />
                     {filteredList.map((command) => {
-                        return <a
-                            key={command.name}
-                            className="db"
-                            href="javascript:;"
-                            onClick={()  => {
-                                this.setState({command});
-                            }}
-                        >
-                            {command.name}
-                        </a>;
+                        return <div key={command.name}>
+                            <a
+                                href="javascript:;"
+                                onClick={()  => {
+                                    this.setState({command});
+                                }}
+                            >
+                                {command.name}
+                            </a>
+                            {command.starred && ' ★'}
+                        </div>;
                     })}
                 </div>
                 <div className="fl w-70">
