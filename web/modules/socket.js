@@ -32,6 +32,10 @@ function initSocket(callback) {
     ws.addEventListener('open', (open) => {
         callback(ws);
     });
+
+    ws.addEventListener('close', () => {
+        location.reload();
+    });
 }
 
 export { initSocket };

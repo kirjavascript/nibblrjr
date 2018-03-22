@@ -27,7 +27,7 @@ const messageFactory = (type, node, msgData) => {
 
     // colours
     const send = (text, ...args) => {
-        return sendRaw(parseColors(text));
+        return sendRaw(parseColors(text), ...args);
     };
 
     send.raw = sendRaw;

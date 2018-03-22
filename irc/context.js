@@ -1,4 +1,4 @@
-const { getText, getJSON, getDOM } = require('./fetch-context');
+const { getText, getJSON, getDOM } = require('./context-fetch');
 const { parseColors } = require('./colors');
 const dateFns = require('date-fns');
 const _ = require('lodash');
