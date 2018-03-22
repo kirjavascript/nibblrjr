@@ -7,6 +7,8 @@ help.commands help.colors help.urls help.eval
 // ~eval has moved to ~>, help.eval for more info
 LOG: IRC.log
 
+add ability to write temp commands in vim :) before adding fo real
+
 MEMO: // 2d3h time
 // ~command.new.force() command overwrite
 // ~command.new.text
