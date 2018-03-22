@@ -1,26 +1,34 @@
 // TODO //
 
+13 days 14th June
+rough.js
+https://www.youtube.com/watch?v=4H7OWRdywQ4
+
+check old todo list
+Dispose event listener in command editor
+
 MVP: built in commands, memo/remind, command creation, auth, log, help, slots, poker
-memo/remind check IRC.command
+help.commands help.colors help.urls help.eval // ~eval has moved to ~>, help.eval for more info
+memo/remind check IRC.command | 2d3h time
+LOG: IRC.log ~log ~log.regex | ~speak just uses IRC.log
 
-help.commands help.colors help.urls help.eval
-// ~eval has moved to ~>, help.eval for more info
-LOG: IRC.log
-
-MEMO: // 2d3h time
-// ~command.new.force() command overwrite
-// ~command.new.text
-search, random
+~command.new
+~command.edit
+~command.new.text
+command.search
+command.random
+command.source
 ~reddit #
-~speak just uses IRC.log
+~print
 // check parent locked
 // ~poker (do all in the api, one round a time, scoped stats)
 store.getDefault()
 // hyperslots {g,r} watermelon ฿ hyperslots bigint
-// logs - profanity stats
 cancelable getRequest (defend infinite loop
 cancelable listeners?
 roll 7 high scores (hiscore/loscore baleet)
+// logs - profanity stats
+// alg.js
 
 // WEB API
 complete auth
@@ -29,7 +37,6 @@ test parse command
 // dispatch message on print
 // join new channels/servers
 // track nick list
-// alg.js
 
 // UI
 react router / ace editor
@@ -43,7 +50,7 @@ testing
 
 patch the rizon log
 
-require() support
+require() support | npmi
 can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 
 // http://www.df7cb.de/irc/pisg/pisg-month.html
