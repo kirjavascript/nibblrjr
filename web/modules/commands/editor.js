@@ -74,7 +74,7 @@ export class Editor extends Component {
         this.editor.moveCursorToPosition(pos);
     };
 
-    componentDidMount() {
+    componentWillMount() {
         this.commandID = `COMMANDS.${this.props.command.name}`;
         this.props.ws.msg.on(this.commandID, (obj) => {
             if (obj.info && obj.info.name == this.props.command.name) {
