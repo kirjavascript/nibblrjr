@@ -15,10 +15,10 @@ async function getDOM(url) {
         // DOM shortcuts
         body: dom.window.document.body,
         qs: (selector) => {
-            return dom.window.document.body.querySelector(selector) || {};
+            return dom.window.document.querySelector(selector) || {};
         },
         qsa: (selector) => {
-            return [...dom.window.document.body.querySelectorAll(selector)] || [];
+            return [...dom.window.document.querySelectorAll(selector)] || [];
         },
     };
 }

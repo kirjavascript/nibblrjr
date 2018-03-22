@@ -16,14 +16,15 @@ class Database {
                 CREATE TABLE IF NOT EXISTS commands (
                     name VARCHAR (100) PRIMARY KEY UNIQUE,
                     command TEXT,
-                    locked BOOLEAN DEFAULT false
+                    locked BOOLEAN DEFAULT false,
+                    starred BOOLEAN DEFAULT false
                 );
             `);
 
             const get = (name) => {
                 return new Promise((resolve, reject) => {
                     db.get(`
-                        SELECT command, locked FROM commands WHERE name = ?
+                        SELECT command, locked, starred FROM commands WHERE name = ?
                     `, name, (err, obj) => {
                         if (err || typeof obj == 'undefined') {
                             reject(err);
@@ -33,6 +34,7 @@ class Database {
                                 name,
                                 commandData: obj.command,
                                 locked: parseBool(obj.locked),
+                                starred: parseBool(obj.starred),
                             });
                         }
                     });
@@ -42,12 +44,13 @@ class Database {
             const list = () => {
                 return new Promise((resolve, reject) => {
                     db.all(`
-                        SELECT name, locked FROM commands ORDER BY name ASC
+                        SELECT name, locked, starred FROM commands ORDER BY name COLLATE NOCASE ASC
                     `, (err, obj) => {
                         if (Array.isArray(obj)) {
                             resolve(obj.map(d => ({
                                 name: d.name,
                                 locked: parseBool(d.locked),
+                                starred: parseBool(d.starred),
                             })));
                         }
                         else {
