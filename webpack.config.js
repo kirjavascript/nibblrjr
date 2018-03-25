@@ -2,7 +2,7 @@ const webpack = require('webpack');
 
 module.exports = (env={}, args={}) => {
 
-    let config = {
+    const config = {
         entry : {
             root: __dirname + '/web/modules/root.js',
         },
@@ -24,6 +24,7 @@ module.exports = (env={}, args={}) => {
                                 ],
                                 plugins: [
                                     'transform-react-jsx',
+                                    'transform-decorators-legacy',
                                 ]
                             }
                         }
