@@ -1,7 +1,12 @@
-const { getText, getJSON, getDOM } = require('./context-fetch');
-const { parseColors } = require('./colors');
+const { getText, getJSON, getDOM } = require('./fetch');
+const { parseColors } = require('../colors');
+const { limit } = require('./limit');
 const dateFns = require('date-fns');
 const _ = require('lodash');
+
+// function requireSafe(str) {
+//     return require('vm').runInNewContext(`require('${str}');`, {});
+// }
 
 function getContext({ print, notice, action, msgData, node }) {
 
@@ -29,9 +34,9 @@ function getContext({ print, notice, action, msgData, node }) {
         print,
         notice,
         action,
-        getText,
-        getJSON,
-        getDOM,
+        getText: limit(getText),
+        getJSON: limit(getJSON),
+        getDOM: limit(getDOM),
         dateFns,
         _,
         setTimeout(...args) {
