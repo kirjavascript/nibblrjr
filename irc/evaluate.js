@@ -1,16 +1,26 @@
 const util = require('util');
-const vm = require('vm');
+const {VM} = require('vm2');
 
 util.inspect.styles.null = 'red';
+
+process.on('uncaughtException', (err) => {
+    console.error(err);
+});
 
 function evaluate({ input, context, colors = true }) {
 
     try {
-        const evaluation = vm.runInNewContext(input, context, {
-            displayErrors: false,
+        const evaluation = new VM({
             timeout: 3000,
-            filename: 'purple',
-        });
+            sandbox: context,
+        }).run(`
+            ['VMError', 'Buffer'].forEach(key => {
+                Object.defineProperty(this, key, { enumerable: false });
+            });
+            delete global.console;
+
+            ${input}
+        `);
 
         return { output: objectDebug(evaluation, colors) };
     } catch(e) {

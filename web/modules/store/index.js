@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import { stringify, parse } from 'zipson';
-// import { dispatch } from 'd3-dispatch';
+// import { dispatch } from 'd3-dispatch'; // yarn remove pls
 
 class Environment {
 
@@ -28,7 +28,6 @@ class Environment {
         });
 
         ws.addEventListener('open', this.onConnected);
-
         ws.addEventListener('close', location.reload);
     }
 
