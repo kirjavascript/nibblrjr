@@ -4,10 +4,6 @@ const { limit } = require('./limit');
 const dateFns = require('date-fns');
 const _ = require('lodash');
 
-// function requireSafe(str) {
-//     return require('vm').runInNewContext(`require('${str}');`, {});
-// }
-
 function getContext({ print, notice, action, msgData, node }) {
 
     const IRC = {
@@ -37,15 +33,15 @@ function getContext({ print, notice, action, msgData, node }) {
         getText: limit(getText),
         getJSON: limit(getJSON),
         getDOM: limit(getDOM),
-        dateFns,
-        _: {..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0},
+        IRC,
         setTimeout(...args) {
             return node.timeouts.push(setTimeout(...args));
         },
         setInterval(...args) {
             return node.intervals.push(setInterval(...args));
         },
-        IRC,
+        dateFns,
+        _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
     };
 
     return ctx;
