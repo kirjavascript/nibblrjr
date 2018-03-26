@@ -4,9 +4,12 @@ const { parseColors } = require('./colors');
 const messageFactory = (type, node, msgData) => {
     const { client } = node;
     const { target: defaultTarget } = msgData;
+    let count = 0;
 
     // raw
     const sendRaw = (text, target = void 0) => {
+        if (++count > 100) return; // usage limit of 100 per command
+
         client[type](target || defaultTarget, text);
 
         // log to DB
