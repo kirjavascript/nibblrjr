@@ -3,9 +3,7 @@ const {VM} = require('vm2');
 
 util.inspect.styles.null = 'red';
 
-process.on('uncaughtException', (err) => {
-    console.error(err);
-});
+process.on('uncaughtException', console.error);
 
 function evaluate({ input, context, colors = true }) {
 

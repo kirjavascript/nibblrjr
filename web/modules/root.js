@@ -2,36 +2,23 @@ import './styles/root.scss';
 
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import { observer } from 'mobx-react';
 
-import { initSocket } from './socket';
+import { env } from './store/index';
 import { Commands } from './commands';
 
+@observer
 export class Root extends Component {
 
-    state = {
-        ws: void 0,
-        admin: false,
-    };
-
-    componentDidMount() {
-        initSocket((ws) => {
-            this.setState({ws});
-        });
-    }
-
     render() {
-        return <div>
-            {do {
-                if (!this.state.ws) {
-                    <span>loading...</span>
-                }
-                else {
-                    <main>
-                        <Commands {...this.state}/>
-                    </main>
-                }
-            }}
-        </div>
+        return do {
+            if (!env.connected) {
+                <span>Loading...</span>
+            }
+            else {
+                <Commands/>
+            }
+        }
     }
 }
 

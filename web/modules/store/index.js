@@ -1,6 +1,5 @@
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { stringify, parse } from 'zipson';
-// import { dispatch } from 'd3-dispatch'; // yarn remove pls
 
 class Environment {
 
@@ -8,11 +7,11 @@ class Environment {
         // do socket stuff
         this.ws = new WebSocket('ws://' + location.host);
 
-        ws.sendObj = (_type, obj = {}) => {
-            ws.send(stringify({ ...obj, _type }));
+        this.ws.sendObj = (_type, obj = {}) => {
+            this.ws.send(stringify({ ...obj, _type }));
         };
 
-        ws.addEventListener('message', (e) => {
+        this.ws.addEventListener('message', (e) => {
             try {
                 const { _type, ...obj } = parse(e.data);
                 if (_type == 'RELOAD') {
@@ -27,8 +26,8 @@ class Environment {
             }
         });
 
-        ws.addEventListener('open', this.onConnected);
-        ws.addEventListener('close', location.reload);
+        this.ws.addEventListener('open', this.onConnected);
+        this.ws.addEventListener('close', () => location.reload());
     }
 
     @observable connected = false;
@@ -56,5 +55,4 @@ class Environment {
 
 }
 
-const env = new Environment();
-export env;
+export const env = new Environment();
