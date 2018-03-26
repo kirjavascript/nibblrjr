@@ -38,7 +38,7 @@ function getContext({ print, notice, action, msgData, node }) {
         getJSON: limit(getJSON),
         getDOM: limit(getDOM),
         dateFns,
-        _,
+        _: {..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0},
         setTimeout(...args) {
             return node.timeouts.push(setTimeout(...args));
         },
