@@ -1,26 +1,19 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 
+import { env } from '../store/index';
 import { Editor } from './editor';
 
+@observer
 export class Commands extends Component {
 
     state = {
-        list: [],
         search: '',
         command: void 0,
     };
 
     componentDidMount() {
-        this.props.ws.msg.on('COMMANDS', (obj) => {
-            if (obj.list) {
-                this.setState({list: obj.list});
-            }
-        });
-        this.props.ws.sendObj('COMMANDS', {getList: true});
-    }
-
-    componentWillUnmount() {
-        this.props.ws.msg.on('COMMANDS', null);
+        env.getList();
     }
 
     handleSearch = (e) => {
@@ -28,7 +21,8 @@ export class Commands extends Component {
     };
 
     render() {
-        const { search, list, command } = this.state;
+        const { search, command } = this.state;
+        const list = env.list;
         const rx = new RegExp(search);
         const filteredList = list.filter(d => !search || d.name.match(rx));
 
