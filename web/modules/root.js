@@ -16,7 +16,9 @@ export class Root extends Component {
                 <span>Loading...</span>
             }
             else {
-                <Commands/>
+                <main>
+                    <Commands/>
+                </main>
             }
         }
     }
