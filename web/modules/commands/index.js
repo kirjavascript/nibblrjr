@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 
-import { env } from '../store/index';
+import { env } from '#store';
 import { Editor } from './editor';
 
 @observer
