@@ -10,18 +10,12 @@ function msgHandler({parent, ws}) {
         },
         'COMMANDS': (obj) => {
             if ('getList' in obj) {
-                parent.database.commands.list()
-                    .then((list) => {
-                        ws.sendObj('COMMANDS', {list});
-                    })
-                    .catch(() => {});
+                const list = parent.database.commands.list();
+                ws.sendObj('COMMANDS', {list});
             }
-            else if (typeof obj.getInfo == 'string') {
-                parent.database.commands.get(obj.getInfo)
-                    .then((info) => {
-                        ws.sendObj('COMMANDS', { info });
-                    })
-                    .catch(() => {});
+            else if ('getInfo' in obj) {
+                const info = parent.database.commands.get(obj.getInfo)
+                ws.sendObj('COMMANDS', { info });
             }
             else if ('setCommand' in obj) {
                 // TODO: isAdmin

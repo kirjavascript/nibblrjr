@@ -1,5 +1,5 @@
 const fs = require('fs');
-const sqlite3 = require('sqlite3');
+const SQLiteDatabase = require('better-sqlite3');
 const _dir = __dirname + '/../storage/';
 
 const parseBool = (str) => {
@@ -21,72 +21,70 @@ class Database {
                 );
             `);
 
+            // get //
+            const preparedGet = db.prepare(`
+                SELECT command, locked, starred FROM commands WHERE name = ?
+            `);
             const get = (name) => {
-                return new Promise((resolve, reject) => {
-                    db.get(`
-                        SELECT command, locked, starred FROM commands WHERE name = ?
-                    `, name, (err, obj) => {
-                        if (err || typeof obj == 'undefined') {
-                            reject(err);
-                        }
-                        else {
-                            resolve({
-                                name,
-                                commandData: obj.command,
-                                locked: parseBool(obj.locked),
-                                starred: parseBool(obj.starred),
-                            });
-                        }
-                    });
-                });
+                const obj = preparedGet.get(name);
+
+                if (typeof obj == 'undefined') {
+                    return void 0;
+                }
+                else {
+                    return {
+                        name,
+                        command: obj.command,
+                        locked: parseBool(obj.locked),
+                        starred: parseBool(obj.starred),
+                    };
+                }
             };
 
+            // list //
+            const preparedList = db.prepare(`
+                SELECT name, locked, starred FROM commands ORDER BY name COLLATE NOCASE ASC
+            `);
             const list = () => {
-                return new Promise((resolve, reject) => {
-                    db.all(`
-                        SELECT name, locked, starred FROM commands ORDER BY name COLLATE NOCASE ASC
-                    `, (err, obj) => {
-                        if (Array.isArray(obj)) {
-                            resolve(obj.map(d => ({
-                                name: d.name,
-                                locked: parseBool(d.locked),
-                                starred: parseBool(d.starred),
-                            })));
-                        }
-                        else {
-                            reject(null || obj);
-                        }
-                    });
-                });
+                const obj = preparedList.all();
+                if (Array.isArray(obj)) {
+                    return obj.map(d => ({
+                        name: d.name,
+                        locked: parseBool(d.locked),
+                        starred: parseBool(d.starred),
+                    }));
+                }
+                else {
+                    return [];
+                }
             };
 
+            // TODO
+            //
+            const preparedSetInsert = db.prepare(`
+                INSERT INTO commands(name,command) VALUES (?,?)
+            `);
+            const preparedSetUpdate = db.prepare(`
+                UPDATE commands SET command = ? WHERE name = ?
+            `);
             const set = (name, value) => {
-                db.get(`
-                    SELECT name FROM commands WHERE name = ?
-                `, [name], (err, obj) => {
-                    if (typeof obj == 'undefined') {
-                        db.run(`
-                            INSERT INTO commands(name,command) VALUES (?,?)
-                        `, [name, value]);
-                    }
-                    else {
-                        db.run(`
-                            UPDATE commands SET command = ? WHERE name = ?
-                        `, [value, name]);
-                    }
-                });
+                if (typeof get(name) == 'undefined') {
+                    preparedSetInsert.run(name, value);
+                }
+                else {
+                    preparedSetUpdate.run(name, value);
+                }
             };
 
-            const lock = (name) => {
-                db.run(`
-                    UPDATE commands SET locked = true WHERE name = ?
-                `, [name]);
-            };
-            const unlock = (name) => {
-                db.run(`
-                    UPDATE commands SET locked = false WHERE name = ?
-                `, [name]);
-            };
+            // locking //
+            const preparedLock = db.prepare(`
+                UPDATE commands SET locked = 'true' WHERE name = ?
+            `);
+            const lock = (name) => { preparedLock.run(name); };
+            const preparedUnlock = db.prepare(`
+                UPDATE commands SET locked = 'false' WHERE name = ?
+            `);
+            const unlock = (name) => { preparedUnlock.run(name); };
 
             this.commands = {
                 db, get, set, list, lock, unlock,
@@ -124,19 +122,17 @@ class Database {
 
             // logging
 
+            const preparedLog = db.prepare(`
+                INSERT INTO log(user,command,target,message) VALUES (?,?,?,?)
+            `);
             const log = (message) => {
-                const run = (data) => {
-                    db.run(`
-                        INSERT INTO log(user,command,target,message) VALUES (?,?,?,?)
-                    `, data);
-                };
                 if ('JOIN PART NICK KICK KILL NOTICE MODE PRIVMSG QUIT TOPIC'.split(' ').includes(message.command)) {
                     if (message.command == 'QUIT') {
-                        run([message.nick, message.command, '', message.args.join(' ')]);
+                        preparedLog.run([message.nick, message.command, '', message.args.join(' ')]);
                     }
                     // check if has a source and is  not PM
                     else if (message.nick && (message.args || [])[0] != node.nickname) {
-                        run([
+                        preparedLog.run([
                             message.nick,
                             message.command,
                             message.args.length ? message.args[0] : '',
@@ -149,72 +145,61 @@ class Database {
             // key/value store
 
             const storeFactory = (namespace) => {
-                const get = (key, asObj = false) => {
-                    return new Promise((resolve, reject) => {
-                        db.get(`
-                            SELECT value FROM store WHERE namespace = ? AND key = ?
-                        `, [namespace, key], (err, obj) => {
-                            if (!err && typeof obj == 'object') {
-                                if (asObj) {
-                                    try {
-                                        resolve(JSON.parse(obj.value));
-                                    }
-                                    catch(e) {
-                                        reject({error: 'Error parsing JSON'});
-                                    }
-                                }
-                                else {
-                                    resolve(obj.value);
-                                }
-                            }
-                            else {
-                                reject({error: 'No saved value'});
-                            }
-                        });
-                    });
+
+                // get //
+                const preparedGet = db.prepare(`
+                    SELECT value FROM store WHERE namespace = ? AND key = ?
+                `);
+                const get = (key) => {
+                    const obj = preparedGet.get(namespace, key);
+                    if (obj) {
+                        return String(obj.value);
+                    }
+                    else {
+                        return void 0;
+                    }
                 };
 
+                // set //
+                const preparedSetInsert = db.prepare(`
+                    INSERT INTO store(value,namespace,key) VALUES (?,?,?)
+                `);
+                const preparedSetUpdate = db.prepare(`
+                    UPDATE store SET value = ? WHERE namespace = ? AND key = ?
+                `);
+                const preparedSetDelete = db.prepare(`
+                    DELETE FROM store WHERE namespace = ? AND key = ?
+                `);
                 const set = (key, value) => {
-                    db.get(`
-                        SELECT idx FROM store WHERE namespace = ? AND key = ?
-                    `, [namespace, key], (err, obj) => {
-                        if (typeof obj == 'undefined') {
-                            db.run(`
-                                INSERT INTO store(value,namespace,key) VALUES (?,?,?)
-                            `, [value, namespace, key]);
-                        }
-                        else {
-                            db.run(`
-                                UPDATE store SET value = ? WHERE namespace = ? AND key = ?
-                            `, [value, namespace, key]);
-                        }
-                    });
+                    const hasData = typeof get(key) != 'undefined';
+                    // delete data
+                    if (Object.is(null, value) || typeof value == 'undefined') {
+                        hasData && preparedSetDelete.run(namespace, key);
+                    }
+                    // update / add data
+                    else if (!hasData) {
+                        preparedSetInsert.run(String(value), namespace, key);
+                    }
+                    else {
+                        preparedSetUpdate.run(String(value), namespace, key);
+                    }
                 };
 
+                // all //
+                const preparedAll = db.prepare(`
+                    SELECT key, value FROM store WHERE namespace = ?
+                `);
                 const all = () => {
-                    return new Promise((resolve, reject) => {
-                        db.all(`
-                            SELECT key, value FROM store WHERE namespace = ?
-                        `, [namespace], (err, obj) => {
-                            if (Array.isArray(obj)) {
-                                resolve(obj);
-                            }
-                            else {
-                                resolve([]);
-                            }
-                        });
-                    });
+                    const obj = preparedAll.all(namespace);
+                    if (Array.isArray(obj)) {
+                        return obj;
+                    }
+                    else {
+                        return [];
+                    }
                 };
 
-                const getObj = (key) => {
-                    return get(key, true);
-                };
-
-                const setObj = (key, value) => {
-                    return set(key, JSON.stringify(value));
-                };
-
-                return { get, set, getObj, setObj, all, namespace };
+                return { get, set, all, namespace };
             };
 
             return {
@@ -227,13 +212,8 @@ class Database {
 
     createDB(name, schema) {
         fs.openSync(`${_dir}${name}.db`, 'a');
-        const db = new sqlite3.Database(`${_dir}${name}.db`);
-        schema
-            .split(';')
-            .filter(d => d.trim())
-            .forEach(statement => {
-                db.run(statement + ';');
-            });
+        const db = new SQLiteDatabase(`${_dir}${name}.db`);
+        db.exec(schema);
         return db;
     }
 };
