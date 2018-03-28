@@ -22,7 +22,7 @@
     log.regex
     speak(query, text) { // use log
     remind(query, text) {
-    memo(query, text) {
+    memo(query, text) { target: {bo}<{/}{rand}source{/}{bo}>{/} message
     seen(who, text) {
     "commands": function (query, text) {
     "eval": function(query, text) {
