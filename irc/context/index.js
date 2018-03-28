@@ -1,6 +1,7 @@
+const { limit } = require('./limit');
+const { ping } = require('./spawn');
 const { getText, getJSON, getDOM } = require('./fetch');
 const { parseColors } = require('../colors');
-const { limit } = require('./limit');
 const dateFns = require('date-fns');
 const _ = require('lodash');
 
@@ -26,6 +27,8 @@ function getContext({ print, notice, action, msgData, node }) {
         },
     };
 
+    const util = { ping };
+
     const ctx = {
         print,
         notice,
@@ -34,6 +37,7 @@ function getContext({ print, notice, action, msgData, node }) {
         getJSON: limit(getJSON),
         getDOM: limit(getDOM),
         IRC,
+        util,
         setTimeout(...args) {
             return node.timeouts.push(setTimeout(...args));
         },

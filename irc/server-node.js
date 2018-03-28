@@ -13,7 +13,9 @@ class ServerNode {
         Object.assign(this, server, { parent });
         // { address, channels, trigger, nickname, password }
 
-        addServerMethods(this);
+        this.get = (key, _default) => {
+            return this[key] || this.parent[key] || _default;
+        }
 
         this.timeouts = [];
         this.intervals = [];
@@ -118,13 +120,6 @@ class ServerNode {
         });
 
     }
-}
-
-function addServerMethods(node) {
-    // for defaulting values
-    node.get = (key, _default) => {
-        return node[key] || node.parent[key] || _default;
-    };
 }
 
 module.exports = {

@@ -9,7 +9,7 @@
     slots() {
     megaslots() {
     slotstats() {
-    ping(query) { calendar (UTIL)
+    ping(query) { calendar (UTIL) / spawn.js
     define(words, text) {
     example(words, text) {
     imgur(query, text) {
