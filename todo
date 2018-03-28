@@ -1,22 +1,20 @@
 // TODO //
 
-
     poker(query, text) {
-    trivia() {
+    trivia() { // use new api
     clue() {
     skip() {
     triviastats() {
     slots() {
     megaslots() {
     slotstats() {
-    ping(query) { calendar (UTIL) / spawn.js
     define(words, text) {
     example(words, text) {
     imgur(query, text) {
     pornhub(query, text) {
     drug(query, text) {
-    youtube(query, text) {
     google(query, text) {
+    youtube(query, text) { site:youtube.com
     weather(query, text) {
     reddit(query, text) {
 ~reddit #
