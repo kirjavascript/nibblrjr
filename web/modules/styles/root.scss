@@ -2,7 +2,7 @@ html, input, button {
     font-family: 'Inconsolata', monospace;
 }
 
-:focus {
+*:focus {
     outline: none;
 }
 
@@ -24,4 +24,12 @@ h1 {
 
 .command-list {
     padding: 5px;
+}
+
+.login {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    padding: 2px;
+    margin: 2px 5px;
 }

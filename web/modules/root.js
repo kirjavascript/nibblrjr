@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 
 import { env } from './store/index';
 import { Commands } from './commands';
+import { Auth } from './auth';
 
 @observer
 export class Root extends Component {
@@ -17,10 +18,15 @@ export class Root extends Component {
             }
             else {
                 <main>
-                    <nav>
-                        <h1>nibblrjr</h1>
+                    <nav className="flex">
+                        <div className="w-50">
+                            <h1>nibblrjr</h1>
+                        </div>
+                        <div className="w-50 tr">
+                            <Auth />
+                        </div>
                     </nav>
-                    <Commands/>
+                    <Commands />
                 </main>
             }
         }

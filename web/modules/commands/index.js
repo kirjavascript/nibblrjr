@@ -62,7 +62,7 @@ export class Commands extends Component {
                             <Editor key={command.name} command={command} {...this.props}/>
                         }
                         else {
-                            <span>Select a command to edit</span>
+                            false
                         }
                     }}
                 </div>
