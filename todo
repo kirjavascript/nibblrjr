@@ -1,6 +1,5 @@
 // TODO //
 
-height: calc(100% - #{$body_padding})
 
     poker(query, text) {
     trivia() {
@@ -10,7 +9,7 @@ height: calc(100% - #{$body_padding})
     slots() {
     megaslots() {
     slotstats() {
-    ping(query) {
+    ping(query) { calendar (UTIL)
     define(words, text) {
     example(words, text) {
     imgur(query, text) {
@@ -32,7 +31,6 @@ height: calc(100% - #{$body_padding})
 
 https://github.com/kirjavascript/Nibblr/issues/12
 https://github.com/4chan/4chan-API
-(async () => { try { ... } catch (e){ print.log(e) } })()
 
 MVP: auth, log, help, slots, poker
 help.commands help.colors help.urls help.eval help.logs help.memo help.games // ~eval has moved to ~>, help.eval for more info

@@ -13,10 +13,13 @@ export class Root extends Component {
     render() {
         return do {
             if (!env.connected) {
-                <span>Loading...</span>
+                <span>Connecting...</span>
             }
             else {
                 <main>
+                    <nav>
+                        <h1>nibblrjr</h1>
+                    </nav>
                     <Commands/>
                 </main>
             }

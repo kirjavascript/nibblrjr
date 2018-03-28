@@ -6,13 +6,20 @@ html, input, button {
     outline: none;
 }
 
-main {
-    box-sizing: border-box;
+$menuHeight: 40px;
+
+nav {
+    height: $menuHeight;
+    overflow: hidden;
+}
+
+h1 {
+    margin: 0;
 }
 
 .command-list, .editor {
     overflow-y: scroll;
-    height: 100vh;
+    height: calc(100vh - #{$menuHeight})
 }
 
 .command-list {
