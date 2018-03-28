@@ -1,5 +1,7 @@
 // TODO //
 
+height: calc(100% - #{$body_padding})
+
     poker(query, text) {
     trivia() {
     clue() {
@@ -27,6 +29,10 @@
     seen(who, text) {
     "commands": function (query, text) {
     "eval": function(query, text) {
+
+https://github.com/kirjavascript/Nibblr/issues/12
+https://github.com/4chan/4chan-API
+(async () => { try { ... } catch (e){ print.log(e) } })()
 
 MVP: auth, log, help, slots, poker
 help.commands help.colors help.urls help.eval help.logs help.memo help.games // ~eval has moved to ~>, help.eval for more info
@@ -69,6 +75,7 @@ https://www.npmjs.com/package/date.js
 https://www.npmjs.com/package/timestring
 
 // alg.js
+track nicklist
 roll 7 high scores (hiscore/loscore baleet)
 require() support | npmi
 can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises

@@ -35,10 +35,7 @@ class ServerNode {
             }
         });
 
-        // TODO: track nicklist
-
         this.client.addListener('error', (message) => {
-            // TODO: log errors
             console.error(message);
         });
 
@@ -68,7 +65,7 @@ class ServerNode {
                 node: this,
             });
 
-            // check memo, reminds
+            // TODO: check memo, reminds
 
             // handle commands
             const trigger = this.get('trigger', '!');
@@ -89,36 +86,27 @@ class ServerNode {
                 else {
                     const command = parseCommand({ trigger, text });
 
+                    if (parent.dev) {
+                        print.log(command);
+                    }
+
                     // update context with command info
                     context.input = command.input;
                     context.IRC.command = command;
                     context.store = this.database.storeFactory(command.list[0]);
 
-                    // attach commands for memo and remind
+                    // TODO: attach commands for memo and remind
 
-                    parent
-                        .database
-                        .commands
-                        .get(command.path)
-                        .then((obj) => {
-                            const {commandData, locked, disabled} = obj;
-                            if (disabled) {
-                                print(`{r}${command.path} has been disabled`);
-                            }
-                            else {
-                                const {
-                                    output,
-                                    error,
-                                } = evaluate({ input: commandData, context });
-                                if (error) {
-                                    print(output);
-                                }
-                            }
-                        })
-                        .catch(() => {});
+                    const commandData = parent.database.commands.get(command.path);
 
-                    if (parent.dev) {
-                        print.log(command);
+                    if (commandData) {
+                        const {
+                            output,
+                            error,
+                        } = evaluate({ input: commandData.command, context });
+                        if (error) {
+                            print(output);
+                        }
                     }
                 }
             }
