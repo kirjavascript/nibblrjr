@@ -22,69 +22,60 @@ class Database {
             `);
 
             // get //
-            const preparedGet = db.prepare(`
+            const getQuery = db.prepare(`
                 SELECT command, locked, starred FROM commands WHERE name = ?
             `);
             const get = (name) => {
-                const obj = preparedGet.get(name);
+                const obj = getQuery.get(name);
 
-                if (typeof obj == 'undefined') {
-                    return void 0;
-                }
-                else {
-                    return {
-                        name,
-                        command: obj.command,
-                        locked: parseBool(obj.locked),
-                        starred: parseBool(obj.starred),
-                    };
-                }
+                return !obj ? void 0 : {
+                    name,
+                    command: obj.command,
+                    locked: parseBool(obj.locked),
+                    starred: parseBool(obj.starred),
+                };
             };
 
             // list //
-            const preparedList = db.prepare(`
+            const listQuery = db.prepare(`
                 SELECT name, locked, starred FROM commands ORDER BY name COLLATE NOCASE ASC
             `);
             const list = () => {
-                const obj = preparedList.all();
-                if (Array.isArray(obj)) {
-                    return obj.map(d => ({
-                        name: d.name,
-                        locked: parseBool(d.locked),
-                        starred: parseBool(d.starred),
-                    }));
-                }
-                else {
-                    return [];
-                }
+                const obj = listQuery.all();
+
+                return !Array.isArray(obj) ? [] : obj.map(d => ({
+                    name: d.name,
+                    locked: parseBool(d.locked),
+                    starred: parseBool(d.starred),
+                }));
             };
 
             // TODO
             //
-            const preparedSetInsert = db.prepare(`
+            const setInsertQuery = db.prepare(`
                 INSERT INTO commands(name,command) VALUES (?,?)
             `);
-            const preparedSetUpdate = db.prepare(`
+            const setUpdateQuery = db.prepare(`
                 UPDATE commands SET command = ? WHERE name = ?
             `);
             const set = (name, value) => {
                 if (typeof get(name) == 'undefined') {
-                    preparedSetInsert.run(name, value);
+                    setInsertQuery.run(name, value);
                 }
                 else {
-                    preparedSetUpdate.run(name, value);
+                    setUpdateQuery.run(name, value);
                 }
             };
 
             // locking //
-            const preparedLock = db.prepare(`
+            const lockQuery = db.prepare(`
                 UPDATE commands SET locked = 'true' WHERE name = ?
             `);
-            const lock = (name) => { preparedLock.run(name); };
-            const preparedUnlock = db.prepare(`
+            const lock = (name) => { lockQuery.run(name); };
+            const unlockQuery = db.prepare(`
                 UPDATE commands SET locked = 'false' WHERE name = ?
             `);
-            const unlock = (name) => { preparedUnlock.run(name); };
+            const unlock = (name) => { unlockQuery.run(name); };
 
             this.commands = {
                 db, get, set, list, lock, unlock,
@@ -122,21 +113,30 @@ class Database {
 
             // logging
 
-            const preparedLog = db.prepare(`
+            const logQuery = db.prepare(`
                 INSERT INTO log(user,command,target,message) VALUES (?,?,?,?)
             `);
             const log = (message) => {
-                if ('JOIN PART NICK KICK KILL NOTICE MODE PRIVMSG QUIT TOPIC'.split(' ').includes(message.command)) {
+                const commands = ['JOIN', 'PART', 'NICK', 'KICK', 'KILL', 'NOTICE', 'MODE', 'PRIVMSG', 'QUIT', 'TOPIC'];
+                if (commands.includes(message.command)) {
                     if (message.command == 'QUIT') {
-                        preparedLog.run([message.nick, message.command, '', message.args.join(' ')]);
+                        logQuery.run([
+                            message.nick,
+                            message.command,
+                            '',
+                            message.args.join(' '),
+                        ]);
                     }
                     // check if has a source and is  not PM
-                    else if (message.nick && (message.args || [])[0] != node.nickname) {
-                        preparedLog.run([
+                    else if (
+                        message.nick &&
+                        (message.args || [])[0] != node.nickname
+                    ) {
+                        logQuery.run([
                             message.nick,
                             message.command,
                             message.args.length ? message.args[0] : '',
-                            message.args.splice(1).join(' ')
+                            message.args.splice(1).join(' '),
                         ]);
                     }
                 }
@@ -147,67 +147,53 @@ class Database {
             const storeFactory = (namespace) => {
 
                 // get //
-                const preparedGet = db.prepare(`
+                const getQuery = db.prepare(`
                     SELECT value FROM store WHERE namespace = ? AND key = ?
                 `);
                 const get = (key) => {
-                    const obj = preparedGet.get(namespace, key);
-                    if (obj) {
-                        return String(obj.value);
-                    }
-                    else {
-                        return void 0;
-                    }
+                    const obj = getQuery.get(namespace, key);
+                    return !obj ? void 0 : String(obj.value);
                 };
 
                 // set //
-                const preparedSetInsert = db.prepare(`
+                const setInsertQuery = db.prepare(`
                     INSERT INTO store(value,namespace,key) VALUES (?,?,?)
                 `);
-                const preparedSetUpdate = db.prepare(`
+                const setUpdateQuery = db.prepare(`
                     UPDATE store SET value = ? WHERE namespace = ? AND key = ?
                 `);
-                const preparedSetDelete = db.prepare(`
+                const setDeleteQuery = db.prepare(`
                     DELETE FROM store WHERE namespace = ? AND key = ?
                 `);
                 const set = (key, value) => {
                     const hasData = typeof get(key) != 'undefined';
                     // delete data
                     if (Object.is(null, value) || typeof value == 'undefined') {
-                        hasData && preparedSetDelete.run(namespace, key);
+                        hasData && setDeleteQuery.run(namespace, key);
                     }
                     // update / add data
                     else if (!hasData) {
-                        preparedSetInsert.run(String(value), namespace, key);
+                        setInsertQuery.run(String(value), namespace, key);
                     }
                     else {
-                        preparedSetUpdate.run(String(value), namespace, key);
+                        setUpdateQuery.run(String(value), namespace, key);
                     }
                 };
 
                 // all //
-                const preparedAll = db.prepare(`
+                const allQuery = db.prepare(`
                     SELECT key, value FROM store WHERE namespace = ?
                 `);
                 const all = () => {
-                    const obj = preparedAll.all(namespace);
-                    if (Array.isArray(obj)) {
-                        return obj;
-                    }
-                    else {
-                        return [];
-                    }
+                    const obj = allQuery.all(namespace);
+                    return !Array.isArray(obj) ? [] : obj;
                 };
 
                 return { get, set, all, namespace };
             };
 
-            return {
-                log,
-                storeFactory,
-            };
+            return { log, storeFactory };
         };
-
     }
 
     createDB(name, schema) {
