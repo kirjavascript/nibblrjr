@@ -18,11 +18,11 @@
     weather(query, text) {
     reddit(query, text) {
 ~reddit #
-    "log": function(query, text) { IRC.log
-    log.regex
     speak(query, text) { // use log
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}{rand}source{/}{bo}>{/} message
+    "log": function(query, text) { IRC.log
+    log.regex
     seen(who, text) {
     "commands": function (query, text) {
     "eval": function(query, text) {
