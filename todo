@@ -1,7 +1,11 @@
 // TODO //
 
+    weather(query, text) { african
+~reddit # _.shuffle() qty
+    google(query, text) {
+    youtube(query, text) { site:youtube.com
     poker(query, text) {
-    trivia() { // use new api
+    trivia() { // http://opentdb.com/api.php?amount=10
     clue() {
     skip() {
     triviastats() {
@@ -13,27 +17,25 @@
     imgur(query, text) {
     pornhub(query, text) {
     drug(query, text) {
-    google(query, text) {
-    youtube(query, text) { site:youtube.com
-    weather(query, text) {
     reddit(query, text) {
-~reddit #
     speak(query, text) { // use log
     remind(query, text) {
-    memo(query, text) { target: {bo}<{/}{rand}source{/}{bo}>{/} message
+    memo(query, text) { target: {bo}<{/}{rand}source{/}{bo}>{/} message // add to util.memo
     "log": function(query, text) { IRC.log
     log.regex
     seen(who, text) {
     "commands": function (query, text) {
-    "eval": function(query, text) {
     roll7
 
-https://github.com/kirjavascript/Nibblr/issues/12
 https://github.com/4chan/4chan-API
 
 MVP: auth, log, help, slots, poker
-help.commands help.colors help.urls help.eval help.logs help.memo help.games // ~eval has moved to ~>, help.eval for more info
+help.commands help.colors (test with ~print) help.urls help.eval help.logs help.memo help.games help.timestamps
 memo/remind check IRC.command | 2d3h time
+// hyperslots {g,r} watermelon ฿ hyperslots bigint
+
+delete -> sure?
+sureDelete
 
 command.new
 command.edit
@@ -41,14 +43,15 @@ command.new.text
 command.search
 command.random
 command.source
-// check parent locked
-// ~poker (do all in the api, one round a time, scoped stats)
-store.getDefault()
-// hyperslots {g,r} watermelon ฿ hyperslots bigint
-cancelable getRequest (defend infinite loop
+commands.starred
+====
+
+
+// command piping (alt print command, timeout wait etc)
+cancelable promises getRequest (defend infinite loop
+multiMemo(,,)
 
 // WEB API
-complete auth
 test command
 test parse command
 // dispatch message on print
