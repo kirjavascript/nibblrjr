@@ -10,6 +10,7 @@ export class Commands extends Component {
     state = {
         search: '',
         command: void 0,
+        starred: false,
     };
 
     componentDidMount() {
@@ -20,27 +21,41 @@ export class Commands extends Component {
         this.setState({search: e.target.value});
     };
 
-    render() {
-        const { search, command } = this.state;
-        const list = env.list;
-        const rx = new RegExp(search);
-        const filteredList = list.filter(d => !search || d.name.match(rx));
+    toggleStarred = () => {
+        this.setState({starred: !this.state.starred});
+    };
 
-        // TODO: fix searching for *
+    render() {
+        const { search, command, starred } = this.state;
+        const list = !starred ? env.list : env.list.filter(d => d.starred);
+        let rx;
+        try { rx = new RegExp(search); }
+        catch(e) {}
+
+        const filteredList = list.filter(d => !search || d.name.match(rx));
 
         return (
             <div className="commands">
                 <div className="fl w-30 command-list">
                     <input
                         type="text"
-                        placeholder="search commands"
+                        className={`w-100 ${!rx?'red':''}`}
+                        placeholder="search commands (regex)"
                         onChange={this.handleSearch}
                         value={search}
                     />
                     <hr />
-                    <span>
-                        {filteredList.length} / {list.length}
-                    </span>
+                    <div className="flex justify-between">
+                        <span> {filteredList.length} / {list.length} </span>
+                        <div className="relative">
+                            <span className="f6 gold absolute left--1">★</span>
+                            <input
+                                type="checkbox"
+                                checked={starred}
+                                onChange={this.toggleStarred}
+                            />
+                        </div>
+                    </div>
                     <hr />
                     {filteredList.map((command) => {
                         return <div key={command.name}>
@@ -52,14 +67,17 @@ export class Commands extends Component {
                             >
                                 {command.name}
                             </a>
-                            {command.starred && ' ★'}
+                            {command.starred && <span className="gold"> ★</span>}
                         </div>;
                     })}
                 </div>
                 <div className="fl w-70">
                     { do {
                         if (command) {
-                            <Editor key={command.name} command={command} {...this.props}/>
+                            <Editor
+                                key={command.name}
+                                command={command.name}
+                            />
                         }
                         else {
                             false
