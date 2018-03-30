@@ -1,20 +1,17 @@
 // TODO //
 
+    define(words, text) {
+    example(words, text) {
+    drug(query, text) {
+    pornhub(query, text) {
+
     google(query, text) {
     youtube(query, text) { site:youtube.com
     poker(query, text) {
-    trivia() { // http://opentdb.com/api.php?amount=10
-    clue() {
-    skip() {
     triviastats() {
     slots() {
     megaslots() {
     slotstats() {
-    define(words, text) {
-    example(words, text) {
-    imgur(query, text) {
-    pornhub(query, text) {
-    drug(query, text) {
     speak(query, text) { // use log
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}{rand}source{/}{bo}>{/} message // add to util.memo
@@ -23,6 +20,9 @@
     seen(who, text) {
     "commands": function (query, text) {
     roll7
+    trivia() { // http://opentdb.com/api.php?amount=10
+    clue() {
+    skip() {
 
 https://github.com/4chan/4chan-API
 
@@ -41,6 +41,7 @@ command.search
 command.random
 command.source
 commands.starred
+view starred commands for better ifgo
 ====
 
 
