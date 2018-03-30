@@ -1,3 +1,5 @@
+const { parseCommand } = require('../../irc/parse-command');
+
 function msgHandler({parent, ws}) {
     let isAdmin = false;
 
@@ -26,13 +28,13 @@ function msgHandler({parent, ws}) {
             else if ('setCommand' in obj) {
                 const { name, commandData } = obj.setCommand;
                 const info = parent.database.commands.get(name);
-                if (!info.locked || isAdmin) {
+                if (info && (!info.locked || isAdmin)) {
                     parent.database.commands.set(name, commandData);
                 }
             }
             else if ('deleteCommand' in obj) {
                 const info = parent.database.commands.get(obj.deleteCommand);
-                if (!info.locked || isAdmin) {
+                if (info && (!info.locked || isAdmin)) {
                     parent.database.commands.delete(obj.deleteCommand);
                 }
                 sendList();
@@ -49,7 +51,17 @@ function msgHandler({parent, ws}) {
                     sendList();
                 }
             }
-            // on new, check if command parent is locked and you're not admin
+            else if ('newCommand' in obj) {
+                const name = obj.newCommand;
+                const exists = !!parent.database.commands.get(name);
+                const parentCmdName = parseCommand({text: name}).list[0];
+                const parentCmd = parent.database.commands.get(parentCmdName);
+                const locked = parentCmd && parentCmd.locked;
+                if (!exists && (!locked || isAdmin)) {
+                    parent.database.commands.set(name, '');
+                    sendList();
+                }
+            }
         },
     };
 

@@ -28,22 +28,27 @@ class Database {
             `);
             const get = (name) => {
                 const obj = getQuery.get(name);
-                // get parent data
-                const { list } = parseCommand({ text: name });
-                const parent = getQuery.get(list[0]);
-                const config = parent ? {
-                    locked: parseBool(parent.locked),
-                    starred: parseBool(parent.starred),
-                } : {
-                    locked: parseBool(obj.locked),
-                    starred: parseBool(obj.starred),
-                };
+                if (!obj) {
+                    return void 0;
+                }
+                else {
+                    // get parent data
+                    const { list } = parseCommand({ text: name });
+                    const parent = getQuery.get(list[0]);
+                    const config = parent ? {
+                        locked: parseBool(parent.locked),
+                        starred: parseBool(parent.starred),
+                    } : {
+                        locked: parseBool(obj.locked),
+                        starred: parseBool(obj.starred),
+                    };
 
-                return !obj ? void 0 : {
-                    name,
-                    command: obj.command,
-                    ...config,
-                };
+                    return {
+                        name,
+                        command: obj.command,
+                        ...config,
+                    };
+                }
             };
 
             // list //

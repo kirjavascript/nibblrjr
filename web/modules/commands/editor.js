@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import ace from 'brace';
 import 'brace/keybinding/vim';
 import 'brace/mode/javascript';
-import 'brace/theme/tomorrow_night_eighties';
+import 'brace/theme/tomorrow';
 
 // container for copied text
 const textarea = document.body.appendChild(document.createElement('textarea'));
@@ -27,7 +27,7 @@ export class Editor extends Component {
         if (node) {
             this.editor = ace.edit(this.id);
             this.editor.session.setUseWorker(false)
-            this.editor.setTheme('ace/theme/tomorrow_night_eighties');
+            this.editor.setTheme('ace/theme/tomorrow');
             this.editor.getSession().setMode('ace/mode/javascript');
             this.editor.$blockScrolling = Infinity;
             this.editor.setShowPrintMargin(false);
@@ -113,9 +113,6 @@ export class Editor extends Component {
 
         return (
             <div className="editor">
-                    <pre>
-                        {JSON.stringify(env.editor, null, 4)}
-                    </pre>
                 <div className="flex items-stretch items-grow">
                     <input
                         type="text"

@@ -40,7 +40,7 @@ class Environment {
         command: '',
         locked: void 0,
         starred: void 0,
-        vimMode: true,
+        vimMode: false,
     };
 
     @action onConnected = () => {
@@ -87,6 +87,10 @@ class Environment {
 
     @action setConfig = (name, config) => {
         this.ws.sendObj('COMMANDS', {setConfig: {name, config}});
+    };
+
+    @action newCommand = (name) => {
+        this.ws.sendObj('COMMANDS', {newCommand: name});
     };
 
     @action login = (password) => {
