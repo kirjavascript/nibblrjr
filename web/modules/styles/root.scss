@@ -33,3 +33,8 @@ h1 {
     padding: 2px;
     margin: 2px 5px;
 }
+
+.items-grow > * {
+    flex-grow: 1;
+    flex: 1;
+}

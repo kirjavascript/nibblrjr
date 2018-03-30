@@ -1,4 +1,4 @@
-function parseCommand({ trigger, text }) {
+function parseCommand({ trigger = '', text }) {
     const command = text.slice(trigger.length).match(/(^\S*\((.*?)\)|^\S*)/);
     const input = text.slice(trigger.length + command[1].length + 1);
     const params = command[2];

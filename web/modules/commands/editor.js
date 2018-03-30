@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { env } from '#store';
+import { autorun } from 'mobx';
+import { observer } from 'mobx-react';
 
 import ace from 'brace';
 import 'brace/keybinding/vim';
@@ -15,15 +18,10 @@ const uuid = (() => {
     return () => (++count).toString(36);
 })();
 
+@observer
 export class Editor extends Component {
 
     id = uuid();
-
-    state = { vim: false, storedText: '' };
-
-    toggleVim = (e) => {
-        this.setState({vim: e.target.checked});
-    };
 
     onRef = (node) => {
         if (node) {
@@ -43,8 +41,8 @@ export class Editor extends Component {
                 wrap: true,
             });
 
-            // enable vim mode
-            this.editor.setKeyboardHandler('ace/keyboard/vim');
+            this.setVim(env.editor.vimMode);
+
             ace.config.loadModule('ace/keyboard/vim', (module) => {
                 var VimApi = module.CodeMirror.Vim;
                 VimApi.defineEx('write', 'w', (cm, input) => {
@@ -57,13 +55,6 @@ export class Editor extends Component {
                     textarea.value = '';
                 });
             });
-            // editor.setKeyboardHandler(null);
-
-            //     editor.getSession().on('change', (e) => {
-            //         if (!this.externalEdit) {
-            //             store[accessor] = editor.getValue();
-            //         }
-            //     });
         }
     };
 
@@ -74,114 +65,96 @@ export class Editor extends Component {
         this.editor.moveCursorToPosition(pos);
     };
 
+    setVim = (bool) => {
+        this.editor.setKeyboardHandler(bool ? 'ace/keyboard/vim' : null);
+    };
+
+    toggleVim = (e) => {
+        env.editor.vimMode = !env.editor.vimMode;
+        this.setVim(env.editor.vimMode);
+    };
+
     componentWillMount() {
-        this.commandID = `COMMANDS.${this.props.command.name}`;
-        this.props.ws.msg.on(this.commandID, (obj) => {
-            if (obj.info && obj.info.name == this.props.command.name) {
-                this.setText(obj.info.commandData);
-            }
+        this.disposer = autorun(() => {
+            const { command } = env.editor;
+            this.editor &&
+            this.setText(env.editor.command);
         });
-        this.getInfo();
+    }
+
+    componentDidMount() {
+        env.getCommand(this.props.command);
     }
 
     componentWillUnmount() {
-        this.props.ws.msg.on(this.commandID, null);
+        this.disposer && this.disposer();
     }
 
-    getInfo = () => {
-        this.props.ws.sendObj('COMMANDS', {
-            getInfo: this.props.command.name,
-        });
-    };
-
     save = () => {
-        this.props.ws.sendObj('COMMANDS', {
-            setCommand: {
-                name: this.props.command.name,
-                commandData: this.editor.getValue(),
-            },
-        });
+        env.setCommand(this.props.command, this.editor.getValue());
     };
 
-    // legacy stuff
-
-    legacy = () => {
-        this.setText(`print.raw(( // legacy command wrapper
-   ${this.editor.getValue()}
-)(input, input.split(' '), IRC.message));`);
+    delete = () => {
+        env.deleteCommand(this.props.command);
+        this.props.delete();
     };
 
-    legacyStr = () => {
-        this.setText(`print(${this.editor.getValue()});`);
+    toggleStar = () => {
+        env.setConfig(this.props.command, {starred: !env.editor.starred});
     };
 
-    wget = () => {
-        this.setText(`const wget = (url, callback) => {
-    getText(url).then(d => print(callback(null, d))).catch(print.log);
-};
-
-${this.editor.getValue()}`);
+    toggleLock = () => {
+        env.setConfig(this.props.command, {locked: !env.editor.locked});
     };
-
-    getDOM = () => {
-        this.setText(`getDOM('')
-.then(dom => {
-    dom.qs('')
-})
-.catch(print.log);
-${this.editor.getValue()}`);
-    };
-
-// if (!input) {
-//     print('{r}~usa <input>')
-// }
-// else {
-//     getDOM("http://textart.io/figlet?text="+input+"&font=usaflag")
-//         .then(dom => {
-//             print(dom.qs('pre').textContent.replace(/\s*$/g,''))
-//         })
-//         .catch(print.log)
-// }
 
     render() {
-        const { vim } = this.state;
+        const { vimMode, locked, starred } = env.editor;
+        const { admin } = env;
 
         return (
             <div className="editor">
-                <pre>{JSON.stringify(this.props.command)}</pre>
+                    <pre>
+                        {JSON.stringify(env.editor, null, 4)}
+                    </pre>
+                <div className="flex items-stretch items-grow">
+                    <input
+                        type="text"
+                        disabled
+                        defaultValue={this.props.command}
+                    />
+                    <button
+                        type="button"
+                        onClick={this.save}
+                        disabled={locked && !admin}
+                    >
+                        save
+                    </button>
+                    <button
+                        type="button"
+                        disabled={!admin}
+                        onClick={this.toggleLock}
+                    >
+                        {locked ? 'unlock' : 'lock'}
+                    </button>
+                    <button
+                        type="button"
+                        disabled={!admin}
+                        onClick={this.toggleStar}
+                    >
+                        {starred ? 'unstar' : 'star'}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={this.delete}
+                        disabled={locked && !admin}
+                    >
+                        delete
+                    </button>
+                    <button type="button" onClick={this.toggleVim}>
+                        {!vimMode ? 'vim keys' : 'normal keys'}
+                    </button>
+                </div>
                 <div id={this.id} ref={this.onRef}/>
-                <button type="button" onClick={this.save}>
-                    save
-                </button>
-                <br />
-                <button type="button">
-                    lock / unlock (!)
-                </button>
-                <br />
-                <button type="button" onClick={this.legacy}>
-                    add legacy wrapper
-                </button>
-                <br />
-                <button type="button" onClick={this.legacyStr}>
-                    add legacy (string) wrapper
-                </button>
-                <br />
-                <button type="button" onClick={this.asyncWrap}>
-                    async closure wrapper
-                </button>
-                <br />
-                <button type="button" onClick={this.wget}>
-                    add wget polyfill
-                </button>
-                <br />
-
-                <button type="button" onClick={this.getDOM}>
-                    getDOM
-                </button>
-                <br />
-                <button type="button" onClick={this.getInfo}>
-                    refetch original
-                </button>
             </div>
         );
     }

@@ -30,9 +30,18 @@ class Environment {
         this.ws.addEventListener('close', () => location.reload());
     }
 
+    // general
     @observable connected = false;
     @observable admin = false;
+    // commands
     @observable list = [];
+    @observable editor = {
+        name: '',
+        command: '',
+        locked: void 0,
+        starred: void 0,
+        vimMode: true,
+    };
 
     @action onConnected = () => {
         this.connected = true;
@@ -43,6 +52,12 @@ class Environment {
             'COMMANDS': () => {
                 if (obj.list) {
                     this.list.replace(obj.list);
+                }
+                else if (obj.info) {
+                    Object.assign(this.editor, obj.info)
+                }
+                else if (obj.config) {
+                    Object.assign(this.editor, obj.config)
                 }
             },
             'AUTH': () => {
@@ -64,6 +79,14 @@ class Environment {
 
     @action setCommand = (name, commandData) => {
         this.ws.sendObj('COMMANDS', {setCommand: {name, commandData}});
+    };
+
+    @action deleteCommand = (name) => {
+        this.ws.sendObj('COMMANDS', {deleteCommand: name});
+    };
+
+    @action setConfig = (name, config) => {
+        this.ws.sendObj('COMMANDS', {setConfig: {name, config}});
     };
 
     @action login = (password) => {
