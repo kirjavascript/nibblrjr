@@ -52,12 +52,13 @@ function msgHandler({parent, ws}) {
                 }
             }
             else if ('newCommand' in obj) {
-                const name = obj.newCommand;
+                const name = obj.newCommand.replace(/\s+/g, '');
                 const exists = !!parent.database.commands.get(name);
                 const parentCmdName = parseCommand({text: name}).list[0];
                 const parentCmd = parent.database.commands.get(parentCmdName);
                 const locked = parentCmd && parentCmd.locked;
-                if (!exists && (!locked || isAdmin)) {
+                const isEval = ['>', '#'].includes(name);
+                if (!isEval && !exists && (!locked || isAdmin)) {
                     parent.database.commands.set(name, '');
                     sendList();
                 }

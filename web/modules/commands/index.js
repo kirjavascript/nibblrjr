@@ -32,10 +32,11 @@ export class Commands extends Component {
         const { list } = parseCommand({text: value});
         const parent = env.list.find(d => d.name == list[0]);
         const locked = parent && parent.locked;
-        const valid = !exists && (!locked || env.admin);
+        const isEval = ['>', '#'].includes(value);
+        const valid = !isEval && !exists && (!locked || env.admin);
 
         this.setState({
-            newName: value,
+            newName: value.replace(/\s+/g, ''),
             newIsValid: valid,
         });
     };
