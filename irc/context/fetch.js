@@ -1,14 +1,14 @@
 const fetch = require('isomorphic-fetch');
 const { JSDOM } = require('jsdom');
 
-async function getText(url) {
-    return await getWeb('text', url);
+async function getText(...args) {
+    return await getWeb('text', ...args);
 }
-async function getJSON(url) {
-    return await getWeb('json', url);
+async function getJSON(...args) {
+    return await getWeb('json', ...args);
 }
-async function getDOM(url) {
-    const html = await getWeb('text', url);
+async function getDOM(...args) {
+    const html = await getWeb('text', ...args);
     const dom = new JSDOM(html);
     return {
         ...dom.window,
@@ -22,9 +22,9 @@ async function getDOM(url) {
         },
     };
 }
-async function getWeb(type, url) {
+async function getWeb(type, url, options = {}) {
     try {
-        const res = await fetch(url);
+        const res = await fetch(url, options);
         const out = await res[type]();
         return out;
     }
