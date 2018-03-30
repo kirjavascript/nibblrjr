@@ -1,7 +1,5 @@
 // TODO //
 
-    weather(query, text) { african
-~reddit # _.shuffle() qty
     google(query, text) {
     youtube(query, text) { site:youtube.com
     poker(query, text) {
@@ -17,7 +15,6 @@
     imgur(query, text) {
     pornhub(query, text) {
     drug(query, text) {
-    reddit(query, text) {
     speak(query, text) { // use log
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}{rand}source{/}{bo}>{/} message // add to util.memo
