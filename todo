@@ -1,7 +1,5 @@
 // TODO //
 
-    pornhub(query, text) {
-
     google(query, text) {
     youtube(query, text) { site:youtube.com
     poker(query, text) {
