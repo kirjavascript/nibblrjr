@@ -20,13 +20,17 @@ export class Root extends Component {
                 <main>
                     <nav className="flex">
                         <div className="w-50">
-                            <h1>nibblrjr</h1>
+                            <h1>nibblr</h1>
                         </div>
                         <div className="w-50 tr">
                             <Auth />
                         </div>
                     </nav>
                     <Commands />
+                    <img
+                        className="absolute right-0 bottom-0 nibblr"
+                        src="/nibblr.gif"
+                    />
                 </main>
             }
         }

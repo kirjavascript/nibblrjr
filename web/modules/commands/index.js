@@ -3,12 +3,15 @@ import { observer } from 'mobx-react';
 
 import { env } from '#store';
 import { Editor } from './editor';
+import { parseCommand } from '../../../irc/parse-command';
 
 @observer
 export class Commands extends Component {
 
     state = {
         search: '',
+        newName: '',
+        newIsValid: true,
         command: void 0,
         starred: false,
     };
@@ -21,6 +24,30 @@ export class Commands extends Component {
         this.setState({search: e.target.value});
     };
 
+    handleNew = (e) => {
+        const { value } = e.target;
+        // check if the same exists
+        const exists = !!env.list.find(d => d.name == value)
+        // check if the parent is locked
+        const { list } = parseCommand({text: value});
+        const parent = env.list.find(d => d.name == list[0]);
+        const locked = parent && parent.locked;
+        const valid = !exists && (!locked || env.admin);
+
+        this.setState({
+            newName: value,
+            newIsValid: valid,
+        });
+    };
+
+    handleNewDown = (e) => {
+        const { newName, newIsValid } = this.state;
+        if (e.keyCode == 13 && newIsValid) {
+            env.newCommand(newName);
+            this.setState({newName: '', command: newName});
+        }
+    };
+
     toggleStarred = () => {
         this.setState({starred: !this.state.starred});
     };
@@ -30,7 +57,7 @@ export class Commands extends Component {
     };
 
     render() {
-        const { search, command, starred } = this.state;
+        const { search, command, starred, newName, newIsValid } = this.state;
         const list = !starred ? env.list : env.list.filter(d => d.starred);
         let rx;
         try { rx = new RegExp(search); }
@@ -41,6 +68,15 @@ export class Commands extends Component {
         return (
             <div className="commands">
                 <div className="fl w-30 command-list">
+                    <input
+                        type="text"
+                        className={`w-100 ${!newIsValid?'red':''}`}
+                        placeholder="new command"
+                        onChange={this.handleNew}
+                        onKeyDown={this.handleNewDown}
+                        value={newName}
+                    />
+                    <hr />
                     <input
                         type="text"
                         className={`w-100 ${!rx?'red':''}`}
@@ -66,7 +102,7 @@ export class Commands extends Component {
                             <a
                                 href="javascript:;"
                                 onClick={()  => {
-                                    this.setState({command});
+                                    this.setState({command: command.name});
                                 }}
                             >
                                 {command.name}
@@ -85,8 +121,8 @@ export class Commands extends Component {
                     { do {
                         if (command) {
                             <Editor
-                                key={command.name}
-                                command={command.name}
+                                key={command}
+                                command={command}
                                 delete={this.onDelete}
                             />
                         }
