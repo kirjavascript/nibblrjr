@@ -13,14 +13,16 @@ function msgHandler({parent, ws}) {
                 const list = parent.database.commands.list();
                 ws.sendObj('COMMANDS', {list});
             }
-            else if ('getInfo' in obj) {
-                const info = parent.database.commands.get(obj.getInfo)
+            else if ('getCommand' in obj) {
+                const info = parent.database.commands.get(obj.getCommand)
                 ws.sendObj('COMMANDS', { info });
             }
             else if ('setCommand' in obj) {
-                // TODO: isAdmin
                 const { name, commandData } = obj.setCommand;
-                parent.database.commands.set(name, commandData);
+                const info = parent.database.commands.get(name);
+                if (!info.locked || isAdmin) {
+                    parent.database.commands.set(name, commandData);
+                }
             }
         },
     };

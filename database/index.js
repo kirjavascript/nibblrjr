@@ -59,8 +59,6 @@ class Database {
                 }
             };
 
-            // TODO
-            //
             const preparedSetInsert = db.prepare(`
                 INSERT INTO commands(name,command) VALUES (?,?)
             `);

@@ -45,12 +45,29 @@ class Environment {
                     this.list.replace(obj.list);
                 }
             },
+            'AUTH': () => {
+                if (obj.success) {
+                    this.admin = true;
+                }
+            },
         });
         types[type] && types[type]();
     };
 
     @action getList = () => {
         this.ws.sendObj('COMMANDS', {getList: true});
+    };
+
+    @action getCommand = (name) => {
+        this.ws.sendObj('COMMANDS', {getCommand: name});
+    };
+
+    @action setCommand = (name, commandData) => {
+        this.ws.sendObj('COMMANDS', {setCommand: {name, commandData}});
+    };
+
+    @action login = (password) => {
+        this.ws.sendObj('AUTH', {password});
     };
 
 }
