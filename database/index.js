@@ -1,6 +1,7 @@
 const fs = require('fs');
 const SQLiteDatabase = require('better-sqlite3');
 const _dir = __dirname + '/../storage/';
+const { parseCommand } = require('../irc/parse-command');
 
 const parseBool = (str) => {
     return str.toLowerCase() == 'true' ? true : false;
@@ -27,12 +28,21 @@ class Database {
             `);
             const get = (name) => {
                 const obj = getQuery.get(name);
+                // get parent data
+                const { list } = parseCommand({ text: name });
+                const parent = getQuery.get(list[0]);
+                const config = parent ? {
+                    locked: parseBool(parent.locked),
+                    starred: parseBool(parent.starred),
+                } : {
+                    locked: parseBool(obj.locked),
+                    starred: parseBool(obj.starred),
+                };
 
                 return !obj ? void 0 : {
                     name,
                     command: obj.command,
-                    locked: parseBool(obj.locked),
-                    starred: parseBool(obj.starred),
+                    ...config,
                 };
             };
 
@@ -42,12 +52,32 @@ class Database {
             `);
             const list = () => {
                 const obj = listQuery.all();
-
-                return !Array.isArray(obj) ? [] : obj.map(d => ({
-                    name: d.name,
-                    locked: parseBool(d.locked),
-                    starred: parseBool(d.starred),
-                }));
+                if (!Array.isArray(obj)) {
+                    return [];
+                }
+                else {
+                    const names = obj.map(d => d.name);
+                    return obj.map(d => {
+                        const { list } = parseCommand({ text: d.name });
+                        if (list[0] != d.name && names.includes(list[0])) {
+                            // map config to parent config
+                            // assumes alphabetical list
+                            const parent = obj.find(d => d.name == list[0]) || {};
+                            return ({
+                                name: d.name,
+                                locked: parseBool(parent.locked),
+                                starred: parseBool(parent.starred),
+                            });
+                        }
+                        else {
+                            return ({
+                                name: d.name,
+                                locked: parseBool(d.locked),
+                                starred: parseBool(d.starred),
+                            });
+                        }
+                    });
+                }
             };
 
             const setInsertQuery = db.prepare(`
@@ -61,8 +91,16 @@ class Database {
                     setInsertQuery.run(name, value);
                 }
                 else {
-                    setUpdateQuery.run(name, value);
+                    setUpdateQuery.run(value, name);
                 }
+            };
+
+            // delete //
+            const deleteQuery = db.prepare(`
+                DELETE FROM commands WHERE name = ?
+            `);
+            const _delete = (name) => {
+                deleteQuery.run(name);
             };
 
             // config //
@@ -72,13 +110,18 @@ class Database {
             const starQuery = db.prepare(`
                 UPDATE commands SET starred = ? WHERE name = ?
             `);
+
             const setConfig = (name, obj) => {
-                if ('locked' in obj) { lockQuery.run(obj.locked, name); }
-                if ('starred' in obj) { starQuery.run(obj.starred, name); }
+                // only operates on the parent (if it exists)
+                const { list } = parseCommand({ text: name });
+                const parent = getQuery.get(list[0]);
+                const rootName = parent ? list[0] : name;
+                if ('locked' in obj) { lockQuery.run(String(obj.locked), rootName); }
+                if ('starred' in obj) { starQuery.run(String(obj.starred), rootName); }
             };
 
             this.commands = {
-                db, get, set, list, setConfig,
+                db, get, delete: _delete, set, list, setConfig,
             };
         }
 

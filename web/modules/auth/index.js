@@ -14,6 +14,12 @@ export class Auth extends Component {
         this.setState({password: e.target.value});
     };
 
+    onKeyDown = (e) => {
+        if (e.keyCode == 13) {
+            env.login(this.state.password);
+        }
+    };
+
     render() {
         return do {
             if (env.admin) {
@@ -28,6 +34,7 @@ export class Auth extends Component {
                     className="login tr"
                     placeholder="admin login"
                     onChange={this.onChange}
+                    onKeyDown={this.onKeyDown}
                 />
             }
         };

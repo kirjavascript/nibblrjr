@@ -26,6 +26,7 @@
     seen(who, text) {
     "commands": function (query, text) {
     "eval": function(query, text) {
+    roll7
 
 https://github.com/kirjavascript/Nibblr/issues/12
 https://github.com/4chan/4chan-API
@@ -75,6 +76,7 @@ track nicklist
 roll 7 high scores (hiscore/loscore baleet)
 require() support | npmi
 can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
+server config: starred commands only
 // await getJSON.test.test example
 // document web API / command context
 // event backend
