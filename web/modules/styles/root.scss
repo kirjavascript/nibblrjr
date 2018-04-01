@@ -42,4 +42,5 @@ h1 {
 .nibblr {
     opacity: 0.3;
     filter: grayscale(100%);
+    pointer-events: none;
 }

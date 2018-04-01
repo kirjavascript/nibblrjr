@@ -2,7 +2,7 @@
 
     google(query, text) {
     youtube(query, text) { site:youtube.com
-    poker(query, text) {
+    poker(query, text) { store.'running' poker.reset
     triviastats() {
     slots() {
     megaslots() {
@@ -10,7 +10,7 @@
     speak(query, text) { // use log
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}{rand}source{/}{bo}>{/} message // add to util.memo
-    "log": function(query, text) { IRC.log
+    "log": function(query, text) { IRC.log - limit, offset
     log.regex
     seen(who, text) {
     "commands": function (query, text) {
@@ -39,10 +39,10 @@ commands.starred
 view starred commands for better ifgo
 ====
 
+multiMemo(,,)
 
 // command piping (alt print command, timeout wait etc)
 cancelable promises getRequest (defend infinite loop
-multiMemo(,,)
 
 // WEB API
 test command
@@ -52,7 +52,7 @@ test parse command
 // track nick list
 
 // UI
-react router / ace editor
+react router
 // subcommands / tree
 only web ui can kick/part/join
 // db web backup zip
@@ -62,6 +62,7 @@ edited
 testing
 
 patch the rizon log
+fix uglify bug
 
 // http://www.df7cb.de/irc/pisg/pisg-month.html
 https://www.npmjs.com/package/date.js
