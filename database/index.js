@@ -53,7 +53,8 @@ class Database {
 
             // list //
             const listQuery = db.prepare(`
-                SELECT name, locked, starred FROM commands ORDER BY name COLLATE NOCASE ASC
+                SELECT name, locked, starred FROM commands
+                ORDER BY name COLLATE NOCASE ASC
             `);
             const list = () => {
                 const obj = listQuery.all();
@@ -159,6 +160,10 @@ class Database {
                 );
             `);
 
+            db.register(function REGEXP(a, b) {
+                return new RegExp(a, 'm').test(b) ? 1 : 0;
+            });
+
             // logging
 
             const logQuery = db.prepare(`
@@ -188,6 +193,49 @@ class Database {
                         ]);
                     }
                 }
+            };
+            const logFactory = (target) => {
+                const randomQuery = db.prepare(`
+                    SELECT * FROM log
+                    WHERE command = 'PRIVMSG' AND target = ?
+                    ORDER BY RANDOM() LIMIT ?
+                `);
+                const random = (qty = 1) => {
+                    return randomQuery.all(target, qty);
+                };
+                const getQuery = db.prepare(`
+                    SELECT * FROM log
+                    WHERE message LIKE ? AND target = ?
+                    ORDER BY idx DESC LIMIT ? OFFSET ?
+                `);
+                const get = (text, limit = 1, offset = 0) => {
+                    return getQuery.all(`%${text}%`, target, limit, offset);
+                };
+                const userQuery = db.prepare(`
+                    SELECT * FROM log
+                    WHERE user = ? AND message LIKE ?
+                    ORDER BY idx DESC LIMIT ? OFFSET ?
+                `);
+                const user = (name, text = '', limit = 1, offset = 0) => {
+                    return userQuery.all(name, `%${text}%`, limit, offset);
+                }
+                const countQuery = db.prepare(`
+                    SELECT count(idx) FROM log
+                    WHERE message LIKE ? AND target = ?
+                `);
+                const count = (text) => {
+                    return countQuery.get(`%${text}%`, target)['count(idx)'];
+                };
+                const regexQuery = db.prepare(`
+                    SELECT * FROM log
+                    WHERE message REGEXP ? AND target = ?
+                    ORDER BY idx DESC LIMIT ? OFFSET ?
+                `);
+                const regex = (rgx, limit = 1, offset = 0) => {
+                    return regexQuery.all(rgx, target, limit, offset);
+                };
+
+                return { get, count, user, random, regex };
             };
 
             // key/value store
@@ -240,7 +288,7 @@ class Database {
                 return { get, set, all, namespace };
             };
 
-            return { log, storeFactory };
+            return { log, logFactory, storeFactory };
         };
     }
 

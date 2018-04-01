@@ -1,5 +1,12 @@
 // TODO //
 
+    // change \n to space
+    "log": function(query, text) { IRC.log - limit, offset
+    log.regex
+    log.about
+    speak(query, text) { // use log
+    seen(who, text) {
+
     google(query, text) {
     youtube(query, text) { site:youtube.com
     poker(query, text) { store.'running' poker.reset
@@ -7,12 +14,9 @@
     slots() {
     megaslots() {
     slotstats() {
-    speak(query, text) { // use log
+    // slots has been played N times
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}{rand}source{/}{bo}>{/} message // add to util.memo
-    "log": function(query, text) { IRC.log - limit, offset
-    log.regex
-    seen(who, text) {
     "commands": function (query, text) {
     roll7
     trivia() { // http://opentdb.com/api.php?amount=10
