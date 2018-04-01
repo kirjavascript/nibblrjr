@@ -211,9 +211,17 @@ class Database {
                 const get = (text, limit = 1, offset = 0) => {
                     return getQuery.all(`%${text}%`, target, limit, offset);
                 };
+                const getGlobalQuery = db.prepare(`
+                    SELECT * FROM log
+                    WHERE message LIKE ?
+                    ORDER BY idx DESC LIMIT ? OFFSET ?
+                `);
+                const getGlobal = (text, limit = 1, offset = 0) => {
+                    return getQuery.all(`%${text}%`, limit, offset);
+                };
                 const userQuery = db.prepare(`
                     SELECT * FROM log
-                    WHERE user = ? AND message LIKE ?
+                    WHERE lower(user) = lower(?) AND message LIKE ?
                     ORDER BY idx DESC LIMIT ? OFFSET ?
                 `);
                 const user = (name, text = '', limit = 1, offset = 0) => {
@@ -221,10 +229,10 @@ class Database {
                 }
                 const countQuery = db.prepare(`
                     SELECT count(idx) FROM log
-                    WHERE message LIKE ? AND target = ?
+                    WHERE message LIKE ?
                 `);
                 const count = (text) => {
-                    return countQuery.get(`%${text}%`, target)['count(idx)'];
+                    return countQuery.get(`%${text}%`)['count(idx)'];
                 };
                 const regexQuery = db.prepare(`
                     SELECT * FROM log
@@ -234,8 +242,7 @@ class Database {
                 const regex = (rgx, limit = 1, offset = 0) => {
                     return regexQuery.all(rgx, target, limit, offset);
                 };
-
-                return { get, count, user, random, regex };
+                return { get, getGlobal, count, user, random, regex };
             };
 
             // key/value store
