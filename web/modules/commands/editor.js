@@ -58,6 +58,11 @@ export class Editor extends Component {
         }
     };
 
+    state = {
+        sureDelete: false,
+        ok: false,
+    };
+
     setText = (text) => {
         const pos = this.editor.getCursorPosition();
         this.editor.setValue(text);
@@ -92,11 +97,20 @@ export class Editor extends Component {
 
     save = () => {
         env.setCommand(this.props.command, this.editor.getValue());
+        this.setState({ok: true});
+        setTimeout(() => {
+            this.setState({ok: false});
+        }, 500);
     };
 
     delete = () => {
-        env.deleteCommand(this.props.command);
-        this.props.delete();
+        if (this.state.sureDelete) {
+            env.deleteCommand(this.props.command);
+            this.props.delete();
+        }
+        else {
+            this.setState({sureDelete: true});
+        }
     };
 
     toggleStar = () => {
@@ -110,6 +124,7 @@ export class Editor extends Component {
     render() {
         const { vimMode, locked, starred } = env.editor;
         const { admin } = env;
+        const { sureDelete, ok } = this.state;
 
         return (
             <div className="editor">
@@ -124,7 +139,7 @@ export class Editor extends Component {
                         onClick={this.save}
                         disabled={locked && !admin}
                     >
-                        save
+                        {ok ? 'ok' : 'save'}
                     </button>
                     <button
                         type="button"
@@ -145,7 +160,7 @@ export class Editor extends Component {
                         onClick={this.delete}
                         disabled={locked && !admin}
                     >
-                        delete
+                        {sureDelete ? 'for real?' : 'delete'}
                     </button>
                     <button type="button" onClick={this.toggleVim}>
                         {!vimMode ? 'vim keys' : 'normal keys'}

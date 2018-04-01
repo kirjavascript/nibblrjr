@@ -1,44 +1,43 @@
 // TODO //
 
-    speak(query, text) {
-
-    google(query, text) {
-    youtube(query, text) { site:youtube.com
     poker(query, text) { store.'running' poker.reset
-    triviastats() {
-    slots() {
-    megaslots() {
-    slotstats() {
+
+    slots() { megaslots() { slotstats() {
     // slots has been played N times
+// hyperslots {g,r} watermelon ฿ hyperslots bigint
+    slots.donate
+?!bet 9999 heads
+more things, but smaller bag each time
+
+    // savely write
+    // commands have write only access (still use --force for overwrite)
+    help.log => log.about
+    help.commands => commands.about
+    commands.new
+    commands.edit
+    commands.text
+    commands.search
+    commands.random
+    commands.source
+    commands.starred
+    view starred commands for better ifgo
+
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
-    "commands": function (query, text) {
+    memo.multi(,,)
     roll7
     trivia() { // http://opentdb.com/api.php?amount=10
-    clue() {
-    skip() {
 
 https://github.com/4chan/4chan-API
+// http://www.df7cb.de/irc/pisg/pisg-month.html
+https://www.npmjs.com/package/date.js
+https://www.npmjs.com/package/timestring
 
-MVP: auth, log, help, slots, poker
-help.commands help.colors (test with ~print) help.urls help.eval help.logs help.memo help.games help.timestamps
+ help.colors help.logs help.memo help.games help.timestamps
 memo/remind check IRC.command | 2d3h time
-// hyperslots {g,r} watermelon ฿ hyperslots bigint
 
-delete -> sure?
-sureDelete
-
-command.new
-command.edit
-command.new.text
-command.search
-command.random
-command.source
-commands.starred
-view starred commands for better ifgo
 ====
 
-multiMemo(,,)
 
 // command piping (alt print command, timeout wait etc)
 cancelable promises getRequest (defend infinite loop
@@ -62,24 +61,14 @@ testing
 
 patch the rizon log
 fix uglify bug
-
-// http://www.df7cb.de/irc/pisg/pisg-month.html
-https://www.npmjs.com/package/date.js
-https://www.npmjs.com/package/timestring
+~shreddydropsthenbomb
 
 // alg.js
 track nicklist
-roll 7 high scores (hiscore/loscore baleet)
 require() support | npmi
 can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
-server config: starred commands only
-// await getJSON.test.test example
-// document web API / command context
-// event backend
-// about -> github iframe
-// old prs
-// ~speak typeerror bofh
 bully
 wca
 mdn
 bridges?
+data:,<script> (function() { var cx = '004589196096329597303:kqsojvcceue'; var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true; gcse.src = 'https://cse.google.com/cse.js?cx=' + cx; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s); })(); </script> <gcse:search></gcse:search>
