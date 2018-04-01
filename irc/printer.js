@@ -7,13 +7,13 @@ const messageFactory = (type, node, msgData) => {
     let count = 0;
 
     // raw
-    const sendRaw = (text, target = void 0) => {
+    const sendRaw = (text, target = void 0, noLog = false) => {
         if (++count > 100) return; // usage limit of 100 per command
 
         client[type](target || defaultTarget, text);
 
         // log to DB
-        if (!msgData.isPM && typeof text == 'string') {
+        if (!msgData.isPM && !noLog && typeof text == 'string') {
             // lag a little so messages are the right order
             setTimeout(() => {
                 node.database.log({

@@ -89,7 +89,7 @@ class ServerNode {
                     const command = parseCommand({ trigger, text });
 
                     if (parent.dev) {
-                        print.log(command);
+                        print.log(command, msgData.target, true);
                     }
 
                     // update context with command info
