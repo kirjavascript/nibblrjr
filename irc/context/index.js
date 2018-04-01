@@ -8,16 +8,16 @@ const _ = require('lodash');
 function getContext({ print, notice, action, msgData, node }) {
 
     const IRC = {
-        parseColors,
-        message: msgData,
         trigger: node.get('trigger', '!'),
-        webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+        message: msgData,
+        parseColors,
         nickname: (str) => {
             node.client.send('NICK', str);
         },
         topic: (str) => {
             node.client.send('TOPIC', msgData.target, str);
         },
+        log: node.database.logFactory(msgData.target),
         resetBuffer: () => {
             node.client._clearCmdQueue();
             node.intervals.forEach(clearInterval);
@@ -25,6 +25,7 @@ function getContext({ print, notice, action, msgData, node }) {
             node.intervals = [];
             node.timeouts = [];
         },
+        webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
     };
 
     const util = { ping };
