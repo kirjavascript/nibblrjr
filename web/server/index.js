@@ -35,7 +35,9 @@ function initWeb(parent) {
         webpackConfig.mode = 'production'
         const compiler = webpack(webpackConfig);
         compiler.run((err, stats) => {
-            err && console.error(err);
+            console.info(stats.toString({
+                colors: true
+            }));
         });
     }
 
