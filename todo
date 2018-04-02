@@ -2,12 +2,14 @@
 
     poker(query, text) { store.'running' poker.reset
 
-    slots() { megaslots() { slotstats() {
+    { megaslots() { slotstats() {
     // slots has been played N times
 // hyperslots {g,r} watermelon ฿ hyperslots bigint
     slots.donate
 ?!bet 9999 heads
 more things, but smaller bag each time
+
+    ~roulette
 
     // savely write
     // commands have write only access (still use --force for overwrite)
@@ -20,6 +22,7 @@ more things, but smaller bag each time
     commands.random
     commands.source
     commands.starred
+    delete only via eval
     view starred commands for better ifgo
 
     remind(query, text) {
