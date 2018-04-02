@@ -28,7 +28,7 @@ const codes = {
 };
 
 const rainbow = ['r', 'o', 'y', 'dg', 'b', 'db', 'dp'];
-const rand = ['r', 'y', 'o', 'b', 'c', 'p', 'dc', 'g'];
+const rand = ['r', 'y', 'o', 'c', 'p', 'dc', 'g'];
 
 function parseColors(text) {
     let rainbowIndex = 0;
