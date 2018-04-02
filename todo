@@ -2,18 +2,10 @@
 
     poker(query, text) { store.'running' poker.reset
 
-    { megaslots() { slotstats() {
-    // slots has been played N times
-// hyperslots {g,r} watermelon ฿ hyperslots bigint
-    slots.donate
-?!bet 9999 heads
-more things, but smaller bag each time
-
-    ~roulette
-
     // savely write
     // commands have write only access (still use --force for overwrite)
     help.log => log.about
+    help.slots => slots.about
     help.commands => commands.about
     commands.new
     commands.edit
@@ -29,18 +21,19 @@ more things, but smaller bag each time
     memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
     memo.multi(,,)
     roll7
-    trivia() { // http://opentdb.com/api.php?amount=10
 
-https://github.com/4chan/4chan-API
 // http://www.df7cb.de/irc/pisg/pisg-month.html
 https://www.npmjs.com/package/date.js
 https://www.npmjs.com/package/timestring
 
- help.colors help.logs help.memo help.games help.timestamps
+help.memo help.timestamps
 memo/remind check IRC.command | 2d3h time
 
 ====
 
+https://github.com/4chan/4chan-API
+trivia() { // http://opentdb.com/api.php?amount=10
+roulette
 
 // command piping (alt print command, timeout wait etc)
 cancelable promises getRequest (defend infinite loop
