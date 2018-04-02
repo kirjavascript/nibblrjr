@@ -2,18 +2,11 @@
 
     poker(query, text) { store.'running' poker.reset
 
-    // savely write
-    // commands have write only access (still use --force for overwrite)
-    help.log => log.about
     help.slots => slots.about
     help.commands => commands.about
-    commands.new
-    commands.edit
-    commands.text
-    commands.search
-    commands.random
-    commands.source
-    commands.starred
+    commands.new.force
+    commands.text.force
+alt slots
     delete only via eval
     view starred commands for better ifgo
 
