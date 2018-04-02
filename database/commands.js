@@ -119,14 +119,33 @@ function createCommandDB(database) {
     };
 
     // public API
-    // get
-    // names
-    // list
-    // tree
-    // setSafe
+
+    const commandFns = {
+        get, list,
+    };
+
+    const nameQuery = db.prepare(`
+        SELECT name FROM commands
+        ORDER BY name COLLATE NOCASE ASC
+    `);
+
+    commandFns.names = () => {
+        return [nameQuery.all()||[]].map(d => d.name);
+    };
+
+    commandFns.setSafe = (name, value) => {
+        const obj = get(name);
+        if (obj && obj.locked) {
+            return false;
+        }
+        else {
+            set(name, value);
+            return true;
+        }
+    };
 
     return {
-        db, get, delete: _delete, set, list, setConfig,
+        db, get, delete: _delete, set, list, setConfig, commandFns,
     };
 }
 
