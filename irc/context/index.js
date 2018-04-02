@@ -18,6 +18,7 @@ function getContext({ print, notice, action, msgData, node }) {
             node.client.send('TOPIC', msgData.target, str);
         },
         log: node.database.logFactory(msgData.target),
+        commandFns: node.parent.database.commands.commandFns,
         resetBuffer: () => {
             node.client._clearCmdQueue();
             node.intervals.forEach(clearInterval);
@@ -26,6 +27,7 @@ function getContext({ print, notice, action, msgData, node }) {
             node.timeouts = [];
         },
         webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+        // command is patched after
     };
 
     const util = { ping };
