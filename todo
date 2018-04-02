@@ -2,18 +2,11 @@
 
     poker(query, text) { store.'running' poker.reset
 
-    help.slots => slots.about
-    help.commands => commands.about
-    commands.new.force
-    commands.text.force
-alt slots
-    delete only via eval
-    view starred commands for better ifgo
+    slots balance
 
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
     memo.multi(,,)
-    roll7
 
 // http://www.df7cb.de/irc/pisg/pisg-month.html
 https://www.npmjs.com/package/date.js
@@ -24,6 +17,7 @@ memo/remind check IRC.command | 2d3h time
 
 ====
 
+roll7
 https://github.com/4chan/4chan-API
 trivia() { // http://opentdb.com/api.php?amount=10
 roulette

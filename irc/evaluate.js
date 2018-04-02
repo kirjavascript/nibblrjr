@@ -23,7 +23,7 @@ function evaluate({ input, context, colors = true }) {
         return { output: objectDebug(evaluation, colors) };
     } catch(e) {
         return {
-            output: `${(colors?'\u000304':'')}${e.name||'Error'}: ${e.message}`,
+            output: `${(colors?'\u000304':'')}${e.name||'Error'}:\u000f ${e.message}`,
             error: true,
         };
     }
