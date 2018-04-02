@@ -130,7 +130,7 @@ function createCommandDB(database) {
     `);
 
     commandFns.names = () => {
-        return [nameQuery.all()||[]].map(d => d.name);
+        return (nameQuery.all()||[]).map(d => d.name);
     };
 
     commandFns.setSafe = (name, value) => {
