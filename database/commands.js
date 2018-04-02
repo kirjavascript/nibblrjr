@@ -85,11 +85,12 @@ function createCommandDB(database) {
         UPDATE commands SET command = ? WHERE name = ?
     `);
     const set = (name, value) => {
-        if (typeof get(name) == 'undefined') {
-            setInsertQuery.run(name, value);
+        const safeName = name.replace(/\s+/g, '');
+        if (typeof get(safeName) == 'undefined') {
+            setInsertQuery.run(safeName, value);
         }
         else {
-            setUpdateQuery.run(value, name);
+            setUpdateQuery.run(value, safeName);
         }
     };
 
@@ -140,6 +141,17 @@ function createCommandDB(database) {
         }
         else {
             set(name, value);
+            return true;
+        }
+    };
+
+    commandFns.deleteSafe = (name, value) => {
+        const obj = get(name);
+        if (obj && obj.locked) {
+            return false;
+        }
+        else {
+            _delete(name);
             return true;
         }
     };
