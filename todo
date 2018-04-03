@@ -2,18 +2,11 @@
 
     poker(query, text) { store.'running' poker.reset
 
-    slots balance
-
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
     memo.multi(,,)
 
-// http://www.df7cb.de/irc/pisg/pisg-month.html
-https://www.npmjs.com/package/date.js
-https://www.npmjs.com/package/timestring
-
-help.memo help.timestamps
-memo/remind check IRC.command | 2d3h time
+    help.timestamps
 
 ====
 
