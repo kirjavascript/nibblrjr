@@ -113,6 +113,22 @@ function createServerDBFactory(database) {
             return { get, getGlobal, count, user, random, regex };
         };
 
+        // events
+
+        const eventInsertQuery = db.prepare(`
+            INSERT INTO events (
+                timestamp,
+                type,
+                user,
+                target,
+                message
+            )
+            VALUES (?,?,?,?,?)
+        `);
+        const eventInsert = (date, type, user, target, message) => {
+            eventInsertQuery(date.toISOString(), type.toUpperCase(), user, target, message);
+        };
+
         // key/value store
 
         const storeFactory = (namespace) => {
