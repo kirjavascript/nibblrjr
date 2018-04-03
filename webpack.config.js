@@ -20,7 +20,8 @@ module.exports = (env={}, args={}) => {
                             loader: 'babel-loader',
                             options: {
                                 presets: [
-                                    'stage-0'
+                                    'es2015',
+                                    'stage-0',
                                 ],
                                 plugins: [
                                     'transform-react-jsx',
