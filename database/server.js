@@ -53,11 +53,12 @@ function createServerDBFactory(database) {
                     message.nick &&
                     (message.args || [])[0] != node.nickname
                 ) {
+                    const hasMessage = !!message.args.length;
                     logQuery.run([
                         message.nick,
                         message.command,
-                        message.args.length ? message.args[0] : '',
-                        message.args.splice(1).join(' '),
+                        hasMessage ? message.args[0] : '',
+                        hasMessage ? message.args.splice(1).join(' ') : '',
                     ]);
                 }
             }
