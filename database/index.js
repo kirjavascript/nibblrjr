@@ -1,6 +1,5 @@
 const fs = require('fs');
 const SQLiteDatabase = require('better-sqlite3');
-const _dir = __dirname + '/../storage/';
 
 const { createCommandDB } = require('./commands');
 const { createServerDBFactory } = require('./server');
@@ -18,9 +17,13 @@ class Database {
     }
 
     createDB(name, schema) {
-        fs.openSync(`${_dir}${name}.db`, 'a');
-        const db = new SQLiteDatabase(`${_dir}${name}.db`);
+        const filename = __dirname + `/../storage/${name}.db`;
+        fs.openSync(filename, 'a');
+        const db = new SQLiteDatabase(filename);
         db.exec(schema);
+        db.register(function REGEXP(a, b) {
+            return new RegExp(a, 'm').test(b) ? 1 : 0;
+        });
         return db;
     }
 };

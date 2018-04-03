@@ -28,10 +28,6 @@ function createServerDBFactory(database) {
             );
         `);
 
-        db.register(function REGEXP(a, b) {
-            return new RegExp(a, 'm').test(b) ? 1 : 0;
-        });
-
         // logging
 
         const logQuery = db.prepare(`
