@@ -6,7 +6,7 @@
     memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
     memo.multi(,,)
 
-    help.timestamps
+    help.timestamps (examples)
 
 ====
 
