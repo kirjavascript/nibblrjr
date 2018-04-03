@@ -36,7 +36,7 @@ function parseTime(str) {
     if (tokens.includes('tomorrow')) {
         out = addDays(out, 1);
     }
-    else if (tokens.includes('next week')) {
+    else if (/next\s+week/.test(clean)) {
         out = addWeeks(out, 1);
     }
     const dayOffset = str.match(/(\d+)\s*(d|days|day)/);
@@ -126,10 +126,18 @@ function parseTime(str) {
         out = setMinutes(out, m);
         out = setSeconds(out, s);
     }
+    // pm
+    const pm = clean.match(/(\d+)\s*pm/);
+    if (pm) {
+        out = setHours(out, +pm[1] + 12);
+    }
+    // am
+    const am = clean.match(/(\d+)\s*am/);
+    if (am) {
+        out = setHours(out, +am[1]);
+    }
 
-    // \dpm \dam
-
-    return formatTime(out);
+    return out;
 }
 
 const formatTime = (date) => {
