@@ -24,8 +24,6 @@ const messageFactory = (type, node, msgData) => {
                 });
             }, 200);
         }
-
-        // return text;
     };
 
     // colours

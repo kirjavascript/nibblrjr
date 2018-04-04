@@ -12,11 +12,12 @@ function createServerDBFactory(database) {
             );
             CREATE TABLE IF NOT EXISTS events (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-                timestamp VARCHAR (20),
+                timestamp DATETIME (20),
+                init DATETIME (20),
                 type VARCHAR (10),
-                user VARCHAR (20),
+                user VARCHAR (100),
                 message TEXT,
-                target VARCHAR (20)
+                target VARCHAR (100)
             );
             CREATE TABLE IF NOT EXISTS log (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT,

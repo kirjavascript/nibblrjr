@@ -17,9 +17,6 @@ class ServerNode {
             return this[key] || this.parent[key] || _default;
         }
 
-        this.timeouts = [];
-        this.intervals = [];
-
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels,
             userName: this.get('userName', 'eternium'),
@@ -29,12 +26,28 @@ class ServerNode {
             autoRejoin: true,
         });
 
+        this.timeouts = [];
+        this.intervals = [];
+
+        this.resetBuffer = () => {
+            this.client._clearCmdQueue();
+            this.intervals.forEach(clearInterval);
+            this.timeouts.forEach(clearTimeout);
+            this.intervals = [];
+            this.timeouts = [];
+        };
+
         this.database = parent.database.createServerDB(this);
 
-        this.client.addListener('registered', () => {
+        this.client.addListener('registered', (message) => {
+            this.nickname = message.args[0];
             if (this.password) {
                 this.client.say('nickserv', `identify ${this.password}`);
             }
+            // this gets trashed after each connect
+            this.client.conn.addListener('close', (message) => {
+                this.resetBuffer();
+            });
         });
 
         this.client.addListener('error', (message) => {
