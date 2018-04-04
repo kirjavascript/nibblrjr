@@ -12,12 +12,12 @@ function createServerDBFactory(database) {
             );
             CREATE TABLE IF NOT EXISTS events (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+                namespace VARCHAR (100),
                 timestamp DATETIME (20),
                 init DATETIME (20),
-                type VARCHAR (10),
                 user VARCHAR (100),
-                message TEXT,
-                target VARCHAR (100)
+                target VARCHAR (100),
+                message TEXT
             );
             CREATE TABLE IF NOT EXISTS log (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -115,41 +115,57 @@ function createServerDBFactory(database) {
 
         const eventInsertQuery = db.prepare(`
             INSERT INTO events (
+                namespace,
                 timestamp,
-                type,
+                init,
                 user,
                 target,
                 message
             )
-            VALUES (?,?,?,?,?)
+            VALUES (?,?,?,?,?,?)
         `);
-        const eventInsert = (date, type, user, target, message) => {
-            eventInsertQuery(date.toISOString(), type.toUpperCase(), user, target, message);
+
+        const eventFactory = (namespace, user) => {
+            const addEvent = (time = new Date(), message = '', target = '') => {
+                return eventInsertQuery.run(
+                    namespace,
+                    time.toISOString(),
+                    (new Date()).toISOString(),
+                    user,
+                    target,
+                    message,
+                );
+            };
+
+            return {
+                addEvent,
+            };
         };
 
         // key/value store
 
+        const getQuery = db.prepare(`
+            SELECT value FROM store WHERE namespace = ? AND key = ?
+        `);
+        const setInsertQuery = db.prepare(`
+            INSERT INTO store(value,namespace,key) VALUES (?,?,?)
+        `);
+        const setUpdateQuery = db.prepare(`
+            UPDATE store SET value = ? WHERE namespace = ? AND key = ?
+        `);
+        const setDeleteQuery = db.prepare(`
+            DELETE FROM store WHERE namespace = ? AND key = ?
+        `);
+        const allQuery = db.prepare(`
+            SELECT key, value FROM store WHERE namespace = ?
+        `);
         const storeFactory = (namespace) => {
-
             // get //
-            const getQuery = db.prepare(`
-                SELECT value FROM store WHERE namespace = ? AND key = ?
-            `);
             const get = (key) => {
                 const obj = getQuery.get(namespace, key);
                 return !obj ? void 0 : String(obj.value);
             };
-
             // set //
-            const setInsertQuery = db.prepare(`
-                INSERT INTO store(value,namespace,key) VALUES (?,?,?)
-            `);
-            const setUpdateQuery = db.prepare(`
-                UPDATE store SET value = ? WHERE namespace = ? AND key = ?
-            `);
-            const setDeleteQuery = db.prepare(`
-                DELETE FROM store WHERE namespace = ? AND key = ?
-            `);
             const set = (key, value) => {
                 const hasData = typeof get(key) != 'undefined';
                 // delete data
@@ -164,11 +180,7 @@ function createServerDBFactory(database) {
                     setUpdateQuery.run(String(value), namespace, key);
                 }
             };
-
             // all //
-            const allQuery = db.prepare(`
-                SELECT key, value FROM store WHERE namespace = ?
-            `);
             const all = () => {
                 const obj = allQuery.all(namespace);
                 return !Array.isArray(obj) ? [] : obj;
@@ -177,7 +189,7 @@ function createServerDBFactory(database) {
             return { get, set, all, namespace };
         };
 
-        return { log, logFactory, storeFactory };
+        return { log, logFactory, storeFactory, eventFactory };
     };
 }
 

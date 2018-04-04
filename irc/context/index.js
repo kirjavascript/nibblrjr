@@ -22,10 +22,7 @@ function getContext({ print, notice, action, msgData, node }) {
         commandFns: node.parent.database.commands.commandFns,
         resetBuffer: node.resetBuffer,
         webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
-        // command is patched after
-        getNick: () => {
-            return node.nickname;
-        },
+        // command and eventFns are patched after
     };
 
     const util = {
@@ -50,6 +47,7 @@ function getContext({ print, notice, action, msgData, node }) {
         },
         dateFns,
         _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
+        // store is patched after
     };
 
     return ctx;

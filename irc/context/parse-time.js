@@ -53,6 +53,11 @@ function parseTime(str) {
         const years = +yearOffset[1];
         out = addYears(out, years);
     }
+    const weekOffset = str.match(/(\d+)\s*(w|weeks|week|wk)/);
+    if (weekOffset) {
+        const weeks = +weekOffset[1];
+        out = addWeeks(out, weeks);
+    }
     const hourOffset = str.match(/(\d+)\s*(h|hours|hour|hr)/);
     if (hourOffset) {
         const hours = +hourOffset[1];

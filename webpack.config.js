@@ -26,10 +26,10 @@ module.exports = (env={}, args={}) => {
                                 plugins: [
                                     'transform-react-jsx',
                                     'transform-decorators-legacy',
-                                ]
-                            }
-                        }
-                    ]
+                                ],
+                            },
+                        },
+                    ],
                 },
                 {
                     test: /\.scss/,

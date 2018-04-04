@@ -80,7 +80,7 @@ class ServerNode {
                 node: this,
             });
 
-            // TODO: check memo, reminds
+            // TODO: check memo, reminds [events]
 
             // handle commands
             const trigger = this.get('trigger', '!');
@@ -90,7 +90,6 @@ class ServerNode {
                 // eval
                 if (['>','#'].includes(firstChar)) {
                     const input = text.slice(trigger.length + 1);
-                    // add store for testing
                     context.store = this.database.storeFactory('__eval__');
                     const { output, error } = evaluate({ input, context });
                     if (input.length && firstChar == '>' || error) {
@@ -108,9 +107,8 @@ class ServerNode {
                     // update context with command info
                     context.input = command.input;
                     context.IRC.command = command;
+                    context.IRC.eventFns = this.database.eventFactory(command.list[0], msgData.from);
                     context.store = this.database.storeFactory(command.list[0]);
-
-                    // TODO: attach commands for memo and remind
 
                     const commandData = parent.database.commands.get(command.path);
 

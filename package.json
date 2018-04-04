@@ -18,8 +18,6 @@
         "mobx-react": "^5.0.0",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
-        "uglify-es": "3.3.9",
-        "uglifyjs-webpack-plugin": "1.1.8",
         "vm2": "^3.5.2",
         "ws": "^5.0.0",
         "zipson": "^0.2.7"
