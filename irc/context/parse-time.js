@@ -22,12 +22,11 @@ const monthsShort = Array.from({length: 12}, (_,i) => format(new Date(1234,i,1),
 const ordinalDays = Array.from({length: 31}, (_,i) => format(new Date(1234,12,i+1), 'Do'));
 const days = Array.from({length: 7}, (_,i) => format(new Date(1234,12,i), 'dddd').toLowerCase());
 const daysShort = Array.from({length: 7}, (_,i) => format(new Date(1234,12,i), 'ddd').toLowerCase());
-const daysReallyShort = Array.from({length: 7}, (_,i) => format(new Date(1234,12,i), 'dd').toLowerCase());
 
 function parseTime(str) {
 
     const clean = str.toLowerCase();
-    const tokens = clean.split(/(\s+|,)/g).map(d => d.trim());
+    const tokens = clean.split(/(\s+)/g).map(d => d.trim());
 
     let out = new Date();
 
@@ -94,10 +93,6 @@ function parseTime(str) {
     const dayShort = tokens.find(d => daysShort.includes(d));
     if (dayShort) {
         out = setDay(out, daysShort.indexOf(dayShort));
-    }
-    const dayReallyShort = tokens.find(d => daysReallyShort.includes(d));
-    if (dayReallyShort) {
-        out = setDay(out, daysReallyShort.indexOf(dayReallyShort));
     }
     const ordinalDay = tokens.find(d => ordinalDays.includes(d));
     if (ordinalDay) {

@@ -7,6 +7,8 @@
     memo.multi(,,)
 
     help.timestamps (examples)
+    // time ago
+    babeli
 
 ====
 
@@ -46,4 +48,3 @@ bully
 wca
 mdn
 bridges?
-data:,<script> (function() { var cx = '004589196096329597303:kqsojvcceue'; var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true; gcse.src = 'https://cse.google.com/cse.js?cx=' + cx; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s); })(); </script> <gcse:search></gcse:search>
