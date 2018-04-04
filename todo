@@ -7,12 +7,10 @@
     memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
     memo.multi(,,)
     memo.self()
+    memo.event
 
     help.timestamps (examples)
     // time ago / in  (seen)
-    babeli
-    deprecate nibblr1
-    command.search autorun
 
 ====
 
