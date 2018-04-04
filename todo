@@ -1,14 +1,19 @@
 // TODO //
 
     poker(query, text) { store.'running' poker.reset
+    Buy in is ... bet or fold
 
     remind(query, text) {
     memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
     memo.multi(,,)
+    memo.self()
+    add STARTTIME (rewrite table)
 
     help.timestamps (examples)
     // time ago
     babeli
+    deprecate nibblr1
+    command.search autorun
 
 ====
 
@@ -16,9 +21,10 @@ roll7
 https://github.com/4chan/4chan-API
 trivia() { // http://opentdb.com/api.php?amount=10
 roulette
-
-// command piping (alt print command, timeout wait etc)
-cancelable promises getRequest (defend infinite loop
+wca
+mdn
+ciu
+cancelable promises getRequest (defend infinite loop better than limit does);
 
 // WEB API
 test command
@@ -40,11 +46,7 @@ testing
 patch the rizon log
 ~shreddydropsthenbomb
 
-// alg.js
 track nicklist
 require() support | npmi
 can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
-bully
-wca
-mdn
 bridges?
