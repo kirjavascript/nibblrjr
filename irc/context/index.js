@@ -20,21 +20,17 @@ function getContext({ print, notice, action, msgData, node }) {
         },
         log: node.database.logFactory(msgData.target),
         commandFns: node.parent.database.commands.commandFns,
-        resetBuffer: () => {
-            node.client._clearCmdQueue();
-            node.intervals.forEach(clearInterval);
-            node.timeouts.forEach(clearTimeout);
-            node.intervals = [];
-            node.timeouts = [];
-        },
+        resetBuffer: node.resetBuffer,
         webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
         // command is patched after
+        getNick: () => {
+            return node.nickname;
+        },
     };
 
     const util = {
         ping,
         parseTime,
-        formatTime,
     };
 
     const ctx = {
