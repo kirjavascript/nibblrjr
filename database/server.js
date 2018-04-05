@@ -4,6 +4,14 @@ function createServerDBFactory(database) {
 
         const name = node.address.replace(/[^a-zA-Z0-9.]/g, '');
         const db = database.createDB(name, `
+            CREATE TABLE IF NOT EXISTS log (
+                idx INTEGER PRIMARY KEY AUTOINCREMENT,
+                time DATETIME DEFAULT ((DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME'))),
+                user VARCHAR (100),
+                command VARCHAR (10),
+                target VARCHAR (100),
+                message TEXT
+            );
             CREATE TABLE IF NOT EXISTS store (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                 namespace VARCHAR(100),
@@ -13,17 +21,10 @@ function createServerDBFactory(database) {
             CREATE TABLE IF NOT EXISTS events (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                 namespace VARCHAR (100),
+                type VARCHAR (10),
                 timestamp DATETIME (20),
                 init DATETIME (20),
                 user VARCHAR (100),
-                target VARCHAR (100),
-                message TEXT
-            );
-            CREATE TABLE IF NOT EXISTS log (
-                idx INTEGER PRIMARY KEY AUTOINCREMENT,
-                time DATETIME DEFAULT ((DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME'))),
-                user VARCHAR (100),
-                command VARCHAR (10),
                 target VARCHAR (100),
                 message TEXT
             );
@@ -116,19 +117,21 @@ function createServerDBFactory(database) {
         const eventInsertQuery = db.prepare(`
             INSERT INTO events (
                 namespace,
+                type,
                 timestamp,
                 init,
                 user,
                 target,
                 message
             )
-            VALUES (?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?,?)
         `);
 
         const eventFactory = (namespace, user) => {
-            const addEvent = (time = new Date(), message = '', target = '') => {
+            const addSpeakEvent = (time = new Date(), message = '', target = '') => {
                 return eventInsertQuery.run(
                     namespace,
+                    'speak',
                     time.toISOString(),
                     (new Date()).toISOString(),
                     user,
@@ -138,7 +141,7 @@ function createServerDBFactory(database) {
             };
 
             return {
-                addEvent,
+                addSpeakEvent,
             };
         };
 
