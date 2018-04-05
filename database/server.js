@@ -128,10 +128,10 @@ function createServerDBFactory(database) {
         `);
 
         const eventFactory = (namespace, user) => {
-            const addSpeakEvent = (time = new Date(), message = '', target = '') => {
+            const addEvent = (type, time = new Date(), message = '', target = '') => {
                 return eventInsertQuery.run(
                     namespace,
-                    'speak',
+                    type,
                     time.toISOString(),
                     (new Date()).toISOString(),
                     user,
@@ -141,7 +141,7 @@ function createServerDBFactory(database) {
             };
 
             return {
-                addSpeakEvent,
+                addEvent,
             };
         };
 
