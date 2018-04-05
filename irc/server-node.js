@@ -41,11 +41,13 @@ class ServerNode {
 
         this.client.addListener('registered', (message) => {
             this.nickname = message.args[0];
+            this.registered = true;
             if (this.password) {
                 this.client.say('nickserv', `identify ${this.password}`);
             }
             // this gets trashed after each connect
             this.client.conn.addListener('close', (message) => {
+                this.registered = false;
                 this.resetBuffer();
             });
         });
