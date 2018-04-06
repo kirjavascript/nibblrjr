@@ -20,7 +20,7 @@ class ServerNode {
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels,
             userName: this.get('userName', 'eternium'),
-            realName: this.get('realName', 'none'),
+            realName: this.get('realName', 'nibblrjr IRC framework'),
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: true,
@@ -82,7 +82,7 @@ class ServerNode {
                 node: this,
             });
 
-            // TODO: check memo, reminds [events]
+            // TODO: check memo, reminds [events] - check registered
 
             // handle commands
             const trigger = this.get('trigger', '!');

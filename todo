@@ -8,9 +8,14 @@
     memo.multi(,,)
     memo.self()
     memo.event
-
+    speak, tick event types
+    hide colours
+    IRC.info.{nick, chan, users}
+    IRC.info.nick = this.client.nick
     help.timestamps (examples)
     // time ago / in  (seen)
+
+    _.sendImmediate
 
 ====
 
