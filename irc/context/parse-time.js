@@ -38,7 +38,7 @@ function parseTime(str) {
     else if (/next\s+week/.test(clean)) {
         out = addWeeks(out, 1);
     }
-    const dayOffset = str.match(/(\d+)\s*(d|days|day|dy)/);
+    const dayOffset = str.match(/(\d+)\s*(d|days|day|dy|dys)/);
     if (dayOffset) {
         const days = +dayOffset[1];
         out = addDays(out, days);
@@ -48,17 +48,17 @@ function parseTime(str) {
         const months = +monthOffset[1];
         out = addMonths(out, months);
     }
-    const yearOffset = str.match(/(\d+)\s*(y|years|year|yr)/);
+    const yearOffset = str.match(/(\d+)\s*(y|years|year|yr|yrs)/);
     if (yearOffset) {
         const years = +yearOffset[1];
         out = addYears(out, years);
     }
-    const weekOffset = str.match(/(\d+)\s*(w|weeks|week|wk)/);
+    const weekOffset = str.match(/(\d+)\s*(w|weeks|week|wk|wks)/);
     if (weekOffset) {
         const weeks = +weekOffset[1];
         out = addWeeks(out, weeks);
     }
-    const hourOffset = str.match(/(\d+)\s*(h|hours|hour|hr)/);
+    const hourOffset = str.match(/(\d+)\s*(h|hours|hour|hr|hrs)/);
     if (hourOffset) {
         const hours = +hourOffset[1];
         out = addHours(out, hours);
