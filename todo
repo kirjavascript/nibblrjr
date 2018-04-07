@@ -8,6 +8,7 @@
     memo.multi(,,)
     memo.self()
     memo.event
+    namespace -> callback
 
     help.timestamps (examples)
     // time ago / in  (seen)
