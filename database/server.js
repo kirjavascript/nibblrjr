@@ -4,6 +4,14 @@ function createServerDBFactory(database) {
 
         const name = node.address.replace(/[^a-zA-Z0-9.]/g, '');
         const db = database.createDB(name, `
+            CREATE TABLE IF NOT EXISTS log (
+                idx INTEGER PRIMARY KEY AUTOINCREMENT,
+                time DATETIME DEFAULT ((DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME'))),
+                user VARCHAR (100),
+                command VARCHAR (10),
+                target VARCHAR (100),
+                message TEXT
+            );
             CREATE TABLE IF NOT EXISTS store (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                 namespace VARCHAR(100),
@@ -12,18 +20,11 @@ function createServerDBFactory(database) {
             );
             CREATE TABLE IF NOT EXISTS events (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-                namespace VARCHAR (100),
+                callback VARCHAR (100),
+                type VARCHAR (10),
                 timestamp DATETIME (20),
                 init DATETIME (20),
                 user VARCHAR (100),
-                target VARCHAR (100),
-                message TEXT
-            );
-            CREATE TABLE IF NOT EXISTS log (
-                idx INTEGER PRIMARY KEY AUTOINCREMENT,
-                time DATETIME DEFAULT ((DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME'))),
-                user VARCHAR (100),
-                command VARCHAR (10),
                 target VARCHAR (100),
                 message TEXT
             );
@@ -115,31 +116,49 @@ function createServerDBFactory(database) {
 
         const eventInsertQuery = db.prepare(`
             INSERT INTO events (
-                namespace,
+                callback,
+                type,
                 timestamp,
                 init,
                 user,
                 target,
                 message
             )
-            VALUES (?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?,?)
         `);
 
-        const eventFactory = (namespace, user) => {
-            const addEvent = (time = new Date(), message = '', target = '') => {
+        const eventFns = {};
+        const speakElapsedQuery = db.prepare(`
+            SELECT * FROM events
+            WHERE timestamp < ?
+            AND type = "speak"
+            AND target = ?
+        `);
+        eventFns.speakElapsed = (target) => {
+            const obj = speakElapsedQuery.all((new Date()).toISOString(), target);
+            return Array.isArray(obj) ? obj : [];
+        };
+        const deleteQuery = db.prepare(`
+            DELETE FROM events WHERE idx = ?
+        `);
+        eventFns.delete = (idx) => {
+            return deleteQuery.run(idx);
+        };
+
+        const eventFactory = (from) => {
+            const addEvent = (callback, { type, time = new Date(), message = '', target = '' }) => {
                 return eventInsertQuery.run(
-                    namespace,
+                    callback,
+                    type,
                     time.toISOString(),
                     (new Date()).toISOString(),
-                    user,
+                    from,
                     target,
                     message,
                 );
             };
 
-            return {
-                addEvent,
-            };
+            return { addEvent, ...eventFns };
         };
 
         // key/value store
@@ -189,7 +208,7 @@ function createServerDBFactory(database) {
             return { get, set, all, namespace };
         };
 
-        return { log, logFactory, storeFactory, eventFactory };
+        return { log, logFactory, storeFactory, eventFactory, eventFns };
     };
 }
 

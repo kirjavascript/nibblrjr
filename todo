@@ -4,12 +4,13 @@
     Buy in is ... bet or fold
 
     remind(query, text) {
+    remind isregistered check
     memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
     memo.multi(,,)
     memo.self()
-    memo.event
-    namespace -> callback
+    memo.everyone
 
+    speak, tick event types
     help.timestamps (examples)
     // time ago / in  (seen)
 
@@ -24,6 +25,7 @@ mdn
 ciu
 cancelable promises getRequest (defend infinite loop better than limit does);
 
+hide colours
 // WEB API
 test command
 test parse command
