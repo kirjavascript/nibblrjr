@@ -3,8 +3,6 @@
     poker(query, text) { store.'running' poker.reset
     Buy in is ... bet or fold
 
-    memo.self()
-
     help.timestamps (examples)
 
 ====

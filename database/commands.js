@@ -145,10 +145,7 @@ function createCommandDB(database) {
         }
     };
 
-    commandFns.deleteSafe = (name, hash) => {
-        if (hash != [...name].map(d => d.charCodeAt(0)).reduce((a, b) => a + b)) {
-            throw new Error('bad hash');
-        }
+    commandFns.deleteSafe = (name) => {
         const obj = get(name);
         if (obj && obj.locked) {
             return false;
