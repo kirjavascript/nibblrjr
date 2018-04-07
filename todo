@@ -3,16 +3,9 @@
     poker(query, text) { store.'running' poker.reset
     Buy in is ... bet or fold
 
-    remind(query, text) {
-    remind isregistered check
-    memo(query, text) { target: {bo}<{/}${IRC.parseColors.hashString(user)}${user}{/}{bo}>{/} message // add to util.memo
-    memo.multi(,,)
     memo.self()
-    memo.everyone
 
-    speak, tick event types
     help.timestamps (examples)
-    // time ago / in  (seen)
 
 ====
 
