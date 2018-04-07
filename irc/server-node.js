@@ -59,12 +59,34 @@ class ServerNode {
             this.database.log(message);
         });
 
-        this.client.addListener('message', (from, to, text, message) => {
-            const isPM = to == this.client.nick;
-            const target = isPM ? from : to;
-            const msgData = { from, to, text, message, target, isPM };
+        // check tick events that have elapsed
+        this.tick = setInterval(() => {
+            if (this.registered) {
+                this.database.eventFns.tickElapsed()
+                    .forEach(row => {
+                        const { context, print } = this.getEnvironment({
+                            from: row.user,
+                            to: row.target,
+                            target: row.target,
+                            isPM: row.user.toLowerCase() == row.target.toLowerCase(),
+                        });
+                        context.IRC.event = row;
+                        const commandData = parent.database.commands.get(row.callback);
+                        if (commandData) {
+                            const {
+                                output,
+                                error,
+                            } = evaluate({ input: commandData.command, context });
+                            if (error) {
+                                print(output);
+                            }
+                        }
+                        this.database.eventFns.delete(row.idx);
+                    });
+            }
+        }, 5000);
 
-            // init print API
+        this.getEnvironment = (msgData) => {
             const print = printFactory(this, msgData);
             const notice = noticeFactory(this, msgData);
             const action = actionFactory(this, msgData);
@@ -75,10 +97,16 @@ class ServerNode {
                 msgData,
                 node: this,
             });
+            return { context, print, notice, action };
+        };
 
-            // TODO: check reminds [events] - check registered
+        this.client.addListener('message', (from, to, text, message) => {
+            const isPM = to == this.client.nick;
+            const target = isPM ? from : to;
+            const msgData = { from, to, text, message, target, isPM };
+            const { context, print } = this.getEnvironment(msgData);
 
-            // check speak events
+            // check speak events that have elapsed
             this.database.eventFns.speakElapsed(from)
                 .forEach(row => {
                     context.IRC.event = row;
@@ -92,7 +120,7 @@ class ServerNode {
                             print(output);
                         }
                     }
-                    // this.database.eventFns.delete(row.idx);
+                    this.database.eventFns.delete(row.idx);
                 });
 
             // handle commands
@@ -116,7 +144,6 @@ class ServerNode {
                         print.log(command, msgData.target, true);
                     }
 
-                    // update context with command info
                     context.input = command.input;
                     context.IRC.command = command;
                     context.store = this.database.storeFactory(command.list[0]);
