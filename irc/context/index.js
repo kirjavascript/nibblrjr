@@ -12,17 +12,20 @@ function getContext({ print, notice, action, msgData, node }) {
         trigger: node.get('trigger', '!'),
         message: msgData,
         parseColors,
-        nickname: (str) => {
+        nick: node.client.nick,
+        channels: node.client.chans,
+        setNick: (str) => {
             node.client.send('NICK', str);
         },
-        topic: (str) => {
+        setTopic: (str) => {
             node.client.send('TOPIC', msgData.target, str);
         },
         log: node.database.logFactory(msgData.target),
         commandFns: node.parent.database.commands.commandFns,
+        eventFns: node.database.eventFactory(msgData.from),
         resetBuffer: node.resetBuffer,
         webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
-        // command and eventFns are patched after
+        // command
     };
 
     const util = {

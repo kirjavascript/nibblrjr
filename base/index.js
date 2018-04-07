@@ -5,7 +5,6 @@ const { Database } = require('../database/index');
 
 process.env.TZ = config.timezone || 'Europe/London';
 
-
 new (class Nibblr {
     constructor() {
         this.dev = process.argv.includes('--dev');

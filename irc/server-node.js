@@ -20,7 +20,7 @@ class ServerNode {
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels,
             userName: this.get('userName', 'eternium'),
-            realName: this.get('realName', 'none'),
+            realName: this.get('realName', 'nibblrjr IRC framework'),
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: true,
@@ -40,12 +40,13 @@ class ServerNode {
         this.database = parent.database.createServerDB(this);
 
         this.client.addListener('registered', (message) => {
-            this.nickname = message.args[0];
+            this.registered = true;
             if (this.password) {
                 this.client.say('nickserv', `identify ${this.password}`);
             }
             // this gets trashed after each connect
             this.client.conn.addListener('close', (message) => {
+                this.registered = false;
                 this.resetBuffer();
             });
         });
@@ -55,16 +56,11 @@ class ServerNode {
         });
 
         this.client.addListener('raw', (message) => {
-            // track nickname
-            if (message.command == 'NICK' && this.nickname == message.nick) {
-                this.nickname = message.args[0];
-            }
-            // log
             this.database.log(message);
         });
 
         this.client.addListener('message', (from, to, text, message) => {
-            const isPM = to == this.nickname;
+            const isPM = to == this.client.nick;
             const target = isPM ? from : to;
             const msgData = { from, to, text, message, target, isPM };
 
@@ -80,7 +76,24 @@ class ServerNode {
                 node: this,
             });
 
-            // TODO: check memo, reminds [events]
+            // TODO: check reminds [events] - check registered
+
+            // check speak events
+            this.database.eventFns.speakElapsed(from)
+                .forEach(row => {
+                    context.IRC.event = row;
+                    const commandData = parent.database.commands.get(row.callback);
+                    if (commandData) {
+                        const {
+                            output,
+                            error,
+                        } = evaluate({ input: commandData.command, context });
+                        if (error) {
+                            print(output);
+                        }
+                    }
+                    // this.database.eventFns.delete(row.idx);
+                });
 
             // handle commands
             const trigger = this.get('trigger', '!');
@@ -90,7 +103,6 @@ class ServerNode {
                 // eval
                 if (['>','#'].includes(firstChar)) {
                     const input = text.slice(trigger.length + 1);
-                    context.store = this.database.storeFactory('__eval__');
                     const { output, error } = evaluate({ input, context });
                     if (input.length && firstChar == '>' || error) {
                         print(output);
@@ -107,7 +119,6 @@ class ServerNode {
                     // update context with command info
                     context.input = command.input;
                     context.IRC.command = command;
-                    context.IRC.eventFns = this.database.eventFactory(command.list[0], msgData.from);
                     context.store = this.database.storeFactory(command.list[0]);
 
                     const commandData = parent.database.commands.get(command.path);
