@@ -117,7 +117,7 @@ class ServerNode {
                             error,
                         } = evaluate({ input: commandData.command, context });
                         if (error) {
-                            print(output);
+                            print.raw(output);
                         }
                     }
                     this.database.eventFns.delete(row.idx);
@@ -131,9 +131,10 @@ class ServerNode {
                 // eval
                 if (['>','#'].includes(firstChar)) {
                     const input = text.slice(trigger.length + 1);
+                    context.store = this.database.storeFactory('__eval__');
                     const { output, error } = evaluate({ input, context });
                     if (input.length && firstChar == '>' || error) {
-                        print(output);
+                        print.raw(output);
                     }
                 }
                 // normal commands
@@ -156,7 +157,7 @@ class ServerNode {
                             error,
                         } = evaluate({ input: commandData.command, context });
                         if (error) {
-                            print(output);
+                            print.raw(output);
                         }
                     }
                 }
