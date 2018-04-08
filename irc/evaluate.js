@@ -5,9 +5,36 @@ util.inspect.styles.null = 'red';
 
 process.on('uncaughtException', console.error);
 
+function parseImports(input) {
+    return input.replace(/(import\s+'(.*?)'|import\s+"(.*?)")/g, (a, b, lib) => {
+        // 'module' parsing
+        const libClean = lib.replace(/(\s+|`)/g,'');
+        return `
+            (function () {
+                const obj = IRC.commandFns.get(\`${libClean}\`);
+                if (obj) {
+                    eval(obj.command);
+                }
+                else {
+                    throw new Error('import error: ${libClean} not found');
+                }
+            })()
+        `;
+    })
+}
+
 function evaluate({ input, context, colors = true }) {
 
     try {
+        // Object.defineProperty(context, 'parseImports', {
+        //     value: parseImports,
+        //     // enumerable: false,
+        // });
+
+        context.eval = (str) => {
+            new Function((parseImports(str)))();
+        };
+
         const evaluation = new VM({
             timeout: 3000,
             sandbox: context,
@@ -17,7 +44,7 @@ function evaluate({ input, context, colors = true }) {
             });
             delete global.console;
 
-            ${input}
+            ${parseImports(input)}
         `);
 
         return { output: objectDebug(evaluation, colors) };
