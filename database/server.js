@@ -173,16 +173,18 @@ function createServerDBFactory(database) {
         };
 
         const eventFactory = (from) => {
-            const addEvent = (callback, { type, time = new Date(), message = '', target = '' }) => {
-                return eventInsertQuery.run(
-                    callback,
-                    type,
-                    time.toISOString(),
-                    (new Date()).toISOString(),
-                    from,
-                    target,
-                    message,
-                );
+            const addEvent = (type, { callback, time = new Date(), message = '', target = '' }) => {
+                if (['speak', 'tick'].includes(type)) {
+                    return eventInsertQuery.run(
+                        callback,
+                        type,
+                        time.toISOString(),
+                        (new Date()).toISOString(),
+                        from,
+                        target,
+                        message,
+                    );
+                }
             };
 
             return { addEvent, ...eventFns };

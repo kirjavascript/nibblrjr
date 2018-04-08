@@ -3,16 +3,22 @@
     poker(query, text) { store.'running' poker.reset
     Buy in is ... bet or fold
 
-    help.timestamps (examples)
+====
+
+patch the rizon log
+~shreddydropsthenbomb
+README <li> built in help, memo, reminders, texas hold em, logging, rich IRC command API, database functions, event functions, 'modules', various web integrations (hackernews, slashdot, reddit, wiki, weather, urbandictionary, tripsit, the pirate bay, bulbapedia, bbcnews, bash.org, more...), 800+ custom commands (mostly stupid), web CRUD command UI, multiple servers/channels, easy colour parsing DSL, human datetime parsing
 
 ====
 
 roll7
+blackjack
 https://github.com/4chan/4chan-API
 trivia() { // http://opentdb.com/api.php?amount=10
 roulette
 wca
 mdn
+memo.pending
 ciu
 cancelable promises getRequest (defend infinite loop better than limit does);
 
@@ -34,8 +40,6 @@ only web ui can kick/part/join
 edited
 testing
 
-patch the rizon log
-~shreddydropsthenbomb
 
 track nicklist
 require() support | npmi
