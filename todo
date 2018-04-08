@@ -3,6 +3,8 @@
     poker(query, text) { store.'running' poker.reset
     Buy in is ... bet or fold
 
+    ~> ~# require space, unify context.IRC.command
+
 ====
 
 patch the rizon log
