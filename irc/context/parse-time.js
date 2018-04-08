@@ -13,6 +13,7 @@ const {
     setHours,
     setMinutes,
     setSeconds,
+    getYear,
     format,
     parse,
 } = require('date-fns');
@@ -135,6 +136,11 @@ function parseTime(str) {
     const am = clean.match(/(\d+)\s*am/);
     if (am) {
         out = setHours(out, +am[1]);
+    }
+
+    // clamp year
+    if (getYear(out) > 9999) {
+        out = setYear(out, 9999);
     }
 
     return out;
