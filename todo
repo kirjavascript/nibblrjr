@@ -3,18 +3,16 @@
     poker(query, text) { store.'running' poker.reset
     Buy in is ... bet or fold
 
-    ~> ~# require space, unify context.IRC.command
-
 ====
 
 patch the rizon log
 ~shreddydropsthenbomb
-README <li> built in help, memo, reminders, texas hold em, logging, rich IRC command API, database functions, event functions, 'modules', various web integrations (hackernews, slashdot, reddit, wiki, weather, urbandictionary, tripsit, the pirate bay, bulbapedia, bbcnews, bash.org, more...), 800+ custom commands (mostly stupid), web CRUD command UI, multiple servers/channels, easy colour parsing DSL, human datetime parsing
 
 ====
 
 roll7
 blackjack
+getDOM('https://apps.timwhitlock.info/unicode/inspect?s='+encodeURIComponent('™')).then(dom => { print(dom.qs('#inspect tbody').textContent.replace(/\s+/g,' ')) }).catch(print.log);
 https://github.com/4chan/4chan-API
 trivia() { // http://opentdb.com/api.php?amount=10
 roulette
@@ -22,7 +20,7 @@ wca
 mdn
 memo.pending
 ciu
-cancelable promises getRequest (defend infinite loop better than limit does);
+https://stackoverflow.com/questions/29478751/how-to-cancel-an-emcascript6-vanilla-javascript-promise-chain
 
 hide colours
 // WEB API
@@ -42,8 +40,6 @@ only web ui can kick/part/join
 edited
 testing
 
-
-track nicklist
 require() support | npmi
 can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 bridges?

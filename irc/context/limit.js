@@ -4,7 +4,7 @@ const limit = (func, amount = 10) => {
     return (...args) => {
         if (++count <= amount) {
             return func(...args);
-        };
+        }
     };
 };
 
