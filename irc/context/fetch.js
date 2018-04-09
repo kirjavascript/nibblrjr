@@ -23,14 +23,9 @@ async function getDOM(...args) {
     };
 }
 async function getWeb(type, url, options = {}) {
-    try {
-        const res = await fetch(url, options);
-        const out = await res[type]();
-        return out;
-    }
-    catch (e) {
-        throw e;
-    }
+    const res = await fetch(url, options);
+    const out = await res[type]();
+    return out;
 }
 
 module.exports = {
