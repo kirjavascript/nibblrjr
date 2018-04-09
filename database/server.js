@@ -147,24 +147,25 @@ function createServerDBFactory(database) {
             const obj = tickElapsedQuery.all((new Date()).toISOString());
             return Array.isArray(obj) ? obj : [];
         };
-        const tickPendingQuery = db.prepare(`
-            SELECT * FROM events
-            WHERE type = "tick"
-            AND callback = ?
-        `);
-        eventFns.tickPending = (callback = '') => {
-            const obj = tickPendingQuery.all(callback);
-            return Array.isArray(obj) ? obj : [];
-        };
-        const speakPendingQuery = db.prepare(`
-            SELECT * FROM events
-            WHERE type = "speak"
-            AND callback = ?
-        `);
-        eventFns.speakPending = (callback = '') => {
-            const obj = speakPendingQuery.all(callback);
-            return Array.isArray(obj) ? obj : [];
-        };
+        // unused
+        // const tickPendingQuery = db.prepare(`
+        //     SELECT * FROM events
+        //     WHERE type = "tick"
+        //     AND callback = ?
+        // `);
+        // eventFns.tickPending = (callback = '') => {
+        //     const obj = tickPendingQuery.all(callback);
+        //     return Array.isArray(obj) ? obj : [];
+        // };
+        // const speakPendingQuery = db.prepare(`
+        //     SELECT * FROM events
+        //     WHERE type = "speak"
+        //     AND callback = ?
+        // `);
+        // eventFns.speakPending = (callback = '') => {
+        //     const obj = speakPendingQuery.all(callback);
+        //     return Array.isArray(obj) ? obj : [];
+        // };
         const deleteQuery = db.prepare(`
             DELETE FROM events WHERE idx = ?
         `);
