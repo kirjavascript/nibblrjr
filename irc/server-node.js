@@ -127,26 +127,26 @@ class ServerNode {
             const trigger = this.get('trigger', '!');
 
             if (text.startsWith(trigger)) {
-                const firstChar = text[trigger.length];
+                const command = parseCommand({ trigger, text });
+
+                if (parent.dev) {
+                    print.log(command, msgData.target, true);
+                }
+
+                context.input = command.input;
+                context.IRC.command = command;
+
                 // eval
-                if (['>','#'].includes(firstChar)) {
-                    const input = text.slice(trigger.length + 1);
+                if (['>','#'].includes(command.path)) {
+                    const { input, path } = command;
                     context.store = this.database.storeFactory('__eval__');
                     const { output, error } = evaluate({ input, context });
-                    if (input.length && firstChar == '>' || error) {
+                    if (input.length && path == '>' || error) {
                         print.raw(output);
                     }
                 }
                 // normal commands
                 else {
-                    const command = parseCommand({ trigger, text });
-
-                    if (parent.dev) {
-                        print.log(command, msgData.target, true);
-                    }
-
-                    context.input = command.input;
-                    context.IRC.command = command;
                     context.store = this.database.storeFactory(command.list[0]);
 
                     const commandData = parent.database.commands.get(command.path);

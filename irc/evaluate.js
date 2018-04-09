@@ -50,7 +50,7 @@ function objectDebug(evaluation, colors = true) {
         .replace(/\s+/g, ' ')
         .replace(new RegExp('\u001b\\[39m', 'g'), '\u000f')// reset
         .replace(new RegExp('\u001b\\[31m', 'g'), '\u000313') // null
-        .replace(new RegExp('\u001b\\[33m', 'g'), '\u000307') // num / bool
+        .replace(new RegExp('\u001b\\[(33|34)m', 'g'), '\u000307') // num / bool
         .replace(new RegExp('\u001b\\[32m', 'g'), '\u000303')// str
         .replace(new RegExp('\u001b\\[90m', 'g'), '\u000314')// str?
         .replace(new RegExp('\u001b\\[36m', 'g'), '\u000310');// func
