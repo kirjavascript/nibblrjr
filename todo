@@ -10,6 +10,7 @@ patch the rizon log
 
 ====
 
+log.user
 roll7
 blackjack
 getDOM('https://apps.timwhitlock.info/unicode/inspect?s='+encodeURIComponent('™')).then(dom => { print(dom.qs('#inspect tbody').textContent.replace(/\s+/g,' ')) }).catch(print.log);
