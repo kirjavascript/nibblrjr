@@ -13,8 +13,8 @@ const codes = {
     dp: '06',
     o: '07',
     y: '08',
-    gr: '14',
-    dgr: '15',
+    gr: '15',
+    dgr: '14',
 
     // formatting
     u: '\u001f',
