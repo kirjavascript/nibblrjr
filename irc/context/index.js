@@ -2,6 +2,7 @@ const { limit } = require('./limit');
 const { ping } = require('./spawn');
 const { getText, getJSON, getDOM } = require('./fetch');
 const { parseColors } = require('../colors');
+const { objectDebug } = require('../evaluate');
 const { parseTime, formatTime } = require('./parse-time');
 const dateFns = require('date-fns');
 const _ = require('lodash');
@@ -32,6 +33,7 @@ function getContext({ print, notice, action, msgData, node }) {
     const util = {
         ping,
         parseTime,
+        objectDebug,
     };
 
     const ctx = {
