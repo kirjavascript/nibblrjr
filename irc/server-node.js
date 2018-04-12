@@ -137,7 +137,7 @@ class ServerNode {
                 context.IRC.command = command;
 
                 // eval
-                if (['>','#'].includes(command.path)) {
+                if (['>','#','%'].includes(command.path)) {
                     const { input, path } = command;
                     context.store = this.database.storeFactory('__eval__');
                     const { output, error } = evaluate({ input, context });
