@@ -72,7 +72,7 @@ const acquire = (name, version = 'latest') => {
 };
 
 setTimeout(() => {
-    acquire('fs')
+    acquire('moment')
         .then(d => {
             console.log(d);
         })
