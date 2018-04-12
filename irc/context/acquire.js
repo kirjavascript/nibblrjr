@@ -57,6 +57,7 @@ const acquire = (name, version = 'latest') => {
                             else {
                                 resolve(
                                     // TODO: fs.readFile / new Function() {}
+                                    // TODO: expose in environment as a local?
                                     require(
                                         path.resolve(modulePath, bundlename)
                                     )
