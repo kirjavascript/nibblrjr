@@ -10,8 +10,6 @@ const readFileAsync = promisify(fs.readFile);
 const existsAsync = promisify(fs.exists);
 const moduleDir = 'acquire_cache';
 
-// https://github.com/maxleiko/npmi/blob/master/npmi.js#L49
-
 // load npm
 let npmInstall, npmView;
 npm.load({loglevel: 'silent', lock: false}, (err, success) => {
@@ -23,9 +21,6 @@ npm.load({loglevel: 'silent', lock: false}, (err, success) => {
         npmView = promisify(npm.commands.view);
     }
 });
-
-// TODO: fs.readFile / new Function() {}
-// TODO: expose in environment as a local?
 
 const acquireFactory = (initFunc = source => source) => {
     return (input) => {
@@ -59,15 +54,21 @@ const acquireFactory = (initFunc = source => source) => {
                         );
                     }
                 }
+
+                // install a freshy
                 const result = await npmInstall(moduleDir, [module]);
                 const resultVersion = result[0][0].replace(/^(.*?)@/,'');
                 const bundlename = `${name}@${resultVersion}.js`;
                 const modulePath = path.resolve(moduleDir, 'node_modules', name);
                 const packagePath = path.resolve(modulePath, 'package.json');
-                // TODO: check file exists (fs module)
+                if (!await existsAsync(packagePath)) {
+                    return reject(new Error(`package.json not found`));
+                }
                 const pkg = await readFileAsync(packagePath);
                 const pkgJson = JSON.parse(pkg.toString());
                 const entrypoint = pkgJson.main || 'index.js';
+
+                // attempt to bundle module
                 webpack({
                     target: 'node',
                     entry: path.resolve(modulePath, entrypoint),
@@ -75,19 +76,26 @@ const acquireFactory = (initFunc = source => source) => {
                         path: path.resolve(moduleDir),
                         filename: bundlename,
                         libraryTarget: 'umd',
+                        library: '__acquire__',
                     },
                     mode: 'development',
-                })
-                .run(async (err, stats) => {
+                }).run(async (err) => {
                     if (err) {
                         reject(err);
                     }
-                    else {
-                        // TODO: check exists
+                    else try {
                         const filename = path.resolve(moduleDir, bundlename);
-                        resolve(
-                            initFunc(await readFileAsync(filename))
-                        );
+                        if (!await existsAsync(filename)) {
+                            reject(new Error(`${bundlename} not found`));
+                        }
+                        else {
+                            resolve(
+                                initFunc(await readFileAsync(filename))
+                            );
+                        }
+                    }
+                    catch (e) {
+                        reject(e);
                     }
                 });
             }
@@ -98,15 +106,6 @@ const acquireFactory = (initFunc = source => source) => {
     };
 };
 
-const acquire = acquireFactory(d => d);
-
-setTimeout(() => {
-    acquire('moment@1.0.0')
-        .then((d) => {
-            console.log(d.slice(0, 100).toString());
-        })
-        .catch(d => {
-            console.error(d);
-        });
-
-}, 1000);
+module.exports = {
+    acquireFactory,
+};
