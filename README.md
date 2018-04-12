@@ -6,7 +6,8 @@ nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 * rich IRC command API
 * database functions
 * event functions
-* 'modules'
+* safe arbitrary npm module use
+* custom command module format
 * logging
 * memo system
 * reminders
