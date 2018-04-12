@@ -21,7 +21,7 @@ const acquire = (name, version = 'latest') => {
     const module = `${name}@${version}`;
     const bundlename = `__bundle@${version}.js`;
     // TODO: check exists, dump if so, download if not __bundle@version.js
-    // TODO: check escapes (fs, proto climb)
+    // TODO: check escapes (fs, proto climb) - test via injecting arbitrary code
     return new Promise((resolve, reject) => {
         if (!npmLoaded) {
             reject(new Error('aquire: npm not loaded'));
