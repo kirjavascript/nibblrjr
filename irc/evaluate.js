@@ -1,5 +1,6 @@
 const util = require('util');
-const {VM} = require('vm2');
+const { VM } = require('vm2');
+const { acquireFactory } = require('./context/acquire');
 
 util.inspect.styles.null = 'red';
 
@@ -8,13 +9,15 @@ process.on('uncaughtException', console.error);
 function evaluate({ input, context, colors = true }) {
 
     try {
+        context.acquireFactory = acquireFactory;
+
         const evaluation = new VM({
             timeout: 3000,
             sandbox: context,
         }).run(`
             delete global.console;
             global.module = {};
-            ['VMError', 'Buffer', 'module'].forEach(key => {
+            ['VMError', 'Buffer', 'module', 'acquireFactory'].forEach(key => {
                 Object.defineProperty(this, key, { enumerable: false });
             });
             IRC.require = (str) => {
@@ -32,6 +35,12 @@ function evaluate({ input, context, colors = true }) {
                     throw error;
                 }
             };
+            const acquire = acquireFactory(source => {
+                return new Function(\`
+                    \${source}
+                    return __acquire__;
+                \`)();
+            });
 
             ${input}
         `);
