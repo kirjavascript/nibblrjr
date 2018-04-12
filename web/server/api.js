@@ -57,7 +57,7 @@ function msgHandler({parent, ws}) {
                 const parentCmdName = parseCommand({text: name}).list[0];
                 const parentCmd = parent.database.commands.get(parentCmdName);
                 const locked = parentCmd && parentCmd.locked;
-                const isEval = ['>', '#'].includes(name);
+                const isEval = ['>', '#', '%'].includes(name);
                 if (!isEval && !exists && (!locked || isAdmin)) {
                     parent.database.commands.set(name, '');
                     sendList();

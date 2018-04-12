@@ -136,7 +136,7 @@ function createCommandDB(database) {
 
     commandFns.setSafe = (name, value) => {
         const obj = get(name);
-        const isEval = ['>', '#'].includes(name);
+        const isEval = ['>', '#', '%'].includes(name);
         if (obj && obj.locked || isEval) {
             return false;
         }

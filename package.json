@@ -8,6 +8,7 @@
         "brace": "^0.11.1",
         "date-fns": "^1.29.0",
         "express": "^4.16.2",
+        "global-npm": "^0.3.0",
         "html-entities": "^1.2.1",
         "import-glob-loader": "^1.1.0",
         "irc": "^0.5.2",
