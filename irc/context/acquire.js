@@ -24,87 +24,86 @@ npm.load({loglevel: 'silent', lock: false}, (err, success) => {
     }
 });
 
-// acquireFactory
+// TODO: fs.readFile / new Function() {}
+// TODO: expose in environment as a local?
 
-const acquire = (input) => {
-    const hasVersion = input.includes('@');
-    const version = hasVersion ? input.replace(/^(.*?)@/, '') : 'latest';
-    const name = hasVersion ? input.replace(/@(.*?)$/, '') : input;
-    const module = `${name}@${version}`;
+const acquireFactory = (initFunc = source => source) => {
+    return (input) => {
+        const hasVersion = input.includes('@');
+        const version = hasVersion ? input.replace(/^(.*?)@/, '') : 'latest';
+        const name = hasVersion ? input.replace(/@(.*?)$/, '') : input;
+        const module = `${name}@${version}`;
 
-    return new Promise(async (resolve, reject) => {
-        try {
-            if (!npmInstall) {
-                return reject(new Error('aquire: npm not loaded'));
-            }
-            else if (version == 'latest') {
-                // check latest on npm and see if we have it
-                const info = await npmView([name], true);
-                const latest = Object.keys(info)[0];
-                const filename = path.resolve(moduleDir, `${name}@${latest}.js`);
-                if (await existsAsync(filename)) {
-                    return resolve(
-                        // TODO: fs.readFile / new Function() {}
-                        // TODO: expose in environment as a local?
-                        require(
-                            path.resolve(moduleDir, filename)
-                        )
-                    );
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (!npmInstall) {
+                    return reject(new Error('aquire: npm not loaded'));
                 }
-            }
-            else {
-                // check if we have the specific version
-                const filename = path.resolve(moduleDir, module + '.js');
-                if (await existsAsync(filename)) {
-                    return resolve(
-                        require(
-                            path.resolve(moduleDir, filename)
-                        )
-                    );
-                }
-            }
-            const result = await npmInstall(moduleDir, [module]);
-            const resultVersion = result[0][0].replace(/^(.*?)@/,'');
-            const bundlename = `${name}@${resultVersion}.js`;
-            const modulePath = path.resolve(moduleDir, 'node_modules', name);
-            const packagePath = path.resolve(modulePath, 'package.json');
-            // TODO: check file exists (fs module)
-            const pkg = await readFileAsync(packagePath);
-            const pkgJson = JSON.parse(pkg.toString());
-            const entrypoint = pkgJson.main || 'index.js';
-            webpack({
-                target: 'node',
-                entry: path.resolve(modulePath, entrypoint),
-                output: {
-                    path: path.resolve(moduleDir),
-                    filename: bundlename,
-                    libraryTarget: 'umd',
-                },
-                mode: 'development',
-            })
-            .run((err, stats) => {
-                if (err) {
-                    reject(err);
+                else if (version == 'latest') {
+                    // check latest on npm and see if we have it
+                    const info = await npmView([name], true);
+                    const latest = Object.keys(info)[0];
+                    const filename = path.resolve(moduleDir, `${name}@${latest}.js`);
+                    if (await existsAsync(filename)) {
+                        return resolve(
+                            initFunc(await readFileAsync(filename))
+                        );
+                    }
                 }
                 else {
-                    resolve(
-                        require(
-                            path.resolve(moduleDir, bundlename)
-                        )
-                    );
+                    // check if we have the specific version
+                    const filename = path.resolve(moduleDir, module + '.js');
+                    if (await existsAsync(filename)) {
+                        return resolve(
+                            initFunc(await readFileAsync(filename))
+                        );
+                    }
                 }
-            });
-        }
-        catch (e) {
-            reject(e);
-        }
-    });
+                const result = await npmInstall(moduleDir, [module]);
+                const resultVersion = result[0][0].replace(/^(.*?)@/,'');
+                const bundlename = `${name}@${resultVersion}.js`;
+                const modulePath = path.resolve(moduleDir, 'node_modules', name);
+                const packagePath = path.resolve(modulePath, 'package.json');
+                // TODO: check file exists (fs module)
+                const pkg = await readFileAsync(packagePath);
+                const pkgJson = JSON.parse(pkg.toString());
+                const entrypoint = pkgJson.main || 'index.js';
+                webpack({
+                    target: 'node',
+                    entry: path.resolve(modulePath, entrypoint),
+                    output: {
+                        path: path.resolve(moduleDir),
+                        filename: bundlename,
+                        libraryTarget: 'umd',
+                    },
+                    mode: 'development',
+                })
+                .run(async (err, stats) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        // TODO: check exists
+                        const filename = path.resolve(moduleDir, bundlename);
+                        resolve(
+                            initFunc(await readFileAsync(filename))
+                        );
+                    }
+                });
+            }
+            catch (e) {
+                reject(e);
+            }
+        });
+    };
 };
+
+const acquire = acquireFactory(d => d);
 
 setTimeout(() => {
     acquire('moment@1.0.0')
         .then((d) => {
-            console.log(Object.keys(d));
+            console.log(d.slice(0, 100).toString());
         })
         .catch(d => {
             console.error(d);
