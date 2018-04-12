@@ -6,6 +6,7 @@ const { parseTime, formatTime } = require('./parse-time');
 const dateFns = require('date-fns');
 const _ = require('lodash');
 
+
 function getContext({ print, notice, action, msgData, node }) {
 
     const IRC = {
@@ -25,7 +26,7 @@ function getContext({ print, notice, action, msgData, node }) {
         eventFns: node.database.eventFactory(msgData.from),
         resetBuffer: node.resetBuffer,
         webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
-        // command
+        // command, require are patched later
     };
 
     const util = {
