@@ -56,6 +56,7 @@ const acquire = (name, version = 'latest') => {
                             }
                             else {
                                 resolve(
+                                    // TODO: fs.readFile / new Function() {}
                                     require(
                                         path.resolve(modulePath, bundlename)
                                     )
@@ -70,7 +71,7 @@ const acquire = (name, version = 'latest') => {
 };
 
 setTimeout(() => {
-    acquire('react')
+    acquire('fs')
         .then(d => {
             console.log(d);
         })
