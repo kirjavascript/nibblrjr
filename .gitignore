@@ -2,3 +2,4 @@ storage/*
 !storage/commands.db
 node_modules
 web/bundles
+package-lock.json
