@@ -19,8 +19,10 @@ npm.load({loglevel: 'silent', lock: false}, (err, success) => {
     else {
         npmInstall = promisify(npm.commands.install);
         npmView = promisify(npm.commands.view);
+        npm.config.set('dry-run');
     }
 });
+
 
 const acquireFactory = (initFunc = source => source) => {
     return (input) => {
