@@ -19,22 +19,26 @@ npm.load({loglevel: 'silent', lock: false}, (err, success) => {
     else {
         npmInstall = promisify(npm.commands.install);
         npmView = promisify(npm.commands.view);
-        npm.config.set('dry-run');
+        // disable an attack vector
+        npm.config.set('ignore-scripts', true);
     }
 });
 
 
 const acquireFactory = (initFunc = source => source) => {
     return (input) => {
-        const hasVersion = input.includes('@');
-        const version = hasVersion ? input.replace(/^(.*?)@/, '') : 'latest';
+        if (!input.length || input.startsWith('.') || input.startsWith('_') || /[~\(\)'!\*]/.test(input) || input.includes('..')) {
+            throw new Error('Invalid package name');
+        }
+        const hasVersion = input.indexOf('@') > 0;
+        const version = hasVersion ? input.replace(/^(.+?)@/, '') : 'latest';
         const name = hasVersion ? input.replace(/@(.*?)$/, '') : input;
         const module = `${name}@${version}`;
 
         return new Promise(async (resolve, reject) => {
             try {
-                if (!npmInstall) {
-                    return reject(new Error('aquire: npm not loaded'));
+                if (!npmView) {
+                    return reject(new Error('acquire: npm not loaded'));
                 }
                 else if (version == 'latest') {
                     // check latest on npm and see if we have it
@@ -69,11 +73,19 @@ const acquireFactory = (initFunc = source => source) => {
                 const pkg = await readFileAsync(packagePath);
                 const pkgJson = JSON.parse(pkg.toString());
                 const entrypoint = pkgJson.main || 'index.js';
+                const hasExtension = entrypoint.includes('.');
+                const rootScript = path.resolve(
+                    modulePath,
+                    hasExtension ? entrypoint : `${entrypoint}.js`,
+                );
+                if (!await existsAsync(rootScript)) {
+                    return reject(new Error(`missing entrypoint file`));
+                }
 
                 // attempt to bundle module
                 webpack({
                     target: 'node',
-                    entry: path.resolve(modulePath, entrypoint),
+                    entry: rootScript,
                     output: {
                         path: path.resolve(moduleDir),
                         filename: bundlename,
