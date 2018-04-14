@@ -157,7 +157,7 @@ class ServerNode {
                             error,
                         } = evaluate({ input: commandData.command, context });
                         if (error) {
-                            print.raw(output);
+                            print(output);
                         }
                     }
                 }
