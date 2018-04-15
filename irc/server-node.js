@@ -78,13 +78,7 @@ class ServerNode {
                         context.IRC.event = row;
                         const commandData = parent.database.commands.get(row.callback);
                         if (commandData) {
-                            const {
-                                output,
-                                error,
-                            } = evaluate({ input: commandData.command, context });
-                            if (error) {
-                                print(output);
-                            }
+                            evaluate({ input: commandData.command, context });
                         }
                         this.database.eventFns.delete(row.idx);
                     });
@@ -117,13 +111,7 @@ class ServerNode {
                     context.IRC.event = row;
                     const commandData = parent.database.commands.get(row.callback);
                     if (commandData) {
-                        const {
-                            output,
-                            error,
-                        } = evaluate({ input: commandData.command, context });
-                        if (error) {
-                            print(output);
-                        }
+                        evaluate({ input: commandData.command, context });
                     }
                     this.database.eventFns.delete(row.idx);
                 });
@@ -143,14 +131,15 @@ class ServerNode {
 
                 // eval
                 // > - print output
-                // # - no output
+                // #/% - no output
                 if (['>','#','%'].includes(command.path)) {
                     const { input, path } = command;
                     context.store = this.database.storeFactory('__eval__');
-                    const { output, error } = evaluate({ input, context });
-                    if (input.length && path == '>' || error) {
-                        print.raw(output);
-                    }
+                    evaluate({
+                        input,
+                        context,
+                        printOutput: path == '>',
+                    });
                 }
                 // normal commands
                 else {
@@ -159,13 +148,7 @@ class ServerNode {
                     const commandData = parent.database.commands.get(command.path);
 
                     if (commandData) {
-                        const {
-                            output,
-                            error,
-                        } = evaluate({ input: commandData.command, context });
-                        if (error) {
-                            print(output);
-                        }
+                        evaluate({ input: commandData.command, context });
                     }
                 }
             }
