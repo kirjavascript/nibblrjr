@@ -11,10 +11,15 @@ class ServerNode {
     constructor(parent, server) {
 
         Object.assign(this, server, { parent });
-        // { address, channels, trigger, nickname, password }
+        // { address, channels, trigger, nickname, password, colors }
 
         this.get = (key, _default) => {
-            return this[key] || this.parent[key] || _default;
+            return typeof this[key] != 'undefined'
+                ? this[key]
+                : typeof this.parent[key] != 'undefined'
+                    ? this.parent[key]
+                    : _default;
+            // return this[key] || this.parent[key] || _default;
         }
 
         this.client = new Client(this.address, this.nickname, {
@@ -117,7 +122,7 @@ class ServerNode {
                             error,
                         } = evaluate({ input: commandData.command, context });
                         if (error) {
-                            print.raw(output);
+                            print(output);
                         }
                     }
                     this.database.eventFns.delete(row.idx);
@@ -137,6 +142,8 @@ class ServerNode {
                 context.IRC.command = command;
 
                 // eval
+                // > - print output
+                // # - no output
                 if (['>','#','%'].includes(command.path)) {
                     const { input, path } = command;
                     context.store = this.database.storeFactory('__eval__');

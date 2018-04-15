@@ -10,6 +10,7 @@
             "address": "irc.rizon.net",
             "channels": ["#nibblr", "#livingroom"],
             "nickname": "nibblrjr",
+            "colors": false,
             "password": false
         },
         {
