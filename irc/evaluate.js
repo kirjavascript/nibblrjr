@@ -20,27 +20,29 @@ function evaluate({ input, context, colors = true }) {
             ['VMError', 'Buffer', 'module', 'acquireFactory'].forEach(key => {
                 Object.defineProperty(this, key, { enumerable: false });
             });
-            IRC.require = (str) => {
-                const obj = IRC.commandFns.get(str);
-                if (obj) {
-                    const module = new Function(\`
-                        \${obj.command}
-                        return this.module;
+            (() => {
+                IRC.require = (str) => {
+                    const obj = IRC.commandFns.get(str);
+                    if (obj) {
+                        const module = new Function(\`
+                            \${obj.command}
+                            return this.module;
+                        \`)();
+                        return module.exports;
+                    }
+                    else {
+                        const error = new Error(str + ' not found');
+                        error.name = 'RequireError';
+                        throw error;
+                    }
+                };
+                global.acquire = acquireFactory(source => {
+                    return new Function(\`
+                        \${source}
+                        return __acquire__;
                     \`)();
-                    return module.exports;
-                }
-                else {
-                    const error = new Error(str + ' not found');
-                    error.name = 'RequireError';
-                    throw error;
-                }
-            };
-            const acquire = acquireFactory(source => {
-                return new Function(\`
-                    \${source}
-                    return __acquire__;
-                \`)();
-            });
+                });
+            })();
 
             ${input}
         `);
