@@ -6,7 +6,7 @@ util.inspect.styles.null = 'red';
 
 process.on('uncaughtException', console.error);
 
-function evaluate({ input, context, colors = true, printOutput }) {
+function evaluate({ input, context, printOutput }) {
 
     try {
         context.acquireFactory = acquireFactory;
@@ -48,9 +48,8 @@ function evaluate({ input, context, colors = true, printOutput }) {
         `);
 
         if (printOutput) {
-            context.print.raw(objectDebug(evaluation, colors));
+            context.print.raw(objectDebug(evaluation));
         }
-
     } catch(e) {
         context.print(`{r}${e.name||'Error'}:{/} ${e.message}`)
     }
