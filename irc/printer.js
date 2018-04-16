@@ -10,7 +10,7 @@ const messageFactory = (type, node, msgData) => {
     const sendRaw = (text, target = void 0, noLog = false) => {
         if (++count > 100 || !node.registered) return; // usage limit of 100 per command, only send if correctly connected to server
 
-        if (!node.get('colors', true)) {
+        if (!node.get('colors', true) && typeof text == 'string') {
             text = text.replace(/(\x03\d{0,2}(,\d{0,2}|\x02\x02)?|\x0f|\x07|\x1D|\x02|\x1f)/g, '');
         }
 

@@ -14,8 +14,8 @@
         },
         {
             "address": "irc.furnet.org",
-            "channels": ["#purplejr"],
-            "nickname": "nibblr",
+            "channels": ["#purple"],
+            "nickname": "purple",
             "password": "milkshake"
         },
         {
