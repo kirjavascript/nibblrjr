@@ -153,7 +153,7 @@ class ServerNode {
                 }
             }
             // parse URLs
-            else {
+            else if (this.get('fetchURL', true)) {
                 fetchURL(text, print);
             }
 
