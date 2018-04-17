@@ -84,7 +84,7 @@ function createServerDBFactory(database) {
                 ORDER BY idx DESC LIMIT ? OFFSET ?
             `);
             const getGlobal = (text, limit = 1, offset = 0) => {
-                return getQuery.all(`%${text}%`, limit, offset);
+                return getGlobalQuery.all(`%${text}%`, limit, offset);
             };
             const userQuery = db.prepare(`
                 SELECT * FROM log

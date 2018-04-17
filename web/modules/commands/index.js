@@ -32,7 +32,7 @@ export class Commands extends Component {
         const { list } = parseCommand({text: value});
         const parent = env.list.find(d => d.name == list[0]);
         const locked = parent && parent.locked;
-        const isEval = ['>', '#'].includes(value);
+        const isEval = ['>', '%', '#'].includes(value);
         const valid = !isEval && !exists && (!locked || env.admin);
 
         this.setState({
