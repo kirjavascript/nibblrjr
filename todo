@@ -41,5 +41,7 @@ only web ui can kick/part/join
 edited
 testing
 
+constants: '>'
+
 can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 bridges?
