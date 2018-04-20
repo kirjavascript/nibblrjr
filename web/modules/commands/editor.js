@@ -128,7 +128,7 @@ export class Editor extends Component {
 
         return (
             <div className="editor">
-                <div className="flex items-stretch items-grow">
+                <div className="flex items-stretch items-grow buttons">
                     <input
                         type="text"
                         disabled
