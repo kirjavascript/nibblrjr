@@ -19,11 +19,11 @@ h1 {
 
 .command-list, .editor {
     overflow-y: scroll;
-    height: calc(100vh - #{$menuHeight})
 }
 
 .command-list {
     padding: 5px;
+    height: calc(100vh - #{$menuHeight});
 }
 
 .login {
@@ -43,4 +43,23 @@ h1 {
     opacity: 0.3;
     filter: grayscale(100%);
     pointer-events: none;
+}
+
+.buttons {
+    z-index: 1;
+    position: fixed;
+    margin-top: -30px;
+    width: 70vw;
+    button {
+        white-space: nowrap;
+    }
+    & + div {
+        z-index: 0;
+        // margin-top: 30px;
+    }
+}
+
+.editor {
+    margin-top: 30px;
+    height: calc(100vh - 70px);
 }
