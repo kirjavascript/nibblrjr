@@ -1,11 +1,12 @@
 import { observable, action } from 'mobx';
 import { stringify, parse } from 'zipson';
+import config from '../../../config.json';
 
 class Environment {
 
     constructor() {
         // do socket stuff
-        this.ws = new WebSocket('ws://' + location.host);
+        this.ws = new WebSocket(`ws://${location.hostname}:${config.web.port}`);
 
         this.ws.sendObj = (_type, obj = {}) => {
             this.ws.send(stringify({ ...obj, _type }));
