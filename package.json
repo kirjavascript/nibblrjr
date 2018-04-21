@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "start-pm2": "pm2 start --name \"nibblr\" index.js",
+        "start-pm2": "pm2 start --name \"nibblrjr\" index.js",
         "start": "node index.js",
         "dev": "node index.js --dev"
     },
