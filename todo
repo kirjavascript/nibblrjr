@@ -8,6 +8,7 @@
 patch the rizon log
 ~shreddydropsthenbomb
 irc-colours module
+disable title.parse
 
 ====
 
@@ -36,6 +37,7 @@ react router
 // subcommands / tree
 only web ui can kick/part/join
 // db web backup zip
+database explorer
 
 // EDITOR
 edited
