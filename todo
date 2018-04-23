@@ -17,11 +17,11 @@ getDOM('https://apps.timwhitlock.info/unicode/inspect?s='+encodeURIComponent('â„
 https://github.com/4chan/4chan-API
 trivia() { // http://opentdb.com/api.php?amount=10
 roulette
-wca
 mdn
 memo.pending
 ciu
 https://stackoverflow.com/questions/29478751/how-to-cancel-an-emcascript6-vanilla-javascript-promise-chain
+clearInterval
 
 // WEB API
 test command
