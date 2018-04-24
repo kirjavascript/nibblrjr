@@ -118,6 +118,7 @@ function parseTime(str) {
         const [match, h, m] = time;
         out = setHours(out, h);
         out = setMinutes(out, m);
+        out = setSeconds(out, 0);
     }
     // HH:MM:SS
     const timeFull = clean.match(/(\d{2}):(\d{2}):(\d{2})/);
@@ -131,11 +132,15 @@ function parseTime(str) {
     const pm = clean.match(/(\d+)\s*pm/);
     if (pm) {
         out = setHours(out, +pm[1] + 12);
+        out = setMinutes(out, 0);
+        out = setSeconds(out, 0);
     }
     // am
     const am = clean.match(/(\d+)\s*am/);
     if (am) {
         out = setHours(out, +am[1]);
+        out = setMinutes(out, 0);
+        out = setSeconds(out, 0);
     }
 
     // clamp year
