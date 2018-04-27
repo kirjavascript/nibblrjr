@@ -10,8 +10,9 @@ disable title.parse
 
 ====
 
+~matrix(7)1 - command parse bug
+~commands.*
 log.user
-roll7
 blackjack
 getDOM('https://apps.timwhitlock.info/unicode/inspect?s='+encodeURIComponent('™')).then(dom => { print(dom.qs('#inspect tbody').textContent.replace(/\s+/g,' ')) }).catch(print.log);
 https://github.com/4chan/4chan-API
