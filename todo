@@ -7,11 +7,8 @@
 ====
 
 irc-colours module
-disable title.parse
 disable commands
 strip only starred commands for github
-update config example withj disable colours etc
-add 'an' == 1 to time parsing
 
 ====
 
