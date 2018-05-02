@@ -44,7 +44,7 @@ function parseTime(str) {
         const days = +dayOffset[1];
         out = addDays(out, days);
     }
-    const monthOffset = clean.match(/(\d+)\s*(mo|month|months|)/);
+    const monthOffset = clean.match(/(\d+)\s*(mo|month|months)/);
     if (monthOffset) {
         const months = +monthOffset[1];
         out = addMonths(out, months);
