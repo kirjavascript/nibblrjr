@@ -2,16 +2,24 @@
 
     poker(query, text) { store.'running' poker.reset
     Buy in is ... bet or fold
+    august fools
 
 ====
 
 irc-colours module
 disable title.parse
+disable commands
+strip only starred commands for github
+update config example withj disable colours etc
+add 'an' == 1 to time parsing
 
 ====
 
 ~matrix(7)1 - command parse bug
 ~commands.*
+store.keys values clear
+~print(){r}hello
+http://passpigs.tripod.com/prob.html
 log.user
 blackjack
 getDOM('https://apps.timwhitlock.info/unicode/inspect?s='+encodeURIComponent('™')).then(dom => { print(dom.qs('#inspect tbody').textContent.replace(/\s+/g,' ')) }).catch(print.log);

@@ -26,7 +26,7 @@ const daysShort = Array.from({length: 7}, (_,i) => format(new Date(1234,12,i), '
 
 function parseTime(str) {
 
-    const clean = str.toLowerCase();
+    const clean = str.toLowerCase().replace(/\ban\b/g, 1);
     const tokens = clean.split(/(\s+)/g).map(d => d.trim());
 
     let out = new Date();
@@ -39,37 +39,37 @@ function parseTime(str) {
     else if (/next\s+week/.test(clean)) {
         out = addWeeks(out, 1);
     }
-    const dayOffset = str.match(/(\d+)\s*(d|days|day|dy|dys)/);
+    const dayOffset = clean.match(/(\d+)\s*(d|days|day|dy|dys)/);
     if (dayOffset) {
         const days = +dayOffset[1];
         out = addDays(out, days);
     }
-    const monthOffset = str.match(/(\d+)\s*(M|month|months|mo)/);
+    const monthOffset = clean.match(/(\d+)\s*(mo|month|months|)/);
     if (monthOffset) {
         const months = +monthOffset[1];
         out = addMonths(out, months);
     }
-    const yearOffset = str.match(/(\d+)\s*(y|years|year|yr|yrs)/);
+    const yearOffset = clean.match(/(\d+)\s*(y|years|year|yr|yrs)/);
     if (yearOffset) {
         const years = +yearOffset[1];
         out = addYears(out, years);
     }
-    const weekOffset = str.match(/(\d+)\s*(w|weeks|week|wk|wks)/);
+    const weekOffset = clean.match(/(\d+)\s*(w|weeks|week|wk|wks)/);
     if (weekOffset) {
         const weeks = +weekOffset[1];
         out = addWeeks(out, weeks);
     }
-    const hourOffset = str.match(/(\d+)\s*(h|hours|hour|hr|hrs)/);
+    const hourOffset = clean.match(/(\d+)\s*(h|hours|hour|hr|hrs)/);
     if (hourOffset) {
         const hours = +hourOffset[1];
         out = addHours(out, hours);
     }
-    const minuteOffset = str.match(/(\d+)\s*(m|minutes|minute|mins|min)/);
+    const minuteOffset = clean.match(/(\d+)\s*(m|minutes|minute|mins|min)/);
     if (minuteOffset) {
         const minutes = +minuteOffset[1];
         out = addMinutes(out, minutes);
     }
-    const secondOffset = str.match(/(\d+)\s*(s|secs|seconds|second|sec)/);
+    const secondOffset = clean.match(/(\d+)\s*(s|secs|seconds|second|sec)/);
     if (secondOffset) {
         const seconds = +secondOffset[1];
         out = addSeconds(out, seconds);

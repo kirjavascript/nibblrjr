@@ -10,20 +10,20 @@
             "address": "irc.rizon.net",
             "channels": ["#nibblr", "#livingroom"],
             "nickname": "nibblrjr",
-            "password": false
         },
         {
             "address": "irc.furnet.org",
             "channels": ["#purple"],
             "nickname": "purple",
-            "password": "milkshake"
+            "password": "milkshake".
         },
         {
             "address": "irc.freenode.net",
             "trigger": "!",
             "channels": ["#rubik2"],
-            "nickname": "nibblrjr",
-            "password": false
+            "nickname": "nibblrjr"
+            "fetchURL": false,
+            "colors": false
         }
     ]
 }
