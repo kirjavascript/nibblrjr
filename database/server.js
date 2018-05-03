@@ -36,6 +36,7 @@ function createServerDBFactory(database) {
             INSERT INTO log(user,command,target,message) VALUES (?,?,?,?)
         `);
         const log = (message) => {
+            // this is ugly af because it's legacy stuff from OG nibblr
             const commands = ['JOIN', 'PART', 'NICK', 'KICK', 'KILL', 'NOTICE', 'MODE', 'PRIVMSG', 'QUIT', 'TOPIC'];
             if (commands.includes(message.command)) {
                 if (message.command == 'QUIT') {
