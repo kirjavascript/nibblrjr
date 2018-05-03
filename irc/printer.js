@@ -21,7 +21,7 @@ const messageFactory = (type, node, msgData) => {
             // lag a little so messages are the right order
             setTimeout(() => {
                 node.database.log({
-                    nick: node.nickname,
+                    nick: node.client.nick,
                     command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
                     target,
                     args: [target || defaultTarget, ...text.split(' ')],
