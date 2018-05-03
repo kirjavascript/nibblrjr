@@ -8,16 +8,16 @@ const messageFactory = (type, node, msgData) => {
 
     // raw
     const sendRaw = (text, target = void 0, noLog = false) => {
-        if (++count > 100 || !node.registered) return; // usage limit of 100 per command, only send if correctly connected to server
+        if (++count > 100 || !node.registered || typeof text != 'string') return; // usage limit of 100 per command, only send if correctly connected to server
 
-        if (!node.get('colors', true) && typeof text == 'string') {
+        if (!node.get('colors', true)) {
             text = text.replace(/(\x03\d{0,2}(,\d{0,2}|\x02\x02)?|\x0f|\x07|\x1D|\x02|\x1f)/g, '');
         }
 
         client[type](target || defaultTarget, text);
 
         // log to DB
-        if (!msgData.isPM && !noLog && typeof text == 'string') {
+        if (!msgData.isPM && !noLog) {
             // lag a little so messages are the right order
             setTimeout(() => {
                 node.database.log({
