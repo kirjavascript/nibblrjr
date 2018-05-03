@@ -49,7 +49,7 @@ function createServerDBFactory(database) {
                 // check if has a source and is  not PM
                 else if (
                     message.nick &&
-                    (message.args || [])[0] != node.nickname
+                    (message.args || [])[0] != node.client.nick
                 ) {
                     const hasMessage = !!message.args.length;
                     logQuery.run([
