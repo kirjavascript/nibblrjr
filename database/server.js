@@ -148,6 +148,7 @@ function createServerDBFactory(database) {
             const obj = tickElapsedQuery.all((new Date()).toISOString());
             return Array.isArray(obj) ? obj : [];
         };
+        // getByCallback
         // unused
         // const tickPendingQuery = db.prepare(`
         //     SELECT * FROM events

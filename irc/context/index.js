@@ -27,6 +27,12 @@ function getContext({ print, notice, action, msgData, node }) {
         eventFns: node.database.eventFactory(msgData.from),
         resetBuffer: node.resetBuffer,
         webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+        setEvent: (event) => {
+            IRC.event = event;
+            IRC.eventFns.addEvent = () => {
+                throw new Error('cannot add an event in an event callback');
+            };
+        },
         // command, require are patched later
     };
 

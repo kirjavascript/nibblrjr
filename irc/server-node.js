@@ -75,7 +75,7 @@ class ServerNode {
                             target: row.target,
                             isPM: row.user.toLowerCase() == row.target.toLowerCase(),
                         });
-                        context.IRC.event = row;
+                        context.IRC.setEvent(row);
                         const commandData = parent.database.commands.get(row.callback);
                         if (commandData) {
                             evaluate({ input: commandData.command, context });
@@ -108,7 +108,7 @@ class ServerNode {
             // check speak events that have elapsed
             this.database.eventFns.speakElapsed(from)
                 .forEach(row => {
-                    context.IRC.event = row;
+                    context.IRC.setEvent(row);
                     const commandData = parent.database.commands.get(row.callback);
                     if (commandData) {
                         evaluate({ input: commandData.command, context });
