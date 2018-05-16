@@ -15,7 +15,7 @@
             "address": "irc.furnet.org",
             "channels": ["#purple"],
             "nickname": "purple",
-            "password": "milkshake".
+            "password": "milkshake"
         },
         {
             "address": "irc.freenode.net",
