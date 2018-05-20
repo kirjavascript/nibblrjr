@@ -9,9 +9,9 @@ const messageFactory = (type, node, msgData) => {
     let count = 0;
 
     // raw
-    const sendRaw = (text, target = void 0, noLog = false) => {
+    const sendRaw = (text, target = defaultTarget, noLog = false) => {
         // usage limit of 100 per command, only send if correctly connected to server and not to services
-        if (++count > 100 || !node.registered || services.contains(target.toLowerCase())) return;
+        if (++count > 100 || !node.registered || services.includes(String(target).toLowerCase())) return;
         if (typeof text != 'string') {
             text = String(text);
         }
@@ -19,7 +19,7 @@ const messageFactory = (type, node, msgData) => {
             text = text.replace(/(\x03\d{0,2}(,\d{0,2}|\x02\x02)?|\x0f|\x07|\x1D|\x02|\x1f)/g, '');
         }
 
-        client[type](target || defaultTarget, text);
+        client[type](target, text);
 
         // log to DB
         if (!msgData.isPM && !noLog) {
