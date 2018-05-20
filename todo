@@ -8,10 +8,18 @@
 
 irc-colours module
 disable commands
-strip only starred commands for github
+strip only starred commands for github ?
 
 ====
 
+cannot add an event in an event callback - memo stops setting memos in return
+amazon / soundcloud url parsing
+
+once per hour donk remind virus  for 8bitvape
+~poll event.tick
+
+~pipe can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
+pass command parsing in, replace in command.random and repeat
 ~matrix(7)1 - command parse bug
 ~commands.*
 store.keys values clear
@@ -49,5 +57,4 @@ testing
 
 constants: '>'
 
-can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 bridges?
