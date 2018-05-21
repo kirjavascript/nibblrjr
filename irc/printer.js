@@ -1,8 +1,6 @@
 const { objectDebug } = require('./evaluate');
 const { parseColors } = require('./colors');
 
-const services = ['nickserv', 'chanserv'];
-
 const messageFactory = (type, node, msgData) => {
     const { client } = node;
     const { target: defaultTarget } = msgData;
@@ -11,7 +9,7 @@ const messageFactory = (type, node, msgData) => {
     // raw
     const sendRaw = (text, target = defaultTarget, noLog = false) => {
         // usage limit of 100 per command, only send if correctly connected to server and not to services
-        if (++count > 100 || !node.registered || services.includes(String(target).toLowerCase())) return;
+        if (++count > 100 || !node.registered || String(target).toLowerCase().endsWith('serv')) return;
         if (typeof text != 'string') {
             text = String(text);
         }
