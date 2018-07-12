@@ -12,11 +12,11 @@ strip only starred commands for github ?
 
 ====
 
-cannot add an event in an event callback - memo stops setting memos in return
 amazon / soundcloud url parsing
 
 once per hour donk remind virus  for 8bitvape
 ~poll event.tick
+limit store set amount to 200 characters
 
 ~pipe can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 pass command parsing in, replace in command.random and repeat
