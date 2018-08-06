@@ -15,7 +15,7 @@ function getContext({ print, notice, action, msgData, node }) {
         message: msgData,
         parseColors,
         nick: node.client.nick,
-        channels: node.client.chans,
+        channels: _.cloneDeep(node.client.chans),
         setNick: (str) => {
             node.client.send('NICK', str);
         },
