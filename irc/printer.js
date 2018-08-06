@@ -16,6 +16,8 @@ const messageFactory = (type, node, msgData) => {
         if (!node.get('colors', true)) {
             text = text.replace(/(\x03\d{0,2}(,\d{0,2}|\x02\x02)?|\x0f|\x07|\x1D|\x02|\x1f)/g, '');
         }
+        // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
+        text = text.replace(/\r/g, '\n');
 
         client[type](target, text);
 
