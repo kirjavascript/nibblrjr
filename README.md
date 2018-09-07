@@ -13,6 +13,6 @@ nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 * logging
 * memo system
 * reminders
-* 800+ premade commands (mostly stupid)
+* 1000+ premade commands (mostly stupid)
 * various web integrations (hackernews, slashdot, imgur, reddit, wiki, weather, urbandictionary, tripsit, the pirate bay, bulbapedia, bbcnews, bash.org, and more)
 * texas hold em (soon™)
