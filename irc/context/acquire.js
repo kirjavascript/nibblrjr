@@ -4,11 +4,14 @@ const npm = require('global-npm');
 const path = require('path');
 const webpack = require('webpack');
 const fs = require('fs');
+const semver = require('semver');
 const { promisify } = require('util');
 
 const readFileAsync = promisify(fs.readFile);
 const existsAsync = promisify(fs.exists);
-const moduleDir = 'acquire_cache';
+const readdirAsync = promisify(fs.readdir);
+
+const moduleDir = __dirname + '/../../acquire_cache';
 
 // load npm
 let npmInstall, npmView;
@@ -23,7 +26,6 @@ npm.load({loglevel: 'silent', lock: false}, (err, success) => {
         npm.config.set('ignore-scripts', true);
     }
 });
-
 
 const acquireFactory = (initFunc = source => source) => {
     return (input) => {
@@ -40,7 +42,7 @@ const acquireFactory = (initFunc = source => source) => {
                 if (!npmView) {
                     return reject(new Error('acquire: npm not loaded'));
                 }
-                else if (version == 'latest') {
+                else if (version == 'newest') {
                     // check latest on npm and see if we have it
                     const info = await npmView([name], true);
                     const latest = Object.keys(info)[0];
@@ -49,6 +51,27 @@ const acquireFactory = (initFunc = source => source) => {
                         return resolve(
                             initFunc(await readFileAsync(filename))
                         );
+                    }
+                }
+                else if (version == 'latest') {
+                    // grab the newest version from the cache
+                    const cacheList = (await readdirAsync(moduleDir))
+                        .filter(fn => fn.startsWith(`${name}@`))
+                        .sort((a, b) => {
+                            const aVer = a.replace(/^.*@|\.js$/g, '');
+                            const bVer = b.replace(/^.*@|\.js$/g, '');
+                            if (!semver.valid(aVer) || !semver.valid(bVer)) {
+                                return -1;
+                            }
+                            return semver.lt(aVer, bVer);
+                        });
+                    if (typeof cacheList[0] == 'string') {
+                        const filename = path.resolve(moduleDir, cacheList[0]);
+                        if (await existsAsync(filename)) {
+                            return resolve(
+                                initFunc(await readFileAsync(filename))
+                            );
+                        }
                     }
                 }
                 else {

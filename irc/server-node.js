@@ -155,7 +155,7 @@ class ServerNode {
             }
             // handle IBIP (https://git.teknik.io/Teknikode/IBIP)
             else if (this.get('enableIBIP', true) && text == '.bots') {
-                print('Reporting in! [{bo}JavaScript{/}] https://github.com/kirjavascript/nibblrjr');
+                print('Reporting in! [JavaScript] https://github.com/kirjavascript/nibblrjr');
             }
             // parse URLs
             else if (this.get('fetchURL', true)) {
