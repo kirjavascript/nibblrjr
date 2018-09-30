@@ -9,6 +9,7 @@ const { promisify } = require('util');
 
 const readFileAsync = promisify(fs.readFile);
 const existsAsync = promisify(fs.exists);
+const mkdirAsync = promisify(fs.mkdir);
 const readdirAsync = promisify(fs.readdir);
 
 const moduleDir = __dirname + '/../../acquire_cache';
@@ -39,6 +40,10 @@ const acquireFactory = (initFunc = source => source) => {
 
         return new Promise(async (resolve, reject) => {
             try {
+                // create cache dir if it doesn't exist
+                if (!await existsAsync(moduleDir)) {
+                    await mkdirAsync(moduleDir);
+                }
                 if (!npmView) {
                     return reject(new Error('acquire: npm not loaded'));
                 }
