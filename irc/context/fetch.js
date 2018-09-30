@@ -10,6 +10,9 @@ async function getJSON(...args) {
 async function getDOM(...args) {
     const html = await getWeb('text', ...args);
     const dom = new JSDOM(html);
+    // not allowed for opaque origins (we don't need them anyway)
+    delete dom.window.localStorage;
+    delete dom.window.sessionStorage;
     return {
         ...dom.window,
         // DOM shortcuts
