@@ -1,4 +1,5 @@
-const fetch = require('node-fetch');
+const { AbortController, abortableFetch } = require('abortcontroller-polyfill/dist/cjs-ponyfill');
+const { fetch } = abortableFetch(require('node-fetch'));
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
@@ -8,10 +9,18 @@ function fetchURL(text, print) {
 
     if (url && url[0] && text.toLowerCase().indexOf('##') == -1) {
 
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        setTimeout(() => {
+            controller.abort();
+        }, 5000);
+
         fetch(url[0], {
             headers: {
                 'Accept-Language': 'en-GB',
             },
+            signal,
         })
             .then(res => res.text())
             .then(res => {
