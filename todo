@@ -15,13 +15,14 @@ access part/join/kick/nick - just have 'admins' in config
 > acquire - use cache instead of always checking the latest version
 > create acquire cache directory if it doesn't exist
 > cache versions are displayed as 1.1.1 for things that aren't at 1.1.1 for some reason
-> fix ~google
+> fix fetch/localStorage
 > reauth on ~nick change
-stop bulk command editing
-amazon / soundcloud url parsing / set Accept-language header
-redditVideoURL builtin
+> stop bulk command editing
 pass command parsing in, replace in command.random and repeat
 add breakhighlight to api
+amazon / soundcloud url parsing / set Accept-language header
+provida toQueryString
+redditVideoURL builtin
 
 ====
 

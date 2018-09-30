@@ -1,4 +1,5 @@
 const { parseCommand } = require('../irc/parse-command');
+const { limit } = require('../irc/context/limit.js');
 
 const parseBool = (str) => {
     return str.toLowerCase() == 'true' ? true : false;
@@ -134,7 +135,7 @@ function createCommandDB(database) {
         return (nameQuery.all()||[]).map(d => d.name);
     };
 
-    commandFns.setSafe = (name, value) => {
+    commandFns.setSafe = limit((name, value) => {
         const obj = get(name);
         const isEval = ['>', '#', '%'].includes(name);
         const parentCmdName = parseCommand({text: name}).list[0];
@@ -150,9 +151,9 @@ function createCommandDB(database) {
             set(name, value);
             return true;
         }
-    };
+    }, 1);
 
-    commandFns.deleteSafe = (name) => {
+    commandFns.deleteSafe = limit((name) => {
         const obj = get(name);
         if (obj && obj.locked) {
             return false;
@@ -161,7 +162,7 @@ function createCommandDB(database) {
             _delete(name);
             return true;
         }
-    };
+    }, 1);
 
     return {
         db, get, delete: _delete, set, list, setConfig, commandFns,
