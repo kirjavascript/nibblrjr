@@ -1,4 +1,4 @@
-const fetch = require('isomorphic-fetch');
+const fetch = require('node-fetch');
 const { JSDOM } = require('jsdom');
 
 async function getText(...args) {
