@@ -18,6 +18,10 @@ function getContext({ print, notice, action, msgData, node }) {
         channels: _.cloneDeep(node.client.chans),
         setNick: (str) => {
             node.client.send('NICK', str);
+            // reauth in case we got deauthed for whatever reason
+            if (str == node.nickname) {
+                node.client.say('nickserv', `identify ${node.password}`);
+            }
         },
         setTopic: (str) => {
             node.client.send('TOPIC', msgData.target, str);
