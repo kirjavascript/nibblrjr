@@ -19,7 +19,7 @@ access part/join/kick/nick - just have 'admins' in config
 > stop bulk command editing
 > set Accept-Language header for URL parsing
 > pass command parsing in, replace in command.random and repeat
-add breakhighlight to api
+> add breakhighlight to api
 amazon / soundcloud url parsing
 irc-bot-science
 provida toQueryString
