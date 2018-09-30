@@ -1,4 +1,3 @@
-
 function createServerDBFactory(database) {
     return (node) => {
 

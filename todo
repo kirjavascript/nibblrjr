@@ -10,10 +10,10 @@ disable commands
 strip only starred commands for github ?
 access part/join/kick/nick - just have 'admins' in config
 
- limit store set amount to 200 characters
+> limit store set amount to 200 characters
+> .bots standard
 acquire - just get the first command
 cache versions are displayed as 1.1.1 for things that aren't at 1.1.1 for some reason
-.bots standard
 redditVideoURL builtin
 amazon / soundcloud url parsing / set Accept-language header
 stop bulk command editing
