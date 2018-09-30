@@ -19,7 +19,6 @@ class ServerNode {
                 : typeof this.parent[key] != 'undefined'
                     ? this.parent[key]
                     : _default;
-            // return this[key] || this.parent[key] || _default;
         }
 
         this.client = new Client(this.address, this.nickname, {
