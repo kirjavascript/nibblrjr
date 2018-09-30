@@ -9,13 +9,15 @@ const messageFactory = (type, node, msgData) => {
     // raw
     const sendRaw = (text, target = defaultTarget, noLog = false) => {
         // usage limit of 100 per command, only send if correctly connected to server and not to services
-        if (++count > 100 || !node.registered || String(target).toLowerCase().endsWith('serv')) return;
+        if (++count > 100 || !node.registered || String(target).toLowerCase().includes('serv')) return;
         if (typeof text != 'string') {
             text = String(text);
         }
         if (!node.get('colors', true)) {
             text = text.replace(/(\x03\d{0,2}(,\d{0,2}|\x02\x02)?|\x0f|\x07|\x1D|\x02|\x1f)/g, '');
         }
+        // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
+        text = text.replace(/\r/g, '\n');
 
         client[type](target, text);
 
