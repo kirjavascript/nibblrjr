@@ -6,29 +6,27 @@
 
 ====
 
-irc-colours module
 disable commands
 strip only starred commands for github ?
-count nibb-module
 access part/join/kick/nick - just have 'admins' in config
+
+ limit store set amount to 200 characters
+acquire - just get the first command
+cache versions are displayed as 1.1.1 for things that aren't at 1.1.1 for some reason
 .bots standard
 redditVideoURL builtin
-acquire - just get the first command
+amazon / soundcloud url parsing / set Accept-language header
+stop bulk command editing
+pass command parsing in, replace in command.random and repeat
+add breakhighlight to api
+reauth on ~nick change
 
 ====
 
-amazon / soundcloud url parsing
-if gett nick taken message, change nick
-
-once per hour donk remind virus  for 8bitvape
 ~poll event.tick
-limit store set amount to 200 characters
-
 ~pipe can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
-pass command parsing in, replace in command.random and repeat
 ~matrix(7)1 - command parse bug
 ~commands.*
-store.keys values clear
 ~print(){r}hello
 http://passpigs.tripod.com/prob.html
 log.user
@@ -62,5 +60,3 @@ edited
 testing
 
 constants: '>'
-
-bridges?

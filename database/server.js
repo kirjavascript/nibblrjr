@@ -177,6 +177,9 @@ function createServerDBFactory(database) {
 
         const eventFactory = (from) => {
             const addEvent = (type, { callback, time = new Date(), message = '', target = '' }) => {
+                if (String(message).length > 400) {
+                    throw new Error('Store size limit is 400');
+                }
                 if (['speak', 'tick'].includes(type)) {
                     return eventInsertQuery.run(
                         callback,
@@ -225,6 +228,9 @@ function createServerDBFactory(database) {
                 }
                 // update / add data
                 else if (!hasData) {
+                    if (String(value).length > 400) {
+                        throw new Error('Store size limit is 400');
+                    }
                     setInsertQuery.run(String(value), namespace, key);
                 }
                 else {
