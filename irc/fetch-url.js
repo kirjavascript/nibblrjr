@@ -8,7 +8,11 @@ function fetchURL(text, print) {
 
     if (url && url[0] && text.toLowerCase().indexOf('##') == -1) {
 
-        fetch(url[0])
+        fetch(url[0], {
+            headers: {
+                'Accept-Language': 'en-GB',
+            },
+        })
             .then(res => res.text())
             .then(res => {
 
