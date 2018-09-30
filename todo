@@ -6,7 +6,6 @@
 
 ====
 
-disable commands
 strip only starred commands for github ?
 access part/join/kick/nick - just have 'admins' in config
 
@@ -18,9 +17,11 @@ access part/join/kick/nick - just have 'admins' in config
 > fix fetch/localStorage
 > reauth on ~nick change
 > stop bulk command editing
-pass command parsing in, replace in command.random and repeat
+> set Accept-Language header for URL parsing
+> pass command parsing in, replace in command.random and repeat
 add breakhighlight to api
-amazon / soundcloud url parsing / set Accept-language header
+amazon / soundcloud url parsing
+irc-bot-science
 provida toQueryString
 redditVideoURL builtin
 
