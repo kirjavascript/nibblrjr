@@ -9,18 +9,6 @@
 strip only starred commands for github ?
 access part/join/kick/nick - just have 'admins' in config
 
-> limit store set amount to 200 characters
-> .bots standard
-> acquire - use cache instead of always checking the latest version
-> create acquire cache directory if it doesn't exist
-> cache versions are displayed as 1.1.1 for things that aren't at 1.1.1 for some reason
-> fix fetch/localStorage
-> reauth on ~nick change
-> stop bulk command editing
-> set Accept-Language header for URL parsing
-> pass command parsing in, replace in command.random and repeat
-> add breakhighlight to api
-amazon / soundcloud url parsing
 irc-bot-science
 provida toQueryString
 redditVideoURL builtin
