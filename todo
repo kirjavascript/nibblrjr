@@ -9,11 +9,17 @@
 irc-colours module
 disable commands
 strip only starred commands for github ?
+count nibb-module
+access part/join/kick/nick - just have 'admins' in config
+.bots standard
+redditVideoURL builtin
+acquire - just get the first command
 
 ====
 
 cannot add an event in an event callback - memo stops setting memos in return
 amazon / soundcloud url parsing
+if gett nick taken message, change nick
 
 once per hour donk remind virus  for 8bitvape
 ~poll event.tick
