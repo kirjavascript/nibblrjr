@@ -15,8 +15,8 @@ function fetchURL(text, print) {
         let totalSize = 0;
         let output = '';
 
-        const request = url.startsWith('https') ? https : http;
-        const parsed = URL.parse(url);
+        const request = url[0].startsWith('https') ? https : http;
+        const parsed = URL.parse(url[0]);
 
         const options = {
             headers: {
