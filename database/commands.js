@@ -80,7 +80,7 @@ function createCommandDB(database) {
     };
 
     const setInsertQuery = db.prepare(`
-        INSERT INTO commands(name,command) VALUES (?,?)
+        INSERT INTO commands(name,command,locked,starred) VALUES (?,?,?,?)
     `);
     const setUpdateQuery = db.prepare(`
         UPDATE commands SET command = ? WHERE name = ?
@@ -88,7 +88,7 @@ function createCommandDB(database) {
     const set = (name, value) => {
         const safeName = name.replace(/\s+/g, '');
         if (typeof get(safeName) == 'undefined') {
-            setInsertQuery.run(safeName, value);
+            setInsertQuery.run(safeName, value, 'false', 'false');
         }
         else {
             setUpdateQuery.run(value, safeName);
@@ -135,7 +135,7 @@ function createCommandDB(database) {
         return (nameQuery.all()||[]).map(d => d.name);
     };
 
-    commandFns.setSafe = limit((name, value) => {
+    commandFns.setSafe = (name, value) => {
         const obj = get(name);
         const isEval = ['>', '#', '%'].includes(name);
         const parentCmdName = parseCommand({text: name}).list[0];
@@ -151,9 +151,9 @@ function createCommandDB(database) {
             set(name, value);
             return true;
         }
-    }, 1);
+    };
 
-    commandFns.deleteSafe = limit((name) => {
+    commandFns.deleteSafe = (name) => {
         const obj = get(name);
         if (obj && obj.locked) {
             return false;
@@ -162,7 +162,7 @@ function createCommandDB(database) {
             _delete(name);
             return true;
         }
-    }, 1);
+    };
 
     return {
         db, get, delete: _delete, set, list, setConfig, commandFns,
