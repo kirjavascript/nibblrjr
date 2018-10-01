@@ -8,8 +8,6 @@
 
 strip only starred commands for github ?
 access part/join/kick/nick - just have 'admins' in config
-
-irc-bot-science
 provida toQueryString
 redditVideoURL builtin
 
