@@ -29,9 +29,14 @@ function fetchURL(text, print, disableRedirect) {
 
         request.get(options, res => {
             if (isRedirect(res.statusCode)) {
-                // TODO: relative URL redirect
                 // redirect
-                fetchURL(String(_.get(res, 'headers.location')), print, true);
+                const newURL = String(_.get(res, 'headers.location'));
+                if (newURL.startsWith('/')) {
+                    const newAbsURL = `${parsed.protocol}//${parsed.host}${newURL}`;
+                    fetchURL(newAbsURL, print, true);
+                } else {
+                    fetchURL(newURL, print, true);
+                }
             } else {
                 res.on('data', (chunk) => {
                     totalSize += chunk.length;
