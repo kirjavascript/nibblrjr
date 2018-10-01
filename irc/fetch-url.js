@@ -1,5 +1,8 @@
-const { AbortController, abortableFetch } = require('abortcontroller-polyfill/dist/cjs-ponyfill');
-const { fetch } = abortableFetch(require('node-fetch'));
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+const URL = require('url');
+
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
@@ -9,23 +12,31 @@ function fetchURL(text, print) {
 
     if (url && url[0] && text.toLowerCase().indexOf('##') == -1) {
 
-        const controller = new AbortController();
-        const signal = controller.signal;
+        let totalSize = 0;
+        let output = '';
 
-        setTimeout(() => {
-            controller.abort();
-        }, 5000);
+        const request = url.startsWith('https') ? https : http;
+        const parsed = URL.parse(url);
 
-        fetch(url[0], {
+        const options = {
             headers: {
                 'Accept-Language': 'en-GB',
             },
-            signal,
-        })
-            .then(res => res.text())
-            .then(res => {
+            hostname: parsed.hostname,
+            path: parsed.path,
+        };
 
-                const title = /<title>(.*?)<\/title>/ig.exec(res);
+        request.get(options, (res) => {
+            res.on('data', (chunk) => {
+                totalSize += chunk.length;
+
+                if (totalSize > 5242880) { // 512kb
+                    return res.destroy();
+                }
+
+                output += chunk;
+            }).on('end', () => {
+                const title = /<title>(.*?)<\/title>/ig.exec(output);
 
                 if (title && title[1]) {
                     const cleanTitle = entities.decode(title[1]);
@@ -36,8 +47,9 @@ function fetchURL(text, print) {
                         print(str);
                     }
                 }
-            })
-            .catch(res => { });
+            });
+        });
+
     }
 
 };
