@@ -47,10 +47,10 @@ function fetchURL(text, print, disableRedirect) {
 
                     output += chunk;
                 }).on('end', () => {
-                    const title = /<title>(.*?)<\/title>/ig.exec(output);
+                    const title = /<title>([\S\s]*?)<\/title>/ig.exec(output);
 
                     if (title && title[1]) {
-                        const cleanTitle = entities.decode(title[1]);
+                        const cleanTitle = entities.decode(title[1]).replace(/\s+/g, ' ').trim();
 
                         const str = `\u000312>>\u000f ${cleanTitle}`;
 
