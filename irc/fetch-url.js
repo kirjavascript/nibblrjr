@@ -47,7 +47,7 @@ function fetchURL(text, print, disableRedirect) {
 
                     output += chunk;
                 }).on('end', () => {
-                    const title = /<title>([\S\s]*?)<\/title>/ig.exec(output);
+                    const title = /<title[^>]*>([\S\s]+?)<\/title>/ig.exec(output);
 
                     if (title && title[1]) {
                         const cleanTitle = entities.decode(title[1]).replace(/\s+/g, ' ').trim();
@@ -56,6 +56,8 @@ function fetchURL(text, print, disableRedirect) {
 
                         if (str.length < 400) {
                             print(str);
+                        } else {
+                            print(`${str.slice(0, 397)} ...`);
                         }
                     }
                 });
