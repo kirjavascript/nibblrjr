@@ -135,7 +135,7 @@ function createCommandDB(database) {
         return (nameQuery.all()||[]).map(d => d.name);
     };
 
-    commandFns.setSafe = limit((name, value) => {
+    commandFns.setSafe = (name, value) => {
         const obj = get(name);
         const isEval = ['>', '#', '%'].includes(name);
         const parentCmdName = parseCommand({text: name}).list[0];
@@ -151,7 +151,7 @@ function createCommandDB(database) {
             set(name, value);
             return true;
         }
-    }, 1);
+    };
 
     commandFns.deleteSafe = limit((name) => {
         const obj = get(name);
@@ -162,7 +162,7 @@ function createCommandDB(database) {
             _delete(name);
             return true;
         }
-    }, 1);
+    }, 2);
 
     return {
         db, get, delete: _delete, set, list, setConfig, commandFns,
