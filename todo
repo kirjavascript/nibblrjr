@@ -6,18 +6,23 @@
 
 ====
 
+set request content type url bug https://arin.ga/BXMkyl
+enable/disable ~nick commands / access
+updateConfig
 strip only starred commands for github ?
 access part/join/kick/nick - just have 'admins' in config
 provida toQueryString
-redditVideoURL builtin
 create nibblr user
 truncate log messages (or also how nibblr saves itself to log)
+documentation show global object tree
 
 https://gfycat.com/SourImaginaryAfricanrockpython
 https://kotaku.com/report-new-nintendo-switch-model-coming-in-2019-1829513370
 https://gamefaqs.gamespot.com/pc/648805-osu
 
 ====
+
+~pipe e hello | rainbow
 
 ~poll event.tick
 ~pipe can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
