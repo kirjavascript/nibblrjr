@@ -24,9 +24,6 @@ function fetchURL(text, print, disableRedirect) {
             headers: {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Accept-Language': 'en-GB,en;q=0.5',
-                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:64.0) Gecko/20100101 Firefox/64.0',
-                'Pragma': 'no-cache',
-                'Cache-Control': 'no-cache',
             },
             hostname: parsed.hostname,
             path: parsed.path,
