@@ -6,10 +6,12 @@ util.inspect.styles.null = 'red';
 
 process.on('uncaughtException', console.error);
 
-function evaluate({ input, context, printOutput }) {
+function evaluate({ input, context, printOutput, wrapAsync }) {
 
     try {
         context.acquireFactory = acquireFactory;
+
+        const code = wrapAsync ? `(async () => {${input}})()` : input;
 
         const evaluation = new VM({
             timeout: 3000,
@@ -44,7 +46,7 @@ function evaluate({ input, context, printOutput }) {
                 });
             })();
 
-            ${input}
+            ${code}
         `);
 
         if (printOutput) {
