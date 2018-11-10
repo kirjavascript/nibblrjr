@@ -140,6 +140,7 @@ class ServerNode {
                         input,
                         context,
                         printOutput: path == '>',
+                        wrapAsync: ['#', '%'].includes(path),
                     });
                 }
                 // normal commands
