@@ -11,7 +11,13 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
     try {
         context.acquireFactory = acquireFactory;
 
-        const code = wrapAsync ? `(async () => {${input}})()` : input;
+        const code = wrapAsync ? `(async () => {
+            try {
+                ${input}
+            } catch(e) {
+                print(\`{r}\${e.name||'Error'}:{/} \${e.message}\`)
+            }
+        })();` : input;
 
         const evaluation = new VM({
             timeout: 3000,

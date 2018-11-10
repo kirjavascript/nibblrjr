@@ -132,15 +132,16 @@ class ServerNode {
 
                 // eval
                 // > - print output
-                // #/% - no output
+                // #/% - no output, async IIFE
                 if (['>','#','%'].includes(command.path)) {
                     const { input, path } = command;
                     context.store = this.database.storeFactory('__eval__');
+                    const isAsync = path != '>';
                     evaluate({
                         input,
                         context,
-                        printOutput: path == '>',
-                        wrapAsync: ['#', '%'].includes(path),
+                        printOutput: !isAsync,
+                        wrapAsync: isAsync,
                     });
                 }
                 // normal commands
