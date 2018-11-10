@@ -15,7 +15,7 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
             try {
                 ${input}
             } catch(e) {
-                print(\`{r}\${e.name||'Error'}:{/} \${e.message}\`)
+                print(\`{r}\${e.name||'Error'}:{/} \${e.message}\`);
             }
         })();` : input;
 
@@ -59,7 +59,7 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
             context.print.raw(objectDebug(evaluation));
         }
     } catch(e) {
-        context.print(`{r}${e.name||'Error'}:{/} ${e.message}`)
+        context.print(`{r}${e.name||'Error'}:{/} ${e.message}`);
     }
 }
 
