@@ -10,6 +10,7 @@ set request content type url bug https://arin.ga/BXMkyl
 enable/disable ~nick commands / access
 updateConfig
 strip only starred commands for github ?
+instead of access levels just have a login w/ chat ui
 access part/join/kick/nick - just have 'admins' in config
 provida toQueryString
 create nibblr user

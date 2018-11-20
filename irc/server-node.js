@@ -65,7 +65,8 @@ class ServerNode {
         });
 
         // check tick events that have elapsed
-        this.tick = setInterval(() => {
+        this.tick = () => {
+            setTimeout(this.tick, 5000);
             if (this.registered) {
                 this.database.eventFns.tickElapsed()
                     .forEach(row => {
@@ -83,7 +84,8 @@ class ServerNode {
                         this.database.eventFns.delete(row.idx);
                     });
             }
-        }, 5000);
+        };
+        setTimeout(this.tick, 5000);
 
         this.getEnvironment = (msgData) => {
             const print = printFactory(this, msgData);
