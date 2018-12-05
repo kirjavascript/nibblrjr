@@ -6,6 +6,8 @@
 
 ====
 
+IRC.runCommand
+specify regex for command name
 set request content type url bug https://arin.ga/BXMkyl
 enable/disable ~nick commands / access
 updateConfig
