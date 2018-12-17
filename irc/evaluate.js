@@ -64,7 +64,7 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
 }
 
 function objectDebug(evaluation, colors = true) {
-    const output = util.inspect(evaluation, { depth: 1, colors })
+    const output = util.inspect(truncStrings(evaluation), { depth: 0, colors })
         .replace(/\s+/g, ' ')
         .replace(new RegExp('\u001b\\[39m', 'g'), '\u000f')// reset
         .replace(new RegExp('\u001b\\[31m', 'g'), '\u000313') // null
@@ -79,6 +79,23 @@ function objectDebug(evaluation, colors = true) {
     else {
         return output;
     }
+}
+
+function truncStrings(obj) {
+    const doTrunc = (str) => (
+        str.length > 100 ? str.slice(0, 100) + '[TRUNCATED]' : str
+    );
+    if (typeof obj === 'string') {
+        return doTrunc(obj);
+    } else if (typeof obj === 'object') {
+        Object.keys(obj)
+            .forEach((key) => {
+                if (typeof obj[key] === 'string') {
+                    obj[key] = doTrunc(obj[key]);
+                }
+            });
+    }
+    return obj;
 }
 
 module.exports = {
