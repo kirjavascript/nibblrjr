@@ -65,9 +65,9 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
 
 function objectDebug(evaluation, colors = true) {
     const outputFull = util.inspect(evaluation, { depth: 0, colors });
-    const output = output.length > 396
-        ? output.slice(0, 396) + '\u000f ...'
-        : output;
+    const output = outputFull.length > 396
+        ? outputFull.slice(0, 396) + '\u000f ...'
+        : outputFull;
 
     return output
         .replace(/\s+/g, ' ')
