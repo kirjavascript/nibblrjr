@@ -83,7 +83,7 @@ function objectDebug(evaluation, colors = true) {
 
 function truncStrings(obj) {
     const doTrunc = (str) => (
-        str.length > 100 ? str.slice(0, 100) + '[TRUNCATED]' : str
+        str.length > 400 ? str.slice(0, 400) + ' ... ' : str
     );
     if (typeof obj === 'string') {
         return doTrunc(obj);
