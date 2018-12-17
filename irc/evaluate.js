@@ -64,7 +64,12 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
 }
 
 function objectDebug(evaluation, colors = true) {
-    const output = util.inspect(truncStrings(evaluation), { depth: 0, colors })
+    const outputFull = util.inspect(evaluation, { depth: 0, colors });
+    const output = output.length > 396
+        ? output.slice(0, 396) + '\u000f ...'
+        : output;
+
+    return output
         .replace(/\s+/g, ' ')
         .replace(new RegExp('\u001b\\[39m', 'g'), '\u000f')// reset
         .replace(new RegExp('\u001b\\[31m', 'g'), '\u000313') // null
@@ -72,30 +77,6 @@ function objectDebug(evaluation, colors = true) {
         .replace(new RegExp('\u001b\\[32m', 'g'), '\u000303')// str
         .replace(new RegExp('\u001b\\[90m', 'g'), '\u000314')// str?
         .replace(new RegExp('\u001b\\[36m', 'g'), '\u000310');// func
-
-    if (output.length > 396) {
-        return output.slice(0, 396) + '\u000f ...';
-    }
-    else {
-        return output;
-    }
-}
-
-function truncStrings(obj) {
-    const doTrunc = (str) => (
-        str.length > 400 ? str.slice(0, 400) + ' ... ' : str
-    );
-    if (typeof obj === 'string') {
-        return doTrunc(obj);
-    } else if (typeof obj === 'object') {
-        Object.keys(obj)
-            .forEach((key) => {
-                if (typeof obj[key] === 'string') {
-                    obj[key] = doTrunc(obj[key]);
-                }
-            });
-    }
-    return obj;
 }
 
 module.exports = {
