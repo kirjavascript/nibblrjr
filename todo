@@ -3,13 +3,15 @@
     poker(query, text) { store.'running' poker.reset
     Buy in is ... bet or fold
     august fools
+bug: ~> 'r' + 'e'.repeat(1e9)
 
 ====
 
 IRC.runCommand
 specify regex for command name
 set request content type url bug https://arin.ga/BXMkyl
-enable/disable ~nick commands / access
+enable/disable ~nick commands / access /
+~reboot full
 updateConfig
 strip only starred commands for github ?
 instead of access levels just have a login w/ chat ui
