@@ -3,6 +3,7 @@
     poker(query, text) { store.'running' poker.reset
     Buy in is ... bet or fold
     august fools
+~> 'e'.repeat(1e9) bug
 
 ====
 
