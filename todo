@@ -12,7 +12,7 @@ IRC.runCommand
 specify regex for command name
 set request content type url bug https://arin.ga/BXMkyl
 enable/disable ~nick commands / access /
-~reboot full
+~reboot full ~mode ~kick ~topic
 updateConfig
 strip only starred commands for github ?
 instead of access levels just have a login w/ chat ui
