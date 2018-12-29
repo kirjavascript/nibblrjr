@@ -9,7 +9,7 @@
         {
             "address": "irc.rizon.net",
             "channels": ["#nibblr", "#livingroom"],
-            "nickname": "nibblrjr",
+            "nickname": "nibblrjr"
         },
         {
             "address": "irc.furnet.org",
@@ -21,7 +21,7 @@
             "address": "irc.freenode.net",
             "trigger": "!",
             "channels": ["#rubik2"],
-            "nickname": "nibblrjr"
+            "nickname": "nibblrjr",
             "fetchURL": false,
             "colors": false
         }
