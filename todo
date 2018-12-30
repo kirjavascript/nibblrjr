@@ -1,13 +1,9 @@
 // TODO //
 
 ~> 'e'.repeat(1e9) bug
-setTopic: (str) => {
-    node.client.send('TOPIC', msgData.target, str);
-},
 
-enable/disable ~nick commands / access /
-~reboot full ~topic
-access part/join/kick/nick - just have 'admins' in config
+enable/disable ~nick
+~reboot
 updateConfig
 
 ====
