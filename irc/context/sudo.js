@@ -2,9 +2,12 @@ function sudo({ IRC, callback, node, print }) {
     if (node.get('admins', []).includes(IRC.message.from)) {
         const checkAccess = (name) => {
             const ref = {};
+            // node.client.addListener('notice', (...args) => {
+            //     console.log(args);
+            // })
             const noticeHandler = (from, to, text) => {
-                if (text.toUpperCase().startsWith(name)) {
-                    const [msg, nick, status] = text.split(' ');
+                if (text.toUpperCase().includes(name)) {
+                    const [msg, nick, status] = text.trim().split(' ');
                     try {
                         if (status == 3) {
                             callback(node.client);
