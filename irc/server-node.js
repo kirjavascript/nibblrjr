@@ -28,7 +28,7 @@ class ServerNode {
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: true,
-            // debug: true,
+            debug: true,
         });
 
         this.timeouts = [];
