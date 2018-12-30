@@ -9,10 +9,8 @@ function sudo({ IRC, callback, node, print }) {
                     const [msg, nick, status] = text.trim().split(' ');
                     try {
                         if (status == 3) {
-                            const { updateMod } = require('../hot-loader');
                             callback(node.client, {
                                 node,
-                                updateMod,
                                 shell: (str) => (
                                     createCommand('/bin/sh', ['-c', str])
                                 ),

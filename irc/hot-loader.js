@@ -35,9 +35,9 @@ const loadMod = () => {
 
 loadMod();
 
-const updateMod = () => {
+const updateLoader = () => {
     clearCache();
     loadMod();
 };
 
-module.exports = { mod, updateMod };
+module.exports = { mod, updateLoader };

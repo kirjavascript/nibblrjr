@@ -1,10 +1,12 @@
 const { Client } = require('irc');
 Client.prototype._updateMaxLineLength = () => {this.maxLineLength = 400};
 
-const { mod } = require('./hot-loader');
+const { mod, updateLoader } = require('./hot-loader');
 
 class ServerNode {
     constructor(parent, server) {
+
+        this.updateLoader = updateLoader;
 
         Object.assign(this, server, { parent });
         // { address, channels, trigger, nickname, password, colors }
