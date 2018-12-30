@@ -1,11 +1,7 @@
 const { Client } = require('irc');
 Client.prototype._updateMaxLineLength = () => {this.maxLineLength = 400};
 
-const { printFactory, noticeFactory, actionFactory } = require('./printer');
-const { evaluate } = require('./evaluate');
-const { fetchURL } = require('./fetch-url');
-const { getContext } = require('./context');
-const { parseCommand } = require('./parse-command');
+const { mod } = require('./hot-loader');
 
 class ServerNode {
     constructor(parent, server) {
@@ -28,7 +24,7 @@ class ServerNode {
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: true,
-            debug: true,
+            // debug: true,
         });
 
         this.timeouts = [];
@@ -79,7 +75,8 @@ class ServerNode {
                         context.IRC.setEvent(row);
                         const commandData = parent.database.commands.get(row.callback);
                         if (commandData) {
-                            evaluate({ input: commandData.command, context });
+                            mod.evaluate({ input: commandData.command, context });
+
                         }
                         this.database.eventFns.delete(row.idx);
                     });
@@ -88,10 +85,10 @@ class ServerNode {
         setTimeout(this.tick, 5000);
 
         this.getEnvironment = (msgData) => {
-            const print = printFactory(this, msgData);
-            const notice = noticeFactory(this, msgData);
-            const action = actionFactory(this, msgData);
-            const context = getContext({
+            const print = mod.printFactory(this, msgData);
+            const notice = mod.noticeFactory(this, msgData);
+            const action = mod.actionFactory(this, msgData);
+            const context = mod.getContext({
                 print,
                 notice,
                 action,
@@ -114,7 +111,7 @@ class ServerNode {
                     context.IRC.setEvent(row);
                     const commandData = parent.database.commands.get(row.callback);
                     if (commandData) {
-                        evaluate({ input: commandData.command, context });
+                        mod.evaluate({ input: commandData.command, context });
                     }
                     this.database.eventFns.delete(row.idx);
                 });
@@ -123,7 +120,7 @@ class ServerNode {
             const trigger = this.get('trigger', '!');
 
             if (text.startsWith(trigger)) {
-                const command = parseCommand({ trigger, text });
+                const command = mod.parseCommand({ trigger, text });
 
                 if (parent.dev) {
                     print.log(command, msgData.target, true);
@@ -139,7 +136,7 @@ class ServerNode {
                     const { input, path } = command;
                     context.store = this.database.storeFactory('__eval__');
                     const isAsync = path != '>';
-                    evaluate({
+                    mod.evaluate({
                         input,
                         context,
                         printOutput: !isAsync,
@@ -153,7 +150,7 @@ class ServerNode {
                     const commandData = parent.database.commands.get(command.path);
 
                     if (commandData) {
-                        evaluate({ input: commandData.command, context });
+                        mod.evaluate({ input: commandData.command, context });
                     }
                 }
             }
@@ -163,7 +160,7 @@ class ServerNode {
             }
             // parse URLs
             else if (this.get('fetchURL', true)) {
-                fetchURL(text, print);
+                mod.fetchURL(text, print);
             }
 
         });

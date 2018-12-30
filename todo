@@ -3,16 +3,14 @@
 ~> 'e'.repeat(1e9) bug
 
 enable/disable ~nick
-~reboot
-updateConfig
 
-clearCache: () => {
-    Object.keys(require.cache)
-        .forEach(key => void delete require.cache[key]);
-},
 
 reloadServerNode ?
+this.evaluate, this.printFactory, this.getContext
 
+moduleProxy() -> { evaluate, fetchURL }
+
+print.log add depth
 ====
 
 IRC.runCommand
