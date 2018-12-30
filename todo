@@ -11,6 +11,8 @@ clearCache: () => {
         .forEach(key => void delete require.cache[key]);
 },
 
+reloadServerNode ?
+
 ====
 
 IRC.runCommand
