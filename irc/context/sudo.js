@@ -9,7 +9,7 @@ function sudo({ IRC, callback, node, print }) {
                     const [msg, nick, status] = text.trim().split(' ');
                     try {
                         if (status == 3) {
-                            callback(node.client, {
+                            callback({
                                 node,
                                 shell: (str) => (
                                     createCommand('/bin/sh', ['-c', str])
