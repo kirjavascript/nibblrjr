@@ -18,6 +18,7 @@ function getContext({ print, notice, action, msgData, node }) {
         nick: node.client.nick,
         channels: _.cloneDeep(node.client.chans),
         setNick: (str) => {
+            str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
             node.client.send('NICK', str);
             // reauth in case we got deauthed for whatever reason
             if (str == node.nickname) {

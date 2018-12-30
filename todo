@@ -1,12 +1,9 @@
 // TODO //
 
 ~> 'e'.repeat(1e9) bug
-IRC.setNick(Math.random()) === nuke
-
-    setTopic: (str) => {
-        node.client.send('TOPIC', msgData.target, str);
-    },
-
+setTopic: (str) => {
+    node.client.send('TOPIC', msgData.target, str);
+},
 
 enable/disable ~nick commands / access /
 ~reboot full ~mode ~kick ~topic
