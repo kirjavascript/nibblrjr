@@ -3,20 +3,23 @@
 ~> 'e'.repeat(1e9) bug
 IRC.setNick(Math.random()) === nuke
 
-asAdmin(() => {
-});
+    setTopic: (str) => {
+        node.client.send('TOPIC', msgData.target, str);
+    },
+
+
+enable/disable ~nick commands / access /
+~reboot full ~mode ~kick ~topic
+access part/join/kick/nick - just have 'admins' in config
+updateConfig
 
 ====
 
 IRC.runCommand
 specify regex for command name
 set request content type url bug https://arin.ga/BXMkyl
-enable/disable ~nick commands / access /
-~reboot full ~mode ~kick ~topic
-updateConfig
 strip only starred commands for github ?
 instead of access levels just have a login w/ chat ui
-access part/join/kick/nick - just have 'admins' in config
 provida toQueryString
 create nibblr user
 truncate log messages (or also how nibblr saves itself to log)
