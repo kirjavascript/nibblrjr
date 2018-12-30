@@ -36,7 +36,7 @@ function getContext({ print, notice, action, msgData, node }) {
                 throw new Error('cannot add an event in an event callback');
             };
         },
-        sudo: (callback) => { sudo({ IRC, callback, node }); },
+        sudo: (callback) => { sudo({ IRC, callback, node, print }); },
         // command, require are patched later
     };
 

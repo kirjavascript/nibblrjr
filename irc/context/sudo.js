@@ -1,21 +1,26 @@
-function sudo({ IRC, callback, node }) {
+function sudo({ IRC, callback, node, print }) {
     if (node.get('admins', []).includes(IRC.message.from)) {
         const checkAccess = (name) => {
-            const timer = setTimeout(() => {
-                node.client.removeListener('notice', noticeHandler);
-            }, 3000);
+            const ref = {};
             const noticeHandler = (from, to, text) => {
                 if (text.toUpperCase().startsWith(name)) {
                     const [msg, nick, status] = text.split(' ');
-                    if (status == 3) {
-                        callback(node.client);
-                    } else {
-                        throw new Error('not logged in');
+                    try {
+                        if (status == 3) {
+                            callback(node.client);
+                        } else {
+                            throw new Error('not logged in');
+                        }
+                    } catch(e) {
+                        print(`{r}${e.name||'Error'}:{/} ${e.message}`);
                     }
                     node.client.removeListener('notice', noticeHandler);
-                    clearTimeout(timer);
+                    clearTimeout(ref.timer);
                 }
             };
+            ref.timer = setTimeout(() => {
+                node.client.removeListener('notice', noticeHandler);
+            }, 3000);
             node.client.addListener('notice', noticeHandler);
             node.client.say('NickServ', `${name} ${IRC.message.from}`);
         };

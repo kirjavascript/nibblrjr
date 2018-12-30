@@ -6,7 +6,7 @@ setTopic: (str) => {
 },
 
 enable/disable ~nick commands / access /
-~reboot full ~mode ~kick ~topic
+~reboot full ~topic
 access part/join/kick/nick - just have 'admins' in config
 updateConfig
 
