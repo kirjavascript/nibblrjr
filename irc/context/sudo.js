@@ -1,16 +1,23 @@
+const { createCommand } = require('./spawn');
+
 function sudo({ IRC, callback, node, print }) {
     if (node.get('admins', []).includes(IRC.message.from)) {
         const checkAccess = (name) => {
             const ref = {};
-            // node.client.addListener('notice', (...args) => {
-            //     console.log(args);
-            // })
             const noticeHandler = (from, to, text) => {
                 if (text.toUpperCase().includes(name)) {
                     const [msg, nick, status] = text.trim().split(' ');
                     try {
                         if (status == 3) {
-                            callback(node.client);
+                            callback(node.client, {
+                                shell: (str) => (
+                                    createCommand('/bin/sh', ['-c', str])
+                                ),
+                                exit: () => {
+                                    console.error('exit() from ' + IRC.message.from);
+                                    process.exit()
+                                },
+                            });
                         } else {
                             throw new Error('not logged in');
                         }

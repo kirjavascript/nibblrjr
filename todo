@@ -16,9 +16,7 @@ IRC.runCommand
 specify regex for command name
 set request content type url bug https://arin.ga/BXMkyl
 strip only starred commands for github ?
-instead of access levels just have a login w/ chat ui
-provida toQueryString
-create nibblr user
+provide a toQueryString
 truncate log messages (or also how nibblr saves itself to log)
 documentation show global object tree
 
