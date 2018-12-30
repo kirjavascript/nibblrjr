@@ -9,6 +9,7 @@
         {
             "address": "irc.rizon.net",
             "channels": ["#nibblr", "#livingroom"],
+            "admins": ["Kirjava"],
             "nickname": "nibblrjr"
         },
         {
