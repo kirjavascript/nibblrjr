@@ -1,15 +1,5 @@
 const { createCommand } = require('./spawn');
 
-const adminFuncs = {
-    shell: (str) => (
-        createCommand('/bin/sh', ['-c', str])
-    ),
-    exit: () => {
-        console.error('exit() from ' + IRC.message.from);
-        process.exit()
-    },
-};
-
 function sudo({ IRC, callback, node, print }) {
     if (node.get('admins', []).includes(IRC.message.from)) {
         const checkAccess = (name) => {
@@ -21,7 +11,15 @@ function sudo({ IRC, callback, node, print }) {
                         if (status == 3) {
                             callback(node.client, {
                                 node,
-                                ...adminFuncs
+                                shell: (str) => (
+                                    createCommand('/bin/sh', ['-c', str])
+                                ),
+                                exit: () => {
+                                    console.error(
+                                        'exit() from ' + IRC.message.from
+                                    );
+                                    process.exit()
+                                },
                             });
                         } else {
                             throw new Error('not logged in');
