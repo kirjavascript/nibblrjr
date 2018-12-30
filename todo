@@ -6,6 +6,11 @@ enable/disable ~nick
 ~reboot
 updateConfig
 
+clearCache: () => {
+    Object.keys(require.cache)
+        .forEach(key => void delete require.cache[key]);
+},
+
 ====
 
 IRC.runCommand
