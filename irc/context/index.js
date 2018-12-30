@@ -5,6 +5,7 @@ const { parseColors } = require('../colors');
 const { objectDebug } = require('../evaluate');
 const { parseTime, formatTime } = require('./parse-time');
 const { parseCommand } = require('../parse-command');
+const { sudo } = require('./sudo');
 const dateFns = require('date-fns');
 const _ = require('lodash');
 
@@ -23,9 +24,6 @@ function getContext({ print, notice, action, msgData, node }) {
                 node.client.say('nickserv', `identify ${node.password}`);
             }
         },
-        setTopic: (str) => {
-            node.client.send('TOPIC', msgData.target, str);
-        },
         log: node.database.logFactory(msgData.target),
         commandFns: node.parent.database.commands.getCommandFns(),
         eventFns: node.database.eventFactory(msgData.from),
@@ -37,6 +35,7 @@ function getContext({ print, notice, action, msgData, node }) {
                 throw new Error('cannot add an event in an event callback');
             };
         },
+        sudo: (callback) => { sudo({ IRC, callback, node }); },
         // command, require are patched later
     };
 
