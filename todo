@@ -3,14 +3,9 @@
 ~> 'e'.repeat(1e9) bug
 
 enable/disable ~nick
-
-
-reloadServerNode ?
-this.evaluate, this.printFactory, this.getContext
-
-moduleProxy() -> { evaluate, fetchURL }
-
 print.log add depth
+
+reboot|git|update|join|part|mode|topic|kick
 ====
 
 IRC.runCommand
