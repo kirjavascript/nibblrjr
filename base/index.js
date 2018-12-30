@@ -22,7 +22,5 @@ new (class Nibblr {
         this.servers = this.servers.map(server => (
             new ServerNode(this, server)
         ));
-
-        console.info(this);
     }
 });
