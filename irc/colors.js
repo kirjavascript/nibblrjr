@@ -85,21 +85,29 @@ function parseColors(text) {
         });
 }
 
-parseColors.hash = (str) => {
+const hash = (str) => {
     str = str.toLowerCase().trim();
     const index = [...str].map(d => d.charCodeAt(0)).reduce((a,b) => a+b)%rand.length|0;
     return `{${rand[index]}}`;
 };
 
-parseColors.nick = (str, withBrackets = false) => {
-    const nick = `${parseColors.hash(str)}${str}{/}`;
+const nick = (str, withBrackets = false) => {
+    const nick = `${hash(str)}${str}{/}`;
     return withBrackets ? `{bo}<{/}${nick}{bo}>{/}` : nick;
 };
 
-parseColors.link = (str) => {
+const link = (str) => {
     return `{dc}{u}${str}{/}`;
 };
 
+const getColorFuncs = (trigger) => {
+    const colors = (str) => parseColors(str);
+    return Object.assign(colors, {
+        hash, nick, link,
+        cmd: (str) => `{p}${trigger}${str}{/}`
+    });
+};
+
 module.exports = {
-    parseColors,
+    parseColors, getColorFuncs,
 };

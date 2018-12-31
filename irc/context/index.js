@@ -1,7 +1,7 @@
 const { limit } = require('./limit');
 const { ping } = require('./spawn');
 const { getText, getJSON, getDOM } = require('./fetch');
-const { parseColors } = require('../colors');
+const { getColorFuncs } = require('../colors');
 const { objectDebug } = require('../evaluate');
 const { parseTime, formatTime } = require('./parse-time');
 const { parseCommand } = require('../parse-command');
@@ -11,10 +11,12 @@ const _ = require('lodash');
 
 function getContext({ print, notice, action, msgData, node }) {
 
+    const trigger = node.get('trigger', '!');
+
     const IRC = {
-        trigger: node.get('trigger', '!'),
+        trigger,
         message: msgData,
-        colors: parseColors,
+        colors: getColorFuncs(trigger),
         nick: node.client.nick,
         channels: _.cloneDeep(node.client.chans),
         setNick: (str) => {
