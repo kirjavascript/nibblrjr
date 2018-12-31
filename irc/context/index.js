@@ -14,7 +14,7 @@ function getContext({ print, notice, action, msgData, node }) {
     const IRC = {
         trigger: node.get('trigger', '!'),
         message: msgData,
-        parseColors,
+        colors: parseColors,
         nick: node.client.nick,
         channels: _.cloneDeep(node.client.chans),
         setNick: (str) => {
