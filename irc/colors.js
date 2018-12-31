@@ -28,7 +28,7 @@ const codes = {
 };
 
 const rainbow = ['r', 'o', 'y', 'dg', 'b', 'db', 'dp'];
-const rand = ['r', 'y', 'o', 'c', 'p', 'dc', 'g'];
+const rand = ['r', 'y', 'c', 'o', 'p', 'dc', 'g'];
 
 function parseColors(text) {
     let rainbowIndex = 0;
@@ -85,9 +85,19 @@ function parseColors(text) {
         });
 }
 
-parseColors.hashString = (str) => {
+parseColors.hash = (str) => {
+    str = str.toLowerCase().trim();
     const index = [...str].map(d => d.charCodeAt(0)).reduce((a,b) => a+b)%rand.length|0;
     return `{${rand[index]}}`;
+};
+
+parseColors.nick = (str, withBrackets = false) => {
+    const nick = `${parseColors.hash(str)}${str}{/}`;
+    return withBrackets ? `{bo}<{/}${nick}{bo}>{/}` : nick;
+};
+
+parseColors.link = (str) => {
+    return `{dc}{u}${str}{/}`;
 };
 
 module.exports = {
