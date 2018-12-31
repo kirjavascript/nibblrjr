@@ -11,8 +11,8 @@ function sudo({ IRC, callback, node, print }) {
                         if (status == 3) {
                             callback({
                                 node,
-                                shell: (str) => (
-                                    createCommand('/bin/sh', ['-c', str])
+                                git: (str) => (
+                                    createCommand('git', str.split(' '))
                                 ),
                                 exit: () => {
                                     console.error(
