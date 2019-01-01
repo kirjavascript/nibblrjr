@@ -46,8 +46,9 @@ const messageFactory = (type, node, msgData) => {
     send.raw = sendRaw;
 
     // inspect
-    send.log = (text, config) => {
-        return sendRaw(objectDebug(text), config);
+    send.log = (text, config = {}) => {
+        const { depth, colors } = config;
+        return sendRaw(objectDebug(text, { depth, colors}), config);
     };
 
     return send;

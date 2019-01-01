@@ -63,8 +63,8 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
     }
 }
 
-function objectDebug(evaluation, colors = true) {
-    const outputFull = util.inspect(evaluation, { depth: 0, colors });
+function objectDebug(evaluation, { depth = 0, colors = true } = {}) {
+    const outputFull = util.inspect(evaluation, { depth, colors });
     const output = outputFull.length > 396
         ? outputFull.slice(0, 396) + '\u000f ...'
         : outputFull;
