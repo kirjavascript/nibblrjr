@@ -147,8 +147,14 @@ class ServerNode {
                 }
                 // normal commands
                 else {
-                    context.store = this.database.storeFactory(command.list[0]);
-
+                    const baseCommand = command.list[0];
+                    context.store = this.database.storeFactory(baseCommand);
+                    // patch broadcasting
+                    if (this.get('broadcast-commands', []).includes(baseCommand)) {
+                        context.print = mod.printFactory(this, msgData, true);
+                        context.notice = mod.noticeFactory(this, msgData, true);
+                        context.action = mod.actionFactory(this, msgData, true);
+                    }
                     const commandData = parent.database.commands.get(command.path);
 
                     if (commandData) {

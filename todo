@@ -1,11 +1,12 @@
+reboot|git|update|join|part|mode|topic|kick|nick
+
 // TODO //
 
+~pipe
 ~> 'e'.repeat(1e9) bug
 
 enable/disable ~nick
 print.log add depth
-
-reboot|git|update|join|part|mode|topic|kick
 ====
 
 IRC.runCommand
@@ -30,7 +31,6 @@ https://gamefaqs.gamespot.com/pc/648805-osu
 ~commands.*
 ~print(){r}hello
 http://passpigs.tripod.com/prob.html
-log.user
 blackjack
 getDOM('https://apps.timwhitlock.info/unicode/inspect?s='+encodeURIComponent('™')).then(dom => { print(dom.qs('#inspect tbody').textContent.replace(/\s+/g,' ')) }).catch(print.log);
 https://github.com/4chan/4chan-API

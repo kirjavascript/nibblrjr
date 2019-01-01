@@ -11,9 +11,6 @@ function sudo({ IRC, callback, node, print }) {
                         if (status == 3) {
                             callback({
                                 node,
-                                git: (str) => (
-                                    createCommand('git', str.split(' '))
-                                ),
                                 exit: () => {
                                     console.error(
                                         'exit() from ' + IRC.message.from
