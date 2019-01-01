@@ -7,7 +7,10 @@ const messageFactory = (type, node, msgData) => {
     let count = 0;
 
     // raw
-    const sendRaw = (text, target = defaultTarget, noLog = false) => {
+    const sendRaw = (text, { target = defaultTarget, log = true } = {}) => {
+        if (!msgData.from === '#8bitvape' && target !== defaultTarget) {
+            throw new Error('nope');
+        }
         // usage limit of 100 per command, only send if correctly connected to server and not to services
         if (++count > 100 || !node.registered || String(target).toLowerCase().includes('serv')) return;
         if (typeof text != 'string') {
@@ -22,7 +25,7 @@ const messageFactory = (type, node, msgData) => {
         client[type](target, text);
 
         // log to DB
-        if (!msgData.isPM && !noLog) {
+        if (!msgData.isPM && log) {
             // lag a little so messages are the right order
             setTimeout(() => {
                 node.database.log({
@@ -36,15 +39,15 @@ const messageFactory = (type, node, msgData) => {
     };
 
     // colours
-    const send = (text, ...args) => {
-        return sendRaw(parseColors(text), ...args);
+    const send = (text, config) => {
+        return sendRaw(parseColors(text), config);
     };
 
     send.raw = sendRaw;
 
     // inspect
-    send.log = (text, ...args) => {
-        return sendRaw(objectDebug(text), ...args);
+    send.log = (text, config) => {
+        return sendRaw(objectDebug(text), config);
     };
 
     return send;

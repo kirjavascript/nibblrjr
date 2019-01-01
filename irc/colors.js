@@ -104,7 +104,7 @@ const getColorFuncs = (trigger) => {
     const colors = (str) => parseColors(str);
     return Object.assign(colors, {
         hash, nick, link,
-        cmd: (str) => `{p}${trigger}${str}{/}`
+        cmd: (str) => `{p}${trigger}${str}{/}`,
     });
 };
 
