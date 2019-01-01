@@ -8,7 +8,7 @@
     "servers": [
         {
             "address": "irc.rizon.net",
-            "channels": ["#nibblr", "#livingroom"],
+            "channels": ["#nibblr", "#poker"],
             "admins": ["Kirjava"],
             "nickname": "nibblrjr"
         },
@@ -21,10 +21,11 @@
         {
             "address": "irc.freenode.net",
             "trigger": "!",
-            "channels": ["#rubik2"],
+            "channels": ["#bottest"],
             "nickname": "nibblrjr",
             "fetchURL": false,
             "colors": false
         }
-    ]
+    ],
+    "broadcast-commands": ["poker"]
 }

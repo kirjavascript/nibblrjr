@@ -1,15 +1,15 @@
 const { objectDebug } = require('./evaluate');
 const { parseColors } = require('./colors');
 
-const messageFactory = (type, node, msgData) => {
+const messageFactory = (type, node, msgData, canBroadcast = false) => {
     const { client } = node;
     const { target: defaultTarget } = msgData;
     let count = 0;
 
     // raw
     const sendRaw = (text, { target = defaultTarget, log = true } = {}) => {
-        if (!msgData.from === '#8bitvape' && target !== defaultTarget) {
-            throw new Error('nope');
+        if (!canBroadcast && target !== defaultTarget) {
+            throw new Error('cannot broadcast');
         }
         // usage limit of 100 per command, only send if correctly connected to server and not to services
         if (++count > 100 || !node.registered || String(target).toLowerCase().includes('serv')) return;
@@ -54,15 +54,14 @@ const messageFactory = (type, node, msgData) => {
     return send;
 };
 
-const printFactory = (node, msgData) => {
-    return messageFactory('say', node, msgData);
+const printFactory = (...args) => {
+    return messageFactory('say', ...args);
 };
-const noticeFactory = (node, msgData) => {
-    return messageFactory('notice', node, msgData);
+const noticeFactory = (...args) => {
+    return messageFactory('notice', ...args);
 };
-
-const actionFactory = (node, msgData) => {
-    return messageFactory('action', node, msgData);
+const actionFactory = (...args) => {
+    return messageFactory('action', ...args);
 };
 
 
