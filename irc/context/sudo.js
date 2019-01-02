@@ -36,12 +36,9 @@ function sudo({ IRC, callback, node, print }) {
         };
         if (node.address == 'irc.freenode.net') {
             checkAccess('ACC');
-        } else if (node.address == 'irc.rizon.net') {
-            checkAccess('STATUS');
-        } else if (node.address == 'irc.furnet.org') {
-            checkAccess('STATUS');
         } else {
-            throw new Error('unsupported server');
+            // works on rizon, furnet
+            checkAccess('STATUS');
         }
     } else {
         throw new Error('no access');
