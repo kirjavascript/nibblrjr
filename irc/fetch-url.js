@@ -58,8 +58,6 @@ function fetchURL(text, print, disableRedirect) {
 
                         if (str.length < 400) {
                             print(str);
-                        } else {
-                            print(`${str.slice(0, 397)} ...`);
                         }
                     }
                 });

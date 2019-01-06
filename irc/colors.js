@@ -100,10 +100,14 @@ const link = (str) => {
     return `{dc}{u}${str}{/}`;
 };
 
+const err = (e) => {
+    return `{r}${e.name||'Error'}:{/} ${e.message}`
+};
+
 const getColorFuncs = (trigger) => {
     const colors = (str) => parseColors(str);
     return Object.assign(colors, {
-        hash, nick, link,
+        hash, nick, link, err,
         cmd: (str) => `{p}${trigger}${str}{/}`,
     });
 };
