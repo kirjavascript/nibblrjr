@@ -57,6 +57,8 @@ function getContext({ print, notice, action, msgData, node }) {
         setInterval(...args) {
             return node.intervals.push(setInterval(...args));
         },
+        clearTimeout,
+        clearInterval,
         dateFns,
         _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
         // store is patched after
