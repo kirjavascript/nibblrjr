@@ -5,6 +5,7 @@
         "port": 8888,
         "password": "powernap"
     },
+    "broadcast-commands": ["poker"],
     "servers": [
         {
             "address": "irc.rizon.net",
@@ -26,6 +27,5 @@
             "fetchURL": false,
             "colors": false
         }
-    ],
-    "broadcast-commands": ["poker"]
+    ]
 }

@@ -8,6 +8,7 @@ const { parseCommand } = require('../parse-command');
 const { sudo } = require('./sudo');
 const dateFns = require('date-fns');
 const _ = require('lodash');
+const { window } = (new (require('jsdom')).JSDOM(`<!DOCTYPE html><title></title>`));
 
 function getContext({ print, notice, action, msgData, node }) {
 
@@ -29,6 +30,15 @@ function getContext({ print, notice, action, msgData, node }) {
             IRC.eventFns.addEvent = () => {
                 throw new Error('cannot add an event in an event callback');
             };
+        },
+        setNick: (str) => {
+            if (node.get('setnick-channels', []).includes(msgData.to)) {
+                str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
+                node.client.send('NICK', str);
+                return true;
+            } else {
+                return false;
+            }
         },
         sudo: (callback) => { sudo({ IRC, callback, node, print }); },
         // command, require are patched later
@@ -61,7 +71,8 @@ function getContext({ print, notice, action, msgData, node }) {
         clearInterval,
         dateFns,
         _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
-        // store is patched after
+        window,
+        // store, input, acquire are patched later
     };
 
     return ctx;
