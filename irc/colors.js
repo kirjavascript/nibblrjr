@@ -100,14 +100,27 @@ const link = (str) => {
     return `{dc}{u}${str}{/}`;
 };
 
-const err = (e) => {
-    return `{r}${e.name||'Error'}:{/} ${e.message}`
+const error = (e) => {
+    if (e.name !== 'Error') {
+        return `{r}${e.name}:{/} ${e.message}`;
+    } else {
+        return `{r}>>{/} ${e.message}`;
+    }
+};
+
+const success = (message) => {
+    return `{g}>>{/} ${message}`;
+};
+
+const info = (message) => {
+    return `{b}>>{/} ${message}`;
 };
 
 const getColorFuncs = (trigger) => {
     const colors = (str) => parseColors(str);
     return Object.assign(colors, {
-        hash, nick, link, err,
+        hash, nick, link,
+        error, success, info,
         cmd: (str, input, params) => {
             const iStr = input?` {bo}[${input}]{/}`:'';
             const pStr = Array.isArray(params)
@@ -119,5 +132,5 @@ const getColorFuncs = (trigger) => {
 };
 
 module.exports = {
-    parseColors, getColorFuncs,
+    parseColors, getColorFuncs, notify: { error, info, success },
 };

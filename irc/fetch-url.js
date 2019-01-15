@@ -7,6 +7,7 @@ const _ = require('lodash');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
+;
 
 function fetchURL(text, print, disableRedirect) {
 
@@ -52,12 +53,10 @@ function fetchURL(text, print, disableRedirect) {
                     const title = /<title[^>]*>([\S\s]+?)<\/title>/ig.exec(output);
 
                     if (title && title[1]) {
-                        const cleanTitle = entities.decode(title[1]).replace(/\s+/g, ' ').trim();
+                        const clean = entities.decode(title[1]).replace(/\s+/g, ' ').trim();
 
-                        const str = `\u000312>>\u000f ${cleanTitle}`;
-
-                        if (str.length < 400) {
-                            print(str);
+                        if (clean.length < 400) {
+                            print.info(clean);
                         }
                     }
                 });

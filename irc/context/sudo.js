@@ -21,8 +21,8 @@ function sudo({ IRC, callback, node, print }) {
                         } else {
                             throw new Error('not logged in');
                         }
-                    } catch(e) {
-                        print(`{r}${e.name||'Error'}:{/} ${e.message}`);
+                    } catch (e) {
+                        print.error(e);
                     }
                     node.client.removeListener('notice', noticeHandler);
                     clearTimeout(ref.timer);
