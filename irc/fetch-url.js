@@ -54,9 +54,9 @@ function fetchURL(text, print, disableRedirect) {
 
                     if (titlerx && titlerx[1]) {
                         const title = entities.decode(titlerx[1]).replace(/\s+/g, ' ').trim();
-                        const isFresh = title.split(/\s+/)
+                        const isFresh = title.split(' ')
                             .filter(word => (
-                                /^[a-zA-Z0-9]+$/.test(word)
+                                /^[a-zA-Z0-9\u00c0-\u017e"']+$/.test(word)
                                     && !(new RegExp(word, 'i')).test(url[0])
                             )).length >= 2;
 
