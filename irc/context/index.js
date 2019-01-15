@@ -40,7 +40,7 @@ function getContext({ print, notice, action, msgData, node }) {
                 return false;
             }
         },
-        whois: (...args) => node.client.whois(...args),
+        whois: (text) => node.client.whois(...args),
         sudo: (callback) => { sudo({ IRC, callback, node, print }); },
         // command, require are patched later
     };
