@@ -125,10 +125,6 @@ class ServerNode {
             if (text.startsWith(trigger)) {
                 const command = mod.parseCommand({ trigger, text });
 
-                if (parent.dev) {
-                    print.log(command, msgData.target, true);
-                }
-
                 context.input = command.input;
                 context.IRC.command = command;
 
