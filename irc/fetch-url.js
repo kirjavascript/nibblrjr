@@ -9,6 +9,15 @@ const entities = new Entities();
 
 const filterWords = /forbidden|not found|access denied|error/i;
 
+function bytes(input) {
+    const sizes = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"];
+    const LEN = sizes.length;
+    let index = Math.floor(Math.log(input) / Math.log(1024));
+    let val = input / (1024 ** index);
+    let suffix = index < LEN ? sizes[index] : "?";
+    return (`${0|val}${suffix}B`);
+}
+
 function fetchURL(text, print, disableRedirect) {
 
     const url = text.match(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
@@ -30,6 +39,7 @@ function fetchURL(text, print, disableRedirect) {
             path: parsed.path,
         };
 
+
         request.get(options, res => {
             if (isRedirect(res.statusCode)) {
                 // redirect
@@ -41,30 +51,34 @@ function fetchURL(text, print, disableRedirect) {
                     fetchURL(newURL, print, true);
                 }
             } else if (String(res.statusCode)[0] === '2') {
-                res.on('data', (chunk) => {
-                    totalSize += chunk.length;
+                if (+res.headers['content-length'] > 1.049e6) {
+                    const filename = parsed.path.split('/').pop();
+                    print.info(`${filename} (${res.headers['content-type']}) {r}${bytes(res.headers['content-length'])}{/}`);
+                } else {
+                    res.on('data', (chunk) => {
+                        totalSize += chunk.length;
 
-                    if (totalSize > 5242880) { // 512kb
-                        return res.destroy();
-                    }
-
-                    output += chunk;
-                }).on('end', () => {
-                    const titlerx = /<title[^>]*>([\S\s]+?)<\/title>/ig.exec(output);
-
-                    if (titlerx && titlerx[1]) {
-                        const title = entities.decode(titlerx[1]).replace(/\s+/g, ' ').trim();
-                        const isFresh = title.split(' ')
-                            .filter(word => (
-                                /^[a-zA-Z0-9\u00c0-\u017e"']+$/.test(word)
-                                    && !(new RegExp(word, 'i')).test(url[0])
-                            )).length >= 2;
-
-                        if (title.length < 400 && isFresh && !filterWords.test(title)) {
-                            print.info(title);
+                        if (totalSize > 5242880) { // 512kb
+                            return res.destroy();
                         }
-                    }
-                });
+                        output += chunk;
+                    }).on('end', () => {
+                        const titlerx = /<title[^>]*>([\S\s]+?)<\/title>/ig.exec(output);
+
+                        if (titlerx && titlerx[1]) {
+                            const title = entities.decode(titlerx[1]).replace(/\s+/g, ' ').trim();
+                            const isFresh = title.split(' ')
+                                .filter(word => (
+                                    /^[a-zA-Z0-9\u00c0-\u017e"']+$/.test(word)
+                                        && !(new RegExp(word, 'i')).test(url[0])
+                                )).length >= 2;
+
+                            if (title.length < 400 && isFresh && !filterWords.test(title)) {
+                                print.info(title);
+                            }
+                        }
+                    });
+                }
             }
         });
 
