@@ -51,7 +51,7 @@ function fetchURL(text, print, disableRedirect) {
                     fetchURL(newURL, print, true);
                 }
             } else if (String(res.statusCode)[0] === '2') {
-                if (+res.headers['content-length'] > 1.049e6) {
+                if (+res.headers['content-length'] > 5.243e6) {
                     const filename = parsed.path.split('/').pop();
                     print.info(`${filename} (${res.headers['content-type']}) {r}${bytes(res.headers['content-length'])}{/}`);
                 } else {
