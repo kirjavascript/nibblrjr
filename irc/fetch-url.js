@@ -9,13 +9,13 @@ const entities = new Entities();
 
 const filterWords = /forbidden|not found|access denied|error/i;
 
-function bytes(input) {
+function bytes(input, places = 2) {
     const sizes = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"];
     const LEN = sizes.length;
     let index = Math.floor(Math.log(input) / Math.log(1024));
     let val = input / (1024 ** index);
     let suffix = index < LEN ? sizes[index] : "?";
-    return (`${0|val}${suffix}B`);
+    return (`${index > 0 ? val.toFixed(places) : val}${suffix}B`);
 }
 
 function fetchURL(text, print, disableRedirect) {
@@ -53,7 +53,7 @@ function fetchURL(text, print, disableRedirect) {
             } else if (String(res.statusCode)[0] === '2') {
                 if (+res.headers['content-length'] > 5.243e6) {
                     const filename = parsed.path.split('/').pop();
-                    print.info(`${filename} (${res.headers['content-type']}) {r}${bytes(res.headers['content-length'])}{/}`);
+                    print.info(`{dc}${filename}{/} ${bytes(res.headers['content-length'])} {dgr}${res.headers['content-type']}{/}`);
                 } else {
                     res.on('data', (chunk) => {
                         totalSize += chunk.length;
