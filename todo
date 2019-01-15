@@ -1,23 +1,12 @@
-reboot|git|update|join|part|mode|topic|kick|nick|redirect
+reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
-
-Error: -> {r}>>{/}
-Notice: -> {b}>>{/}
-Success: -> {g}>>{/}
-print.err, .info, .success
 ~pipe
 IRC.auth
 multiple triggers
-~help.games
 use WZRD.in for modules
-~ignore
-19:51 <&nibblr> Kirjava: allow big blind to check before starting the round (6 hours ago)
-19:51 <&nibblr> Kirjava: add raise and allin (6 hours ago)
 timers
 ~> 'e'.repeat(1e9) bug
-====
-
 IRC.runCommand
 tinyurl the url (crc32)
 specify regex for command name

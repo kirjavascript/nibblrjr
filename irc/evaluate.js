@@ -14,8 +14,8 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
         const code = wrapAsync ? `(async () => {
             try {
                 ${input}
-            } catch(e) {
-                print(\`{r}\${e.name||'Error'}:{/} \${e.message}\`);
+            } catch (e) {
+                print.error(e);
             }
         })();` : input;
 
@@ -25,7 +25,16 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
         }).run(`
             delete global.console;
             global.module = {};
-            ['VMError', 'Buffer', 'module', 'acquireFactory'].forEach(key => {
+            [
+                'acquireFactory',
+                'VMError',
+                'Buffer',
+                'module',
+                'setTimeout',
+                'clearTimeout',
+                'setInterval',
+                'clearInterval',
+            ].forEach(key => {
                 Object.defineProperty(this, key, { enumerable: false });
             });
             (() => {
@@ -58,8 +67,8 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
         if (printOutput) {
             context.print.raw(objectDebug(evaluation));
         }
-    } catch(e) {
-        context.print(`{r}${e.name||'Error'}:{/} ${e.message}`);
+    } catch (e) {
+        context.print.error(e);
     }
 }
 

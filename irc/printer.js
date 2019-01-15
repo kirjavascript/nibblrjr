@@ -1,5 +1,5 @@
 const { objectDebug } = require('./evaluate');
-const { parseColors } = require('./colors');
+const { parseColors, notify } = require('./colors');
 
 const messageFactory = (type, node, msgData, canBroadcast = false) => {
     const { client } = node;
@@ -49,6 +49,15 @@ const messageFactory = (type, node, msgData, canBroadcast = false) => {
     send.log = (text, config = {}) => {
         const { depth, colors } = config;
         return sendRaw(objectDebug(text, { depth, colors}), config);
+    };
+    send.error = (error, config) => {
+        return send(notify.error(error), config);
+    };
+    send.info = (text, config) => {
+        return send(notify.info(text), config);
+    };
+    send.success = (text, config) => {
+        return send(notify.success(text), config);
     };
 
     return send;
