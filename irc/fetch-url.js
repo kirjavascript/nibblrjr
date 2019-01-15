@@ -7,7 +7,7 @@ const _ = require('lodash');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
-;
+const filterWords = /forbidden|not found|access denied|error/i;
 
 function fetchURL(text, print, disableRedirect) {
 
@@ -40,7 +40,7 @@ function fetchURL(text, print, disableRedirect) {
                 } else {
                     fetchURL(newURL, print, true);
                 }
-            } else {
+            } else if (String(res.statusCode)[0] === '2') {
                 res.on('data', (chunk) => {
                     totalSize += chunk.length;
 
@@ -50,13 +50,18 @@ function fetchURL(text, print, disableRedirect) {
 
                     output += chunk;
                 }).on('end', () => {
-                    const title = /<title[^>]*>([\S\s]+?)<\/title>/ig.exec(output);
+                    const titlerx = /<title[^>]*>([\S\s]+?)<\/title>/ig.exec(output);
 
-                    if (title && title[1]) {
-                        const clean = entities.decode(title[1]).replace(/\s+/g, ' ').trim();
+                    if (titlerx && titlerx[1]) {
+                        const title = entities.decode(titlerx[1]).replace(/\s+/g, ' ').trim();
+                        const isFresh = title.split(/\s+/)
+                            .filter(word => (
+                                /^[a-zA-Z0-9]+$/.test(word)
+                                    && !(new RegExp(word, 'i')).test(url[0])
+                            )).length >= 2;
 
-                        if (clean.length < 400) {
-                            print.info(clean);
+                        if (title.length < 400 && isFresh && !filterWords.test(title)) {
+                            print.info(title);
                         }
                     }
                 });
