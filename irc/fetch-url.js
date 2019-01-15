@@ -71,7 +71,7 @@ function fetchURL(text, print, disableRedirect) {
                                 .filter(word => (
                                     /^[a-zA-Z0-9\u00c0-\u017e"']+$/.test(word)
                                         && !(new RegExp(word, 'i')).test(url[0])
-                                )).length >= 2;
+                                )).length >= 1;
 
                             if (title.length < 400 && isFresh && !filterWords.test(title)) {
                                 print.info(title);
