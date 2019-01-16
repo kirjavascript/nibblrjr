@@ -8,7 +8,6 @@ const { parseCommand } = require('../parse-command');
 const { sudo } = require('./sudo');
 const dateFns = require('date-fns');
 const _ = require('lodash');
-const { window } = (new (require('jsdom')).JSDOM(`<!DOCTYPE html><title></title>`));
 
 function getContext({ print, notice, action, msgData, node }) {
 
@@ -72,7 +71,6 @@ function getContext({ print, notice, action, msgData, node }) {
         clearInterval,
         dateFns,
         _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
-        window,
         // store, input, acquire are patched later
     };
 
