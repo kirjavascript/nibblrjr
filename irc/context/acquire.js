@@ -112,7 +112,7 @@ const acquireFactory = (initFunc = source => source) => {
 
                 // attempt to bundle module
                 webpack({
-                    target: 'node',
+                    target: 'webworker',
                     entry: rootScript,
                     output: {
                         path: path.resolve(moduleDir),
@@ -121,7 +121,17 @@ const acquireFactory = (initFunc = source => source) => {
                         library: '__acquire__',
                     },
                     mode: 'development',
-                }).run(async (err) => {
+                    resolve: {
+                        modules: [moduleDir, 'node_modules'],
+                    },
+                    node: {
+                        fs: 'empty',
+                        net: 'empty',
+                        child_process: 'empty',
+                        path: 'empty',
+                        tls: 'empty',
+                    },
+                }).run(async (err, ...args) => {
                     if (err) {
                         reject(err);
                     }
