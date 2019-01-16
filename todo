@@ -1,6 +1,7 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
+comandFns.where();
 ~pipe
 ~repaste
 IRC.auth

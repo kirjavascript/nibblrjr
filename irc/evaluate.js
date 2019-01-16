@@ -55,8 +55,9 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
                 };
                 global.acquire = acquireFactory(source => {
                     return new Function(\`
+                        const self = {};
                         \${source}
-                        return __acquire__;
+                        return self.__acquire__;
                     \`)();
                 });
             })();
