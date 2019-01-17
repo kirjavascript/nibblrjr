@@ -105,9 +105,7 @@ const acquireFactory = (initFunc = source => source) => {
                 const pkgJson = JSON.parse(pkg.toString());
                 const entrypoint = pkgJson.main || 'index.js';
                 const rootScript = require.resolve(
-                    modulePath,
-                    subPath,
-                    entrypoint,
+                    modulePath + (subPath.length ? '/' + subPath : '/' + entrypoint),
                 );
                 if (!await existsAsync(rootScript)) {
                     return reject(new Error(`missing entrypoint file`));
