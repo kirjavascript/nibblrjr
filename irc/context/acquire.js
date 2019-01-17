@@ -35,7 +35,10 @@ const acquireFactory = (initFunc = source => source) => {
         }
         const hasVersion = input.indexOf('@') > 0;
         const version = hasVersion ? input.replace(/^(.+?)@/, '') : 'latest';
-        const name = hasVersion ? input.replace(/@(.*?)$/, '') : input;
+        const name = (hasVersion ? input.replace(/@(.*?)$/, '') : input).replace(/\//g, '#');
+        const [nameRaw, ...pathRaw] = name.split('#');
+        const subPath = pathRaw.join('/');
+        const moduleRaw = `${nameRaw}@${version}`;
         const module = `${name}@${version}`;
 
         return new Promise(async (resolve, reject) => {
@@ -49,7 +52,7 @@ const acquireFactory = (initFunc = source => source) => {
                 }
                 else if (version == 'newest') {
                     // check latest on npm and see if we have it
-                    const info = await npmView([name], true);
+                    const info = await npmView([nameRaw], true);
                     const latest = Object.keys(info)[0];
                     const filename = path.resolve(moduleDir, `${name}@${latest}.js`);
                     if (await existsAsync(filename)) {
@@ -90,10 +93,10 @@ const acquireFactory = (initFunc = source => source) => {
                 }
 
                 // install a freshy
-                const result = await npmInstall(moduleDir, [module]);
+                const result = await npmInstall(moduleDir, [moduleRaw]);
                 const resultVersion = result[0][0].replace(/^(.*?)@/,'');
                 const bundlename = `${name}@${resultVersion}.js`;
-                const modulePath = path.resolve(moduleDir, 'node_modules', name);
+                const modulePath = path.resolve(moduleDir, 'node_modules', nameRaw);
                 const packagePath = path.resolve(modulePath, 'package.json');
                 if (!await existsAsync(packagePath)) {
                     return reject(new Error(`package.json not found`));
@@ -103,6 +106,7 @@ const acquireFactory = (initFunc = source => source) => {
                 const entrypoint = pkgJson.main || 'index.js';
                 const rootScript = require.resolve(
                     modulePath,
+                    subPath,
                     entrypoint,
                 );
                 if (!await existsAsync(rootScript)) {
