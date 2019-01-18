@@ -140,6 +140,7 @@ class ServerNode {
                         context,
                         printOutput: !isAsync,
                         wrapAsync: isAsync,
+                        hasRequire: true,
                     });
                 }
                 // normal commands

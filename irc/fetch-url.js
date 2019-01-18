@@ -39,7 +39,6 @@ function fetchURL(text, print, disableRedirect) {
             path: parsed.path,
         };
 
-
         request.get(options, res => {
             if (isRedirect(res.statusCode)) {
                 // redirect

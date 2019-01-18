@@ -1,11 +1,7 @@
 {
     "trigger": "~",
-    "web": {
-        "url": "http://nibblr.pw",
-        "port": 8888,
-        "password": "powernap"
-    },
     "broadcast-commands": ["poker"],
+    "timezone": "Europe/London",
     "servers": [
         {
             "address": "irc.rizon.net",
@@ -27,5 +23,10 @@
             "fetchURL": false,
             "colors": false
         }
-    ]
+    ],
+    "web": {
+        "url": "http://nibblr.pw",
+        "port": 8888,
+        "password": "powernap"
+    }
 }
