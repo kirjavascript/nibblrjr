@@ -13,9 +13,6 @@ async function evaluate({ input, context, printOutput, wrapAsync, hasRequire }) 
             context.injectRequire = await createRequireModules(input);
         }
 
-        // TODO: validation / require() alone
-        // TODO: mock fs
-
         const code = wrapAsync ? `(async () => {
             try {
                 ${input}
