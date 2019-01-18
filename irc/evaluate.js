@@ -5,13 +5,13 @@ const { createRequireModules } = require('./context/require');
 
 util.inspect.styles.null = 'red';
 
-process.on('uncaughtException', console.error);
-
-async function evaluate({ input, context, printOutput, wrapAsync }) {
+async function evaluate({ input, context, printOutput, wrapAsync, hasRequire }) {
 
     try {
         context.acquire = acquire;
-        // context.injectRequire = await createRequireModules(input);
+        if (hasRequire) {
+            context.injectRequire = await createRequireModules(input);
+        }
 
         // TODO: validation / require() alone
         // TODO: mock fs
