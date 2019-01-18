@@ -2,6 +2,7 @@ reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
 comandFns.where();
+require() via parsing requires and async requiring before running the code
 ~pipe
 ~repaste
 IRC.auth
