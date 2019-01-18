@@ -9,9 +9,9 @@ async function evaluate({ input, context, printOutput, wrapAsync, hasRequire }) 
 
     try {
         context.acquire = acquire;
-        // if (hasRequire) {
-        //     context.injectRequire = await createRequireModules(input);
-        // }
+        if (hasRequire) {
+            context.injectRequire = await createRequireModules(input);
+        }
 
         // TODO: validation / require() alone
         // TODO: mock fs
