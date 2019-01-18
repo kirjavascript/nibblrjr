@@ -1,15 +1,20 @@
 const util = require('util');
 const { VM } = require('vm2');
-const { acquireFactory } = require('./context/acquire');
+const { acquire } = require('./context/acquire');
+const { createRequireModules } = require('./context/require');
 
 util.inspect.styles.null = 'red';
 
 process.on('uncaughtException', console.error);
 
-function evaluate({ input, context, printOutput, wrapAsync }) {
+async function evaluate({ input, context, printOutput, wrapAsync }) {
 
     try {
-        context.acquireFactory = acquireFactory;
+        context.acquire = acquire;
+        // context.injectRequire = await createRequireModules(input);
+
+        // TODO: validation / require() alone
+        // TODO: mock fs
 
         const code = wrapAsync ? `(async () => {
             try {
@@ -20,13 +25,12 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
         })();` : input;
 
         const evaluation = new VM({
-            timeout: 3000,
+            timeout: 6000,
             sandbox: context,
         }).run(`
             delete global.console;
             global.module = {};
             [
-                'acquireFactory',
                 'VMError',
                 'Buffer',
                 'module',
@@ -53,13 +57,10 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
                         throw error;
                     }
                 };
-                global.acquire = acquireFactory(source => {
-                    return new Function(\`
-                        const self = {};
-                        \${source}
-                        return self.__acquire__;
-                    \`)();
-                });
+                if (global.injectRequire) {
+                    global.require = injectRequire();
+                    delete global.injectRequire;
+                }
             })();
 
             ${code}
@@ -71,6 +72,7 @@ function evaluate({ input, context, printOutput, wrapAsync }) {
     } catch (e) {
         context.print.error(e);
     }
+
 }
 
 function objectDebug(evaluation, { depth = 0, colors = true } = {}) {
