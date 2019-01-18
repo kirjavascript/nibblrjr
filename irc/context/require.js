@@ -15,9 +15,12 @@ function extractRequires(input) {
                 if (path.isIdentifier({ name: 'require' })
                     && path.container
                     && path.container.type == 'CallExpression'
-                    && path.container.arguments.length > 0
-                    && path.container.arguments[0].type == 'StringLiteral') {
-                    requires.push(path.container.arguments[0].value);
+                    && path.container.arguments.length > 0) {
+                    if (path.container.arguments[0].type == 'StringLiteral') {
+                        requires.push(path.container.arguments[0].value);
+                    } else {
+                        throw new Error('first argument must be a string literal');
+                    }
                 }
             }
         });
