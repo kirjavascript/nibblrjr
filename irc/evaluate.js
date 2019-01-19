@@ -4,20 +4,9 @@ const { VM } = require('vm2');
 const { acquire } = require('./context/acquire');
 const { createRequireModules } = require('./context/require');
 
-const Babel = require('@babel/standalone');
-const protect = require('loop-protect');
-
-const timeout = 1000;
-Babel.registerPlugin('loopProtection', protect(timeout));
-
-const transform = source => Babel.transform(source, {
-  plugins: ['loopProtection'],
-}).code;
-
 async function evaluate({ input, context, printOutput, wrapAsync, hasRequire }) {
 
     try {
-        input = transform(input);
         context.acquire = acquire;
         if (hasRequire) {
             context.injectRequire = await createRequireModules(input);
@@ -32,7 +21,7 @@ async function evaluate({ input, context, printOutput, wrapAsync, hasRequire }) 
         })();` : input;
 
         const evaluation = new VM({
-            timeout: 6000,
+            timeout: 3000,
             sandbox: context,
         }).run(`
             delete global.console;
