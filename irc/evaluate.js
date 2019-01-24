@@ -10,6 +10,7 @@ async function evaluate({ input, context, printOutput, wrapAsync, hasRequire }) 
         context.acquire = acquire;
         if (hasRequire) {
             context.injectRequire = await createRequireModules(input);
+            // ~vote
         }
 
         const code = wrapAsync ? `(async () => {
