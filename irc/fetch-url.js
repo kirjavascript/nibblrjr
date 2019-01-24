@@ -7,14 +7,14 @@ const _ = require('lodash');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
-const filterWords = /forbidden|not found|access denied|error/i;
+const filterWords = /forbidden|not found|access denied|error|update your browser/i;
 
 function bytes(input, places = 2) {
-    const sizes = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"];
+    const sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
     const LEN = sizes.length;
     let index = Math.floor(Math.log(input) / Math.log(1024));
     let val = input / (1024 ** index);
-    let suffix = index < LEN ? sizes[index] : "?";
+    let suffix = index < LEN ? sizes[index] : '?';
     return (`${index > 0 ? val.toFixed(places) : val}${suffix}B`);
 }
 
