@@ -3,11 +3,11 @@ const { parse } = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 
 function extractRequires(input) {
-    const ast = parse(input, {
-        allowAwaitOutsideFunction: true,
-    });
-    const requires = [];
     try {
+        const ast = parse(input, {
+            allowAwaitOutsideFunction: true,
+        });
+        const requires = [];
         traverse(ast, {
             enter(path) {
                 if (path.isIdentifier({ name: 'require' })
