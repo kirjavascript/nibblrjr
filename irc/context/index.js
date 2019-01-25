@@ -39,7 +39,7 @@ function getContext({ print, notice, action, msgData, node }) {
                 return false;
             }
         },
-        whois: (text, callback) => node.client.whois(text, (data) => {
+        whois: (text, callback) => text && node.client.whois(text, (data) => {
             try {
                 callback(data);
             } catch (e) {
