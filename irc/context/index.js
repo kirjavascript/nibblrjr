@@ -31,7 +31,7 @@ function getContext({ print, notice, action, msgData, node }) {
             };
         },
         setNick: (str) => {
-            if (node.get('setnick-channels', []).includes(msgData.to)) {
+            if (node.get('setNick-channels', []).includes(msgData.to)) {
                 str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
                 node.client.send('NICK', str);
                 return true;
