@@ -43,9 +43,8 @@ function acquireFactory(input, initFunc) {
         throw new Error('Invalid package name');
     }
     const hasVersion = input.indexOf('@') > 0;
-    const hasNamespace = input[0] == '@';
     const version = hasVersion ? input.replace(/^(.+?)@/, '') : 'latest';
-    const name = hasNamespace ? input : (hasVersion ? input.replace(/@(.*?)$/, '') : input).replace(/\//g, '#');
+    const name = (hasVersion ? input.replace(/@(.*?)$/, '') : input).replace(/\//g, '#');
     const [nameRaw, ...pathRaw] = name.split('#');
     const subPath = pathRaw.join('/');
     const moduleRaw = `${nameRaw}@${version}`;
