@@ -31,7 +31,7 @@ function getContext({ print, notice, action, msgData, node }) {
             };
         },
         setNick: (str) => {
-            if (node.get('setnick-channels', []).includes(msgData.to)) {
+            if (node.get('setNick-channels', []).includes(msgData.to.toLowerCase())) {
                 str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
                 node.client.send('NICK', str);
                 return true;
@@ -39,7 +39,7 @@ function getContext({ print, notice, action, msgData, node }) {
                 return false;
             }
         },
-        whois: (text, callback) => node.client.whois(text, (data) => {
+        whois: (text, callback) => text && node.client.whois(text, (data) => {
             try {
                 callback(data);
             } catch (e) {
