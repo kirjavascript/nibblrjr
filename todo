@@ -1,10 +1,9 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
-mock fs
+useState/loadObject() alternative
 comandFns.where();
 ~pipe
-~repaste
 IRC.auth
 multiple triggers
 use WZRD.in for modules

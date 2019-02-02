@@ -122,10 +122,12 @@ const getColorFuncs = (trigger) => {
         hash, nick, link,
         error, success, info,
         cmd: (str, input, params) => {
-            const iStr = input?` {bo}[${input}]{/}`:'';
+            const iStr = Array.isArray(input)
+                ? ' ' + input.map(param => `{bo}[${param}]{/}`).join` `
+                : (input ? ` {bo}[${input}]{/}` : '');
             const pStr = Array.isArray(params)
                 ? `(${params.map(d => `{r}${d}{p}`).join`, `})`
-                : '';
+                : (params ? `({r}${params}{p})`: '');
             return `{p}${trigger}${str}${pStr}{/}${iStr}`;
         },
     });
