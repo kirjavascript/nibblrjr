@@ -1,5 +1,4 @@
 const { Client } = require('irc');
-Client.prototype._updateMaxLineLength = () => {this.maxLineLength = 400};
 
 const { mod, updateLoader } = require('./hot-loader');
 

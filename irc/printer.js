@@ -24,10 +24,13 @@ const messageFactory = (type, node, msgData, canBroadcast = false) => {
         text = text.replace(/\r/g, '\n');
 
         text.split('\n')
-            .forEach((line) => {
-                if (++count <= limit) {
-                    client[type](target, line);
-                }
+            .map(line => line.match(/.{1,400}/g))
+            .forEach((lines) => {
+                lines && lines.forEach(line => {
+                    if (++count <= limit) {
+                        client[type](target, line);
+                    }
+                });
             });
 
         if (count > limit) return;
