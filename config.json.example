@@ -11,7 +11,10 @@
         },
         {
             "address": "irc.furnet.org",
-            "channels": ["#purple"],
+            "channels": [{
+                "name": "#purple",
+                "lineLimit": 10
+            }],
             "nickname": "purple",
             "fetchURL": false, // disable auto-msg for url scraping
             "password": "milkshake"

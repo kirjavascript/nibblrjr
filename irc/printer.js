@@ -5,14 +5,15 @@ const messageFactory = (type, node, msgData, canBroadcast = false) => {
     const { client } = node;
     const { target: defaultTarget } = msgData;
     let count = 0;
+    const limit = node.getChannelConfig(msgData.to).lineLimit || 5;
 
     // raw
     const sendRaw = (text, { target = defaultTarget, log = true } = {}) => {
         if (!canBroadcast && target !== defaultTarget) {
             throw new Error('cannot broadcast');
         }
-        // usage limit of 100 per command, only send if correctly connected to server and not to services
-        if (++count > 100 || !node.registered || String(target).toLowerCase().includes('serv')) return;
+        // only send if correctly connected to server and not to services
+        if (!node.registered || String(target).toLowerCase().includes('serv')) return;
         if (typeof text != 'string') {
             text = String(text);
         }
@@ -22,7 +23,14 @@ const messageFactory = (type, node, msgData, canBroadcast = false) => {
         // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
         text = text.replace(/\r/g, '\n');
 
-        client[type](target, text);
+        text.split('\n')
+            .forEach((line) => {
+                if (++count <= limit) {
+                    client[type](target, line);
+                }
+            });
+
+        if (count > limit) return;
 
         // log to DB
         if (!msgData.isPM && log) {
