@@ -5,7 +5,7 @@ const messageFactory = (type, node, msgData, canBroadcast = false) => {
     const { client } = node;
     const { target: defaultTarget } = msgData;
     let count = 0;
-    const limit = node.getChannelConfig(msgData.to).lineLimit || 5;
+    const limit = node.getChannelConfig(msgData.to).lineLimit || 10;
 
     // raw
     const sendRaw = (text, { target = defaultTarget, log = true } = {}) => {

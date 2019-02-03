@@ -1,6 +1,7 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
+merge getChannelConfig and .get
 _.deburr for title parser
 useState/loadObject() alternative
 comandFns.where();
