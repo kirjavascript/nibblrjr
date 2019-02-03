@@ -3,9 +3,17 @@ const protect = require('loop-protect');
 
 babel.registerPlugin('loopProtection', protect(100));
 
-const transform = source => babel.transform(source, {
-    plugins: ['loopProtection'],
-}).code;
+function transform(source) {
+    try {
+        return babel.transform(source, {
+            plugins: [
+                'loopProtection',
+            ],
+        }).code
+    } catch (e) {
+        return source;
+    }
+}
 
 module.exports = {
     loopProtect: transform,
