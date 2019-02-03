@@ -3,14 +3,15 @@ util.inspect.styles.null = 'red';
 const { VM } = require('vm2');
 const { acquire } = require('./context/acquire');
 const { createRequireModules } = require('./context/require');
+const { loopProtect } = require('./context/loop-protect');
 
-async function evaluate({ input, context, printOutput, wrapAsync, hasRequire }) {
+async function evaluate({ input, context, printOutput, wrapAsync, isREPL }) {
 
     try {
         context.acquire = acquire;
-        if (hasRequire) {
+        if (isREPL) {
             context.injectRequire = await createRequireModules(input);
-            // ~vote
+            input = loopProtect(input);
         }
 
         const code = wrapAsync ? `(async () => {

@@ -13,12 +13,19 @@ function getContext({ print, notice, action, msgData, node }) {
 
     const trigger = node.get('trigger', '!');
 
+    const channels = Object.entries(_.cloneDeep(node.client.chans))
+        .reduce((acc, [key, value]) => {
+            delete value.users;
+            acc[key.toLowerCase()] = value;
+            return acc;
+        }, {});
+
     const IRC = {
         trigger,
         message: msgData,
         colors: getColorFuncs(trigger),
         nick: node.client.nick,
-        channels: _.cloneDeep(node.client.chans),
+        channels,
         log: node.database.logFactory(msgData.target),
         commandFns: node.parent.database.commands.getCommandFns(),
         eventFns: node.database.eventFactory(msgData.from),
@@ -31,7 +38,7 @@ function getContext({ print, notice, action, msgData, node }) {
             };
         },
         setNick: (str) => {
-            if (node.get('setNick-channels', []).includes(msgData.to.toLowerCase())) {
+            if (node.getChannelConfig(msgData.to).setNick) {
                 str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
                 node.client.send('NICK', str);
                 return true;

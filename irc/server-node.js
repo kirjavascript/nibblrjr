@@ -11,6 +11,15 @@ class ServerNode {
         Object.assign(this, server, { parent });
         // { address, channels, trigger, nickname, password, colors }
 
+        this.channels = this.channels.map(ch => {
+            if (typeof ch == 'string') {
+                return { name: ch.toLowerCase() };
+            } else {
+                ch.name = ch.name.toLowerCase();
+                return ch;
+            }
+        });
+
         this.get = (key, _default) => {
             return typeof this[key] != 'undefined'
                 ? this[key]
@@ -19,8 +28,12 @@ class ServerNode {
                     : _default;
         }
 
+        this.getChannelConfig = (name) => {
+            return this.channels.find(ch => ch.name == name) || {};
+        };
+
         this.client = new Client(this.address, this.nickname, {
-            channels: this.channels,
+            channels: this.channels.map(c => c.name),
             userName: this.get('userName', 'eternium'),
             realName: this.get('realName', 'nibblrjr IRC framework'),
             floodProtection: this.get('floodProtection', true),
@@ -104,6 +117,8 @@ class ServerNode {
             if (this.get('ignore-hosts', []).includes(message.host)) return;
             const isPM = to == this.client.nick;
             const target = isPM ? from : to;
+            from = from[0] == '#' ? from.toLowerCase() : from;
+            to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
             const { context, print } = this.getEnvironment(msgData);
 
@@ -140,7 +155,7 @@ class ServerNode {
                         context,
                         printOutput: !isAsync,
                         wrapAsync: isAsync,
-                        hasRequire: true,
+                        isREPL: true,
                     });
                 }
                 // normal commands
