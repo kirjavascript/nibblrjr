@@ -7,7 +7,7 @@ const _ = require('lodash');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
-const filterWords = /forbidden|not found|access denied|error|update your browser/i;
+const filterWords = /forbidden|not found|access denied|error|update your browser|robot/i;
 
 function bytes(input, places = 2) {
     const sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
