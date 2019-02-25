@@ -22,7 +22,7 @@ function fetchURL(text, print, disableRedirect) {
 
     const url = text.match(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
 
-    if (url && url[0] && text.toLowerCase().indexOf('##') == -1) {
+    if (url && url[0] && text.indexOf('##') == -1) {
 
         let totalSize = 0;
         let output = '';
