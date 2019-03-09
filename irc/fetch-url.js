@@ -7,7 +7,7 @@ const _ = require('lodash');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
-const filterWords = /forbidden|not found|access denied|error|update your browser/i;
+const filterWords = /forbidden|not found|access denied|error|update your browser|a robot/i;
 
 function bytes(input, places = 2) {
     const sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
@@ -22,7 +22,7 @@ function fetchURL(text, print, disableRedirect) {
 
     const url = text.match(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
 
-    if (url && url[0] && text.toLowerCase().indexOf('##') == -1) {
+    if (url && url[0] && text.indexOf('##') == -1) {
 
         let totalSize = 0;
         let output = '';

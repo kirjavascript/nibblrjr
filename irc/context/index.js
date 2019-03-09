@@ -7,6 +7,7 @@ const { parseTime, formatTime } = require('./parse-time');
 const { parseCommand } = require('../parse-command');
 const { sudo } = require('./sudo');
 const dateFns = require('date-fns');
+const fetch = require('node-fetch');
 const _ = require('lodash');
 
 function getContext({ print, notice, action, msgData, node }) {
@@ -72,6 +73,7 @@ function getContext({ print, notice, action, msgData, node }) {
         getText: limit(getText),
         getJSON: limit(getJSON),
         getDOM: limit(getDOM),
+        fetch: limit(fetch),
         IRC,
         util,
         setTimeout(...args) {
