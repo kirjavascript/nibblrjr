@@ -28,7 +28,7 @@ const codes = {
 };
 
 const rainbow = ['r', 'o', 'y', 'dg', 'b', 'db', 'dp'];
-const rand = ['r', 'y', 'o', 'c', 'p', 'dc', 'g'];
+const rand = ['r', 'y', 'c', 'o', 'p', 'dc', 'g'];
 
 function parseColors(text) {
     let rainbowIndex = 0;
@@ -85,11 +85,54 @@ function parseColors(text) {
         });
 }
 
-parseColors.hashString = (str) => {
+const hash = (str) => {
+    str = str.toLowerCase().trim();
     const index = [...str].map(d => d.charCodeAt(0)).reduce((a,b) => a+b)%rand.length|0;
     return `{${rand[index]}}`;
 };
 
+const nick = (str, withBrackets = false) => {
+    const nick = `${hash(str)}${str}{/}`;
+    return withBrackets ? `{bo}<{/}${nick}{bo}>{/}` : nick;
+};
+
+const link = (str) => {
+    return `{dc}{u}${str}{/}`;
+};
+
+const error = (e) => {
+    if (e.name !== 'Error') {
+        return `{r}${e.name}:{/} ${e.message}`;
+    } else {
+        return `{r}>>{/} ${e.message}`;
+    }
+};
+
+const success = (message) => {
+    return `{g}>>{/} ${message}`;
+};
+
+const info = (message) => {
+    return `{b}>>{/} ${message}`;
+};
+
+const getColorFuncs = (trigger) => {
+    const colors = (str) => parseColors(str);
+    return Object.assign(colors, {
+        hash, nick, link,
+        error, success, info,
+        cmd: (str, input, params) => {
+            const iStr = Array.isArray(input)
+                ? ' ' + input.map(param => `{bo}[${param}]{/}`).join` `
+                : (input ? ` {bo}[${input}]{/}` : '');
+            const pStr = Array.isArray(params)
+                ? `(${params.map(d => `{r}${d}{p}`).join`, `})`
+                : (params ? `({r}${params}{p})`: '');
+            return `{p}${trigger}${str}${pStr}{/}${iStr}`;
+        },
+    });
+};
+
 module.exports = {
-    parseColors,
+    parseColors, getColorFuncs, notify: { error, info, success },
 };

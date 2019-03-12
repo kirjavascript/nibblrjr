@@ -1,29 +1,35 @@
 {
     "trigger": "~",
-    "web": {
-        "url": "http://nibblr.pw",
-        "port": 8888,
-        "password": "powernap"
-    },
+    "broadcast-commands": ["poker"], // commands that are able to PM other users
+    "timezone": "Europe/London",
     "servers": [
         {
             "address": "irc.rizon.net",
-            "channels": ["#nibblr", "#livingroom"],
-            "nickname": "nibblrjr",
+            "channels": ["#nibblr", "#poker"],
+            "admins": ["Kirjava"], // can use IRC.sudo and related commands
+            "nickname": "nibblrjr"
         },
         {
             "address": "irc.furnet.org",
-            "channels": ["#purple"],
+            "channels": [{
+                "name": "#purple",
+                "lineLimit": 10
+            }],
             "nickname": "purple",
+            "fetchURL": false, // disable auto-msg for url scraping
             "password": "milkshake"
         },
         {
             "address": "irc.freenode.net",
             "trigger": "!",
-            "channels": ["#rubik2"],
-            "nickname": "nibblrjr"
-            "fetchURL": false,
-            "colors": false
+            "channels": ["#bottest"],
+            "nickname": "nibblrjr",
+            "colors": false // btw comments arent allowed in JSON
         }
-    ]
+    ],
+    "web": {
+        "url": "http://nibblr.pw",
+        "port": 8888,
+        "password": "powernap"
+    }
 }
