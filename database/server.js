@@ -227,8 +227,8 @@ function createServerDBFactory(database) {
                 }
                 // update / add data
                 else if (!hasData) {
-                    if (String(value).length > 400) {
-                        throw new Error('Store size limit is 400');
+                    if (String(value).length > 5000) {
+                        throw new Error('Store size limit is 5000');
                     }
                     setInsertQuery.run(String(value), namespace, key);
                 }

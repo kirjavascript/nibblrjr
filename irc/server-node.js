@@ -1,17 +1,23 @@
 const { Client } = require('irc');
-Client.prototype._updateMaxLineLength = () => {this.maxLineLength = 400};
 
-const { printFactory, noticeFactory, actionFactory } = require('./printer');
-const { evaluate } = require('./evaluate');
-const { fetchURL } = require('./fetch-url');
-const { getContext } = require('./context');
-const { parseCommand } = require('./parse-command');
+const { mod, updateLoader } = require('./hot-loader');
 
 class ServerNode {
     constructor(parent, server) {
 
+        this.updateLoader = updateLoader;
+
         Object.assign(this, server, { parent });
         // { address, channels, trigger, nickname, password, colors }
+
+        this.channels = this.channels.map(ch => {
+            if (typeof ch == 'string') {
+                return { name: ch.toLowerCase() };
+            } else {
+                ch.name = ch.name.toLowerCase();
+                return ch;
+            }
+        });
 
         this.get = (key, _default) => {
             return typeof this[key] != 'undefined'
@@ -21,14 +27,18 @@ class ServerNode {
                     : _default;
         }
 
+        this.getChannelConfig = (name) => {
+            return this.channels.find(ch => ch.name == name) || {};
+        };
+
         this.client = new Client(this.address, this.nickname, {
-            channels: this.channels,
+            channels: this.channels.map(c => c.name),
             userName: this.get('userName', 'eternium'),
             realName: this.get('realName', 'nibblrjr IRC framework'),
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: true,
-            debug: true,
+            // debug: true,
         });
 
         this.timeouts = [];
@@ -65,7 +75,8 @@ class ServerNode {
         });
 
         // check tick events that have elapsed
-        this.tick = setInterval(() => {
+        this.tick = () => {
+            setTimeout(this.tick, 5000);
             if (this.registered) {
                 this.database.eventFns.tickElapsed()
                     .forEach(row => {
@@ -78,18 +89,20 @@ class ServerNode {
                         context.IRC.setEvent(row);
                         const commandData = parent.database.commands.get(row.callback);
                         if (commandData) {
-                            evaluate({ input: commandData.command, context });
+                            mod.evaluate({ input: commandData.command, context });
+
                         }
                         this.database.eventFns.delete(row.idx);
                     });
             }
-        }, 5000);
+        };
+        setTimeout(this.tick, 5000);
 
         this.getEnvironment = (msgData) => {
-            const print = printFactory(this, msgData);
-            const notice = noticeFactory(this, msgData);
-            const action = actionFactory(this, msgData);
-            const context = getContext({
+            const print = mod.printFactory(this, msgData);
+            const notice = mod.noticeFactory(this, msgData);
+            const action = mod.actionFactory(this, msgData);
+            const context = mod.getContext({
                 print,
                 notice,
                 action,
@@ -100,8 +113,11 @@ class ServerNode {
         };
 
         this.client.addListener('message', (from, to, text, message) => {
+            if (this.get('ignore-hosts', []).includes(message.host)) return;
             const isPM = to == this.client.nick;
             const target = isPM ? from : to;
+            from = from[0] == '#' ? from.toLowerCase() : from;
+            to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
             const { context, print } = this.getEnvironment(msgData);
 
@@ -112,7 +128,7 @@ class ServerNode {
                     context.IRC.setEvent(row);
                     const commandData = parent.database.commands.get(row.callback);
                     if (commandData) {
-                        evaluate({ input: commandData.command, context });
+                        mod.evaluate({ input: commandData.command, context });
                     }
                     this.database.eventFns.delete(row.idx);
                 });
@@ -121,45 +137,50 @@ class ServerNode {
             const trigger = this.get('trigger', '!');
 
             if (text.startsWith(trigger)) {
-                const command = parseCommand({ trigger, text });
-
-                if (parent.dev) {
-                    print.log(command, msgData.target, true);
-                }
+                const command = mod.parseCommand({ trigger, text });
 
                 context.input = command.input;
                 context.IRC.command = command;
 
                 // eval
                 // > - print output
-                // #/% - no output
+                // #/% - no output, async IIFE
                 if (['>','#','%'].includes(command.path)) {
                     const { input, path } = command;
                     context.store = this.database.storeFactory('__eval__');
-                    evaluate({
+                    const isAsync = path != '>';
+                    mod.evaluate({
                         input,
                         context,
-                        printOutput: path == '>',
+                        printOutput: !isAsync,
+                        wrapAsync: isAsync,
+                        isREPL: true,
                     });
                 }
                 // normal commands
                 else {
-                    context.store = this.database.storeFactory(command.list[0]);
-
+                    const baseCommand = command.list[0];
+                    context.store = this.database.storeFactory(baseCommand);
+                    // patch broadcasting
+                    if (this.get('broadcast-commands', []).includes(baseCommand)) {
+                        context.print = mod.printFactory(this, msgData, true);
+                        context.notice = mod.noticeFactory(this, msgData, true);
+                        context.action = mod.actionFactory(this, msgData, true);
+                    }
                     const commandData = parent.database.commands.get(command.path);
 
                     if (commandData) {
-                        evaluate({ input: commandData.command, context });
+                        mod.evaluate({ input: commandData.command, context });
                     }
                 }
             }
             // handle IBIP (https://git.teknik.io/Teknikode/IBIP)
             else if (this.get('enableIBIP', true) && text == '.bots') {
-                print('Reporting in! [JavaScript] https://github.com/kirjavascript/nibblrjr');
+                print(`Reporting in! [JavaScript] use ${trigger}help`);
             }
             // parse URLs
             else if (this.get('fetchURL', true)) {
-                fetchURL(text, print);
+                mod.fetchURL(text, print);
             }
 
         });

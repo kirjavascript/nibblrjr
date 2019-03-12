@@ -1,33 +1,34 @@
 const { limit } = require('./limit');
 const { ping } = require('./spawn');
 const { getText, getJSON, getDOM } = require('./fetch');
-const { parseColors } = require('../colors');
+const { getColorFuncs } = require('../colors');
 const { objectDebug } = require('../evaluate');
 const { parseTime, formatTime } = require('./parse-time');
 const { parseCommand } = require('../parse-command');
+const { sudo } = require('./sudo');
 const dateFns = require('date-fns');
+const fetch = require('node-fetch');
 const _ = require('lodash');
 
 function getContext({ print, notice, action, msgData, node }) {
 
+    const trigger = node.get('trigger', '!');
+
+    const channels = Object.entries(_.cloneDeep(node.client.chans))
+        .reduce((acc, [key, value]) => {
+            delete value.users;
+            acc[key.toLowerCase()] = value;
+            return acc;
+        }, {});
+
     const IRC = {
-        trigger: node.get('trigger', '!'),
+        trigger,
         message: msgData,
-        parseColors,
+        colors: getColorFuncs(trigger),
         nick: node.client.nick,
-        channels: _.cloneDeep(node.client.chans),
-        setNick: (str) => {
-            node.client.send('NICK', str);
-            // reauth in case we got deauthed for whatever reason
-            if (str == node.nickname) {
-                node.client.say('nickserv', `identify ${node.password}`);
-            }
-        },
-        setTopic: (str) => {
-            node.client.send('TOPIC', msgData.target, str);
-        },
+        channels,
         log: node.database.logFactory(msgData.target),
-        commandFns: node.parent.database.commands.commandFns,
+        commandFns: node.parent.database.commands.getCommandFns(),
         eventFns: node.database.eventFactory(msgData.from),
         resetBuffer: node.resetBuffer,
         webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
@@ -37,6 +38,23 @@ function getContext({ print, notice, action, msgData, node }) {
                 throw new Error('cannot add an event in an event callback');
             };
         },
+        setNick: (str) => {
+            if (node.getChannelConfig(msgData.to).setNick) {
+                str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
+                node.client.send('NICK', str);
+                return true;
+            } else {
+                return false;
+            }
+        },
+        whois: (text, callback) => text && node.client.whois(text, (data) => {
+            try {
+                callback(data);
+            } catch (e) {
+                print.error(e);
+            }
+        }),
+        sudo: (callback) => { sudo({ IRC, callback, node, print }); },
         // command, require are patched later
     };
 
@@ -55,6 +73,7 @@ function getContext({ print, notice, action, msgData, node }) {
         getText: limit(getText),
         getJSON: limit(getJSON),
         getDOM: limit(getDOM),
+        fetch: limit(fetch),
         IRC,
         util,
         setTimeout(...args) {
@@ -63,9 +82,11 @@ function getContext({ print, notice, action, msgData, node }) {
         setInterval(...args) {
             return node.intervals.push(setInterval(...args));
         },
+        clearTimeout,
+        clearInterval,
         dateFns,
         _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
-        // store is patched after
+        // store, input, acquire are patched later
     };
 
     return ctx;

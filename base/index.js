@@ -4,6 +4,7 @@ const { initWeb } = require('../web/server');
 const { Database } = require('../database/index');
 
 process.env.TZ = config.timezone || 'Europe/London';
+process.on('uncaughtException', console.error);
 
 new (class Nibblr {
     constructor() {
@@ -22,7 +23,5 @@ new (class Nibblr {
         this.servers = this.servers.map(server => (
             new ServerNode(this, server)
         ));
-
-        console.info(this);
     }
 });

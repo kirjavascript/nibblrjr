@@ -22,5 +22,5 @@ function ping(str) {
 }
 
 module.exports = {
-    ping,
+    ping, createCommand,
 };

@@ -1,15 +1,26 @@
 const util = require('util');
-const { VM } = require('vm2');
-const { acquireFactory } = require('./context/acquire');
-
 util.inspect.styles.null = 'red';
+const { VM } = require('vm2');
+const { acquire } = require('./context/acquire');
+const { createRequireModules } = require('./context/require');
+const { loopProtect } = require('./context/loop-protect');
 
-process.on('uncaughtException', console.error);
-
-function evaluate({ input, context, printOutput }) {
+async function evaluate({ input, context, printOutput, wrapAsync, isREPL }) {
 
     try {
-        context.acquireFactory = acquireFactory;
+        context.acquire = acquire;
+        if (isREPL) {
+            context.injectRequire = await createRequireModules(input);
+            input = loopProtect(input);
+        }
+
+        const code = wrapAsync ? `(async () => {
+            try {
+                ${input}
+            } catch (e) {
+                print.error(e);
+            }
+        })();` : input;
 
         const evaluation = new VM({
             timeout: 3000,
@@ -17,7 +28,15 @@ function evaluate({ input, context, printOutput }) {
         }).run(`
             delete global.console;
             global.module = {};
-            ['VMError', 'Buffer', 'module', 'acquireFactory'].forEach(key => {
+            [
+                'VMError',
+                'Buffer',
+                'module',
+                'setTimeout',
+                'clearTimeout',
+                'setInterval',
+                'clearInterval',
+            ].forEach(key => {
                 Object.defineProperty(this, key, { enumerable: false });
             });
             (() => {
@@ -36,27 +55,31 @@ function evaluate({ input, context, printOutput }) {
                         throw error;
                     }
                 };
-                global.acquire = acquireFactory(source => {
-                    return new Function(\`
-                        \${source}
-                        return __acquire__;
-                    \`)();
-                });
+                if (global.injectRequire) {
+                    global.require = injectRequire();
+                    delete global.injectRequire;
+                }
             })();
 
-            ${input}
+            ${code}
         `);
 
         if (printOutput) {
             context.print.raw(objectDebug(evaluation));
         }
-    } catch(e) {
-        context.print(`{r}${e.name||'Error'}:{/} ${e.message}`)
+    } catch (e) {
+        context.print.error(e);
     }
+
 }
 
-function objectDebug(evaluation, colors = true) {
-    const output = util.inspect(evaluation, { depth: 1, colors })
+function objectDebug(evaluation, { depth = 0, colors = true } = {}) {
+    const outputFull = util.inspect(evaluation, { depth, colors });
+    const output = outputFull.length > 396
+        ? outputFull.slice(0, 396) + '\u000f ...'
+        : outputFull;
+
+    return output
         .replace(/\s+/g, ' ')
         .replace(new RegExp('\u001b\\[39m', 'g'), '\u000f')// reset
         .replace(new RegExp('\u001b\\[31m', 'g'), '\u000313') // null
@@ -64,13 +87,6 @@ function objectDebug(evaluation, colors = true) {
         .replace(new RegExp('\u001b\\[32m', 'g'), '\u000303')// str
         .replace(new RegExp('\u001b\\[90m', 'g'), '\u000314')// str?
         .replace(new RegExp('\u001b\\[36m', 'g'), '\u000310');// func
-
-    if (output.length > 396) {
-        return output.slice(0, 396) + '\u000f ...';
-    }
-    else {
-        return output;
-    }
 }
 
 module.exports = {

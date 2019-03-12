@@ -11,8 +11,13 @@ nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 * safe arbitrary npm module use
 * custom command module format
 * logging
+* admin control
+* hot reloading of base code
 * memo system
 * reminders
-* 1000+ premade commands (mostly stupid)
-* various web integrations (hackernews, slashdot, imgur, reddit, wiki, weather, urbandictionary, tripsit, the pirate bay, bulbapedia, bbcnews, bash.org, and more)
-* texas hold em (soon™)
+* 1000+ commands
+* roll7
+* various API integrations
+* texas hold em
+
+see the [example config](config.json.example) and then type `~help`
