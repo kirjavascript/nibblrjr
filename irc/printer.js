@@ -3,9 +3,9 @@ const { parseColors, notify } = require('./colors');
 
 const messageFactory = (type, node, msgData, canBroadcast = false) => {
     const { client } = node;
-    const { target: defaultTarget } = msgData;
+    const { target: defaultTarget, isPM } = msgData;
     let count = 0;
-    const limit = node.getChannelConfig(msgData.to).lineLimit || 10;
+    const limit = node.getChannelConfig(msgData.to).lineLimit || (isPM ? 50 : 10);
 
     // raw
     const sendRaw = (text, { target = defaultTarget, log = true } = {}) => {
@@ -43,9 +43,9 @@ const messageFactory = (type, node, msgData, canBroadcast = false) => {
                     nick: node.client.nick,
                     command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
                     target,
-                    args: [target || defaultTarget, ...text.split(' ')],
+                    args: [target || defaultTarget, ...text.slice(0, 400).split(' ')],
                 });
-            }, 200);
+            }, 100);
         }
     };
 

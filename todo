@@ -1,6 +1,9 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
+~chess
+/usr/share/dict/words IRC.wordList Array
+set default line limit to 10
 add print limit to get envinronment to limit event callback spam
 hide cannot find module messages
 throttle print
@@ -21,10 +24,6 @@ strip only starred commands for github ?
 provide a toQueryString
 truncate log messages (or also how nibblr saves itself to log)
 documentation show global object tree
-
-https://gfycat.com/SourImaginaryAfricanrockpython
-https://kotaku.com/report-new-nintendo-switch-model-coming-in-2019-1829513370
-https://gamefaqs.gamespot.com/pc/648805-osu
 
 ====
 
