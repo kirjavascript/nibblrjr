@@ -1,6 +1,7 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
+support multiple protocols in frontend (http/https)
 ~chess
 /usr/share/dict/words IRC.wordList Array
 set default line limit to 10
