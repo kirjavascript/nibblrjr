@@ -1,10 +1,12 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
-~chess
-set default line limit to 10
+IRC.secrets / IRC.wordList
+change command db to JSON
+omit commands (triggers) from log
+index db
 add print limit to get envinronment to limit event callback spam
-hide cannot find module messages
+~chess
 throttle print
 merge getChannelConfig and .get
 _.deburr for title parser
@@ -15,6 +17,7 @@ IRC.auth
 multiple triggers
 timers
 ~> 'e'.repeat(1e9) bug
+ eval('['+'.'.repeat(1e9)+']')
 IRC.runCommand
 tinyurl the url (crc32)
 specify regex for command name
