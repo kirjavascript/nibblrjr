@@ -160,12 +160,12 @@ function createCommandDB(database) {
         }
     };
 
-    const getCommandFns = () => ({
+    const getCommandFns = (node) => ({
         get,
         list,
         names,
-        setSafe: limit(setSafe, 2),
-        deleteSafe: limit(deleteSafe, 2),
+        setSafe: limit(setSafe, node.get('command-limit', 2)),
+        deleteSafe: limit(deleteSafe, node.get('command-limit', 2)),
     });
 
     return {
