@@ -101,10 +101,14 @@ const link = (str) => {
 };
 
 const error = (e) => {
-    if (e.name !== 'Error') {
-        return `{r}${e.name}:{/} ${e.message}`;
+    if (!(e instanceof Error)) {
+        return `{r}>>{/} ${e}`;
     } else {
-        return `{r}>>{/} ${e.message}`;
+        if (e.name !== 'Error') {
+            return `{r}${e.name}:{/} ${e.message}`;
+        } else {
+            return `{r}>>{/} ${e.message}`;
+        }
     }
 };
 
