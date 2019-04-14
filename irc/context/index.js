@@ -63,7 +63,7 @@ function getContext({ print, notice, action, msgData, node }) {
         parseTime,
         parseCommand,
         objectDebug,
-        breakHighlight: (s) => `${s.charAt(0)}\u200b${s.substring(1)}`,
+        breakHighlight: (s) => `${s[0]}\u200b${s.slice(1)}`,
     };
 
     const ctx = {
