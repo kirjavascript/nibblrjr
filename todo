@@ -1,17 +1,21 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
+v3: bouncer to stop join/part, main exec, container
+
 // TODO //
+docs
+http push /
 IRC.secrets
+/usr/share/dict/words IRC.wordList Array
+updateConfig / merge getChannelConfig and .get
 change command db to JSON
 omit commands (triggers) from log
 index db
 support multiple protocols in frontend (ws/wss just use //)
 ~chess
-/usr/share/dict/words IRC.wordList Array
 add print limit to get envinronment to limit event callback spam
 ~chess
 throttle print
-merge getChannelConfig and .get
 _.deburr for title parser
 useState/loadObject() alternative
 comandFns.where();
