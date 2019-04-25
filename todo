@@ -8,6 +8,7 @@ http push /
 IRC.secrets
 /usr/share/dict/words IRC.wordList Array
 updateConfig / merge getChannelConfig and .get
+SyntaxError displays wrong
 change command db to JSON
 omit commands (triggers) from log
 index db
