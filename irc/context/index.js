@@ -5,7 +5,7 @@ const { getColorFuncs } = require('../colors');
 const { objectDebug } = require('../evaluate');
 const { parseTime, formatTime } = require('./parse-time');
 const { parseCommand } = require('../parse-command');
-const { sudo } = require('./sudo');
+const { sudo, auth } = require('./access');
 const dateFns = require('date-fns');
 const fetch = require('node-fetch');
 const _ = require('lodash');
@@ -54,6 +54,7 @@ function getContext({ print, notice, action, msgData, node }) {
                 print.error(e);
             }
         }),
+        auth: (callback) => { auth({ IRC, callback, node, print }); },
         sudo: (callback) => { sudo({ IRC, callback, node, print }); },
         // command, require are patched later
     };
