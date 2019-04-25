@@ -1,6 +1,6 @@
 {
     "trigger": "~",
-    "broadcast-commands": ["poker"], // commands that are able to PM other users
+    "broadcast-commands": ["poker", "golf"], // commands that are able to PM other users
     "timezone": "Europe/London",
     "servers": [
         {
