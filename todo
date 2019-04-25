@@ -2,6 +2,7 @@ reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
 IRC.secrets
+SyntaxError displays wrong
 change command db to JSON
 omit commands (triggers) from log
 index db
