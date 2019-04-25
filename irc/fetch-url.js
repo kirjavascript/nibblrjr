@@ -40,7 +40,7 @@ function fetchURL(text, print, disableRedirect) {
         };
 
         request.get(options, res => {
-            if (isRedirect(res.statusCode)) {
+            if (!disableRedirect && isRedirect(res.statusCode)) {
                 // redirect
                 const newURL = String(_.get(res, 'headers.location'));
                 if (newURL.startsWith('/')) {
