@@ -54,17 +54,14 @@ function getContext({ print, notice, action, msgData, node }) {
                 print.error(e);
             }
         }),
-        auth: (callback) => { auth({ IRC, callback, node, print }); },
-        sudo: (callback) => { sudo({ IRC, callback, node, print }); },
-        // command, require are patched later
-    };
-
-    const util = {
         ping,
         parseTime,
         parseCommand,
         objectDebug,
         breakHighlight: (s) => `${s[0]}\u200b${s.slice(1)}`,
+        auth: (callback) => { auth({ IRC, callback, node, print }); },
+        sudo: (callback) => { sudo({ IRC, callback, node, print }); },
+        // command, require are patched later
     };
 
     const ctx = {
@@ -76,7 +73,6 @@ function getContext({ print, notice, action, msgData, node }) {
         getDOM: limit(getDOM),
         fetch: limit(fetch),
         IRC,
-        util,
         setTimeout(...args) {
             return node.timeouts.push(setTimeout(...args));
         },
