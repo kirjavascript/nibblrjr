@@ -58,8 +58,8 @@ const messageFactory = (type, node, msgData, canBroadcast = false) => {
 
     // inspect
     send.log = (text, config = {}) => {
-        const { depth, colors } = config;
-        return sendRaw(objectDebug(text, { depth, colors}), config);
+        const { depth, colors, truncate, ...otherConfig } = config;
+        return sendRaw(objectDebug(text, {depth, colors, truncate}), otherConfig);
     };
     send.error = (error, config) => {
         return send(notify.error(error), config);
