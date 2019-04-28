@@ -5,7 +5,7 @@ const { getColorFuncs } = require('../colors');
 const { objectDebug } = require('../evaluate');
 const { parseTime, formatTime } = require('./parse-time');
 const { parseCommand } = require('../parse-command');
-const { sudo } = require('./sudo');
+const { sudo, auth } = require('./access');
 const dateFns = require('date-fns');
 const fetch = require('node-fetch');
 const _ = require('lodash');
@@ -54,16 +54,14 @@ function getContext({ print, notice, action, msgData, node }) {
                 print.error(e);
             }
         }),
-        sudo: (callback) => { sudo({ IRC, callback, node, print }); },
-        // command, require are patched later
-    };
-
-    const util = {
         ping,
         parseTime,
         parseCommand,
         objectDebug,
         breakHighlight: (s) => `${s[0]}\u200b${s.slice(1)}`,
+        auth: (callback) => { auth({ IRC, callback, node, print }); },
+        sudo: (callback) => { sudo({ IRC, callback, node, print }); },
+        // command, require are patched later
     };
 
     const ctx = {
@@ -75,7 +73,6 @@ function getContext({ print, notice, action, msgData, node }) {
         getDOM: limit(getDOM),
         fetch: limit(fetch),
         IRC,
-        util,
         setTimeout(...args) {
             return node.timeouts.push(setTimeout(...args));
         },

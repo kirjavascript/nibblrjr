@@ -122,16 +122,18 @@ class ServerNode {
             const { context, print } = this.getEnvironment(msgData);
 
             // check speak events that have elapsed
-            this.database.eventFns.speakElapsed(from)
-                .forEach(row => {
-                    const { context } = this.getEnvironment(msgData);
-                    context.IRC.setEvent(row);
-                    const commandData = parent.database.commands.get(row.callback);
-                    if (commandData) {
-                        mod.evaluate({ input: commandData.command, context });
-                    }
-                    this.database.eventFns.delete(row.idx);
-                });
+            if (!this.getChannelConfig(to).ignoreSpeakEvents) {
+                this.database.eventFns.speakElapsed(from)
+                    .forEach(row => {
+                        const { context } = this.getEnvironment(msgData);
+                        context.IRC.setEvent(row);
+                        const commandData = parent.database.commands.get(row.callback);
+                        if (commandData) {
+                            mod.evaluate({ input: commandData.command, context });
+                        }
+                        this.database.eventFns.delete(row.idx);
+                    });
+            }
 
             // handle commands
             const trigger = this.get('trigger', '!');
