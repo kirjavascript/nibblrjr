@@ -73,10 +73,13 @@ async function evaluate({ input, context, printOutput, wrapAsync, isREPL }) {
 
 }
 
-function objectDebug(evaluation, { depth = 0, colors = true } = {}) {
+function objectDebug(
+    evaluation,
+    { depth = 0, colors = true, truncate = 396 } = {},
+) {
     const outputFull = util.inspect(evaluation, { depth, colors });
-    const output = outputFull.length > 396
-        ? outputFull.slice(0, 396) + '\u000f ...'
+    const output = outputFull.length > truncate
+        ? outputFull.slice(0, truncate) + '\u000f ...'
         : outputFull;
 
     return output
