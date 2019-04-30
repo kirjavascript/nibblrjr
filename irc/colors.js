@@ -27,7 +27,7 @@ const codes = {
     '/': '\u000f',
 };
 
-const rainbow = ['r', 'o', 'y', 'dg', 'b', 'db', 'dp'];
+const rainbow = [...'roygcbp'];
 const rand = ['r', 'y', 'c', 'o', 'p', 'dc', 'g'];
 
 function parseColors(text) {
@@ -55,7 +55,7 @@ function parseColors(text) {
         // rainbow
         .replace(/{rb}(.*?)({(.*?)}|$)/gsm, (str, key, key2) => {
             return [...key].map((ch, i) => {
-                return `{${rainbow[rainbowIndex++%rainbow.length]}}${ch}`;
+                return `{${rainbow[rainbowIndex++%rainbow.length]}}${ch}{/}`;
             }).join('') + key2;
         })
         // formatting
