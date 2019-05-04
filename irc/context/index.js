@@ -58,7 +58,7 @@ function getContext({ print, notice, action, msgData, node }) {
         parseTime,
         parseCommand,
         objectDebug,
-        breakHighlight: (s) => `${s[0]}\u200b${s.slice(1)}`,
+        breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
         auth: (callback) => { auth({ IRC, callback, node, print }); },
         sudo: (callback) => { sudo({ IRC, callback, node, print }); },
         // command, require are patched later
