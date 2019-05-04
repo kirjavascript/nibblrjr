@@ -3,6 +3,11 @@ reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 v3: bouncer to stop join/part, main exec, container
 
 // TODO //
+~> 'e'.repeat(1e9) bug
+ eval('['+'.'.repeat(1e9)+']')
+IRC.runCommand
+sum of 10000 * <size of best solution> / <size of your solution> for each problem (19 hours ago)
+provide a message when downloading from npm
 docs
 http push /
 IRC.secrets
@@ -24,9 +29,6 @@ comandFns.where();
 IRC.auth
 multiple triggers
 timers
-~> 'e'.repeat(1e9) bug
- eval('['+'.'.repeat(1e9)+']')
-IRC.runCommand
 tinyurl the url (crc32)
 specify regex for command name
 set request content type url bug https://arin.ga/BXMkyl
