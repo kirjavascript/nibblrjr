@@ -51,10 +51,6 @@
   dependencies:
     "@babel/types" "^7.0.0"
 
-"@babel/helper-plugin-utils@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0.tgz#bbb3fbee98661c569034237cc03967ba99b4f250"
-
 "@babel/helper-split-export-declaration@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/helper-split-export-declaration/-/helper-split-export-declaration-7.0.0.tgz#3aae285c0311c2ab095d997b8c9a94cad547d813"
@@ -80,19 +76,6 @@
 "@babel/parser@^7.2.2", "@babel/parser@^7.2.3":
   version "7.2.3"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.2.3.tgz#32f5df65744b70888d17872ec106b02434ba1489"
-
-"@babel/plugin-proposal-optional-chaining@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.2.0.tgz#ae454f4c21c6c2ce8cb2397dc332ae8b420c5441"
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.0.0"
-    "@babel/plugin-syntax-optional-chaining" "^7.2.0"
-
-"@babel/plugin-syntax-optional-chaining@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-optional-chaining/-/plugin-syntax-optional-chaining-7.2.0.tgz#a59d6ae8c167e7608eaa443fda9fa8fa6bf21dff"
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.0.0"
 
 "@babel/standalone@^7.3.1":
   version "7.3.1"
@@ -3294,6 +3277,11 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
+isolated-vm@^1.7.10:
+  version "1.7.10"
+  resolved "https://registry.yarnpkg.com/isolated-vm/-/isolated-vm-1.7.10.tgz#b93f91cc1f7095ce8869d66a41ecf85c1c92ad58"
+  integrity sha512-B5fb4UWnSuHxNurC2cyM/dZ0PoISGyd0uYz8nJoarHxHezngsHH8ghLil6XuWLjGvhtS1JognqWyTGBmYYq8MQ==
+
 isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
@@ -3626,10 +3614,6 @@ log-update@^1.0.2:
   dependencies:
     ansi-escapes "^1.0.0"
     cli-cursor "^1.0.2"
-
-loop-protect@^2.1.6:
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/loop-protect/-/loop-protect-2.1.6.tgz#03840f79591121c37a53a87fb9aff2841e488c2d"
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1:
   version "1.4.0"
@@ -5834,10 +5818,6 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
-
-vm2@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.8.0.tgz#91645c6a8fe2a81836997c0fd8ca80c40004e3a7"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
