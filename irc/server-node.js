@@ -37,7 +37,7 @@ class ServerNode {
             realName: this.get('realName', 'nibblrjr IRC framework'),
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
-            autoRejoin: true,
+            autoRejoin: this.get('autoRejoin', true),
             // debug: true,
         });
 
@@ -154,7 +154,6 @@ class ServerNode {
                     mod.evaluate({
                         input,
                         msgData,
-                        mod,
                         node: this,
                     //     context,
                     //     printOutput: !isAsync,
@@ -175,7 +174,7 @@ class ServerNode {
                 //     const commandData = parent.database.commands.get(command.path);
 
                 //     if (commandData) {
-                //         mod.evaluate({ input: commandData.command, context });
+                //         mod.evaluate({ input: commandData.command, context, wrpaAsync: true });
                 //     }
                 // }
             }

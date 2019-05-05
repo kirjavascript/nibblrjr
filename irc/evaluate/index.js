@@ -3,19 +3,26 @@
 // const { acquire } = require('./context/acquire');
 // const { createRequireModules } = require('./context/require');
 const ivm = require('isolated-vm');
-const timeout = 10000;
 const fs = require('fs');
+const path = require('path');
+const _ = require('lodash');
 
-const inspectScript = fs.readFileSync(__dirname + '/oinspect.js', 'utf8');
+const timeout = 10000;
 
-// script loader that attach to global.scripts
-// rename objectDebug to inspect
+// grab scripts to inject into the isolate
+const scripts = fs.readdirSync(path.join(__dirname, 'scripts'))
+    .map(filename => {
+        return [
+            path.parse(filename).name,
+            fs.readFileSync(path.join(__dirname, 'scripts', filename), 'utf8'),
+        ];
+    });
 
 async function evaluate({
     input,
     msgData,
-    mod,
     node,
+    canBroadcast,
     // context,
     // printOutput,
     // wrapAsync,
@@ -23,10 +30,34 @@ async function evaluate({
 }) {
 
     try {
+        // pass depth as a command param
+        // if no print output, wrap async
+
         // context.acquire = acquire;
         // if (isREPL) {
         //     context.injectRequire = await createRequireModules(input);
         // }
+
+        const channels = Object.entries(_.cloneDeep(node.client.chans))
+            .reduce((acc, [key, value]) => {
+                delete value.users;
+                acc[key.toLowerCase()] = value;
+                return acc;
+            }, {});
+
+        const config = {
+            hasColors: node.get('colors', true),
+            canBroadcast,
+            lineLimit: node.getChannelConfig(msgData.to).lineLimit
+                || (msgData.isPM ? 50 : 10),
+            IRC: {
+                trigger: node.get('trigger', '!'),
+                message: msgData,
+                nick: node.client.nick,
+                channels,
+                webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+            },
+        };
 
         const isolate = new ivm.Isolate({ memoryLimit: 128 });
         const context = await isolate.createContext();
@@ -34,76 +65,87 @@ async function evaluate({
 
         jail.setSync('global', jail.derefInto());
         jail.setSync('_ivm', ivm);
-        jail.setSync('_rawPrint', new ivm.Reference((type, target, text) => {
-            node.client[type](target, text);
+        jail.setSync('_sendRaw', new ivm.Reference((type, target, text) => {
+            if (node.registered) {
+                node.client[type](target, text);
+            }
         }));
-        jail.setSync('msgData', new ivm.ExternalCopy(msgData).copyInto());
+
         jail.setSync('input', input);
+        jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
 
         await (await isolate.compileScript(`
-            (function() {
-                ${inspectScript}
-                global.inspect = inspect_;
-            })();
-        `)).run(context);
+            global.scripts = {};
+            ${scripts.map(([name, script]) => `
+                (function() {
+                    const module = {};
+                    ${script};
+                    global.scripts[${JSON.stringify(name)}] = module.exports;
+                })();
+            `).join('')}
+         `)).run(context);
 
         const bootstrap = await isolate.compileScript('new '+ function() {
             const ivm = _ivm;
-            global.ivm = _ivm
             delete _ivm;
-            // const log = _log;
-            // delete _log;
-            // global.log = function(...args) {
-            //     log.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
-            // };
-            // const rawPrint = _rawPrint;
-            // global.rawPrint = function(...args) {
-            //     rawPrint.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
-            // };
 
-            // remap functions to copied versions
-            Object.keys(global)
-                .forEach(key => {
-                    if (key.startsWith('_')) {
-                        const func = global[key];
-                        global[key.slice(1)] = function(...args) {
-                            // limit length of strings going to print
-                            return func.applySync(
-                                undefined,
-                                args.map(arg => new ivm.ExternalCopy(arg).copyInto())
-                            );
-                        };
-                        delete global[key];
-                    }
-                });
-            global.print = (str) => {
-                rawPrint('say', msgData.target, str);
-            }
-            // global.print('.'.repeat(1e9));
+            const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
 
-            // try / catch
+            // attach print/action/notice
 
-            // global.print = function(...args) {
-            //     _print.applyIgnored(undefined, args.map(arg => new ivm.ExternalCopy(arg).copyInto()));
-            // };
+            const sendRaw = _sendRaw;
+            delete _sendRaw;
 
-            print(inspect(eval(input)))
+            Object.assign(global, scripts.print.createSend({
+                hasColors: config.hasColors,
+                canBroadcast: config.canBroadcast,
+                lineLimit: config.lineLimit,
+                message: config.IRC.message,
+                colors,
+                inspect: scripts.inspect,
+                sendRaw: function(...args) {
+                    // TODO: limit length of strings going to print
+                    return sendRaw.applySync(
+                        undefined,
+                        args.map(arg => new ivm.ExternalCopy(arg).copyInto())
+                    );
+                },
+            }));
 
+            // create IRC object
+
+            global.IRC = {
+                ...config.IRC,
+                colors,
+                inspect: scripts.inspect,
+                breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
+            };
+
+            // cleanup env
+
+            delete config;
+            delete scripts;
         });
         await bootstrap.run(context);
 
-        // we need to return undefined so that no attempt is made to copy it
-        // const code = await isolate.compileScript(`${input}; undefined`);
+        // run script
+
+        const code = await isolate.compileScript('new '+function() {
+
+            try {
+                print.raw(IRC.inspect((0, eval(input)), {depth: 2}))
+            } catch (e) {
+                print.error(e);
+            }
+
+        });
+        code.run(context, {timeout});
 
         // dispose stuff
         setTimeout(() => {
             isolate.dispose();
             context.release();
         }, timeout + 1000);
-
-        // const evaluation = await code.run(context, {timeout});
-        // await code.run(context, {timeout});
-        // console.log(evaluation)
 
 
         // TODO:

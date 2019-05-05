@@ -1,7 +1,7 @@
 const { limit } = require('./limit');
 const { ping } = require('./spawn');
 const { getText, getJSON, getDOM } = require('./fetch');
-const { getColorFuncs } = require('../colors');
+const { getColorFuncs } = require('../evaluate/scripts/colors');
 const { objectDebug } = require('../evaluate');
 const { parseTime, formatTime } = require('./parse-time');
 const { parseCommand } = require('../parse-command');
