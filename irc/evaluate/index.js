@@ -136,7 +136,7 @@ async function evaluate({
                 const [depth, truncate] = IRC.command.params;
                 print.raw(
                     IRC.inspect((0, eval(${JSON.stringify(script)})), {
-                        depth: depth || 1,
+                        depth: depth || 2,
                         truncate: truncate || 396,
                     })
                 );

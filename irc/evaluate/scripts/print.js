@@ -83,9 +83,8 @@ function messageFactory(type, {
     send.raw = sendBase;
 
     // inspect
-    send.log = (text, config = {}) => {
-        const { depth, colors, truncate, ...otherConfig } = config;
-        return sendBase(inspect(text, {depth, colors, truncate}), otherConfig);
+    send.log = (text, config) => {
+        return sendBase(inspect(text, config), config);
     };
     send.error = (error, config) => {
         return send(colors.error(error), config);

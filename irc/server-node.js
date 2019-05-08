@@ -110,20 +110,6 @@ class ServerNode {
         // };
         // setTimeout(this.tick, 5000);
 
-        // this.getEnvironment = (msgData) => {
-        //     const print = mod.printFactory(this, msgData);
-        //     const notice = mod.noticeFactory(this, msgData);
-        //     const action = mod.actionFactory(this, msgData);
-        //     const context = mod.getContext({
-        //         print,
-        //         notice,
-        //         action,
-        //         msgData,
-        //         node: this,
-        //     });
-        //     return { context, print, notice, action };
-        // };
-
         this.client.addListener('message', (from, to, text, message) => {
             if (this.get('ignore-hosts', []).includes(message.host)) return;
             const isPM = to == this.client.nick;
@@ -132,7 +118,6 @@ class ServerNode {
             to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
             const { print } = mod.createNodeSend(this, msgData);
-            // const { context, print } = this.getEnvironment(msgData);
 
             // // check speak events that have elapsed
             // if (!this.getChannelConfig(to).ignoreSpeakEvents) {
@@ -153,9 +138,6 @@ class ServerNode {
 
             if (text.startsWith(trigger)) {
                 const command = mod.parseCommand({ trigger, text });
-
-                // context.input = command.input;
-                // context.IRC.command = command;
 
                 // eval
                 // > - print output
