@@ -22,9 +22,9 @@ async function evaluate({
     input,
     msgData,
     node,
-    canBroadcast,
+    canBroadcast = false,
+    printOutput = true,
     // context,
-    // printOutput,
     // wrapAsync,
     // isREPL,
 }) {
@@ -48,8 +48,7 @@ async function evaluate({
         const config = {
             hasColors: node.get('colors', true),
             canBroadcast,
-            lineLimit: node.getChannelConfig(msgData.to).lineLimit
-                || (msgData.isPM ? 50 : 10),
+            lineLimit: node.getLineLimit(msgData.to),
             IRC: {
                 trigger: node.get('trigger', '!'),
                 message: msgData,
@@ -65,11 +64,7 @@ async function evaluate({
 
         jail.setSync('global', jail.derefInto());
         jail.setSync('_ivm', ivm);
-        jail.setSync('_sendRaw', new ivm.Reference((type, target, text) => {
-            if (node.registered) {
-                node.client[type](target, text);
-            }
-        }));
+        jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
 
         jail.setSync('input', input);
         jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
@@ -128,24 +123,23 @@ async function evaluate({
         });
         await bootstrap.run(context);
 
-        // run script
-
-        const code = await isolate.compileScript('new '+function() {
-
-            try {
-                print.raw(IRC.inspect((0, eval(input)), {depth: 2}))
-            } catch (e) {
-                print.error(e);
-            }
-
-        });
-        code.run(context, {timeout});
-
-        // dispose stuff
+        // dispose stuff after timeout
         setTimeout(() => {
             isolate.dispose();
             context.release();
         }, timeout + 1000);
+
+        // run script
+
+        const code = await isolate.compileScript('new '+function() {
+            try {
+                print.raw(IRC.inspect((0, eval(input)), {depth: 0}))
+            } catch (e) {
+                print.error(e);
+            }
+        });
+        code.run(context, {timeout});
+
 
 
         // TODO:

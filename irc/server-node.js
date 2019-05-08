@@ -31,6 +31,11 @@ class ServerNode {
             return this.channels.find(ch => ch.name == name) || {};
         };
 
+        this.getLineLimit = (msgData) => {
+            return this.getChannelConfig(msgData.to).lineLimit
+                || (msgData.isPM ? 50 : 10);
+        };
+
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels.map(c => c.name),
             userName: this.get('userName', 'eternium'),
@@ -50,6 +55,12 @@ class ServerNode {
             this.timeouts.forEach(clearTimeout);
             this.intervals = [];
             this.timeouts = [];
+        };
+
+        this.sendRaw = (type, target, text) => {
+            if (this.registered) {
+                this.client[type](target, text);
+            }
         };
 
         this.database = parent.database.createServerDB(this);
@@ -86,6 +97,7 @@ class ServerNode {
         //                     target: row.target,
         //                     isPM: row.user.toLowerCase() == row.target.toLowerCase(),
         //                 });
+        //                 // TODO: check if you are in the target channel
         //                 context.IRC.setEvent(row);
         //                 const commandData = parent.database.commands.get(row.callback);
         //                 if (commandData) {
@@ -119,6 +131,7 @@ class ServerNode {
             from = from[0] == '#' ? from.toLowerCase() : from;
             to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
+            const { print } = mod.createNodeSend(this, msgData);
             // const { context, print } = this.getEnvironment(msgData);
 
             // // check speak events that have elapsed
@@ -155,6 +168,7 @@ class ServerNode {
                         input,
                         msgData,
                         node: this,
+                        printOutput: !isAsync,
                     //     context,
                     //     printOutput: !isAsync,
                     //     wrapAsync: isAsync,
@@ -180,11 +194,11 @@ class ServerNode {
             }
             // handle IBIP (https://git.teknik.io/Teknikode/IBIP)
             else if (this.get('enableIBIP', true) && text == '.bots') {
-                // print(`Reporting in! [JavaScript] use ${trigger}help`);
+                print(`Reporting in! [JavaScript] use ${trigger}help`);
             }
             // parse URLs
             else if (this.get('fetchURL', true)) {
-                // mod.fetchURL(text, print);
+                mod.fetchURL(text, print);
             }
 
         });
