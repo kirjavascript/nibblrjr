@@ -165,10 +165,11 @@ class ServerNode {
                     // context.store = this.database.storeFactory('__eval__');
                     const isAsync = path != '>';
                     mod.evaluate({
-                        input,
+                        script: input,
                         msgData,
                         node: this,
-                        printOutput: !isAsync,
+                        printResult: !isAsync,
+                        command,
                     //     context,
                     //     printOutput: !isAsync,
                     //     wrapAsync: isAsync,
@@ -176,21 +177,23 @@ class ServerNode {
                     });
                 }
                 // normal commands
-                // else {
-                //     const baseCommand = command.list[0];
-                //     context.store = this.database.storeFactory(baseCommand);
-                //     // patch broadcasting
-                //     if (this.get('broadcast-commands', []).includes(baseCommand)) {
-                //         context.print = mod.printFactory(this, msgData, true);
-                //         context.notice = mod.noticeFactory(this, msgData, true);
-                //         context.action = mod.actionFactory(this, msgData, true);
-                //     }
-                //     const commandData = parent.database.commands.get(command.path);
+                else {
+                    const baseCommand = command.list[0];
+                    // context.store = this.database.storeFactory(baseCommand);
+                    const commandData = parent.database.commands.get(command.path);
+                    const canBroadcast = this.get('broadcast-commands', []).includes(baseCommand);
 
-                //     if (commandData) {
-                //         mod.evaluate({ input: commandData.command, context, wrpaAsync: true });
-                //     }
-                // }
+                    if (commandData) {
+                        mod.evaluate({
+                            script: commandData.command,
+                            msgData,
+                            node: this,
+                            canBroadcast,
+                            command,
+                            // context,
+                        });
+                    }
+                }
             }
             // handle IBIP (https://git.teknik.io/Teknikode/IBIP)
             else if (this.get('enableIBIP', true) && text == '.bots') {
@@ -200,7 +203,6 @@ class ServerNode {
             else if (this.get('fetchURL', true)) {
                 mod.fetchURL(text, print);
             }
-
         });
 
     }
