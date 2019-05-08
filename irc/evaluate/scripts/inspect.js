@@ -1,4 +1,4 @@
-// from object-inspect, modified for nibblrjr
+// from object-inspect, modified for a little for nibblrjr
 // original licence follows
 //
 // This software is released under the MIT license:
@@ -22,7 +22,19 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = inspect_;
+module.exports = (obj, opts) => {
+    const output = inspect_(obj, opts);
+    const { truncate } = opts;
+    return output.length > truncate && truncate > 0
+        ? output.slice(0, truncate) + '\u000f ...'
+        : output;
+};
+
+const codes = { r: '04', dr: '05', w: '00', bl: '01', c: '11', dc: '10', b: '12', db: '02', g: '09', dg: '03', p: '13', dp: '06', o: '07', y: '08', gr: '15', dgr: '14' };
+
+const color = (code, text) => {
+    return `\u0003${codes[code]}${text}\u000f`
+}
 
 var hasMap = typeof Map === 'function' && Map.prototype;
 var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
@@ -34,12 +46,13 @@ var setSize = hasSet && setSizeDescriptor && typeof setSizeDescriptor.get === 'f
 var setForEach = hasSet && Set.prototype.forEach;
 var booleanValueOf = Boolean.prototype.valueOf;
 var objectToString = Object.prototype.toString;
+var dateToISO = Date.prototype.toISOString;
 var bigIntValueOf = typeof BigInt === 'function' ? BigInt.prototype.valueOf : null;
 
 var inspectCustom = null;
 var inspectSymbol = null;
 
-function inspect_ (obj, opts, depth, seen) {
+function inspect_(obj, opts, depth, seen) {
     if (!opts) opts = {};
 
     if (has(opts, 'quoteStyle') && (opts.quoteStyle !== 'single' && opts.quoteStyle !== 'double')) {
@@ -47,13 +60,13 @@ function inspect_ (obj, opts, depth, seen) {
     }
 
     if (typeof obj === 'undefined') {
-        return 'undefined';
+        return color('dgr', 'undefined');
     }
     if (obj === null) {
-        return 'null';
+        return color('p', 'null');
     }
     if (typeof obj === 'boolean') {
-        return obj ? 'true' : 'false';
+        return color('o', obj ? 'true' : 'false');
     }
 
     if (typeof obj === 'string') {
@@ -61,26 +74,26 @@ function inspect_ (obj, opts, depth, seen) {
     }
     if (typeof obj === 'number') {
       if (obj === 0) {
-        return Infinity / obj > 0 ? '0' : '-0';
+        return color('o', Infinity / obj > 0 ? '0' : '-0');
       }
-      return String(obj);
+      return color('o', String(obj));
     }
     if (typeof obj === 'bigint') {
-      return String(obj) + 'n';
+      return color('o', String(obj) + 'n');
     }
 
     var maxDepth = typeof opts.depth === 'undefined' ? 5 : opts.depth;
     if (typeof depth === 'undefined') depth = 0;
     if (depth >= maxDepth && maxDepth > 0 && typeof obj === 'object') {
-        return '[Object]';
+        return color('dc', '[Object]');
     }
 
     if (typeof seen === 'undefined') seen = [];
     else if (indexOf(seen, obj) >= 0) {
-        return '[Circular]';
+        return color('r', '[Circular]');
     }
 
-    function inspect (value, from) {
+    function inspect(value, from) {
         if (from) {
             seen = seen.slice();
             seen.push(from);
@@ -90,11 +103,11 @@ function inspect_ (obj, opts, depth, seen) {
 
     if (typeof obj === 'function') {
         var name = nameOf(obj);
-        return '[Function' + (name ? ': ' + name : '') + ']';
+        return color('dc', '[Function' + (name ? ': ' + name : '') + ']');
     }
     if (isSymbol(obj)) {
         var symString = Symbol.prototype.toString.call(obj);
-        return typeof obj === 'object' ? markBoxed(symString) : symString;
+        return color('dg', typeof obj === 'object' ? markBoxed(symString) : symString);
     }
     if (isElement(obj)) {
         var s = '<' + String(obj.nodeName).toLowerCase();
@@ -147,17 +160,20 @@ function inspect_ (obj, opts, depth, seen) {
     if (isString(obj)) {
         return markBoxed(inspect(String(obj)));
     }
-    if (!isDate(obj) && !isRegExp(obj)) {
-        var xs = arrObjKeys(obj, inspect);
-        if (xs.length === 0) return '{}';
-        return '{ ' + xs.join(', ') + ' }';
+    if (isDate(obj)) {
+        return color('dp', dateToISO.call(obj));
     }
-    return String(obj);
+    if (isRegExp(obj)) {
+        return color('dr', String(obj));
+    }
+    var xs = arrObjKeys(obj, inspect);
+    if (xs.length === 0) return '{}';
+    return '{ ' + xs.join(', ') + ' }';
 };
 
 function wrapQuotes (s, defaultStyle, opts) {
     var quoteChar = (opts.quoteStyle || defaultStyle) === 'double' ? '"' : "'";
-    return quoteChar + s + quoteChar;
+    return color('dg', quoteChar + s + quoteChar);
 }
 
 function quote (s) {
