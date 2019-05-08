@@ -6,6 +6,7 @@ const ivm = require('isolated-vm');
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const { createNodeSend } = require('./scripts/print');
 
 const timeout = 10000;
 
@@ -19,20 +20,18 @@ const scripts = fs.readdirSync(path.join(__dirname, 'scripts'))
     });
 
 async function evaluate({
-    input,
+    script,
     msgData,
     node,
     canBroadcast = false,
-    printOutput = true,
+    printResult = false,
+    command,
     // context,
     // wrapAsync,
     // isREPL,
 }) {
 
     try {
-        // pass depth as a command param
-        // if no print output, wrap async
-
         // context.acquire = acquire;
         // if (isREPL) {
         //     context.injectRequire = await createRequireModules(input);
@@ -53,6 +52,7 @@ async function evaluate({
                 trigger: node.get('trigger', '!'),
                 message: msgData,
                 nick: node.client.nick,
+                command,
                 channels,
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
             },
@@ -66,7 +66,7 @@ async function evaluate({
         jail.setSync('_ivm', ivm);
         jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
 
-        jail.setSync('input', input);
+        jail.setSync('input', command.input); // TODO: should be command.input
         jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
 
         await (await isolate.compileScript(`
@@ -131,20 +131,24 @@ async function evaluate({
 
         // run script
 
-        const code = await isolate.compileScript('new '+function() {
-            try {
-                print.raw(IRC.inspect((0, eval(input)), {depth: 0}))
-            } catch (e) {
-                print.error(e);
-            }
-        });
-        code.run(context, {timeout});
+        const code = await isolate.compileScript(printResult
+            ? `
+                const [depth, truncate] = IRC.command.params;
+                print.raw(
+                    IRC.inspect((0, eval(${JSON.stringify(script)})), {
+                        depth: depth || 1,
+                        truncate: truncate || 396,
+                    })
+                );
+            `
+            : `(async () => { ${script} })()`
+        );
+
+        await code.run(context, {timeout});
 
 
 
         // TODO:
-        // Dos
-        // eval result if printOutput
         // remove limit function
 
         // ---
@@ -203,8 +207,7 @@ async function evaluate({
         //     context.print.raw(objectDebug(evaluation));
         // }
     } catch (e) {
-        // context.print.error(e);
-        console.log('TODO', e);
+        createNodeSend(node, msgData).print.error(e);
     }
 
 }
