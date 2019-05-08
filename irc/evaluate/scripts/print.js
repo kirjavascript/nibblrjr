@@ -1,4 +1,16 @@
-module.exports = { createSend };
+module.exports = { createSend, createNodeSend }
+
+function createNodeSend(node, message) {
+    return createSend({
+        hasColors: node.get('colors', true),
+        canBroadcast: true,
+        lineLimit: node.getLineLimit(message.to),
+        message,
+        colors: require('./colors').getColorFuncs(node.get('trigger', '!')),
+        inspect: require('./inspect'),
+        sendRaw: node.sendRaw,
+    });
+}
 
 // TODO: createSendHost
 

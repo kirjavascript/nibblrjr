@@ -11,8 +11,8 @@ const clearCache = () => {
 const loadMod = () => {
     Object.assign(mod, {
         ...pick(
-            require('./printer'),
-            ['printFactory', 'noticeFactory', 'actionFactory']
+            require('./evaluate/scripts/print'),
+            ['createNodeSend']
         ),
         ...pick(
             require('./evaluate'),
@@ -21,10 +21,6 @@ const loadMod = () => {
         ...pick(
             require('./fetch-url'),
             ['fetchURL']
-        ),
-        ...pick(
-            require('./context'),
-            ['getContext']
         ),
         ...pick(
             require('./parse-command'),
