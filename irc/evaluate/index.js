@@ -3,21 +3,15 @@
 // const { acquire } = require('./context/acquire');
 // const { createRequireModules } = require('./context/require');
 const ivm = require('isolated-vm');
-const fs = require('fs');
-const path = require('path');
 const _ = require('lodash');
 const { createNodeSend } = require('./scripts/print');
+const { nick } = require('./scripts/colors');
+const loadScripts = require('./load-scripts');
 
 const timeout = 10000;
 
 // grab scripts to inject into the isolate
-const scripts = fs.readdirSync(path.join(__dirname, 'scripts'))
-    .map(filename => {
-        return [
-            path.parse(filename).name,
-            fs.readFileSync(path.join(__dirname, 'scripts', filename), 'utf8'),
-        ];
-    });
+const scripts = loadScripts();
 
 async function evaluate({
     script,
@@ -65,8 +59,8 @@ async function evaluate({
         jail.setSync('global', jail.derefInto());
         jail.setSync('_ivm', ivm);
         jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
+        jail.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
 
-        jail.setSync('input', command.input); // TODO: should be command.input
         jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
 
         await (await isolate.compileScript(`
@@ -74,6 +68,7 @@ async function evaluate({
             ${scripts.map(([name, script]) => `
                 (function() {
                     const module = {};
+                    const exports = {};
                     ${script};
                     global.scripts[${JSON.stringify(name)}] = module.exports;
                 })();
@@ -81,15 +76,20 @@ async function evaluate({
          `)).run(context);
 
         const bootstrap = await isolate.compileScript('new '+ function() {
-            const ivm = _ivm;
-            delete _ivm;
+
+            // collect underscored objects
+
+            const ref = Object.keys(global)
+                .filter(key => key.startsWith('_'))
+                .reduce((a, c) => {
+                    a[c.slice(1)] = global[c];
+                    delete global[c];
+                    return a;
+                }, {});
 
             const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
 
             // attach print/action/notice
-
-            const sendRaw = _sendRaw;
-            delete _sendRaw;
 
             Object.assign(global, scripts.print.createSend({
                 hasColors: config.hasColors,
@@ -99,13 +99,19 @@ async function evaluate({
                 colors,
                 inspect: scripts.inspect,
                 sendRaw: function(...args) {
-                    // TODO: limit length of strings going to print
-                    return sendRaw.applySync(
+                    // TODO: test printing '.'.repeat(1e9)
+                    ref.sendRaw.applySync(
                         undefined,
-                        args.map(arg => new ivm.ExternalCopy(arg).copyInto())
+                        args.map(arg => new ref.ivm.ExternalCopy(arg).copyInto())
                     );
                 },
             }));
+
+            // reset buffer
+
+            const resetBuffer = () => {
+                ref.resetBuffer.applySync();
+            };
 
             // create IRC object
 
@@ -113,13 +119,26 @@ async function evaluate({
                 ...config.IRC,
                 colors,
                 inspect: scripts.inspect,
+                resetBuffer,
                 breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
+                parseCommand: scripts['parse-command'].parseCommand,
+                parseTime: scripts['parse-time'].parseTime,
             };
+
+            // delete global._resetBuffer;
+
+            // add some globals
+
+            global.input = IRC.command.input;
+            global.dateFns = scripts['date-fns'];
+            global._ = { ...scripts.lodash };
 
             // cleanup env
 
-            delete config;
-            delete scripts;
+            delete global.config;
+            delete global.scripts;
+
+            Object.defineProperty(global, 'global', { enumerable: false });
         });
         await bootstrap.run(context);
 
@@ -133,13 +152,19 @@ async function evaluate({
 
         const code = await isolate.compileScript(printResult
             ? `
-                const [depth, truncate] = IRC.command.params;
-                print.raw(
-                    IRC.inspect((0, eval(${JSON.stringify(script)})), {
-                        depth: depth || 2,
-                        truncate: truncate || 396,
-                    })
-                );
+                (function () {
+                    // take references to functions so they cannot be deleted
+                    const [printRaw, IRCinspect] = [print.raw, IRC.inspect];
+                    const [depth, truncate] = IRC.command.params;
+                    // run in global scope
+                    const result = (0, eval)(${JSON.stringify(script)});
+                    printRaw(
+                        IRCinspect(result, {
+                            depth: depth || 1,
+                            truncate: truncate || 390,
+                        })
+                    );
+                })();
             `
             : `(async () => { ${script} })()`
         );
@@ -207,6 +232,9 @@ async function evaluate({
         //     context.print.raw(objectDebug(evaluation));
         // }
     } catch (e) {
+        if (/script execution timed out/i.test(e.message)) {
+            e.message = `script timeout: ${nick(msgData.from, true)} ${_.truncate(msgData.text)}`;
+        }
         createNodeSend(node, msgData).print.error(e);
     }
 

@@ -138,5 +138,8 @@ const getColorFuncs = (trigger) => {
 };
 
 module.exports = {
-    parseColors, getColorFuncs, notify: { error, info, success },
+    parseColors,
+    getColorFuncs,
+    notify: { error, info, success },
+    nick,
 };

@@ -1,4 +1,4 @@
-const { parseCommand } = require('../irc/parse-command');
+const { parseCommand } = require('../irc/evaluate/scripts/parse-command');
 const { limit } = require('../irc/context/limit.js');
 
 const parseBool = (str) => {

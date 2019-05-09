@@ -1,4 +1,4 @@
-// from object-inspect, modified for a little for nibblrjr
+// from object-inspect, modified for nibblrjr
 // original licence follows
 //
 // This software is released under the MIT license:
@@ -36,6 +36,8 @@ const color = (code, text) => {
     return `\u0003${codes[code]}${text}\u000f`
 }
 
+var inspectSymbol = module.exports.symbol = Symbol('inspect');
+
 var hasMap = typeof Map === 'function' && Map.prototype;
 var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
 var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
@@ -48,9 +50,6 @@ var booleanValueOf = Boolean.prototype.valueOf;
 var objectToString = Object.prototype.toString;
 var dateToISO = Date.prototype.toISOString;
 var bigIntValueOf = typeof BigInt === 'function' ? BigInt.prototype.valueOf : null;
-
-var inspectCustom = null;
-var inspectSymbol = null;
 
 function inspect_(obj, opts, depth, seen) {
     if (!opts) opts = {};
@@ -101,6 +100,12 @@ function inspect_(obj, opts, depth, seen) {
         return inspect_(value, opts, depth + 1, seen);
     }
 
+    if (typeof obj === 'object') {
+        if (inspectSymbol && typeof obj[inspectSymbol] === 'function') {
+            return obj[inspectSymbol]();
+        }
+    }
+
     if (typeof obj === 'function') {
         var name = nameOf(obj);
         return color('dc', '[Function' + (name ? ': ' + name : '') + ']');
@@ -128,11 +133,6 @@ function inspect_(obj, opts, depth, seen) {
         var parts = arrObjKeys(obj, inspect);
         if (parts.length === 0) return '[' + String(obj) + ']';
         return '{ [' + String(obj) + '] ' + parts.join(', ') + ' }';
-    }
-    if (typeof obj === 'object') {
-        if (inspectSymbol && typeof obj[inspectSymbol] === 'function') {
-            return obj[inspectSymbol]();
-        }
     }
     if (isMap(obj)) {
         var parts = [];
@@ -166,6 +166,9 @@ function inspect_(obj, opts, depth, seen) {
     if (isRegExp(obj)) {
         return color('dr', String(obj));
     }
+    if (isPromise(obj)) {
+        return 'Promise {}';
+    }
     var xs = arrObjKeys(obj, inspect);
     if (xs.length === 0) return '{}';
     return '{ ' + xs.join(', ') + ' }';
@@ -189,6 +192,7 @@ function isString (obj) { return toStr(obj) === '[object String]'; }
 function isNumber (obj) { return toStr(obj) === '[object Number]'; }
 function isBigInt (obj) { return toStr(obj) === '[object BigInt]'; }
 function isBoolean (obj) { return toStr(obj) === '[object Boolean]'; }
+function isPromise (obj) { return toStr(obj) === '[object Promise]'; }
 
 var hasOwn = Object.prototype.hasOwnProperty || function (key) { return key in this; };
 function has (obj, key) {
