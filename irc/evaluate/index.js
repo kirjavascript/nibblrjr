@@ -60,6 +60,15 @@ async function evaluate({
         jail.setSync('_ivm', ivm);
         jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
         jail.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
+        jail.setSync('_setNick', new ivm.Reference((str) => {
+            if (node.getChannelConfig(msgData.to).setNick) {
+                str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
+                node.client.send('NICK', str);
+                return true;
+            } else {
+                return false;
+            }
+        }));
 
         jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
 
@@ -107,25 +116,24 @@ async function evaluate({
                 },
             }));
 
-            // reset buffer
-
-            const resetBuffer = () => {
-                ref.resetBuffer.applySync();
-            };
-
             // create IRC object
 
             global.IRC = {
                 ...config.IRC,
                 colors,
                 inspect: scripts.inspect,
-                resetBuffer,
                 breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
                 parseCommand: scripts['parse-command'].parseCommand,
                 parseTime: scripts['parse-time'].parseTime,
             };
 
-            // delete global._resetBuffer;
+            IRC.resetBuffer = () => {
+                ref.resetBuffer.applySync();
+            };
+
+            IRC.setNick = (str) => {
+                return ref.setNick.applySync(undefined, [str]);
+            };
 
             // add some globals
 
@@ -143,6 +151,7 @@ async function evaluate({
         await bootstrap.run(context);
 
         // dispose stuff after timeout
+
         setTimeout(() => {
             isolate.dispose();
             context.release();
