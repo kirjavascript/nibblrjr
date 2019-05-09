@@ -38,15 +38,15 @@ function getContext({ print, notice, action, msgData, node }) {
                 throw new Error('cannot add an event in an event callback');
             };
         },
-        setNick: (str) => {
-            if (node.getChannelConfig(msgData.to).setNick) {
-                str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
-                node.client.send('NICK', str);
-                return true;
-            } else {
-                return false;
-            }
-        },
+        // setNick: (str) => {
+        //     if (node.getChannelConfig(msgData.to).setNick) {
+        //         str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
+        //         node.client.send('NICK', str);
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // },
         whois: (text, callback) => text && node.client.whois(text, (data) => {
             try {
                 callback(data);
@@ -73,14 +73,14 @@ function getContext({ print, notice, action, msgData, node }) {
         getDOM: limit(getDOM),
         fetch: limit(fetch),
         // IRC,
-        setTimeout(...args) {
-            return node.timeouts.push(setTimeout(...args));
-        },
-        setInterval(...args) {
-            return node.intervals.push(setInterval(...args));
-        },
-        clearTimeout,
-        clearInterval,
+        // setTimeout(...args) {
+        //     return node.timeouts.push(setTimeout(...args));
+        // },
+        // setInterval(...args) {
+        //     return node.intervals.push(setInterval(...args));
+        // },
+        // clearTimeout,
+        // clearInterval,
         // dateFns,
         // _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
         // store, input, acquire are patched later
