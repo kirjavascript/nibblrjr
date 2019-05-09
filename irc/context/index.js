@@ -22,16 +22,16 @@ function getContext({ print, notice, action, msgData, node }) {
         }, {});
 
     const IRC = {
-        trigger,
-        message: msgData,
-        colors: getColorFuncs(trigger),
-        nick: node.client.nick,
-        channels,
+        // trigger,
+        // message: msgData,
+        // colors: getColorFuncs(trigger),
+        // nick: node.client.nick,
+        // channels,
         log: node.database.logFactory(msgData.target),
         commandFns: node.parent.database.commands.getCommandFns(node),
         eventFns: node.database.eventFactory(msgData.from),
-        resetBuffer: node.resetBuffer,
-        webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+        // resetBuffer: node.resetBuffer,
+        // webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
         setEvent: (event) => {
             IRC.event = event;
             IRC.eventFns.addEvent = () => {
@@ -55,24 +55,24 @@ function getContext({ print, notice, action, msgData, node }) {
             }
         }),
         ping,
-        parseTime,
-        parseCommand,
-        objectDebug,
-        breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
+        // parseTime,
+        // parseCommand,
+        // objectDebug,
+        // breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
         auth: (callback) => { auth({ IRC, callback, node, print }); },
         sudo: (callback) => { sudo({ IRC, callback, node, print }); },
         // command, require are patched later
     };
 
     const ctx = {
-        print,
-        notice,
-        action,
+        // print,
+        // notice,
+        // action,
         getText: limit(getText),
         getJSON: limit(getJSON),
         getDOM: limit(getDOM),
         fetch: limit(fetch),
-        IRC,
+        // IRC,
         setTimeout(...args) {
             return node.timeouts.push(setTimeout(...args));
         },
@@ -81,8 +81,8 @@ function getContext({ print, notice, action, msgData, node }) {
         },
         clearTimeout,
         clearInterval,
-        dateFns,
-        _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
+        // dateFns,
+        // _: { ..._, delay: void 0, defer: void 0, debounce: void 0, throttle: void 0 },
         // store, input, acquire are patched later
     };
 

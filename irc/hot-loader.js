@@ -11,10 +11,6 @@ const clearCache = () => {
 const loadMod = () => {
     Object.assign(mod, {
         ...pick(
-            require('./evaluate/scripts/print'),
-            ['createNodeSend']
-        ),
-        ...pick(
             require('./evaluate'),
             ['evaluate']
         ),
@@ -23,8 +19,12 @@ const loadMod = () => {
             ['fetchURL']
         ),
         ...pick(
-            require('./parse-command'),
+            require('./evaluate/scripts/parse-command'),
             ['parseCommand']
+        ),
+        ...pick(
+            require('./evaluate/scripts/print'),
+            ['createNodeSend']
         ),
     });
 };
