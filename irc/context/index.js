@@ -12,14 +12,14 @@ const _ = require('lodash');
 
 function getContext({ print, notice, action, msgData, node }) {
 
-    const trigger = node.get('trigger', '!');
+    // const trigger = node.get('trigger', '!');
 
-    const channels = Object.entries(_.cloneDeep(node.client.chans))
-        .reduce((acc, [key, value]) => {
-            delete value.users;
-            acc[key.toLowerCase()] = value;
-            return acc;
-        }, {});
+    // const channels = Object.entries(_.cloneDeep(node.client.chans))
+    //     .reduce((acc, [key, value]) => {
+    //         delete value.users;
+    //         acc[key.toLowerCase()] = value;
+    //         return acc;
+    //     }, {});
 
     const IRC = {
         // trigger,
@@ -47,13 +47,13 @@ function getContext({ print, notice, action, msgData, node }) {
         //         return false;
         //     }
         // },
-        whois: (text, callback) => text && node.client.whois(text, (data) => {
-            try {
-                callback(data);
-            } catch (e) {
-                print.error(e);
-            }
-        }),
+        // whois: (text, callback) => text && node.client.whois(text, (data) => {
+        //     try {
+        //         callback(data);
+        //     } catch (e) {
+        //         print.error(e);
+        //     }
+        // }),
         ping,
         // parseTime,
         // parseCommand,

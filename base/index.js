@@ -4,14 +4,15 @@ const { initWeb } = require('../web/server');
 const { Database } = require('../database/index');
 
 process.env.TZ = config.timezone || 'Europe/London';
-process.on('uncaughtException', console.error);
+process.on('uncaughtException', console.error); // pls dont crash
 
 new (class Nibblr {
     constructor() {
         this.dev = process.argv.includes('--dev');
 
+        this.epoch = new Date();
+
         Object.assign(this, config);
-        // trigger, web, servers
 
         // load web interface
         this.web = initWeb(this);

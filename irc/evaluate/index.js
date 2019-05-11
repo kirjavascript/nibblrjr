@@ -7,6 +7,7 @@ const _ = require('lodash');
 const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
 const loadScripts = require('./load-scripts');
+const { ping } = require('./spawn');
 
 const timeout = 10000;
 
@@ -31,6 +32,8 @@ async function evaluate({
         //     context.injectRequire = await createRequireModules(input);
         // }
 
+        // ~uptime
+
         const channels = Object.entries(_.cloneDeep(node.client.chans))
             .reduce((acc, [key, value]) => {
                 delete value.users;
@@ -49,6 +52,7 @@ async function evaluate({
                 command,
                 channels,
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+                epoch: node.parent.epoch,
             },
         };
 
@@ -68,6 +72,17 @@ async function evaluate({
             } else {
                 return false;
             }
+        }));
+        jail.setSync('_whois', new ivm.Reference((text, callback) => {
+            text && node.client.whois(text, (data) => {
+                try {
+                    callback.applySync(undefined, [
+                        new ivm.ExternalCopy(data).copyInto(),
+                    ]);
+                } catch(e) {
+                    createNodeSend(node, msgData).print.error(e);
+                }
+            });
         }));
 
         jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
@@ -127,12 +142,18 @@ async function evaluate({
                 parseTime: scripts['parse-time'].parseTime,
             };
 
+            IRC.setNick = (str) => {
+                return ref.setNick.applySync(undefined, [str]);
+            };
+
             IRC.resetBuffer = () => {
                 ref.resetBuffer.applySync();
             };
 
-            IRC.setNick = (str) => {
-                return ref.setNick.applySync(undefined, [str]);
+            IRC.whois = (text, callback) => {
+                ref.whois.applySync(undefined, [
+                    text, new ref.ivm.Reference(callback),
+                ]);
             };
 
             // add some globals
