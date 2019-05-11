@@ -83,7 +83,7 @@ function messageFactory(type, {
     send.raw = sendBase;
 
     // inspect
-    send.log = (text, config) => {
+    send.log = (text, config = {}) => {
         return sendBase(inspect(text, config), config);
     };
     send.error = (error, config) => {

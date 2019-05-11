@@ -1,23 +1,22 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
-nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
 ESM
+node.updateConfig
 IRC.runCommand
+IRC.secrets
+/usr/share/dict/words IRC.wordList Array
+nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
 provide a message when downloading from npm
 docs
 http push /
-IRC.secrets
-/usr/share/dict/words IRC.wordList Array
 updateConfig / merge getChannelConfig and .get
 SyntaxError displays wrong
 change command db to JSON
 omit commands (triggers) from log
 index db
-support multiple protocols in frontend (ws/wss just use //)
 ~chess
 add print limit to get envinronment to limit event callback spam
-~chess
 throttle print
 _.deburr for title parser
 useState/loadObject() alternative
