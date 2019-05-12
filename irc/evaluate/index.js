@@ -22,7 +22,6 @@ async function evaluate({
     printResult = false,
     command,
     event,
-    // context,
     // isREPL,
 }) {
 
@@ -34,6 +33,7 @@ async function evaluate({
 
         // change require to use apply sync promise
         // fix ~log hello message
+        // add Buffer
 
         // ~uptime
 
@@ -91,6 +91,11 @@ async function evaluate({
                     createNodeSend(node, msgData).print.error(e);
                 }
             });
+        }));
+        jail.setSync('_ping', new ivm.Reference((str, resolve, reject) => {
+            ping(str)
+                .then((...args) => { resolve.applySync(undefined, args) })
+                .catch((...args) => { reject.applySync(undefined, args) });
         }));
 
         function wrapFns(obj, name) {
@@ -171,6 +176,14 @@ async function evaluate({
                     text, new ref.ivm.Reference(callback),
                 ]);
             };
+
+            IRC.ping = (str) => new Promise((res, rej) => {
+                ref.ping.applySync(undefined, [
+                    str,
+                    new ref.ivm.Reference(res),
+                    new ref.ivm.Reference(rej),
+                ]);
+            });
 
             function unwrapFns(name) {
                 const obj = {};
