@@ -99,6 +99,7 @@ async function evaluate({
         }
 
         wrapFns(node.database.logFactory(msgData.target), 'log');
+        wrapFns(node.parent.database.commands.getCommandFns(node), 'commandFns');
 
         await (await isolate.compileScript(`
             global.scripts = {};
@@ -182,6 +183,7 @@ async function evaluate({
             }
 
             IRC.log = unwrapFns('log');
+            IRC.commandFns = unwrapFns('commandFns');
 
             // add some globals
 
