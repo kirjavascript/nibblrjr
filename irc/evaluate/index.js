@@ -142,8 +142,7 @@ async function evaluate({
                 message: config.IRC.message,
                 colors,
                 inspect: scripts.inspect,
-                sendRaw: function(...args) {
-                    // TODO: test printing '.'.repeat(1e9)
+                sendRaw: (...args) => {
                     ref.sendRaw.applySync(undefined, args);
                 },
             }));

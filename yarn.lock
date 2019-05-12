@@ -3277,10 +3277,9 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
-isolated-vm@^1.7.10:
+"isolated-vm@git://github.com/laverdet/isolated-vm.git#v8-heap":
   version "1.7.10"
-  resolved "https://registry.yarnpkg.com/isolated-vm/-/isolated-vm-1.7.10.tgz#b93f91cc1f7095ce8869d66a41ecf85c1c92ad58"
-  integrity sha512-B5fb4UWnSuHxNurC2cyM/dZ0PoISGyd0uYz8nJoarHxHezngsHH8ghLil6XuWLjGvhtS1JognqWyTGBmYYq8MQ==
+  resolved "git://github.com/laverdet/isolated-vm.git#afd78d001b639094b91772a63ccd7c4a4732d7f2"
 
 isstream@~0.1.2:
   version "0.1.2"
