@@ -29,15 +29,15 @@ function getContext({ print, notice, action, msgData, node }) {
         // channels,
         // log: node.database.logFactory(msgData.target),
         // commandFns: node.parent.database.commands.getCommandFns(node),
-        eventFns: node.database.eventFactory(msgData.from),
+        // eventFns: node.database.eventFactory(msgData.from),
         // resetBuffer: node.resetBuffer,
         // webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
-        setEvent: (event) => {
-            IRC.event = event;
-            IRC.eventFns.addEvent = () => {
-                throw new Error('cannot add an event in an event callback');
-            };
-        },
+        // setEvent: (event) => {
+        //     IRC.event = event;
+        //     IRC.eventFns.addEvent = () => {
+        //         throw new Error('cannot add an event in an event callback');
+        //     };
+        // },
         // setNick: (str) => {
         //     if (node.getChannelConfig(msgData.to).setNick) {
         //         str = String(str).replace(/[^a-zA-Z0-9]+/g, '');

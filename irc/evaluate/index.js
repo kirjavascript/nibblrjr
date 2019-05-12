@@ -21,6 +21,7 @@ async function evaluate({
     canBroadcast = false,
     printResult = false,
     command,
+    event,
     // context,
     // isREPL,
 }) {
@@ -57,6 +58,10 @@ async function evaluate({
                 epoch: node.parent.epoch,
             },
         };
+
+        if (event) {
+            config.IRC.event = event;
+        }
 
         const isolate = new ivm.Isolate({ memoryLimit: 128 });
         const context = await isolate.createContext();
@@ -100,6 +105,7 @@ async function evaluate({
 
         wrapFns(node.database.logFactory(msgData.target), 'log');
         wrapFns(node.parent.database.commands.getCommandFns(node), 'commandFns');
+        wrapFns(node.database.eventFactory(msgData.from), 'eventFns');
 
         await (await isolate.compileScript(`
             global.scripts = {};
@@ -184,6 +190,12 @@ async function evaluate({
 
             IRC.log = unwrapFns('log');
             IRC.commandFns = unwrapFns('commandFns');
+            IRC.eventFns = unwrapFns('eventFns');
+            if (IRC.event) {
+                IRC.eventFns.addEvent = () => {
+                    throw new Error('cannot add an event in an event callback');
+                };
+            }
 
             // add some globals
 
