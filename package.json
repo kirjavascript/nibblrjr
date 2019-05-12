@@ -15,7 +15,7 @@
         "html-entities": "^1.2.1",
         "import-glob-loader": "^1.1.0",
         "irc": "^0.5.2",
-        "isolated-vm": "^1.7.10",
+        "isolated-vm": "git://github.com/laverdet/isolated-vm.git#v8-heap",
         "jsdom": "12.1.0",
         "lodash": "^4.17.5",
         "mobx": "^4.1.0",
