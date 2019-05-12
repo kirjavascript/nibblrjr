@@ -22,7 +22,6 @@ async function evaluate({
     printResult = false,
     command,
     // context,
-    // wrapAsync,
     // isREPL,
 }) {
 
@@ -31,6 +30,9 @@ async function evaluate({
         // if (isREPL) {
         //     context.injectRequire = await createRequireModules(input);
         // }
+
+        // change require to use apply sync promise
+        // fix ~log hello message
 
         // ~uptime
 
@@ -61,6 +63,7 @@ async function evaluate({
         const jail = context.global;
 
         jail.setSync('global', jail.derefInto());
+        jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
         jail.setSync('_ivm', ivm);
         jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
         jail.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
@@ -85,7 +88,17 @@ async function evaluate({
             });
         }));
 
-        jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
+        function wrapFns(obj, name) {
+            jail.setSync(
+                `_${name}Keys`,
+                new ivm.ExternalCopy(Object.keys(obj)).copyInto(),
+            );
+            jail.setSync('_'+name, new ivm.Reference((fnName, ...args) => {
+                return new ivm.ExternalCopy(obj[fnName](...args)).copyInto();
+            }));
+        }
+
+        wrapFns(node.database.logFactory(msgData.target), 'log');
 
         await (await isolate.compileScript(`
             global.scripts = {};
@@ -124,10 +137,7 @@ async function evaluate({
                 inspect: scripts.inspect,
                 sendRaw: function(...args) {
                     // TODO: test printing '.'.repeat(1e9)
-                    ref.sendRaw.applySync(
-                        undefined,
-                        args.map(arg => new ref.ivm.ExternalCopy(arg).copyInto())
-                    );
+                    ref.sendRaw.applySync(undefined, args);
                 },
             }));
 
@@ -156,6 +166,23 @@ async function evaluate({
                 ]);
             };
 
+            function unwrapFns(name) {
+                const obj = {};
+                ref[name+'Keys'].forEach(key => {
+                    obj[key] = (...args) => {
+                        return ref[name].applySync(
+                            undefined,
+                            [key, ...args.map(arg => (
+                                new ref.ivm.ExternalCopy(arg).copyInto()
+                            ))],
+                        );
+                    };
+                });
+                return obj;
+            }
+
+            IRC.log = unwrapFns('log');
+
             // add some globals
 
             global.input = IRC.command.input;
@@ -174,8 +201,8 @@ async function evaluate({
         // dispose stuff after timeout
 
         setTimeout(() => {
-            isolate.dispose();
             context.release();
+            isolate.dispose();
         }, timeout + 1000);
 
         // run script
@@ -270,26 +297,4 @@ async function evaluate({
 
 }
 
-// function objectDebug(
-//     evaluation,
-//     { depth = 0, colors = true, truncate = 396 } = {},
-// ) {
-//     const outputFull = util.inspect(evaluation, { depth, colors });
-//     const output = outputFull.length > truncate
-//         ? outputFull.slice(0, truncate) + '\u000f ...'
-//         : outputFull;
-
-//     return output
-//         .replace(/\s+/g, ' ')
-//         .replace(new RegExp('\u001b\\[39m', 'g'), '\u000f')// reset
-//         .replace(new RegExp('\u001b\\[31m', 'g'), '\u000313') // null
-//         .replace(new RegExp('\u001b\\[(33|34)m', 'g'), '\u000307') // num / bool
-//         .replace(new RegExp('\u001b\\[32m', 'g'), '\u000303')// str
-//         .replace(new RegExp('\u001b\\[90m', 'g'), '\u000314')// str?
-//         .replace(new RegExp('\u001b\\[36m', 'g'), '\u000310');// func
-// }
-
-module.exports = {
-    evaluate,
-    // objectDebug,
-};
+module.exports = { evaluate };
