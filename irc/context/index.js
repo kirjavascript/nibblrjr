@@ -27,7 +27,7 @@ function getContext({ print, notice, action, msgData, node }) {
         // colors: getColorFuncs(trigger),
         // nick: node.client.nick,
         // channels,
-        log: node.database.logFactory(msgData.target),
+        // log: node.database.logFactory(msgData.target),
         commandFns: node.parent.database.commands.getCommandFns(node),
         eventFns: node.database.eventFactory(msgData.from),
         // resetBuffer: node.resetBuffer,
