@@ -28,7 +28,7 @@ function getContext({ print, notice, action, msgData, node }) {
         // nick: node.client.nick,
         // channels,
         // log: node.database.logFactory(msgData.target),
-        commandFns: node.parent.database.commands.getCommandFns(node),
+        // commandFns: node.parent.database.commands.getCommandFns(node),
         eventFns: node.database.eventFactory(msgData.from),
         // resetBuffer: node.resetBuffer,
         // webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
