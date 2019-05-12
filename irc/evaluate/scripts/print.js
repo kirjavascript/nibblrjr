@@ -64,14 +64,15 @@ function messageFactory(type, {
         // log to DB
         if (!isPM && log) {
             // lag a little so messages are the right order
-            setTimeout(() => {
-                node.database.log({
-                    nick: node.client.nick,
-                    command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
-                    target,
-                    args: [target || defaultTarget, ...text.slice(0, 400).split(' ')],
-                });
-            }, 100);
+            // setTimeout(() => {
+            //     node.database.log({
+            //         nick: node.client.nick,
+            //         command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
+            //         target,
+            //         args: [target || defaultTarget, ...text.slice(0, 400).split(' ')],
+            //     });
+            // }, 100);
+            sendRaw('say', defaultTarget, 'TODO: send log');
         }
     };
 
