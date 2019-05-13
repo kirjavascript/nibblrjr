@@ -24,7 +24,7 @@
 
 module.exports = (obj, opts) => {
     const output = inspect_(obj, opts);
-    const { truncate } = opts;
+    const { truncate = 390 } = opts;
     return output.length > truncate && truncate > 0
         ? output.slice(0, truncate) + '\u000f ...'
         : output;

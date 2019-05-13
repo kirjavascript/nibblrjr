@@ -1,15 +1,16 @@
-// const util = require('util');
-// util.inspect.styles.null = 'red';
-// const { acquire } = require('./context/acquire');
-// const { createRequireModules } = require('./context/require');
 const ivm = require('isolated-vm');
 const _ = require('lodash');
 const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
-const loadScripts = require('./load-scripts');
 const { ping } = require('./spawn');
+const fetch = require('node-fetch');
+// const { getJSON, getText, getDOM } = require('./fetch');
+const loadScripts = require('./load-scripts');
 
 const timeout = 10000;
+
+const { acquire } = require('../context/acquire');
+const { createRequireModules } = require('../context/require');
 
 // grab scripts to inject into the isolate
 const scripts = loadScripts();
@@ -30,11 +31,14 @@ async function evaluate({
         // if (isREPL) {
         //     context.injectRequire = await createRequireModules(input);
         // }
+        // global.self = global;
+        // const q = (await createRequireModules(`require('jsdom@^15.0.0')`))('jsdom');
+        // console.log(q.JSDOM);
 
         // change require to use apply sync promise
-        // fix ~log hello message
-        // add Buffer
-
+        // fix ~log hello message (ignore commands)
+        // truncate nibblr messages to log
+        // limit: setSafe / deleteSafe node.get('command-limit', 5)
         // ~uptime
 
         const channels = Object.entries(_.cloneDeep(node.client.chans))
@@ -97,6 +101,14 @@ async function evaluate({
                 .then((...args) => { resolve.applySync(undefined, args) })
                 .catch((...args) => { reject.applySync(undefined, args) });
         }));
+        jail.setSync('_fetchSync', new ivm.Reference((str, config = {}) => (
+            new Promise((resolve, reject) => {
+                fetch(str, config)
+                    .then((res) => res[config.type || 'text']())
+                    .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
+                    .catch(e => reject(new Error(e.message)));
+            })
+        )));
 
         function wrapFns(obj, name) {
             jail.setSync(
@@ -151,6 +163,17 @@ async function evaluate({
                     ref.sendRaw.applySync(undefined, args);
                 },
             }));
+
+            // fetch stuff
+
+            Object.assign(global, scripts.fetch);
+
+            global.fetchSync = (str, config) => {
+                return ref.fetchSync.applySyncPromise(undefined, [
+                    str,
+                    new ref.ivm.ExternalCopy(config).copyInto(),
+                ]);
+            };
 
             // create IRC object
 
@@ -228,7 +251,9 @@ async function evaluate({
 
         setTimeout(() => {
             context.release();
-            isolate.dispose();
+            if (!isolate.isDisposed) {
+                isolate.dispose();
+            }
         }, timeout + 1000);
 
         // run script
@@ -249,10 +274,11 @@ async function evaluate({
                     );
                 })();
             `
-            : `(async () => { ${script} })()`
+            : `(async () => { ${script} })();`
         );
 
         await code.run(context, {timeout});
+        console.log('bs');
 
 
 
@@ -321,6 +347,16 @@ async function evaluate({
         createNodeSend(node, msgData).print.error(e);
     }
 
+}
+
+function catchCopyAndThrow(reject) {
+    return (e) => {
+        const { name, message } = e;
+        reject.applyIgnored(
+            undefined,
+            [new ivm.ExternalCopy({ name, message }).copyInto()],
+        );
+    };
 }
 
 module.exports = { evaluate };
