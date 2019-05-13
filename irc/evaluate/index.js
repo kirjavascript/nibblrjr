@@ -23,13 +23,9 @@ async function evaluate({
 }) {
 
     try {
-        // readd / test events
-        // fix ~log hello message (ignore commands)
-        // truncate nibblr messages to log
-        // send log
-        // node.getTrigger
         // limit: setSafe / deleteSafe node.get('command-limit', 5)
         //
+        // no longer logs commands
         // config/ignoreEvents
         // ~solve / ~paste_source fetchSync
         // ~uptime
@@ -49,7 +45,7 @@ async function evaluate({
             canBroadcast,
             lineLimit: node.getLineLimit(msgData.to),
             IRC: {
-                trigger: node.get('trigger', '!'),
+                trigger: node.trigger,
                 message: msgData,
                 nick: node.client.nick,
                 command,
@@ -112,6 +108,9 @@ async function evaluate({
                     .catch(e => reject(new Error(e.message)));
             })
         )));
+        jail.setSync('_logDB', new ivm.Reference((obj) => {
+            node.database.log(node, obj);
+        }));
         jail.setSync('_loadLazy', new ivm.Reference((filename) => {
             return new Promise((resolve, reject) => {
                 loadLazy(filename, (err, success) => {
@@ -176,6 +175,11 @@ async function evaluate({
                 inspect: scripts.inspect,
                 sendRaw: (...args) => {
                     ref.sendRaw.applySync(undefined, args);
+                },
+                logDB: (obj) => {
+                    ref.logDB.applySync(undefined, [
+                        new ref.ivm.ExternalCopy(obj).copyInto(),
+                    ]);
                 },
             }));
 

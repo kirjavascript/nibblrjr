@@ -36,6 +36,9 @@ class ServerNode {
                 || (msgData.isPM ? 50 : 10);
         };
 
+        // TODO: make this a prop getter
+        this.trigger = this.get('trigger', '!');
+
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels.map(c => c.name),
             userName: this.get('userName', 'eternium'),
@@ -82,33 +85,45 @@ class ServerNode {
         });
 
         this.client.addListener('raw', (message) => {
-            this.database.log(message);
+            this.database.log(this, message);
         });
 
-        // // check tick events that have elapsed
-        // this.tick = () => {
-        //     setTimeout(this.tick, 5000);
-        //     if (this.registered) {
-        //         this.database.eventFns.tickElapsed()
-        //             .forEach(row => {
-        //                 const { context, print } = this.getEnvironment({
-        //                     from: row.user,
-        //                     to: row.target,
-        //                     target: row.target,
-        //                     isPM: row.user.toLowerCase() == row.target.toLowerCase(),
-        //                 });
-        //                 // TODO: check if you are in the target channel / is ignored channel
-        //                 context.IRC.setEvent(row);
-        //                 const commandData = parent.database.commands.get(row.callback);
-        //                 if (commandData) {
-        //                     mod.evaluate({ input: commandData.command, context });
+        // check tick events that have elapsed
+        this.tick = () => {
+            setTimeout(this.tick, 5000);
+            if (this.registered) {
+                this.database.eventFns.tickElapsed()
+                    .forEach(row => {
+                        const msgData = {
+                            from: row.user,
+                            to: row.target.toLowerCase(),
+                            target: row.target.toLowerCase(),
+                            isPM: row.user.toLowerCase() == row.target.toLowerCase(),
+                            // text, message
+                        };
+                        const { ignoreEvents } = this.getChannelConfig(msgData.to);
+                        const inChannel = !!Object.entries(this.client.chans)
+                            .find(([key]) => key.toLowerCase() == msgData.target);
 
-        //                 }
-        //                 this.database.eventFns.delete(row.idx);
-        //             });
-        //     }
-        // };
-        // setTimeout(this.tick, 5000);
+                        if (msgData.isPM || (!ignoreEvents && inChannel)) {
+                            const cmdData = parent.database.commands
+                                .get(row.callback);
+                            if (cmdData) {
+                                const { command, name } = cmdData;
+                                mod.evaluate({
+                                    script: command,
+                                    msgData,
+                                    node: this,
+                                    event: row,
+                                    command: mod.parseCommand({ text: name })
+                                });
+                            }
+                            this.database.eventFns.delete(row.idx);
+                        }
+                    });
+            }
+        };
+        setTimeout(this.tick, 5000);
 
         this.client.addListener('message', (from, to, text, message) => {
             if (this.get('ignore-hosts', []).includes(message.host)) return;
@@ -118,7 +133,7 @@ class ServerNode {
             to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
             const { print } = mod.createNodeSend(this, msgData);
-            const trigger = this.get('trigger', '!');
+            const { trigger } = this;
 
             // handle commands
 

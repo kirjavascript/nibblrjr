@@ -34,8 +34,8 @@ function createServerDBFactory(database) {
         const logQuery = db.prepare(`
             INSERT INTO log(user,command,target,message) VALUES (?,?,?,?)
         `);
-        const log = (message) => {
-            // this is ugly af because it's legacy stuff from OG nibblr
+        const log = (node, message) => {
+            // this function is ugly af because it's legacy stuff from OG nibblr
             const commands = ['JOIN', 'PART', 'NICK', 'KICK', 'KILL', 'NOTICE', 'MODE', 'PRIVMSG', 'QUIT', 'TOPIC'];
             if (commands.includes(message.command)) {
                 if (message.command == 'QUIT') {
@@ -52,12 +52,15 @@ function createServerDBFactory(database) {
                     (message.args || [])[0] != node.client.nick
                 ) {
                     const hasMessage = !!message.args.length;
-                    logQuery.run([
-                        message.nick,
-                        message.command,
-                        hasMessage ? message.args[0] : '',
-                        hasMessage ? message.args.splice(1).join(' ') : '',
-                    ]);
+                    const text = hasMessage ? message.args.slice(1).join(' ') : '';
+                    if (!text.startsWith(node.trigger)) {
+                        logQuery.run([
+                            message.nick,
+                            message.command,
+                            hasMessage ? message.args[0] : '',
+                            text,
+                        ]);
+                    }
                 }
             }
         };
