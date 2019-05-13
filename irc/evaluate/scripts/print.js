@@ -6,7 +6,7 @@ function createNodeSend(node, message) {
         canBroadcast: true,
         lineLimit: node.getLineLimit(message.to),
         message,
-        colors: require('./colors').getColorFuncs(node.get('trigger', '!')),
+        colors: require('./colors').getColorFuncs(node.trigger),
         inspect: require('./inspect'),
         sendRaw: node.sendRaw,
     });
@@ -30,6 +30,7 @@ function messageFactory(type, {
     colors,
     inspect,
     sendRaw,
+    logDB,
 }) {
     const { target: defaultTarget, isPM } = message;
     let count = 0;
@@ -61,18 +62,14 @@ function messageFactory(type, {
 
         if (count > lineLimit) return;
 
-        // log to DB
-        if (!isPM && log) {
-            // lag a little so messages are the right order
-            // setTimeout(() => {
-            //     node.database.log({
-            //         nick: node.client.nick,
-            //         command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
-            //         target,
-            //         args: [target || defaultTarget, ...text.slice(0, 400).split(' ')],
-            //     });
-            // }, 100);
-            count == 1 && sendRaw('say', defaultTarget, 'TODO: send log');
+        // log to DB (only in isolate)
+        if (!isPM && log && logDB) {
+            logDB({
+                nick: IRC.nick,
+                command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
+                target,
+                args: [target || defaultTarget, ...text.slice(0, 400).split(' ')],
+            });
         }
     };
 
