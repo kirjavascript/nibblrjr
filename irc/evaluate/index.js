@@ -4,8 +4,7 @@ const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
 const { ping } = require('./spawn');
 const fetch = require('node-fetch');
-// const { getJSON, getText, getDOM } = require('./fetch');
-const loadScripts = require('./load-scripts');
+const { loadScripts, loadLazy }  = require('./load-scripts');
 
 const timeout = 10000;
 
@@ -109,6 +108,17 @@ async function evaluate({
                     .catch(e => reject(new Error(e.message)));
             })
         )));
+        jail.setSync('_loadLazy', new ivm.Reference((filename) => {
+            return new Promise((resolve, reject) => {
+                loadLazy(filename, (err, success) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(success);
+                    }
+                });
+            });
+        }));
 
         function wrapFns(obj, name) {
             jail.setSync(
@@ -238,6 +248,24 @@ async function evaluate({
             global.dateFns = scripts['date-fns'];
             global._ = { ...scripts.lodash };
 
+            // JSDOM
+
+            let jsdom;
+            Object.defineProperty(global, 'jsdom', {
+                get() {
+                    if (!jsdom) {
+                        jsdom = new Function(`
+                            const self = {};
+                            ${ref.loadLazy
+                                .applySyncPromise(undefined, ['jsdom.js'])}
+                            return self.jsdom;
+                        `)();
+                    }
+                    return jsdom;
+                },
+                enumerable: true,
+            });
+
             // cleanup env
 
             delete global.config;
@@ -347,16 +375,6 @@ async function evaluate({
         createNodeSend(node, msgData).print.error(e);
     }
 
-}
-
-function catchCopyAndThrow(reject) {
-    return (e) => {
-        const { name, message } = e;
-        reject.applyIgnored(
-            undefined,
-            [new ivm.ExternalCopy({ name, message }).copyInto()],
-        );
-    };
 }
 
 module.exports = { evaluate };
