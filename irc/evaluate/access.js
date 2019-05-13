@@ -1,6 +1,4 @@
-const { createCommand } = require('./spawn');
-
-function checkAccess({ from, node, callback, print }) {
+function checkAccess({ from, node, callback }) {
     const name = node.address.includes('freenode')
         ? 'ACC'
         : 'STATUS';
@@ -9,14 +7,10 @@ function checkAccess({ from, node, callback, print }) {
     const noticeHandler = (from, to, text) => {
         if (text.toUpperCase().includes(name)) {
             const [msg, nick, status] = text.trim().split(' ');
-            try {
-                if (status == 3) {
-                    callback();
-                } else {
-                    throw new Error('not identified');
-                }
-            } catch (e) {
-                print.error(e);
+            if (status == 3) {
+                callback();
+            } else {
+                callback(new Error('not identified'));
             }
             node.client.removeListener('notice', noticeHandler);
             clearTimeout(ref.timer);
@@ -29,13 +23,8 @@ function checkAccess({ from, node, callback, print }) {
     node.client.say('NickServ', `${name} ${from}`);
 }
 
-function auth({ IRC, callback, node, print }) {
-    checkAccess({
-        from: IRC.message.from,
-        node,
-        print,
-        callback,
-    });
+function auth({ callback, node, from }) {
+    checkAccess({ node, from, callback });
 }
 
 function sudo({ IRC, callback, node, print }) {
