@@ -34,6 +34,7 @@ async function evaluate({
         // ~solve / ~paste_source fetchSync
         // ~uptime
         // [...'.'.repeat(1e9)]
+        // clear acquire cache
         // >(0,0)
 
         const channels = Object.entries(_.cloneDeep(node.client.chans))
