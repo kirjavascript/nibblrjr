@@ -48,8 +48,7 @@ function acquire(input) {
             }
             if (!npmView) {
                 return reject(new Error('acquire: npm not loaded'));
-            }
-            else if (version == 'newest') {
+            } else if (version == 'newest') {
                 // check latest on npm and see if we have it
                 const info = await npmView([nameRaw], true);
                 const latest = Object.keys(info)[0];
@@ -59,8 +58,7 @@ function acquire(input) {
                         (await readFileAsync(filename))
                     );
                 }
-            }
-            else if (version == 'latest') {
+            } else if (version == 'latest') {
                 // grab the newest version from the cache
                 const cacheList = (await readdirAsync(moduleDir))
                     .filter(fn => fn.startsWith(`${name}@`))
@@ -80,8 +78,7 @@ function acquire(input) {
                         );
                     }
                 }
-            }
-            else {
+            } else {
                 // check if we have the specific version
                 const filename = path.resolve(moduleDir, module + '.js');
                 if (await existsAsync(filename)) {
@@ -134,19 +131,16 @@ function acquire(input) {
             }).run(async (err, ...args) => {
                 if (err) {
                     reject(err);
-                }
-                else try {
+                } else try {
                     const filename = path.resolve(moduleDir, bundlename);
                     if (!await existsAsync(filename)) {
                         reject(new Error(`${bundlename} not found`));
-                    }
-                    else {
+                    } else {
                         resolve(
                             (await readFileAsync(filename))
                         );
                     }
-                }
-                catch (e) {
+                } catch (e) {
                     reject(e);
                 }
             });
