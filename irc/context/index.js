@@ -12,8 +12,6 @@ const _ = require('lodash');
 
 function getContext({ print, notice, action, msgData, node }) {
 
-    // const trigger = node.get('trigger', '!');
-
     // const channels = Object.entries(_.cloneDeep(node.client.chans))
     //     .reduce((acc, [key, value]) => {
     //         delete value.users;

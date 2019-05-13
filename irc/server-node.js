@@ -97,7 +97,7 @@ class ServerNode {
         //                     target: row.target,
         //                     isPM: row.user.toLowerCase() == row.target.toLowerCase(),
         //                 });
-        //                 // TODO: check if you are in the target channel
+        //                 // TODO: check if you are in the target channel / is ignored channel
         //                 context.IRC.setEvent(row);
         //                 const commandData = parent.database.commands.get(row.callback);
         //                 if (commandData) {
@@ -118,23 +118,28 @@ class ServerNode {
             to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
             const { print } = mod.createNodeSend(this, msgData);
+            const trigger = this.get('trigger', '!');
 
-            // // check speak events that have elapsed
-            // if (!this.getChannelConfig(to).ignoreSpeakEvents) {
-            //     this.database.eventFns.speakElapsed(from)
-            //         .forEach(row => {
-            //             const { context } = this.getEnvironment(msgData);
-            //             context.IRC.setEvent(row);
-            //             const commandData = parent.database.commands.get(row.callback);
-            //             if (commandData) {
-            //                 mod.evaluate({ input: commandData.command, context });
-            //             }
-            //             this.database.eventFns.delete(row.idx);
-            //         });
-            // }
+            // check speak events that have elapsed
+            if (isPM || !this.getChannelConfig(to).ignoreEvents) {
+                this.database.eventFns.speakElapsed(from)
+                    .forEach(row => {
+                        const cmdData = parent.database.commands.get(row.callback);
+                        if (cmdData) {
+                            const { command, name } = cmdData;
+                            mod.evaluate({
+                                script: command,
+                                msgData,
+                                node: this,
+                                event: row,
+                                command: mod.parseCommand({ text: name })
+                            });
+                        }
+                        this.database.eventFns.delete(row.idx);
+                    });
+            }
 
             // handle commands
-            const trigger = this.get('trigger', '!');
 
             if (text.startsWith(trigger)) {
                 const command = mod.parseCommand({ trigger, text });
@@ -144,7 +149,6 @@ class ServerNode {
                 // #/% - no output, async IIFE
                 if (['>','#','%'].includes(command.path)) {
                     const { input, path } = command;
-                    // context.store = this.database.storeFactory('__eval__');
                     const isAsync = path != '>';
                     mod.evaluate({
                         script: input,
@@ -152,27 +156,21 @@ class ServerNode {
                         node: this,
                         printResult: !isAsync,
                         command,
-                    //     context,
-                    //     printOutput: !isAsync,
-                    //     wrapAsync: isAsync,
-                    //     isREPL: true,
                     });
                 }
                 // normal commands
                 else {
-                    const baseCommand = command.list[0];
-                    // context.store = this.database.storeFactory(baseCommand);
-                    const commandData = parent.database.commands.get(command.path);
-                    const canBroadcast = this.get('broadcast-commands', []).includes(baseCommand);
+                    const cmdData = parent.database.commands.get(command.path);
+                    const canBroadcast = this.get('broadcast-commands', [])
+                        .includes(command.list[0]);
 
-                    if (commandData) {
+                    if (cmdData) {
                         mod.evaluate({
-                            script: commandData.command,
+                            script: cmdData.command,
                             msgData,
                             node: this,
                             canBroadcast,
                             command,
-                            // context,
                         });
                     }
                 }

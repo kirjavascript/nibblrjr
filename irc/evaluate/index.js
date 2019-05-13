@@ -13,25 +13,28 @@ const timeout = 10000;
 const scripts = loadScripts();
 
 async function evaluate({
+    canBroadcast = false,
+    printResult = false,
     script,
     msgData,
     node,
-    canBroadcast = false,
-    printResult = false,
     command,
     event,
 }) {
 
     try {
-        // store
+        // readd / test events
         // fix ~log hello message (ignore commands)
         // truncate nibblr messages to log
-        // readd / test events
+        // send log
         // node.getTrigger
         // limit: setSafe / deleteSafe node.get('command-limit', 5)
         //
+        // config/ignoreEvents
         // ~solve / ~paste_source fetchSync
         // ~uptime
+        // [...'.'.repeat(1e9)]
+        // >(0,0)
 
         const channels = Object.entries(_.cloneDeep(node.client.chans))
             .reduce((acc, [key, value]) => {
@@ -131,6 +134,7 @@ async function evaluate({
         }
 
         wrapFns(node.database.logFactory(msgData.target), 'log');
+        wrapFns(node.database.storeFactory(command.list[0]), 'store');
         wrapFns(node.parent.database.commands.getCommandFns(node), 'commandFns');
         wrapFns(node.database.eventFactory(msgData.from), 'eventFns');
 
@@ -282,6 +286,7 @@ async function evaluate({
 
             // add some globals
 
+            global.store = unwrapFns('store');
             global.input = IRC.command.input;
             global.dateFns = scripts['date-fns'];
             global._ = { ...scripts.lodash };
@@ -311,7 +316,10 @@ async function evaluate({
             delete global.config;
             delete global.scripts;
 
-            Object.defineProperty(global, 'global', { enumerable: false });
+            ['global', 'acquire', 'module']
+                .forEach(key => {
+                    Object.defineProperty(global, key, { enumerable: false });
+                });
         });
         await bootstrap.run(context);
 
