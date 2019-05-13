@@ -1,4 +1,5 @@
 {
+    "version": "3.0.0",
     "scripts": {
         "start-pm2": "pm2 start --name \"nibblrjr\" index.js",
         "start": "node index.js",
@@ -16,7 +17,6 @@
         "import-glob-loader": "^1.1.0",
         "irc": "^0.5.2",
         "isolated-vm": "git://github.com/laverdet/isolated-vm.git#v8-heap",
-        "jsdom": "12.1.0",
         "lodash": "^4.17.5",
         "mobx": "^4.1.0",
         "mobx-react": "^5.0.0",

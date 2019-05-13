@@ -1,5 +1,6 @@
-const fetch = require('node-fetch');
-const { JSDOM } = require('jsdom');
+// const { JSDOM } = require('jsdom');
+
+// these functions are async for legacy reasons
 
 async function getText(...args) {
     return await getWeb('text', ...args);
@@ -26,13 +27,12 @@ async function getDOM(...args) {
     };
 }
 async function getWeb(type, url, options = {}) {
-    const res = await fetch(url, options);
-    const out = await res[type]();
-    return out;
+    options.type = type;
+    return fetchSync(url, options);
 }
 
 module.exports = {
+    getText,
     getJSON,
     getDOM,
-    getText,
 };

@@ -54,7 +54,7 @@ function getContext({ print, notice, action, msgData, node }) {
         //         print.error(e);
         //     }
         // }),
-        ping,
+        // ping,
         // parseTime,
         // parseCommand,
         // objectDebug,
@@ -68,8 +68,8 @@ function getContext({ print, notice, action, msgData, node }) {
         // print,
         // notice,
         // action,
-        getText: limit(getText),
-        getJSON: limit(getJSON),
+        // getText: limit(getText),
+        // getJSON: limit(getJSON),
         getDOM: limit(getDOM),
         fetch: limit(fetch),
         // IRC,

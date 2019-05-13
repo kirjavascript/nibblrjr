@@ -72,7 +72,7 @@ function messageFactory(type, {
             //         args: [target || defaultTarget, ...text.slice(0, 400).split(' ')],
             //     });
             // }, 100);
-            sendRaw('say', defaultTarget, 'TODO: send log');
+            count == 1 && sendRaw('say', defaultTarget, 'TODO: send log');
         }
     };
 
