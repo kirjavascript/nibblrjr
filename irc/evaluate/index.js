@@ -5,6 +5,7 @@ const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
 const { ping } = require('./spawn');
 const { acquire } = require('./acquire');
+const { sudo, auth } = require('./access');
 const { loadScripts, loadLazy }  = require('./load-scripts');
 
 const timeout = 10000;
@@ -23,14 +24,18 @@ async function evaluate({
 }) {
 
     try {
-        // limit: setSafe / deleteSafe node.get('command-limit', 5)
-        //
-        // no longer logs commands
+        // merge: save command db first
         // config/ignoreEvents
-        // ~solve / ~paste_source fetchSync
-        // ~uptime
-        // [...'.'.repeat(1e9)]
         // clear acquire cache
+        // ~uptime
+        // ~solve / ~paste_source fetchSync
+        // ~ignore IRC.whois()
+        // ~golf.submit IRC.auth()
+        // ~golf.solution IRC.auth()
+        //
+        // [...'.'.repeat(1e9)]
+        // while(1){}; ~> 1
+        // no longer logs commands
         // >(0,0)
 
         const channels = Object.entries(_.cloneDeep(node.client.chans))
@@ -44,6 +49,7 @@ async function evaluate({
             hasColors: node.get('colors', true),
             canBroadcast,
             lineLimit: node.getLineLimit(msgData.to),
+            commandLimit: node.get('command-limit', 5),
             IRC: {
                 trigger: node.trigger,
                 message: msgData,
@@ -77,17 +83,17 @@ async function evaluate({
                 return false;
             }
         }));
-        jail.setSync('_whois', new ivm.Reference((text, callback) => {
-            text && node.client.whois(text, (data) => {
-                try {
-                    callback.applySync(undefined, [
-                        new ivm.ExternalCopy(data).copyInto(),
-                    ]);
-                } catch(e) {
-                    createNodeSend(node, msgData).print.error(e);
-                }
-            });
-        }));
+        jail.setSync('_whois', new ivm.Reference((text, callback) => (
+            text && new Promise((resolve, reject) => {
+                node.client.whois(text, (data) => {
+                    try {
+                        resolve(new ivm.ExternalCopy(data).copyInto());
+                    } catch(e) {
+                        reject(new Error(e.message));
+                    }
+                });
+            })
+        )));
         jail.setSync('_ping', new ivm.Reference((str, resolve, reject) => {
             ping(str)
                 .then((...args) => { resolve.applySync(undefined, args) })
@@ -111,6 +117,15 @@ async function evaluate({
         jail.setSync('_logDB', new ivm.Reference((obj) => {
             node.database.log(node, obj);
         }));
+        jail.setSync('_auth', new ivm.Reference((from) => (
+            new Promise((resolve, reject) => {
+                auth({
+                    node,
+                    from,
+                    callback: (err) => err ? reject(err) : resolve(),
+                });
+            })
+        )))
         jail.setSync('_loadLazy', new ivm.Reference((filename) => {
             return new Promise((resolve, reject) => {
                 loadLazy(filename, (err, success) => {
@@ -251,10 +266,8 @@ async function evaluate({
                 ref.resetBuffer.applySync();
             };
 
-            IRC.whois = (text, callback) => {
-                ref.whois.applySync(undefined, [
-                    text, new ref.ivm.Reference(callback),
-                ]);
+            IRC.whois = (text) => {
+                return ref.whois.applySyncPromise(undefined, [text]);
             };
 
             IRC.ping = (str) => new Promise((res, rej) => {
@@ -288,6 +301,18 @@ async function evaluate({
                     throw new Error('cannot add an event in an event callback');
                 };
             }
+
+            IRC.auth = () => {
+                ref.auth.applySyncPromise(undefined, [IRC.message.from]);
+            };
+
+            // set limits on command functions
+
+            const { setSafe, deleteSafe } = IRC.commandFns;
+            Object.assign(IRC.commandFns, {
+                setSafe: scripts.limit(setSafe, config.commandLimit),
+                deleteSafe: scripts.limit(deleteSafe, config.commandLimit),
+            });
 
             // add some globals
 

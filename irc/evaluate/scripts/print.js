@@ -12,8 +12,6 @@ function createNodeSend(node, message) {
     });
 }
 
-// TODO: createSendHost
-
 function createSend(config) {
     return {
         print: messageFactory('say', config),
