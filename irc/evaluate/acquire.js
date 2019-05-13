@@ -29,16 +29,6 @@ npm.load({loglevel: 'silent', lock: false}, (err, success) => {
 });
 
 function acquire(input) {
-    return acquireFactory(input, (source) => {
-        return new Function(`
-            const self = {};
-            ${source}
-            return self.__acquire__;
-        `)();
-    });
-}
-
-function acquireFactory(input, initFunc) {
     if (!input.length || input.startsWith('.') || input.startsWith('_') || /[~\(\)'!\*]/.test(input) || input.includes('..')) {
         throw new Error('Invalid package name');
     }
@@ -66,7 +56,7 @@ function acquireFactory(input, initFunc) {
                 const filename = path.resolve(moduleDir, `${name}@${latest}.js`);
                 if (await existsAsync(filename)) {
                     return resolve(
-                        initFunc(await readFileAsync(filename))
+                        (await readFileAsync(filename))
                     );
                 }
             }
@@ -86,7 +76,7 @@ function acquireFactory(input, initFunc) {
                     const filename = path.resolve(moduleDir, cacheList[0]);
                     if (await existsAsync(filename)) {
                         return resolve(
-                            initFunc(await readFileAsync(filename))
+                            (await readFileAsync(filename))
                         );
                     }
                 }
@@ -96,7 +86,7 @@ function acquireFactory(input, initFunc) {
                 const filename = path.resolve(moduleDir, module + '.js');
                 if (await existsAsync(filename)) {
                     return resolve(
-                        initFunc(await readFileAsync(filename))
+                        (await readFileAsync(filename))
                     );
                 }
             }
@@ -152,7 +142,7 @@ function acquireFactory(input, initFunc) {
                     }
                     else {
                         resolve(
-                            initFunc(await readFileAsync(filename))
+                            (await readFileAsync(filename))
                         );
                     }
                 }
@@ -167,6 +157,4 @@ function acquireFactory(input, initFunc) {
     });
 };
 
-module.exports = {
-    acquire, acquireFactory,
-};
+module.exports = { acquire };

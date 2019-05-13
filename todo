@@ -1,7 +1,8 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
-ESM
+sleep(1)
+fetchSync type=dom
 node.updateConfig
 IRC.runCommand
 IRC.secrets
