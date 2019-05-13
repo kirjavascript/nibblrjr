@@ -70,8 +70,8 @@ function getContext({ print, notice, action, msgData, node }) {
         // action,
         // getText: limit(getText),
         // getJSON: limit(getJSON),
-        getDOM: limit(getDOM),
-        fetch: limit(fetch),
+        // getDOM: limit(getDOM),
+        // fetch: limit(fetch),
         // IRC,
         // setTimeout(...args) {
         //     return node.timeouts.push(setTimeout(...args));
