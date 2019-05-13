@@ -1,15 +1,13 @@
 const ivm = require('isolated-vm');
+const fetch = require('node-fetch');
 const _ = require('lodash');
 const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
 const { ping } = require('./spawn');
-const fetch = require('node-fetch');
+const { acquire } = require('./acquire');
 const { loadScripts, loadLazy }  = require('./load-scripts');
 
 const timeout = 10000;
-
-const { acquire } = require('../context/acquire');
-const { createRequireModules } = require('../context/require');
 
 // grab scripts to inject into the isolate
 const scripts = loadScripts();
@@ -22,22 +20,17 @@ async function evaluate({
     printResult = false,
     command,
     event,
-    // isREPL,
 }) {
 
     try {
-        // context.acquire = acquire;
-        // if (isREPL) {
-        //     context.injectRequire = await createRequireModules(input);
-        // }
-        // global.self = global;
-        // const q = (await createRequireModules(`require('jsdom@^15.0.0')`))('jsdom');
-        // console.log(q.JSDOM);
-
-        // change require to use apply sync promise
+        // store
         // fix ~log hello message (ignore commands)
         // truncate nibblr messages to log
+        // readd / test events
+        // node.getTrigger
         // limit: setSafe / deleteSafe node.get('command-limit', 5)
+        //
+        // ~solve / ~paste_source fetchSync
         // ~uptime
 
         const channels = Object.entries(_.cloneDeep(node.client.chans))
@@ -105,6 +98,13 @@ async function evaluate({
                 fetch(str, config)
                     .then((res) => res[config.type || 'text']())
                     .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
+                    .catch(e => reject(new Error(e.message)));
+            })
+        )));
+        jail.setSync('_require', new ivm.Reference((str) => (
+            new Promise((resolve, reject) => {
+                acquire(str)
+                    .then(obj => { resolve(obj.toString()) })
                     .catch(e => reject(new Error(e.message)));
             })
         )));
@@ -185,6 +185,26 @@ async function evaluate({
                 ]);
             };
 
+            // npm-require
+
+            global.require = (str) => (
+                new Function(`
+                    const self = {};
+                    ${ref.require.applySyncPromise(undefined, [str])}
+                    return self.__acquire__;
+                `)()
+            );
+
+            // acquire (legacy)
+
+            global.acquire = (str) => new Promise((resolve, reject) => {
+                try {
+                    resolve(require(str));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+
             // create IRC object
 
             global.IRC = {
@@ -194,6 +214,24 @@ async function evaluate({
                 breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
                 parseCommand: scripts['parse-command'].parseCommand,
                 parseTime: scripts['parse-time'].parseTime,
+            };
+
+            global.module = {};
+
+            IRC.require = (str) => {
+                const obj = IRC.commandFns.get(str);
+                if (obj) {
+                    const module = new Function(`
+                        const module = {};
+                        ${obj.command}
+                        return this.module;
+                    `)();
+                    return module.exports;
+                } else {
+                    const error = new Error(str + ' not found');
+                    error.name = 'RequireError';
+                    throw error;
+                }
             };
 
             IRC.setNick = (str) => {
@@ -256,7 +294,7 @@ async function evaluate({
                     if (!jsdom) {
                         jsdom = new Function(`
                             const self = {};
-                            const setTimeout = (callback) => {callback()};
+                            const setTimeout = (fn) => {fn()};
                             const clearTimeout = () => {};
                             ${ref.loadLazy
                                 .applySyncPromise(undefined, ['jsdom.js'])}
@@ -308,75 +346,13 @@ async function evaluate({
         );
 
         await code.run(context, {timeout});
-        console.log('bs');
 
-
-
-        // TODO:
-        // remove limit function
-
-        // ---
-
-        // const code = wrapAsync ? `(async () => {
-        //     try {
-        //         ${input}
-        //     } catch (e) {
-        //         print.error(e);
-        //     }
-        // })();` : input;
-
-        // const evaluation = new VM({
-        //     timeout: 3000,
-        //     sandbox: context,
-        // }).run(`
-        //     delete global.console;
-        //     global.module = {};
-        //     [
-        //         'VMError',
-        //         'Buffer',
-        //         'module',
-        //         'setTimeout',
-        //         'clearTimeout',
-        //         'setInterval',
-        //         'clearInterval',
-        //     ].forEach(key => {
-        //         Object.defineProperty(this, key, { enumerable: false });
-        //     });
-        //     (() => {
-        //         IRC.require = (str) => {
-        //             const obj = IRC.commandFns.get(str);
-        //             if (obj) {
-        //                 const module = new Function(\`
-        //                     \${obj.command}
-        //                     return this.module;
-        //                 \`)();
-        //                 return module.exports;
-        //             }
-        //             else {
-        //                 const error = new Error(str + ' not found');
-        //                 error.name = 'RequireError';
-        //                 throw error;
-        //             }
-        //         };
-        //         if (global.injectRequire) {
-        //             global.require = injectRequire();
-        //             delete global.injectRequire;
-        //         }
-        //     })();
-
-        //     ${code}
-        // `);
-
-        // if (printOutput) {
-        //     context.print.raw(objectDebug(evaluation));
-        // }
     } catch (e) {
         if (/script execution timed out/i.test(e.message)) {
             e.message = `script timeout: ${nick(msgData.from, true)} ${_.truncate(msgData.text)}`;
         }
         createNodeSend(node, msgData).print.error(e);
     }
-
 }
 
 module.exports = { evaluate };
