@@ -256,6 +256,8 @@ async function evaluate({
                     if (!jsdom) {
                         jsdom = new Function(`
                             const self = {};
+                            const setTimeout = (callback) => {callback()};
+                            const clearTimeout = () => {};
                             ${ref.loadLazy
                                 .applySyncPromise(undefined, ['jsdom.js'])}
                             return self.jsdom;
