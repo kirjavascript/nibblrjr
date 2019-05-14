@@ -117,11 +117,8 @@ async function evaluate({
             if (config == 'exit') {
                 process.kill(process.pid, 'SIGINT');
             }
-            const { key, value, path } = config;
-            if (key == 'get') {
-                const target = path.reduce((a, c) => a[c] || {}, node);
-                return new ivm.ExternalCopy(target).copyInto()
-            } else if (key == 'set') {
+            const getBranch = (path) => {
+                path = [...path];
                 const leaf = path.pop();
                 const parent = path.reduce((a, c) => {
                     if (!a[c]) {
@@ -129,11 +126,21 @@ async function evaluate({
                     }
                     return a[c];
                 }, node);
+                return [parent, leaf];
+            }
+            const { key, value, path } = config;
+            if (key == 'get') {
+                const target = path.reduce((a, c) => a[c] || {}, node);
+                return new ivm.ExternalCopy(target).copyInto()
+            } else if (key == 'set') {
+                const [parent, leaf] = getBranch(path);
                 parent[leaf] = value[0];
             } else if (key == 'call') {
-                const target = path.reduce((a, c) => a[c] || {}, node);
-                if (typeof target == 'function') {
-                    return target(...value);
+                const [parent, leaf] = getBranch(path);
+                if (typeof parent[leaf] == 'function') {
+                    return parent[leaf](...value);
+                } else {
+                    throw new Error('not a function');
                 }
             }
         }));
