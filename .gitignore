@@ -5,3 +5,4 @@ web/bundles
 package-lock.json
 acquire_cache
 config.json
+yarn-error.log
