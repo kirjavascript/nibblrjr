@@ -38,6 +38,8 @@ async function evaluate({
         // no longer logs commands
         // >(0,0)
 
+// ^nick$|^poker.reset$|^redirect$|^poker.nuke$|^kick$|^mode$|^topic$|^part$|^join$|^git$|^reboot$|^update$|^poker.setScore$|^poker.remove$|^ignore$|^poker.add$|^golf.test$
+
         const channels = Object.entries(_.cloneDeep(node.client.chans))
             .reduce((acc, [key, value]) => {
                 delete value.users;
@@ -125,7 +127,37 @@ async function evaluate({
                     callback: (err) => err ? reject(err) : resolve(),
                 });
             })
-        )))
+        )));
+        jail.setSync('_sudo', new ivm.Reference((from) => (
+            new Promise((resolve, reject) => {
+                sudo({
+                    node,
+                    from,
+                    callback: (err) => err ? reject(err) : resolve(),
+                });
+            })
+        )));
+        jail.setSync('_sudoProxy', new ivm.Reference((config) => {
+            if (config == 'exit') {
+                process.kill(process.pid, 'SIGINT');
+            }
+            const { type, key } = config;
+            console.log(config);
+            if (type == 'get') {
+                return new ivm.ExternalCopy(node[key]).copyInto()
+            }
+
+                // callback({
+                //     node,
+                //     exit: () => {
+                //         console.error(
+                //             'exit() from ' + IRC.message.from
+                //         );
+                //         process.exit()
+                //     },
+                // });
+        }));
+
         jail.setSync('_loadLazy', new ivm.Reference((filename) => {
             return new Promise((resolve, reject) => {
                 loadLazy(filename, (err, success) => {
@@ -304,6 +336,28 @@ async function evaluate({
 
             IRC.auth = () => {
                 ref.auth.applySyncPromise(undefined, [IRC.message.from]);
+            };
+
+            IRC.sudo = () => {
+                ref.sudo.applySyncPromise(undefined, [IRC.message.from]);
+                const node = new Proxy({}, {
+                    get(target, key) {
+                        return ref.sudoProxy.applySync(
+                            undefined,
+                            [new ref.ivm.ExternalCopy({
+                                type: 'get',
+                                key,
+                            }).copyInto()],
+                        );
+                    },
+                    set(target, key, value) {
+
+                    },
+                });
+                const exit = () => {
+                    ref.sudoProxy.applySync(undefined, ['exit']);
+                };
+                return { node, exit };
             };
 
             // set limits on command functions

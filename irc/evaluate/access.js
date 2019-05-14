@@ -27,26 +27,11 @@ function auth({ callback, node, from }) {
     checkAccess({ node, from, callback });
 }
 
-function sudo({ IRC, callback, node, print }) {
-    if (node.get('admins', []).includes(IRC.message.from)) {
-        checkAccess({
-            from: IRC.message.from,
-            node,
-            print,
-            callback: () => {
-                callback({
-                    node,
-                    exit: () => {
-                        console.error(
-                            'exit() from ' + IRC.message.from
-                        );
-                        process.exit()
-                    },
-                });
-            },
-        });
+function sudo({ callback, node, from }) {
+    if (node.get('admins', []).includes(from)) {
+        checkAccess({ from, node, callback });
     } else {
-        throw new Error('no access');
+        callback(new Error('no access'));
     }
 }
 
