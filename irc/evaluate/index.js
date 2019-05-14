@@ -129,6 +129,7 @@ async function evaluate({
                 return [parent, leaf];
             }
             const { key, value, path } = config;
+            console.log(path);
             if (key == 'get') {
                 const target = path.reduce((a, c) => a[c] || {}, node);
                 return new ivm.ExternalCopy(target).copyInto()
