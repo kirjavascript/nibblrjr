@@ -336,8 +336,7 @@ async function evaluate({
                                     }).copyInto()],
                                 );
                             } else {
-                                path.push(key);
-                                return node(path);
+                                return node([...path, key]);
                             }
                         }
                     });
