@@ -117,27 +117,20 @@ async function evaluate({
             if (config == 'exit') {
                 process.kill(process.pid, 'SIGINT');
             }
-            const getBranch = (path) => {
-                path = [...path];
-                const leaf = path.pop();
-                const parent = path.reduce((a, c) => {
-                    if (!a[c]) {
-                        a[c] = {};
-                    }
-                    return a[c];
-                }, node);
-                return [parent, leaf];
-            }
             const { key, value, path } = config;
             console.log(path);
+            const leaf = path.pop();
+            const parent = path.reduce((a, c) => {
+                if (!a[c]) {
+                    a[c] = {};
+                }
+                return a[c];
+            }, node);
             if (key == 'get') {
-                const target = path.reduce((a, c) => a[c] || {}, node);
-                return new ivm.ExternalCopy(target).copyInto()
+                return new ivm.ExternalCopy(parent[leaf]).copyInto()
             } else if (key == 'set') {
-                const [parent, leaf] = getBranch(path);
                 parent[leaf] = value[0];
             } else if (key == 'call') {
-                const [parent, leaf] = getBranch(path);
                 if (typeof parent[leaf] == 'function') {
                     return parent[leaf](...value);
                 } else {
@@ -314,8 +307,6 @@ async function evaluate({
                 });
                 return obj;
             }
-
-            IRC.test = 1;
 
             IRC.log = unwrapFns('log');
             IRC.commandFns = unwrapFns('commandFns');
