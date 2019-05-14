@@ -1,17 +1,8 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
-        // ~ignore IRC.whois()
-        //
-        // [...'.'.repeat(1e9)]
-        // while(1){}; ~> 1
-        // no longer logs commands
-        // >(0,0)
-
-    // ^nick$|^poker.reset$|^redirect$|^poker.nuke$|^kick$|^mode$|^topic$|^part$|^join$|^reboot$|^update$|^poker.setScore$|^poker.remove$|^ignore$|^poker.add$|^golf.test$
-
-
 // TODO //
 /* check remind target */
+fix ~ignore
 fix function + method inspect
 fetchSync type=dom
 node.updateConfig
