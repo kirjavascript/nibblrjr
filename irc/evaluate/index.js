@@ -27,11 +27,11 @@ async function evaluate({
         // merge: save command db first
         // config/ignoreEvents
         // clear acquire cache
+        // ~golf.submit IRC.auth()
+        // ~golf.solution IRC.auth()
         // ~uptime
         // ~solve / ~paste_source fetchSync
         // ~ignore IRC.whois()
-        // ~golf.submit IRC.auth()
-        // ~golf.solution IRC.auth()
         //
         // [...'.'.repeat(1e9)]
         // while(1){}; ~> 1
@@ -117,20 +117,12 @@ async function evaluate({
             })
         )));
         jail.setSync('_logDB', new ivm.Reference((obj) => {
+            obj.nick = config.IRC.nick;
             node.database.log(node, obj);
         }));
-        jail.setSync('_auth', new ivm.Reference((from) => (
+        jail.setSync('_auth', new ivm.Reference((from, isSudo) => (
             new Promise((resolve, reject) => {
-                auth({
-                    node,
-                    from,
-                    callback: (err) => err ? reject(err) : resolve(),
-                });
-            })
-        )));
-        jail.setSync('_sudo', new ivm.Reference((from) => (
-            new Promise((resolve, reject) => {
-                sudo({
+                (isSudo ? sudo : auth)({
                     node,
                     from,
                     callback: (err) => err ? reject(err) : resolve(),
@@ -141,10 +133,19 @@ async function evaluate({
             if (config == 'exit') {
                 process.kill(process.pid, 'SIGINT');
             }
-            const { type, key } = config;
-            console.log(config);
-            if (type == 'get') {
-                return new ivm.ExternalCopy(node[key]).copyInto()
+            const { key, value, path } = config;
+            if (key == 'get') {
+                const data = path.reduce((a, c) => a[c] || {}, node);
+                return new ivm.ExternalCopy(data).copyInto()
+            } else if (key == 'set') {
+                const leaf = path.pop();
+                const parent = path.reduce((a, c) => {
+                    if (!a[c]) {
+                        a[c] = {};
+                    }
+                    return a[c];
+                }, node);
+                parent[leaf] = value;
             }
 
                 // callback({
@@ -280,7 +281,7 @@ async function evaluate({
                     const module = new Function(`
                         const module = {};
                         ${obj.command}
-                        return this.module;
+                        return module;
                     `)();
                     return module.exports;
                 } else {
@@ -339,25 +340,30 @@ async function evaluate({
             };
 
             IRC.sudo = () => {
-                ref.sudo.applySyncPromise(undefined, [IRC.message.from]);
-                const node = new Proxy({}, {
-                    get(target, key) {
-                        return ref.sudoProxy.applySync(
-                            undefined,
-                            [new ref.ivm.ExternalCopy({
-                                type: 'get',
-                                key,
-                            }).copyInto()],
-                        );
-                    },
-                    set(target, key, value) {
-
-                    },
-                });
-                const exit = () => {
-                    ref.sudoProxy.applySync(undefined, ['exit']);
+                ref.auth.applySyncPromise(undefined, [IRC.message.from, true]);
+                function node(path = []) {
+                    return new Proxy({}, {
+                        get(target, key) {
+                            if (['get', 'set'].includes(key)) {
+                                return (value) => ref.sudoProxy.applySync(
+                                    undefined,
+                                    [new ref.ivm.ExternalCopy({
+                                        key,
+                                        path,
+                                        value,
+                                    }).copyInto()],
+                                );
+                            } else {
+                                path.push(key);
+                                return node(path);
+                            }
+                        }
+                    });
+                }
+                return {
+                    node: node(),
+                    exit: () => ref.sudoProxy.applySync(undefined, ['exit']),
                 };
-                return { node, exit };
             };
 
             // set limits on command functions
@@ -378,22 +384,19 @@ async function evaluate({
             // JSDOM
 
             let jsdom;
-            Object.defineProperty(global, 'jsdom', {
-                get() {
-                    if (!jsdom) {
-                        jsdom = new Function(`
-                            const self = {};
-                            const setTimeout = (fn) => {fn()};
-                            const clearTimeout = () => {};
-                            ${ref.loadLazy
-                                .applySyncPromise(undefined, ['jsdom.js'])}
-                            return self.jsdom;
-                        `)();
-                    }
-                    return jsdom;
-                },
-                enumerable: true,
-            });
+            global.jsdom = () => {
+                if (!jsdom) {
+                    jsdom = new Function(`
+                        const self = {};
+                        const setTimeout = (fn) => {fn()};
+                        const clearTimeout = () => {};
+                        ${ref.loadLazy
+                            .applySyncPromise(undefined, ['jsdom.js'])}
+                        return self.jsdom;
+                    `)();
+                }
+                return jsdom;
+            };
 
             // cleanup env
 
