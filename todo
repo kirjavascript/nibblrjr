@@ -1,5 +1,22 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
+        // merge: save command db first
+        // config/ignoreEvents
+        // clear acquire cache
+        // ~golf.submit IRC.auth()
+        // ~golf.solution IRC.auth()
+        // ~uptime
+        // ~solve / ~paste_source fetchSync
+        // ~ignore IRC.whois()
+        //
+        // [...'.'.repeat(1e9)]
+        // while(1){}; ~> 1
+        // no longer logs commands
+        // >(0,0)
+
+    // ^nick$|^poker.reset$|^redirect$|^poker.nuke$|^kick$|^mode$|^topic$|^part$|^join$|^reboot$|^update$|^poker.setScore$|^poker.remove$|^ignore$|^poker.add$|^golf.test$
+
+
 // TODO //
 fix function + method inspect
 fetchSync type=dom
