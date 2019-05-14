@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { env } from '#store';
 import { Editor } from './editor';
-import { parseCommand } from '../../../irc/parse-command';
+import { parseCommand } from '../../../irc/evaluate/scripts/parse-command';
 
 @observer
 export class Commands extends Component {

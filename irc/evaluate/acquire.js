@@ -29,16 +29,6 @@ npm.load({loglevel: 'silent', lock: false}, (err, success) => {
 });
 
 function acquire(input) {
-    return acquireFactory(input, (source) => {
-        return new Function(`
-            const self = {};
-            ${source}
-            return self.__acquire__;
-        `)();
-    });
-}
-
-function acquireFactory(input, initFunc) {
     if (!input.length || input.startsWith('.') || input.startsWith('_') || /[~\(\)'!\*]/.test(input) || input.includes('..')) {
         throw new Error('Invalid package name');
     }
@@ -58,19 +48,17 @@ function acquireFactory(input, initFunc) {
             }
             if (!npmView) {
                 return reject(new Error('acquire: npm not loaded'));
-            }
-            else if (version == 'newest') {
+            } else if (version == 'newest') {
                 // check latest on npm and see if we have it
                 const info = await npmView([nameRaw], true);
                 const latest = Object.keys(info)[0];
                 const filename = path.resolve(moduleDir, `${name}@${latest}.js`);
                 if (await existsAsync(filename)) {
                     return resolve(
-                        initFunc(await readFileAsync(filename))
+                        (await readFileAsync(filename))
                     );
                 }
-            }
-            else if (version == 'latest') {
+            } else if (version == 'latest') {
                 // grab the newest version from the cache
                 const cacheList = (await readdirAsync(moduleDir))
                     .filter(fn => fn.startsWith(`${name}@`))
@@ -86,17 +74,16 @@ function acquireFactory(input, initFunc) {
                     const filename = path.resolve(moduleDir, cacheList[0]);
                     if (await existsAsync(filename)) {
                         return resolve(
-                            initFunc(await readFileAsync(filename))
+                            (await readFileAsync(filename))
                         );
                     }
                 }
-            }
-            else {
+            } else {
                 // check if we have the specific version
                 const filename = path.resolve(moduleDir, module + '.js');
                 if (await existsAsync(filename)) {
                     return resolve(
-                        initFunc(await readFileAsync(filename))
+                        (await readFileAsync(filename))
                     );
                 }
             }
@@ -144,19 +131,16 @@ function acquireFactory(input, initFunc) {
             }).run(async (err, ...args) => {
                 if (err) {
                     reject(err);
-                }
-                else try {
+                } else try {
                     const filename = path.resolve(moduleDir, bundlename);
                     if (!await existsAsync(filename)) {
                         reject(new Error(`${bundlename} not found`));
-                    }
-                    else {
+                    } else {
                         resolve(
-                            initFunc(await readFileAsync(filename))
+                            (await readFileAsync(filename))
                         );
                     }
-                }
-                catch (e) {
+                } catch (e) {
                     reject(e);
                 }
             });
@@ -167,6 +151,4 @@ function acquireFactory(input, initFunc) {
     });
 };
 
-module.exports = {
-    acquire, acquireFactory,
-};
+module.exports = { acquire };

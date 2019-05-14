@@ -1,5 +1,4 @@
-const { parseCommand } = require('../irc/parse-command');
-const { limit } = require('../irc/context/limit.js');
+const { parseCommand } = require('../irc/evaluate/scripts/parse-command');
 
 const parseBool = (str) => {
     return str.toLowerCase() == 'true' ? true : false;
@@ -164,8 +163,8 @@ function createCommandDB(database) {
         get,
         list,
         names,
-        setSafe: limit(setSafe, node.get('command-limit', 2)),
-        deleteSafe: limit(deleteSafe, node.get('command-limit', 2)),
+        setSafe,
+        deleteSafe,
     });
 
     return {
