@@ -1,27 +1,39 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
-v3: bouncer to stop join/part, main exec, container
+        // merge: save command db first
+        // config/ignoreEvents
+        // clear acquire cache
+        // ~golf.submit IRC.auth()
+        // ~golf.solution IRC.auth()
+        // ~uptime
+        // ~solve / ~paste_source fetchSync
+        // ~ignore IRC.whois()
+        //
+        // [...'.'.repeat(1e9)]
+        // while(1){}; ~> 1
+        // no longer logs commands
+        // >(0,0)
+
+    // ^nick$|^poker.reset$|^redirect$|^poker.nuke$|^kick$|^mode$|^topic$|^part$|^join$|^reboot$|^update$|^poker.setScore$|^poker.remove$|^ignore$|^poker.add$|^golf.test$
+
 
 // TODO //
-~> 'e'.repeat(1e9) bug
- eval('['+'.'.repeat(1e9)+']')
+fix function + method inspect
+fetchSync type=dom
+node.updateConfig
 IRC.runCommand
-sum of 10000 * <size of best solution> / <size of your solution> for each problem (19 hours ago)
-provide a message when downloading from npm
-docs
-http push /
 IRC.secrets
 /usr/share/dict/words IRC.wordList Array
+nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
+provide a message when downloading from npm
+docs
+change command db to JSON
+http push /
 updateConfig / merge getChannelConfig and .get
 SyntaxError displays wrong
-change command db to JSON
-omit commands (triggers) from log
 index db
-support multiple protocols in frontend (ws/wss just use //)
 ~chess
 add print limit to get envinronment to limit event callback spam
-~chess
-throttle print
 _.deburr for title parser
 useState/loadObject() alternative
 comandFns.where();

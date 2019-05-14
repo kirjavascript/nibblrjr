@@ -1,13 +1,11 @@
 {
+    "version": "3.0.0",
     "scripts": {
         "start-pm2": "pm2 start --name \"nibblrjr\" index.js",
         "start": "node index.js",
         "dev": "node index.js --dev"
     },
     "dependencies": {
-        "@babel/core": "^7.2.2",
-        "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-        "@babel/standalone": "^7.3.1",
         "better-sqlite3": "^4.1.0",
         "brace": "^0.11.1",
         "date-fns": "^1.29.0",
@@ -16,16 +14,14 @@
         "html-entities": "^1.2.1",
         "import-glob-loader": "^1.1.0",
         "irc": "^0.5.2",
-        "jsdom": "12.1.0",
+        "isolated-vm": "git://github.com/laverdet/isolated-vm.git#v8-heap",
         "lodash": "^4.17.5",
-        "loop-protect": "^2.1.6",
         "mobx": "^4.1.0",
         "mobx-react": "^5.0.0",
         "node-fetch": "^2.2.0",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
         "semver": "^5.5.1",
-        "vm2": "^3.8.0",
         "ws": "^5.0.0",
         "zipson": "^0.2.7"
     },

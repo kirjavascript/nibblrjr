@@ -1,30 +1,29 @@
-const {
-    addDays,
-    addWeeks,
-    addMonths,
-    addYears,
-    addHours,
-    addMinutes,
-    addSeconds,
-    setYear,
-    setMonth,
-    setDate,
-    setDay,
-    setHours,
-    setMinutes,
-    setSeconds,
-    getYear,
-    format,
-    parse,
-} = require('date-fns');
-
-const months = Array.from({length: 12}, (_,i) => format(new Date(1234,i,1), 'MMMM').toLowerCase());
-const monthsShort = Array.from({length: 12}, (_,i) => format(new Date(1234,i,1), 'MMM').toLowerCase());
-const ordinalDays = Array.from({length: 31}, (_,i) => format(new Date(1234,12,i+1), 'Do'));
-const days = Array.from({length: 7}, (_,i) => format(new Date(1234,12,i), 'dddd').toLowerCase());
-const daysShort = Array.from({length: 7}, (_,i) => format(new Date(1234,12,i), 'ddd').toLowerCase());
-
 function parseTime(str) {
+    const {
+        addDays,
+        addWeeks,
+        addMonths,
+        addYears,
+        addHours,
+        addMinutes,
+        addSeconds,
+        setYear,
+        setMonth,
+        setDate,
+        setDay,
+        setHours,
+        setMinutes,
+        setSeconds,
+        getYear,
+        format,
+        parse,
+    } = global.dateFns;
+
+    const months = Array.from({length: 12}, (_,i) => format(new Date(1234,i,1), 'MMMM').toLowerCase());
+    const monthsShort = Array.from({length: 12}, (_,i) => format(new Date(1234,i,1), 'MMM').toLowerCase());
+    const ordinalDays = Array.from({length: 31}, (_,i) => format(new Date(1234,12,i+1), 'Do'));
+    const days = Array.from({length: 7}, (_,i) => format(new Date(1234,12,i), 'dddd').toLowerCase());
+    const daysShort = Array.from({length: 7}, (_,i) => format(new Date(1234,12,i), 'ddd').toLowerCase());
 
     const clean = str.toLowerCase().replace(/\ban\b/g, 1);
     const tokens = clean.split(/(\s+)/g).map(d => d.trim());
@@ -150,10 +149,6 @@ function parseTime(str) {
 
     return out;
 }
-
-const formatTime = (date) => {
-    return format(date, 'dddd MMMM Do YYYY HH:mm:ss');
-};
 
 module.exports = {
     parseTime,

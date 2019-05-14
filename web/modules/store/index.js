@@ -6,7 +6,8 @@ class Environment {
 
     constructor() {
         // do socket stuff
-        this.ws = new WebSocket(`ws://${location.hostname}:${config.web.port}`);
+        const protocol = location.protocol.includes('https') ? 'wss' : 'ws';
+        this.ws = new WebSocket(`${protocol}://${location.hostname}:${config.web.port}`);
 
         this.ws.sendObj = (_type, obj = {}) => {
             this.ws.send(stringify({ ...obj, _type }));

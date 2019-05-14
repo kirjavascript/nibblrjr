@@ -10,6 +10,4 @@ const limit = (func, amount = 10) => {
     };
 };
 
-module.exports = {
-    limit
-};
+module.exports = limit;

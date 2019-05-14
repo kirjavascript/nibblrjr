@@ -11,7 +11,7 @@ function createCommand(exe, params, outFilter = (d) => d, errFilter = (d) => d) 
                 resolve(outFilter(out));
             }
             else {
-                reject(errFilter(err));
+                reject(errFilter(err.trim()));
             }
         });
     });
