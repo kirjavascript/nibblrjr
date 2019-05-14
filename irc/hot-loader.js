@@ -4,7 +4,7 @@ const mod = { };
 
 const clearCache = () => {
     Object.keys(require.cache)
-        .filter(d => d.key != __filename)
+        .filter(d => d != __filename && !d.includes('isolated'))
         .forEach(key => void delete require.cache[key]);
 };
 

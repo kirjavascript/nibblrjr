@@ -259,6 +259,8 @@ async function evaluate({
                 parseTime: scripts['parse-time'].parseTime,
             };
 
+            // IRC.test = 1;
+
             global.module = {};
 
             IRC.require = (str) => {
@@ -311,6 +313,8 @@ async function evaluate({
                 });
                 return obj;
             }
+
+            IRC.test = 1;
 
             IRC.log = unwrapFns('log');
             IRC.commandFns = unwrapFns('commandFns');
