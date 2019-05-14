@@ -1,12 +1,5 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
-        // merge: save command db first
-        // config/ignoreEvents
-        // clear acquire cache
-        // ~golf.submit IRC.auth()
-        // ~golf.solution IRC.auth()
-        // ~uptime
-        // ~solve / ~paste_source fetchSync
         // ~ignore IRC.whois()
         //
         // [...'.'.repeat(1e9)]
@@ -18,6 +11,7 @@ reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 
 // TODO //
+/* check remind target */
 fix function + method inspect
 fetchSync type=dom
 node.updateConfig
