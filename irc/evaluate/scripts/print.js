@@ -63,10 +63,9 @@ function messageFactory(type, {
         // log to DB (only in isolate)
         if (!isPM && log && logDB) {
             logDB({
-                nick: IRC.nick,
                 command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
                 target,
-                args: [target || defaultTarget, ...text.slice(0, 400).split(' ')],
+                args: [target, ...text.slice(0, 400).split(' ')],
             });
         }
     };

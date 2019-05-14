@@ -108,7 +108,12 @@ function inspect_(obj, opts, depth, seen) {
 
     if (typeof obj === 'function') {
         var name = nameOf(obj);
-        return color('dc', '[Function' + (name ? ': ' + name : '') + ']');
+        const defn = '[Function' + (name ? ': ' + name : '') + ']';
+        // if (!Object.keys(obj).length) {
+            return color('dc', defn);
+        // } else {
+        //     return `{ ${defn} ${arrObjKeys(obj), inspect).join(', ')} }`;
+        // }
     }
     if (isSymbol(obj)) {
         var symString = Symbol.prototype.toString.call(obj);
