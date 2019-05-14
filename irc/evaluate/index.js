@@ -24,22 +24,6 @@ async function evaluate({
 }) {
 
     try {
-        // merge: save command db first
-        // config/ignoreEvents
-        // clear acquire cache
-        // ~golf.submit IRC.auth()
-        // ~golf.solution IRC.auth()
-        // ~uptime
-        // ~solve / ~paste_source fetchSync
-        // ~ignore IRC.whois()
-        //
-        // [...'.'.repeat(1e9)]
-        // while(1){}; ~> 1
-        // no longer logs commands
-        // >(0,0)
-
-// ^nick$|^poker.reset$|^redirect$|^poker.nuke$|^kick$|^mode$|^topic$|^part$|^join$|^git$|^reboot$|^update$|^poker.setScore$|^poker.remove$|^ignore$|^poker.add$|^golf.test$
-
         const channels = Object.entries(_.cloneDeep(node.client.chans))
             .reduce((acc, [key, value]) => {
                 delete value.users;
@@ -135,8 +119,8 @@ async function evaluate({
             }
             const { key, value, path } = config;
             if (key == 'get') {
-                const data = path.reduce((a, c) => a[c] || {}, node);
-                return new ivm.ExternalCopy(data).copyInto()
+                const target = path.reduce((a, c) => a[c] || {}, node);
+                return new ivm.ExternalCopy(target).copyInto()
             } else if (key == 'set') {
                 const leaf = path.pop();
                 const parent = path.reduce((a, c) => {
@@ -145,18 +129,13 @@ async function evaluate({
                     }
                     return a[c];
                 }, node);
-                parent[leaf] = value;
+                parent[leaf] = value[0];
+            } else if (key == 'call') {
+                const target = path.reduce((a, c) => a[c] || {}, node);
+                if (typeof target == 'function') {
+                    return target(...value);
+                }
             }
-
-                // callback({
-                //     node,
-                //     exit: () => {
-                //         console.error(
-                //             'exit() from ' + IRC.message.from
-                //         );
-                //         process.exit()
-                //     },
-                // });
         }));
 
         jail.setSync('_loadLazy', new ivm.Reference((filename) => {
@@ -344,13 +323,13 @@ async function evaluate({
                 function node(path = []) {
                     return new Proxy({}, {
                         get(target, key) {
-                            if (['get', 'set'].includes(key)) {
-                                return (value) => ref.sudoProxy.applySync(
+                            if (['get', 'set', 'call'].includes(key)) {
+                                return (...args) => ref.sudoProxy.applySync(
                                     undefined,
                                     [new ref.ivm.ExternalCopy({
                                         key,
                                         path,
-                                        value,
+                                        value: args,
                                     }).copyInto()],
                                 );
                             } else {
