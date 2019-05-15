@@ -29,8 +29,26 @@ async function getWeb(type, url, options = {}) {
     return fetchSync(url, options);
 }
 
+// for adding DOM to fetchSync
+
+function wrapDOM(config, fromConfig) {
+    if (config.type == 'dom') {
+        config.type = 'text';
+        const text = fromConfig(config);
+        const dom = new (global.jsdom().JSDOM)(text);
+        delete dom.window.localStorage;
+        delete dom.window.sessionStorage;
+        return dom.window;
+    } else {
+        return fromConfig(config);
+    }
+}
+
 module.exports = {
-    getText,
-    getJSON,
-    getDOM,
+    global: {
+        getText,
+        getJSON,
+        getDOM,
+    },
+    wrapDOM,
 };
