@@ -8,7 +8,7 @@ const { acquire } = require('./acquire');
 const { sudo, auth } = require('./access');
 const { loadScripts, loadLazy }  = require('./load-scripts');
 
-const timeout = 10000;
+const timeout = 30000;
 
 // grab scripts to inject into the isolate
 const scripts = loadScripts();
