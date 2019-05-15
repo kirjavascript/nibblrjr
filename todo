@@ -6,6 +6,7 @@ fetchSync type=dom
 node.updateConfig
 IRC.runCommand
 IRC.secrets
+sleep(1); poker
 /usr/share/dict/words IRC.wordList Array
 nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
 provide a message when downloading from npm
@@ -21,7 +22,6 @@ _.deburr for title parser
 useState/loadObject() alternative
 comandFns.where();
 ~pipe
-IRC.auth
 multiple triggers
 timers
 tinyurl the url (crc32)
