@@ -212,13 +212,16 @@ async function evaluate({
 
             // fetch stuff
 
-            Object.assign(global, scripts.fetch);
+            Object.assign(global, scripts.fetch.global);
 
+            const { wrapDOM } = scripts.fetch;
             global.fetchSync = (str, config) => {
-                return ref.fetchSync.applySyncPromise(undefined, [
-                    str,
-                    new ref.ivm.ExternalCopy(config).copyInto(),
-                ]);
+                return wrapDOM(config, (config) => {
+                    return ref.fetchSync.applySyncPromise(undefined, [
+                        str,
+                        new ref.ivm.ExternalCopy(config).copyInto(),
+                    ]);
+                });
             };
 
             // npm-require
@@ -251,8 +254,6 @@ async function evaluate({
                 parseCommand: scripts['parse-command'].parseCommand,
                 parseTime: scripts['parse-time'].parseTime,
             };
-
-            // IRC.test = 1;
 
             global.module = {};
 
