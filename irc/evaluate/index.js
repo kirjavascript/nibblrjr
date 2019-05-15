@@ -118,7 +118,6 @@ async function evaluate({
                 process.kill(process.pid, 'SIGINT');
             }
             const { key, value, path } = config;
-            console.log(path);
             const leaf = path.pop();
             const parent = path.reduce((a, c) => {
                 if (!a[c]) {
@@ -164,7 +163,7 @@ async function evaluate({
         wrapFns(node.database.logFactory(msgData.target), 'log');
         wrapFns(node.database.storeFactory(command.list[0]), 'store');
         wrapFns(node.parent.database.commands.getCommandFns(node), 'commandFns');
-        wrapFns(node.database.eventFactory(msgData.from), 'eventFns');
+        wrapFns(node.database.eventFactory(msgData), 'eventFns');
 
         await (await isolate.compileScript(`
             global.scripts = {};
