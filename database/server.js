@@ -177,19 +177,22 @@ function createServerDBFactory(database) {
             return deleteQuery.run(idx);
         };
 
-        const eventFactory = (from) => {
+        const eventFactory = (msgData) => {
             const addEvent = (type, { callback, time = new Date(), message = '', target = '' }) => {
                 if (String(message).length > 400) {
                     throw new Error('Store size limit is 400');
                 }
                 if (['speak', 'tick'].includes(type)) {
+                    const fixedTarget = type == 'tick'
+                        ? (msgData.isPM ? msgData.from : msgData.target)
+                        : target;
                     return eventInsertQuery.run(
                         callback,
                         type,
                         time.toISOString(),
                         (new Date()).toISOString(),
-                        from,
-                        target,
+                        msgData.from,
+                        fixedTarget,
                         message,
                     );
                 }
