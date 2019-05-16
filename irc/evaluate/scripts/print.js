@@ -4,7 +4,7 @@ function createNodeSend(node, message) {
     return createSend({
         hasColors: node.get('colors', true),
         canBroadcast: true,
-        lineLimit: node.getLineLimit(message.to),
+        lineLimit: node.getLineLimit(message),
         message,
         colors: require('./colors').getColorFuncs(node.trigger),
         inspect: require('./inspect'),
