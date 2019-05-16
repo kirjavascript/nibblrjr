@@ -35,7 +35,7 @@ async function evaluate({
         const config = {
             hasColors: node.get('colors', true),
             canBroadcast,
-            lineLimit: node.getLineLimit(msgData.to),
+            lineLimit: node.getLineLimit(msgData),
             commandLimit: node.get('command-limit', 5),
             IRC: {
                 trigger: node.trigger,
