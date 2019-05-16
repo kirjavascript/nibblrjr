@@ -35,7 +35,7 @@ function wrapDOM(config, fromConfig) {
     if (config.type == 'dom') {
         config.type = 'text';
         const text = fromConfig(config);
-        const dom = new (global.jsdom().JSDOM)(text);
+        const dom = new (jsdom().JSDOM)(text);
         delete dom.window.localStorage;
         delete dom.window.sessionStorage;
         return dom.window;
