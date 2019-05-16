@@ -31,7 +31,7 @@ async function getWeb(type, url, options = {}) {
 
 // for adding DOM to fetchSync
 
-function wrapDOM(config, fromConfig) {
+function wrapDOM(config = {}, fromConfig) {
     if (config.type == 'dom') {
         config.type = 'text';
         const text = fromConfig(config);
