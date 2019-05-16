@@ -2,10 +2,10 @@ reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
 fix function + method inspect
-fetchSync type=dom
 node.updateConfig
 IRC.runCommand
 IRC.secrets
+secret commands
 sleep(1); poker
 /usr/share/dict/words IRC.wordList Array
 nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
