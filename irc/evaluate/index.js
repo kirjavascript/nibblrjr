@@ -7,6 +7,7 @@ const { ping } = require('./spawn');
 const { acquire } = require('./acquire');
 const { sudo, auth } = require('./access');
 const { loadScripts, loadLazy }  = require('./load-scripts');
+const { version } = require('../../package.json');
 
 const timeout = 30000;
 
@@ -44,6 +45,7 @@ async function evaluate({
                 channels,
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
                 epoch: node.parent.epoch,
+                version,
             },
         };
 
