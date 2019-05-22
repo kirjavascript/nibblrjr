@@ -90,7 +90,7 @@ class ServerNode {
 
         // check tick events that have elapsed
         this.tick = () => {
-            setTimeout(this.tick, 5000);
+            setTimeout(this.tick, 1000);
             if (this.registered) {
                 this.database.eventFns.tickElapsed()
                     .forEach(row => {
@@ -135,6 +135,26 @@ class ServerNode {
             const { print } = mod.createNodeSend(this, msgData);
             const { trigger } = this;
 
+            // check speak events that have elapsed
+
+            if (isPM || !this.getChannelConfig(to).ignoreEvents) {
+                this.database.eventFns.speakElapsed(from)
+                    .forEach(row => {
+                        const cmdData = parent.database.commands.get(row.callback);
+                        if (cmdData) {
+                            const { command, name } = cmdData;
+                            mod.evaluate({
+                                script: command,
+                                msgData,
+                                node: this,
+                                event: row,
+                                command: mod.parseCommand({ text: name })
+                            });
+                        }
+                        this.database.eventFns.delete(row.idx);
+                    });
+            }
+
             // handle commands
 
             if (text.startsWith(trigger)) {
@@ -177,27 +197,8 @@ class ServerNode {
             }
             // parse URLs
             else if (this.get('fetchURL', true)) {
-                mod.fetchURL(text, print);
-            }
-
-            // check speak events that have elapsed
-
-            if (isPM || !this.getChannelConfig(to).ignoreEvents) {
-                this.database.eventFns.speakElapsed(from)
-                    .forEach(row => {
-                        const cmdData = parent.database.commands.get(row.callback);
-                        if (cmdData) {
-                            const { command, name } = cmdData;
-                            mod.evaluate({
-                                script: command,
-                                msgData,
-                                node: this,
-                                event: row,
-                                command: mod.parseCommand({ text: name })
-                            });
-                        }
-                        this.database.eventFns.delete(row.idx);
-                    });
+                const showAll = this.getChannelConfig(msgData.to).fetchURLAll;
+                mod.fetchURL({ text, print, showAll });
             }
         });
 
