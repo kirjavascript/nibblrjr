@@ -5,6 +5,7 @@ fix function + method inspect
 node.updateConfig
 IRC.runCommand
 IRC.secrets
+command autocorrect
 secret commands
 sleep(1); poker
 /usr/share/dict/words IRC.wordList Array

@@ -36,7 +36,6 @@ class ServerNode {
                 || (msgData.isPM ? 50 : 10);
         };
 
-        // TODO: make this a prop getter
         this.trigger = this.get('trigger', '!');
 
         this.client = new Client(this.address, this.nickname, {
