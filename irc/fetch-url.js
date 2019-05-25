@@ -18,7 +18,7 @@ function bytes(input, places = 2) {
     return (`${index > 0 ? val.toFixed(places) : val}${suffix}B`);
 }
 
-function fetchURL(text, print, disableRedirect) {
+function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
     const url = text.match(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
 
     if (url && url[0] && text.indexOf('##') == -1) {
@@ -44,9 +44,9 @@ function fetchURL(text, print, disableRedirect) {
                 const newURL = String(_.get(res, 'headers.location'));
                 if (newURL.startsWith('/')) {
                     const newAbsURL = `${parsed.protocol}//${parsed.host}${newURL}`;
-                    fetchURL(newAbsURL, print, true);
+                    fetchURL({ text: newAbsURL, print, disableRedirect: true, showAll});
                 } else {
-                    fetchURL(newURL, print, true);
+                    fetchURL({ text: newURL, print, disableRedirect: true, showAll });
                 }
             } else if (String(res.statusCode)[0] === '2') {
                 if (+res.headers['content-length'] > 5.243e6) {
@@ -71,7 +71,9 @@ function fetchURL(text, print, disableRedirect) {
                                         && !(new RegExp(word, 'i')).test(url[0])
                                 )).length >= 1;
 
-                            if (title.length < 400 && isFresh && !filterWords.test(title)) {
+                            if (title.length < 400 &&
+                                (showAll || (isFresh && !filterWords.test(title)))
+                            ) {
                                 print.info(title);
                             }
                         }
