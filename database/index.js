@@ -10,7 +10,7 @@ class Database {
 
         // commands //
 
-        this.commands = createCommandDB(this);
+        this.commands = createCommandDB();
 
         // server data //
 
@@ -18,7 +18,11 @@ class Database {
     }
 
     createDB(name, schema) {
-        const filename = __dirname + `/../storage/${name}.db`;
+        const storageDir = __dirname + '/../storage';
+        if (!fs.existsSync(storageDir)){
+            fs.mkdirSync(storageDir);
+        }
+        const filename = `${storageDir}/${name}.db`;
         fs.openSync(filename, 'a');
         const db = new SQLiteDatabase(filename);
         db.exec(schema);

@@ -1,133 +1,99 @@
 const { parseCommand } = require('../irc/evaluate/scripts/parse-command');
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 
-const parseBool = (str) => {
-    return str.toLowerCase() == 'true' ? true : false;
-};
-function createCommandDB(database) {
+function commandPath(name = '') {
+    return path.join(__dirname, '../commands', name);
+}
 
-    const db = database.createDB('commands', `
-        CREATE TABLE IF NOT EXISTS commands (
-            name VARCHAR (100) PRIMARY KEY UNIQUE,
-            command TEXT,
-            locked BOOLEAN DEFAULT false,
-            starred BOOLEAN DEFAULT false
-        );
-    `);
+function commandHash(name) {
+    const hash = crypto.createHmac('sha1', 'nibblr').update(name).digest('hex').slice(0,12);
+    const clean = name.replace(/[^a-zA-Z0-9]/g, '').slice(0,128);
+    return `${clean}-${hash}`;
+}
 
-    // get //
-    const getQuery = db.prepare(`
-        SELECT command, locked, starred FROM commands WHERE name = ?
-    `);
+function getCommand(name) {
+    const filename = commandPath(commandHash(name) + '.json');
+    if (!fs.existsSync(filename)) return;
+    return JSON.parse(fs.readFileSync(filename, 'utf8'));
+}
+
+function setCommand(obj) {
+    const filename = commandPath(commandHash(obj.name) + '.json');
+    fs.writeFileSync(filename, JSON.stringify(obj, null, 4), 'utf8');
+}
+
+function deleteCommand(name) {
+    fs.unlinkSync(commandPath(commandHash(name) + '.json'));
+}
+
+function getAllCommands() {
+    const commands = [];
+    const commandList = fs.readdirSync(commandPath());
+    for (let i = 0; i < commandList.length; i++) {
+        const filename = commandPath(commandList[i]);
+        commands.push(JSON.parse(fs.readFileSync(filename, 'utf8')));
+    }
+    return commands;
+}
+
+function createCommandDB() {
     const get = (name) => {
-        const obj = getQuery.get(name);
-        if (!obj) {
-            return void 0;
-        }
-        else {
-            // get parent data
-            const { list } = parseCommand({ text: name });
-            const parent = getQuery.get(list[0]);
-            const config = parent ? {
-                locked: parseBool(parent.locked),
-                starred: parseBool(parent.starred),
-            } : {
-                locked: parseBool(obj.locked),
-                starred: parseBool(obj.starred),
-            };
-
-            return {
-                name,
-                command: obj.command,
-                ...config,
-            };
-        }
+        const obj = getCommand(name);
+        if (!obj) return;
+        const { root } = parseCommand({ text: name });
+        if (name == root) return obj;
+        const parent = getCommand(root);
+        if (!parent) return obj;
+        return {
+            ...parent,
+            name,
+            command: obj.command,
+        };
     };
 
-    // list //
-    const listQuery = db.prepare(`
-        SELECT name, locked, starred FROM commands
-        ORDER BY name COLLATE NOCASE ASC
-    `);
     const list = () => {
-        const obj = listQuery.all();
-        if (!Array.isArray(obj)) {
-            return [];
-        }
-        else {
-            const names = obj.map(d => d.name);
-            return obj.map(d => {
-                const { list } = parseCommand({ text: d.name });
-                if (list[0] != d.name && names.includes(list[0])) {
-                    // map config to parent config
-                    // assumes alphabetical list
-                    const parent = obj.find(d => d.name == list[0]) || {};
-                    return ({
-                        name: d.name,
-                        locked: parseBool(parent.locked),
-                        starred: parseBool(parent.starred),
-                    });
-                }
-                else {
-                    return ({
-                        name: d.name,
-                        locked: parseBool(d.locked),
-                        starred: parseBool(d.starred),
-                    });
-                }
-            });
-        }
+        // some kind of caching/indexing would improve performance here
+        const cmdList = getAllCommands();
+        return cmdList.map(cmd => {
+            const { root } = parseCommand({ text: cmd.name });
+            if (cmd.name == root) return cmd;
+            // const parent = getCommand(root);
+            const parent = cmdList.find(d => d.name == root);
+            if (!parent) return cmd;
+            const obj = {
+                ...parent,
+                name: cmd.name
+            };
+            delete obj.command;
+            return obj;
+        });
     };
 
-    const setInsertQuery = db.prepare(`
-        INSERT INTO commands(name,command,locked,starred) VALUES (?,?,?,?)
-    `);
-    const setUpdateQuery = db.prepare(`
-        UPDATE commands SET command = ? WHERE name = ?
-    `);
     const set = (name, value) => {
         const safeName = name.replace(/\s+/g, '');
-        if (typeof get(safeName) == 'undefined') {
-            setInsertQuery.run(safeName, value, 'false', 'false');
-        }
-        else {
-            setUpdateQuery.run(value, safeName);
-        }
+        setCommand({
+            name,
+            command: value,
+            locked: false,
+            starred: false,
+        });
     };
 
-    // delete //
-    const deleteQuery = db.prepare(`
-        DELETE FROM commands WHERE name = ?
-    `);
-    const _delete = (name) => {
-        deleteQuery.run(name);
-    };
-
-    // config //
-    const lockQuery = db.prepare(`
-        UPDATE commands SET locked = ? WHERE name = ?
-    `);
-    const starQuery = db.prepare(`
-        UPDATE commands SET starred = ? WHERE name = ?
-    `);
-
-    const setConfig = (name, obj) => {
+    const setConfig = (name, config) => {
         // only operates on the parent (if it exists)
-        const { list } = parseCommand({ text: name });
-        const parent = getQuery.get(list[0]);
-        const rootName = parent ? list[0] : name;
-        if ('locked' in obj) { lockQuery.run(String(obj.locked), rootName); }
-        if ('starred' in obj) { starQuery.run(String(obj.starred), rootName); }
+        const { root } = parseCommand({ text: name });
+        const parent = getCommand(root);
+        const realName = parent ? root : name;
+        const obj = getCommand(realName);
+        setCommand(Object.assign(obj, config));
     };
 
     // public API
 
-    const nameQuery = db.prepare(`
-        SELECT name FROM commands
-        ORDER BY name COLLATE NOCASE ASC
-    `);
-
     const names = () => {
-        return (nameQuery.all()||[]).map(d => d.name);
+        return getAllCommands().map(cmd => cmd.name);
     };
 
     const setSafe = (name, value) => {
@@ -152,9 +118,8 @@ function createCommandDB(database) {
         const obj = get(name);
         if (obj && obj.locked) {
             return false;
-        }
-        else {
-            _delete(name);
+        } else {
+            deleteCommand(name);
             return true;
         }
     };
@@ -168,10 +133,11 @@ function createCommandDB(database) {
     });
 
     return {
-        db, get, delete: _delete, set, list, setConfig, getCommandFns,
+        get, delete: deleteCommand, set, list, setConfig, getCommandFns,
     };
 }
 
 module.exports = {
     createCommandDB,
+    commandHash,
 };
