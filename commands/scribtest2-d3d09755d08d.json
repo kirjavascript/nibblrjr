@@ -1,0 +1,6 @@
+{
+    "name": "scribtest2",
+    "command": "getDOM(\"https://scoresaber.com/u/76561198176625407\")\r\n    .then(dom => {\r\n        print('Scribbler: 🇬🇧 Rank'+dom.qsa('div li a')[1].textContent)\r\n    })\r\n    .catch(print.error)",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "edges",
+    "command": "print(IRC.require('scramble').getEdgeScramble())\n",
+    "locked": true,
+    "starred": false
+}

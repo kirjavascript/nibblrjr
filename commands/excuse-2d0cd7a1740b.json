@@ -1,0 +1,6 @@
+{
+    "name": "excuse",
+    "command": "getDOM(\"http://pages.cs.wisc.edu/~ballard/bofh/bofhserver.pl\")\n    .then(dom => {\n        print(`${dom.qsa('font')[1].textContent}`);\n    })\n    .catch(() => {})",
+    "locked": true,
+    "starred": true
+}

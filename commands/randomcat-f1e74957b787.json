@@ -1,0 +1,6 @@
+{
+    "name": "randomcat",
+    "command": "print.raw(\"http://thecatapi.com/api/images/get?format=src&type=gif\");",
+    "locked": false,
+    "starred": false
+}

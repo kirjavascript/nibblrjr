@@ -1,0 +1,6 @@
+{
+    "name": "poker.show",
+    "command": "try {\n    const cards = JSON.parse(store.get('cards$'+IRC.message.from));\n    print(cards.map(d => d.render).join` `)\n} catch(e) {}",
+    "locked": false,
+    "starred": false
+}

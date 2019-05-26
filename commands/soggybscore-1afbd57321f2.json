@@ -1,0 +1,6 @@
+{
+    "name": "soggyb.score",
+    "command": "function getScore (name) {\r\n  const obj = store.get(name)\r\n  if (typeof obj === 'undefined') {\r\n    store.set(name, '0')\r\n    return 0\r\n  } else {\r\n    return +obj\r\n  }\r\n};\r\nfunction setScore (name, amount) {\r\n  store.set(name, String(Math.max(amount, 0) | 0))\r\n};\r\nfunction addScore (name, amount) {\r\n  setScore(name, getScore(name) + amount)\r\n};\r\n\r\nmodule.exports = {\r\n  getScore, setScore, addScore\r\n}\r\n",
+    "locked": false,
+    "starred": false
+}

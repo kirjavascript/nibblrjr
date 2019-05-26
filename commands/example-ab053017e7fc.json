@@ -1,0 +1,6 @@
+{
+    "name": "example",
+    "command": "getJSON('http://api.urbandictionary.com/v0/define?term=' + encodeURIComponent(input))\n    .then(obj => {\n        print('{bo}' + obj.list[IRC.command.params[0] || 0].example.replace(/[\\[\\]]/g, ''))\n    })\n    .catch(() => {print('{r}no data for '+input)})",
+    "locked": true,
+    "starred": true
+}

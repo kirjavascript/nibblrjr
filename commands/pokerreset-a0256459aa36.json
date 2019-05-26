@@ -1,0 +1,6 @@
+{
+    "name": "poker.reset",
+    "command": "IRC.require('poker.game');\n\nif (!Game.isRunning()) {\n    throw new Error('poker is not running');\n}\nelse {\n    IRC.sudo();\n        Game.reset();\n        print(`poker has been stopped. use {p}${IRC.trigger}poker{/} to start again`);\n}\n",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "fantastic",
+    "command": "print('Fantastic. Great Move. Well done '+IRC.message.from+'.')",
+    "locked": false,
+    "starred": false
+}

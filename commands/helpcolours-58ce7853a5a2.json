@@ -1,0 +1,6 @@
+{
+    "name": "help.colours",
+    "command": "const colours = { \n    r: 'red',\n    dr: 'dark red', \n    w: 'white', \n    bl: 'black', \n    c: 'cyan', \n    dc: 'dark cyan', \n    b: 'blue', \n    db: 'dark blue', \n    g: 'green', \n    dg: 'dark green', \n    p: 'magenta', \n    dp: 'dark magenta', \n    o: 'orange', \n    y: 'yellow', \n    gr: 'grey', \n    dgr: 'dark grey'\n};\nconst cancel = IRC.colors('{/}');\nconst bold = IRC.colors('{bo}');\nconst underline = IRC.colors('{u}');\nconst italic = IRC.colors('{i}');\n\nprint(`{dc}print{/}, {dc}notice{/}, and {dc}action{/} global objects provide colour parsing as a {bo}domain specific language{/} you can test this with ${IRC.colors.cmd('print', 'text')} or use it with ${IRC.colors.cmd('command.text')}`);\nprint.raw(`colours: ${Object.entries(colours).map(([key, value]) => (\n    `{${key}}${IRC.colors(`{${key}}`)}${value}${IRC.colors('{/}')}`)\n).join` `}`);\nprint.raw(`formatting: {bo}${bold}bold${cancel} {u}${underline}underline${cancel} {i}${italic}italic misc: {rb}${IRC.colors('{rb}rainbow')}${cancel} {g,r}${IRC.colors('{g,r}')}background${cancel} {rand}${IRC.colors('{rand}')}random${cancel} {bell}ascii beep {/}cancel effects`);\n",
+    "locked": false,
+    "starred": false
+}

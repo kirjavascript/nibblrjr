@@ -1,0 +1,6 @@
+{
+    "name": "triforce",
+    "command": "print(\"{y}\"+(input==' '?' ':'')+\"▲\\n▲ ▲\")",
+    "locked": true,
+    "starred": false
+}

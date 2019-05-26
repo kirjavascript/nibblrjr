@@ -1,0 +1,6 @@
+{
+    "name": "banter",
+    "command": "print.raw('https://www.youtube.com/watch?v=KBWuDhIv9B0');",
+    "locked": false,
+    "starred": false
+}

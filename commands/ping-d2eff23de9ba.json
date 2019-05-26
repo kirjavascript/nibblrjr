@@ -1,0 +1,6 @@
+{
+    "name": "ping",
+    "command": "IRC.ping(input).then(print).catch(print.error);",
+    "locked": true,
+    "starred": true
+}

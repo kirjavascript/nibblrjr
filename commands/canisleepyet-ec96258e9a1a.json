@@ -1,0 +1,6 @@
+{
+    "name": "canisleepyet",
+    "command": "print(( // legacy command wrapper\n    () => new Date().getHours() < 6 ? '{g}yes' : '{r}no!'\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

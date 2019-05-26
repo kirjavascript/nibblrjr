@@ -1,0 +1,6 @@
+{
+    "name": "navi",
+    "command": "print.raw(\"Hey!\\nListen!\");",
+    "locked": false,
+    "starred": false
+}

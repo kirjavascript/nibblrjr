@@ -1,0 +1,6 @@
+{
+    "name": "bully",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \": I feel offended by your recent action(s). Please read http://stop-irc-bullying.eu/stop\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

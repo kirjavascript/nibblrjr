@@ -1,0 +1,6 @@
+{
+    "name": "λchan",
+    "command": "(async () => {\n    const convert = (await acquire(\"to-querystring\")).default\n    getText(`https://api.lambdachan.org/v1/boards/diy`, {\n        method: \"POST\",\n        body: convert({\n            comment: input\n        }),\n        headers: {\n            \"content-type\": \"multipart/form-data\"\n        }\n    }).then(print.log).catch(print.error)\n    // getJSON(`https://api.lambdachan.org/v1/boards/${input}`)\n    //     .then(c => c.forEach(c => print(c.comment)))\n})()",
+    "locked": false,
+    "starred": false
+}

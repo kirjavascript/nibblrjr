@@ -1,0 +1,6 @@
+{
+    "name": "mode",
+    "command": "IRC.sudo().node.client.send.call('MODE', IRC.message.target, ...input.split` `);",
+    "locked": true,
+    "starred": true
+}

@@ -1,0 +1,6 @@
+{
+    "name": "ay",
+    "command": "print.raw(( // legacy command wrapper\n   x => Array(+(++x)).join(\"(☞ﾟ∀ﾟ)☞\\n☜(ﾟヮﾟ☜)\\n\")\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "gog",
+    "command": "print('https://goodolddownloads.com/');",
+    "locked": false,
+    "starred": false
+}

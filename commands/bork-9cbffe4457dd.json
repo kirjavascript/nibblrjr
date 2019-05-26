@@ -1,0 +1,6 @@
+{
+    "name": "bork",
+    "command": "print.raw( \"Онлайн-бутик BORK - элитная бытовая техника для дома и кухни в бутике Борк\");",
+    "locked": true,
+    "starred": false
+}

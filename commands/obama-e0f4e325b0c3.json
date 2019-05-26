@@ -1,0 +1,6 @@
+{
+    "name": "obama",
+    "command": "print.raw(\"Hello I am Obama, the president of the United States and I agree with Smeagol, sincerely, The Obamanator2000.\");",
+    "locked": false,
+    "starred": false
+}

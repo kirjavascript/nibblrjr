@@ -1,0 +1,6 @@
+{
+    "name": "whattimeisit",
+    "command": "/*__TEXTCMD__*/print(`doink o clock`);",
+    "locked": false,
+    "starred": false
+}

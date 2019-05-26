@@ -1,0 +1,6 @@
+{
+    "name": "doop",
+    "command": "const doops = store.get('doops') || 0;\nif (!doops) {\n    print(`this is the first doop`);\n    store.set('doops', '1');\n}\nelse {\n    print(`${+doops+1} doops have been dooped`);\n    store.set('doops', +doops + 1);\n}\n",
+    "locked": true,
+    "starred": false
+}

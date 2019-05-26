@@ -1,0 +1,6 @@
+{
+    "name": "whitecastle",
+    "command": "/*__TEXTCMD__*/print(`mistake`);",
+    "locked": false,
+    "starred": false
+}

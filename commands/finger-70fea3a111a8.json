@@ -1,0 +1,6 @@
+{
+    "name": "finger",
+    "command": "print(`https://i.imgur.com/3lQ2DLd.jpg`)",
+    "locked": false,
+    "starred": false
+}

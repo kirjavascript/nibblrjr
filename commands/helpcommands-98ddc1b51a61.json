@@ -1,0 +1,6 @@
+{
+    "name": "help.commands",
+    "command": "IRC.require('command');",
+    "locked": false,
+    "starred": false
+}

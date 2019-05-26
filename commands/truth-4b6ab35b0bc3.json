@@ -1,0 +1,6 @@
+{
+    "name": "truth",
+    "command": "print.raw(\"✈ ✈ █ █ ▄\");",
+    "locked": true,
+    "starred": false
+}

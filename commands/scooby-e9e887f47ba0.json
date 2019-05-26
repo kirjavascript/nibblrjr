@@ -1,0 +1,6 @@
+{
+    "name": "scooby",
+    "command": "print.raw(\"https://i.imgur.com/6J4UluJ.png\");",
+    "locked": false,
+    "starred": false
+}

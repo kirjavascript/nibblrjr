@@ -1,0 +1,6 @@
+{
+    "name": "fail",
+    "command": "print.raw(\"https://www.youtube.com/watch?v=zpG1Ywmbioc\");",
+    "locked": false,
+    "starred": false
+}

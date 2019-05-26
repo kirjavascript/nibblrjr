@@ -1,0 +1,6 @@
+{
+    "name": "gloat",
+    "command": "print.raw(( // legacy command wrapper\n   x => {\n    if(x=='') return \"nibblr gloats over everyone\\'s misfortune\";\n    else return \"nibblr gloats over \" + x + \"'s misfortune\" ;\n}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

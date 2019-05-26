@@ -1,0 +1,6 @@
+{
+    "name": "sgdq",
+    "command": "print.raw(' https://gamesdonequick.com/schedule steve is awesome');",
+    "locked": false,
+    "starred": false
+}

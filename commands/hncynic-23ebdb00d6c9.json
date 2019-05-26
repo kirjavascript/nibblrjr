@@ -1,0 +1,6 @@
+{
+    "name": "hncynic",
+    "command": "if (!input.trim()) {\n    print(`usage: {p}${IRC.trigger}hncynic{/} [title]`)\n}\n\nelse {\n    print(`neat`)\n}\n\n//https://hncynic.leod.org/gen?title=",
+    "locked": false,
+    "starred": false
+}

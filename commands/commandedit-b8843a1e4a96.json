@@ -1,0 +1,6 @@
+{
+    "name": "command.edit",
+    "command": "const name = (IRC.command.params[0]||'').replace(/\\s+/g, '');\nconst obj = IRC.commandFns.get(name);\nconst isText = d => /^\\/\\*__TEXTCMD__\\*\\/print\\(`(.*?)`\\);?$/.test(d); \n\nif (!name || !input) {\n    print(`{r}Syntax:{/} {p}${IRC.trigger}command.edit(name){/} script`);\n}\nelse if (obj && obj.locked) {\n    print(`{r}Error:{/} ${name} is locked`);\n}\nelse if (!obj) {\n    throw new Error(`no command named ${name}`);\n}\nelse {\n    if (isText(obj.command)) {\n        input = '/*__TEXTCMD__*/print(`' + input.replace(/`/g, '\\\\`') + '`);';\n    }\n    const status = IRC.commandFns.setSafe(name, input);\n    if (status) {\n        print(`{p}${IRC.trigger}${name}{/} updated`);\n    }\n    else {\n        print(`error editing {p}${IRC.trigger}${name}{/} - parent command may be locked`);\n    }\n}",
+    "locked": false,
+    "starred": false
+}

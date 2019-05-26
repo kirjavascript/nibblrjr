@@ -1,0 +1,6 @@
+{
+    "name": "hackernews",
+    "command": "getDOM(\"http://news.ycombinator.com\")\n    .then(dom => {\n        print(dom.qsa('.storylink').splice(0,IRC.command.params[0] || 3).map(d=> `{o}${d.textContent}{/} - ${d.href}`).join`\\n`)\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": true
+}

@@ -1,0 +1,6 @@
+{
+    "name": "golf.task",
+    "command": "const tasks = IRC.require('golf.tasks');\ninput = input.trim()\n\nif (!tasks[input]) {\n    throw new Error('Please choose a valid task')\n} else {\n    tasks[input].task();\n}",
+    "locked": false,
+    "starred": false
+}

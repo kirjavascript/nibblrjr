@@ -1,0 +1,6 @@
+{
+    "name": "medium",
+    "command": "if(input){\n    print(input+' loves Dick')\n}else{\n    print('The future is hazy')\n}",
+    "locked": false,
+    "starred": false
+}

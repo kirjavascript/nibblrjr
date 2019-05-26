@@ -1,0 +1,6 @@
+{
+    "name": "wow",
+    "command": "print.raw(\"http://i.imgur.com/PXdX78v.gif\");",
+    "locked": false,
+    "starred": false
+}

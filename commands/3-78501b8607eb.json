@@ -1,0 +1,6 @@
+{
+    "name": "3",
+    "command": "const scramble = IRC.require('scramble').getRandomScramble();\n\nprint(`3x3x3 scramble #${IRC.require('module.count').next()}: ${scramble}`)",
+    "locked": true,
+    "starred": false
+}

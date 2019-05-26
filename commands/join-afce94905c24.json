@@ -1,0 +1,6 @@
+{
+    "name": "join",
+    "command": "IRC.sudo().node.client.join.call(input);",
+    "locked": true,
+    "starred": true
+}

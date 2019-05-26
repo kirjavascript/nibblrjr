@@ -1,0 +1,6 @@
+{
+    "name": "command.text",
+    "command": "const name = (IRC.command.params[0]||'').replace(/\\s+/g, '');\nconst obj = IRC.commandFns.get(name);\n\nif (!name || !input) {\n    print(`{r}Syntax:{/} {p}${IRC.trigger}command.text(name){/} hello world`)\n}\nelse if (obj && obj.locked) {\n    print(`{r}Error:{/} ${name} is locked`)\n}\nelse if (obj) {\n    print(`{r}Error:{/} ${name} already exists`)\n}\nelse {\n    const status = IRC.commandFns.setSafe(name, '/*__TEXTCMD__*/print(`' + input.replace(/`/g, '\\\\`') + '`);');\n    if (status) {\n        print(`{p}${IRC.trigger}${name}{/} added`)\n    }\n    else {\n        print(`error adding {p}${IRC.trigger}${name}{/} - parent command may be locked`)\n    }\n}",
+    "locked": false,
+    "starred": false
+}

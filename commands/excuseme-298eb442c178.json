@@ -1,0 +1,6 @@
+{
+    "name": "excuseme",
+    "command": "print.raw(\"http://i.imgur.com/iK7sL6Z.gif\");",
+    "locked": false,
+    "starred": false
+}

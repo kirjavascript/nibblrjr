@@ -1,0 +1,6 @@
+{
+    "name": "poker.info",
+    "command": "IRC.require('poker.game');\nconst { getBuyin } = IRC.require('poker.score');\ntry {\n    (new Game()).load().info();\n} catch(e) {\n    const user = input.trim() || IRC.message.from;\n    const score = store.get(user);\n    if (typeof score !== 'undefined') {\n        print('stack: {y}$' + store.get(user) + `{/} buyins: {y}${getBuyin(user) + 1}{/}`);\n    } else {\n        throw new Error('you haven\\'t bought in yet');\n    }\n}",
+    "locked": false,
+    "starred": false
+}

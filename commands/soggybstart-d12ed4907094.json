@@ -1,0 +1,6 @@
+{
+    "name": "soggyb.start",
+    "command": "IRC.require('soggyb.game')\r\n\r\nconst game = (new Game()).load()\r\ngame.startRound()\r\n",
+    "locked": false,
+    "starred": false
+}

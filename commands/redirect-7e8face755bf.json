@@ -1,0 +1,6 @@
+{
+    "name": "redirect",
+    "command": "const { node } = IRC.sudo();\n    if (!IRC.command.params[0] || !input) {\n        throw new Error('specify a param: ~redirect(#channel) command');\n    }\n    const place = IRC.command.params[0]\n    // overwrites\n    print = (str) => node.client.say.call(place, IRC.colors(str))\n    print.raw = (str) => node.client.say.call(place, str)\n    action = (str) => node.client.action.call(place, IRC.colors(str))\n    action.raw = (str) => node.client.action.call(place, str)\n    notice = (str) => node.client.notice.call(place, IRC.colors(str))\n    notice.raw = (str) => node.client.notice.call(place, str)\n    \n    IRC.command = IRC.parseCommand({ text: input });\n    input = IRC.command.input;\n    IRC.require(IRC.command.path);",
+    "locked": true,
+    "starred": true
+}

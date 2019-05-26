@@ -1,0 +1,6 @@
+{
+    "name": "dejay",
+    "command": "print.raw(\"http://eatmyhat.co.uk/images/dejay.gif\");",
+    "locked": false,
+    "starred": false
+}

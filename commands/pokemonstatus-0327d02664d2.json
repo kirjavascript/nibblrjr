@@ -1,0 +1,6 @@
+{
+    "name": "pokemonstatus",
+    "command": "print.raw(\"http://www.pokemongostat.com/\");",
+    "locked": false,
+    "starred": false
+}

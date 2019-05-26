@@ -1,0 +1,6 @@
+{
+    "name": "mdn",
+    "command": "input = input.trim();\n\ngetDOM(`https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(input)}`)\n.then(dom => {\n    const results = dom.qsa('.result-list-item a');\n    const exact = results.find(result => result.textContent.toLowerCase() === input.toLowerCase());\n    const item = exact || results[0];\n    if (item) {\n        return getDOM(item.href)\n            .then(dom => {\n                print(`{bo}${item.textContent}{/} ${IRC.colors.link(item.href)} \\n${\n                    dom.qs('#wikiArticle').textContent.replace(/\\s+/g, ' ').slice(0,399)\n                }`)\n                \n            })\n    } else {\n        print.error('no results');\n    }\n}).catch(print.error);",
+    "locked": true,
+    "starred": true
+}

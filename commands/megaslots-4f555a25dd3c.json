@@ -1,0 +1,6 @@
+{
+    "name": "megaslots",
+    "command": "print(`see {p}${IRC.trigger}slots.mega{/}`)",
+    "locked": false,
+    "starred": false
+}

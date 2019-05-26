@@ -1,0 +1,6 @@
+{
+    "name": "dailymail",
+    "command": "//getDOM('http://www.dailymail.co.uk')\n//    .then(dom => {\n//        print(dom.qs('h2 > a').textContent)\n//    })\n//    .catch(print.error)\nthrow new Error('blocked by microsoft {b}edge');",
+    "locked": true,
+    "starred": false
+}

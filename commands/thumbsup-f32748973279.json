@@ -1,0 +1,6 @@
+{
+    "name": "thumbsup",
+    "command": "print.raw(\"http://i.imgur.com/vUJBo79.gifv\");",
+    "locked": false,
+    "starred": false
+}

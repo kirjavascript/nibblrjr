@@ -1,0 +1,6 @@
+{
+    "name": "drunk",
+    "command": "print.raw(( // legacy command wrapper\n     x => x + \" is nearly as sloshed as Kirjava, who's inevitably already sprawled out across his keyboard in an absolutely dyslexic shambles of a sorry state\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

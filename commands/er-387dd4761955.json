@@ -1,0 +1,6 @@
+{
+    "name": "er",
+    "command": "print('ヘ（°□。）ヘ\\n ヘ（。□°）ヘ \\n'.repeat(input || IRC.command.params[0] || 1))",
+    "locked": false,
+    "starred": false
+}

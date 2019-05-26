@@ -1,0 +1,6 @@
+{
+    "name": "emoji.search",
+    "command": "acquire('node-emoji').then((emoji) => print(emoji.search(input).map(d => `${d.emoji}{dgr} ${d.key}`).join`,{/} `)).catch(print.error);",
+    "locked": false,
+    "starred": false
+}

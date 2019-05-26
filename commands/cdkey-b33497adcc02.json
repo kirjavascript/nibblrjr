@@ -1,0 +1,6 @@
+{
+    "name": "cdkey",
+    "command": "print.raw(( // legacy command wrapper\n   (a,b) => \"http://www.allkeyshop.com/catalogue/search.php?q=\"+b.join('+')\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

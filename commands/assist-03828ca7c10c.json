@@ -1,0 +1,6 @@
+{
+    "name": "assist",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" is sounding a little bit rusty; starting to creak with every slow, aching movement and getting more crooked by the day. The rest of the family is growing concerned. It's time we came up with a more long-term solution, otherwise the council will come and take you away and you'll be little more than scrap bones on a pile of asbestos salvage\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "mst3k",
+    "command": "getDOM('http://club-mst3k.com/')\n    .then(dom => {\n        const motd = dom.qsa('#todays-featured-episode').map(d => d.textContent);\n        \n        //const motd2 = dom.qsa('#todays-featured-episode').map(d => d.textContent);\n        \n        //const motd3 = dom.qsa('#todays-featured-episode');\n        //var movieTitle = dom.qsa('a')[0].innerText;\n        //var movieTitle2 = dom.qsa('a');\n        \n        //var movieTitle3 = motd3.qsa('a');\n\n        print(motd.join``.trim());\n        //print('yes');\n        //print(motd3);\n    })\n    .catch(print.error)\n\n    //You can specify the element to search within via:\n\n//qsa('p', document.querySelector('div'));\n",
+    "locked": false,
+    "starred": false
+}

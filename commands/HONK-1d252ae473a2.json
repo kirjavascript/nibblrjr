@@ -1,0 +1,6 @@
+{
+    "name": "HONK",
+    "command": "print(\"*\u000f \u000324Monqui\u000f honks\");",
+    "locked": false,
+    "starred": false
+}

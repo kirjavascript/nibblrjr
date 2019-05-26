@@ -1,0 +1,6 @@
+{
+    "name": "flip",
+    "command": "let thingToFlip = '┻━┻';\nif (input) thingToFlip = IRC.require('fliptext')(input);\nprint('(╯°□°）╯︵ {o}' + thingToFlip);",
+    "locked": true,
+    "starred": true
+}

@@ -1,0 +1,6 @@
+{
+    "name": "reboot",
+    "command": "IRC.sudo().exit();",
+    "locked": true,
+    "starred": true
+}

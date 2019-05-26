@@ -1,0 +1,6 @@
+{
+    "name": "dongs",
+    "command": "print.raw(( // legacy command wrapper\n    x => x + \" is physically as well as emotionally abused with a sinkful of various phallic sculptured ornaments and prosthetics until he's shitting blood and vomiting profanities and sweeping racist generalisations\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

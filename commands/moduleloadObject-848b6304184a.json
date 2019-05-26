@@ -1,0 +1,6 @@
+{
+    "name": "module.loadObject",
+    "command": "module.exports = (name = '__data__', _default = {}) => {\n    const save = (data) => {\n        store.set(name, JSON.stringify(data));\n    };\n    const data = store.get(name);\n    if (typeof data == 'undefined') {\n        return [_default, save];\n    }\n    return [JSON.parse(data), save];\n};",
+    "locked": false,
+    "starred": false
+}

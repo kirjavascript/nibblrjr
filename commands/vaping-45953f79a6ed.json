@@ -1,0 +1,6 @@
+{
+    "name": "vaping",
+    "command": "print.raw(\"no vaping allowed\");",
+    "locked": false,
+    "starred": false
+}

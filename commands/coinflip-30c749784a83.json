@@ -1,0 +1,6 @@
+{
+    "name": "coinflip",
+    "command": "print(0|Math.random()*2?'{o}heads':'{o}tails');",
+    "locked": true,
+    "starred": true
+}

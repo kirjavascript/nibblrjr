@@ -1,0 +1,6 @@
+{
+    "name": "analog",
+    "command": " const wget = (url, callback) => {\n    getText(url).then(d => print(callback(null, d))).catch(print.error);\n};\n\n(( // legacy command wrapper\n   ()=>wget(\"http://wepump.in/ascii/analog.txt\",(a,b)=>b)\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "flicker",
+    "command": "print(`!flicker`)",
+    "locked": false,
+    "starred": false
+}

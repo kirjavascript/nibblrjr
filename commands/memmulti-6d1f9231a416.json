@@ -1,0 +1,6 @@
+{
+    "name": "memó.multi",
+    "command": "if (!IRC.command.params.length || !input.trim()) {\n    throw new SyntaxError(`{p}${IRC.trigger}memó.multi(name1,name2,name3){/} [message]`)\n}\nelse {\n    const now = new Date();\n    const users = _.uniq(IRC.command.params.map(d => d.trim()));\n    \n    users\n    .forEach(name => {\n        IRC.eventFns.addEvent('speak', {\n            callback: 'memo.event',\n            time: now,\n            message: `Jablinski Gaming`,\n            target: name,\n        });\n    });\n    \n    const namesRender = users.map(d => `${IRC.colors.hash(d)}${d}{/}`).join`, `;\n    \n    print(`Saved message for ${namesRender}`)\n}",
+    "locked": false,
+    "starred": false
+}

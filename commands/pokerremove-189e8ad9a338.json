@@ -1,0 +1,6 @@
+{
+    "name": "poker.remove",
+    "command": "IRC.sudo();\nIRC.require('poker.game');\nconst game = (new Game()).load();\nconst person = input.trim();\ngame.players = game.players.filter(d => d.name != person);\nprint(`{g}${person}{/} has been removed`);\ngame.save();",
+    "locked": false,
+    "starred": false
+}

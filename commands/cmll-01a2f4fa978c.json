@@ -1,0 +1,6 @@
+{
+    "name": "cmll",
+    "command": "print(IRC.require('scramble').getCMLLScramble().trim() + ['', ' M', ' M\\'', ' M2'][0|Math.random()*4])",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "thug",
+    "command": "print.raw(\"http://i.imgur.com/uMDVTpK.png\");",
+    "locked": false,
+    "starred": false
+}

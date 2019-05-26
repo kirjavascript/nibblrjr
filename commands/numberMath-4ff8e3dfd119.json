@@ -1,0 +1,6 @@
+{
+    "name": "numberMath",
+    "command": " const wget = (url, callback) => {\n    getText(url).then(d => print(callback(null, d))).catch(print.error);\n};\n\nprint.raw(( // legacy command wrapper\n   x => wget(\"http://numbersapi.com/\"+x+\"/math\",(a,b)=>b)\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "dab",
+    "command": "print(\"/me dabs\");",
+    "locked": false,
+    "starred": false
+}

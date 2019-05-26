@@ -1,0 +1,6 @@
+{
+    "name": "bullshit",
+    "command": "print.raw(\"http://www.reactiongifs.us/wp-content/uploads/2013/06/bullshit.gif\");",
+    "locked": false,
+    "starred": false
+}

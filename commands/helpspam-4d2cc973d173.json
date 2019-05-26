@@ -1,0 +1,6 @@
+{
+    "name": "help.spam",
+    "command": "print(`you can play with the bot in PM or other channels to reduce spam, and using {p}${IRC.trigger}reset{/} will cancel all pending messages and timers`)",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "porn",
+    "command": "print.raw(\"http://www.pornhub.com/view_video.php?viewkey=1063081437\");",
+    "locked": false,
+    "starred": false
+}

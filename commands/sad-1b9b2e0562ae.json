@@ -1,0 +1,6 @@
+{
+    "name": "sad",
+    "command": "print.raw(\"https://pbs.twimg.com/media/CPnDE5xWoAAAPmJ.png\");",
+    "locked": false,
+    "starred": false
+}

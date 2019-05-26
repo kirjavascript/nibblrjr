@@ -1,0 +1,6 @@
+{
+    "name": "oll",
+    "command": "print(IRC.require('scramble').getOLLScramble())",
+    "locked": true,
+    "starred": false
+}

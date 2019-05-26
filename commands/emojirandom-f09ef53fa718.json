@@ -1,0 +1,6 @@
+{
+    "name": "emoji.random",
+    "command": "acquire('node-emoji').then((emoji) => {\n    const r=emoji.random();\n    print(`${r.emoji}  {dgr}${r.key}`);\n}).catch(print.error);",
+    "locked": false,
+    "starred": false
+}

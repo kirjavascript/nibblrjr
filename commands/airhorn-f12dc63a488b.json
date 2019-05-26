@@ -1,0 +1,6 @@
+{
+    "name": "airhorn",
+    "command": "print(\"http://www.instantrapairhorn.com/\");",
+    "locked": false,
+    "starred": false
+}

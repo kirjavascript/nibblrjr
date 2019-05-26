@@ -1,0 +1,6 @@
+{
+    "name": "corners",
+    "command": "print(IRC.require('scramble').getCornerScramble())",
+    "locked": true,
+    "starred": false
+}

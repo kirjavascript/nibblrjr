@@ -1,0 +1,6 @@
+{
+    "name": "sloots.stats",
+    "command": "const scores = _.sortBy(store.all()\n    .filter(d => !/\\$/.test(d.key) && d.value!= 'Infinity'), (d) => +d.value)\n    .reverse();\n    \nconst showAll = input == 'all';\n    \nprint(`{u}Leaderboard{/}`);\nconst colours = ['{y}','{gr}','{o}'];\nscores.slice(0, showAll ? Infinity : 5).forEach(({key, value}, i)=> {\n    const pad = 18 - key.length;\n    print(`${i+1}. ${colours[i]||''}${key}{/}{bo}${'.'.repeat(pad>0?pad:0)}{/}{y}\\$${Intl.NumberFormat().format(+value)}`)\n})\nconst qty = IRC.log.count(`${IRC.trigger}sloots`)+IRC.log.count(`${IRC.trigger}megasloots`);\nprint(`sloots has been played {dc}${Intl.NumberFormat().format(qty)}{/} times`)",
+    "locked": false,
+    "starred": false
+}

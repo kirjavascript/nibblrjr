@@ -1,0 +1,6 @@
+{
+    "name": "poker.add",
+    "command": "IRC.sudo();\nIRC.require('poker.game');\nIRC.require('poker.deck');\nconst game = (new Game()).load();\nconst person = input.trim();\nconst deck = (new Deck()).load();\ngame.addPlayer(person);\ngame.players[game.players.length-1].cards = deck.drawMany(2);\nprint(`{g}${person}{/} has been added`);\nnotice(game.players[game.players.length-1].cards.map(d => d.render).join` `, { target: person });\nstore.set('cards$' + person, JSON.stringify(game.players[game.players.length-1].cards));\ngame.save();",
+    "locked": false,
+    "starred": false
+}

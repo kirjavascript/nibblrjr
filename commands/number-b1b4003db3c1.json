@@ -1,0 +1,6 @@
+{
+    "name": "number",
+    "command": " const wget = (url, callback) => {\n    getText(url).then(d => print(callback(null, d))).catch(print.error);\n};\n\nprint.raw(( // legacy command wrapper\n   x => {\n    if(x==\"wang\") return \"that's numberwang!\";\n    else return wget(\"http://numbersapi.com/\"+x,(a,b)=>b)\n}\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

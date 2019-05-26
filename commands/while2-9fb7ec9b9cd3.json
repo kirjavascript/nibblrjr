@@ -1,0 +1,6 @@
+{
+    "name": "while2",
+    "command": "let i = 1;\r\n\r\nwhile(1) {\r\n  i *= (i+1)**2;\r\n\r\n  print(i);\r\n}",
+    "locked": false,
+    "starred": false
+}

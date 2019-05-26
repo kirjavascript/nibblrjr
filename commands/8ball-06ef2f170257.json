@@ -1,0 +1,6 @@
+{
+    "name": "8ball?",
+    "command": "print((\n   function(a){return '{y,bl}'+ [ 'I WANT A FLYING PONY', 'I HAVE EVIDENCE', 'WHAT DO YOU MEAN?', 'DON\\'T FORGET TO WEAR YOUR HELMET ', 'BOY DO YOU SUCK', 'YOU\\'RE SO CUTE', 'UH... WHAT?', 'AGAIN: NO', 'CHEERS!', 'WRONG. IDIOT.' ][(Math.random()*10)|0]}\n)(input));",
+    "locked": true,
+    "starred": false
+}

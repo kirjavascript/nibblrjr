@@ -1,0 +1,6 @@
+{
+    "name": "banks.all",
+    "command": "print(store.all().map(d=>`${d.key}: ${d.value}`).join`\\n`);",
+    "locked": false,
+    "starred": false
+}

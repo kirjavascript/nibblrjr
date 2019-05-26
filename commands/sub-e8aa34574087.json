@@ -1,0 +1,6 @@
+{
+    "name": "sub",
+    "command": "print.raw(( // legacy command wrapper\n   (_,b) => b.reduce((a,b) => parseFloat(a) - parseFloat(b), IRC.command.params[0] || 0)\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

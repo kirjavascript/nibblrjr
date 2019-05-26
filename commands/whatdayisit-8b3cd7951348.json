@@ -1,0 +1,6 @@
+{
+    "name": "whatdayisit",
+    "command": "print(['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][(new Date()).getDay()]);",
+    "locked": false,
+    "starred": false
+}

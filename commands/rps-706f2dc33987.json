@@ -1,0 +1,6 @@
+{
+    "name": "rps",
+    "command": "if (['rock', 'paper', 'scissors'].includes(input)) {\n    if (input == 'rock') print('paper covers rock {o} you lose')\n    else if (input == 'paper') print('scissors cut paper {o} you lose')\n    else if (input == 'scissors') print('rock blunts scissors {o} you lose')\n}\nelse {\n    print('please choose rock paper or scissors')\n}",
+    "locked": true,
+    "starred": false
+}

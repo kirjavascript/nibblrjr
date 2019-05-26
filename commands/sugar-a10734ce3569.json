@@ -1,0 +1,6 @@
+{
+    "name": "sugar",
+    "command": "/*__TEXTCMD__*/print(`https://i.imgur.com/sQr0hxf.png`);",
+    "locked": false,
+    "starred": false
+}

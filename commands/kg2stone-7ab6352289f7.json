@@ -1,0 +1,6 @@
+{
+    "name": "kg2stone",
+    "command": "st=(+input)/6.35; print(`${st|0}st ${((st-(st|0))*14)|0}lb`)",
+    "locked": false,
+    "starred": false
+}

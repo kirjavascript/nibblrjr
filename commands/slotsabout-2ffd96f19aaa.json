@@ -1,0 +1,6 @@
+{
+    "name": "slots.about",
+    "command": "print('{y}SLOTSv2{/} - subcommands are ' + ['mega', 'hyper', 'stats'].map(d => `{p}${IRC.trigger}slots.${d}{/}`).join` `)",
+    "locked": false,
+    "starred": false
+}

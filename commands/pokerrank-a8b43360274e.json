@@ -1,0 +1,6 @@
+{
+    "name": "poker.rank",
+    "command": "print(`high card - 1 pair - 2 kind - 3 kind - straight - flush - boat - quads - straight flush - royal flush`)",
+    "locked": false,
+    "starred": false
+}

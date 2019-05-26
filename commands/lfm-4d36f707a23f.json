@@ -1,0 +1,6 @@
+{
+    "name": "lfm",
+    "command": " const wget = (url, callback) => {\n    getText(url).then(d => print(callback(null, d))).catch(print.error);\n};\n\n(( // legacy command wrapper\n   /* \nAPI key \ta5db9686e8a52248af25d9d4d8965527\n\n*/\n\n(x,y,z) =>{\n    if(!x) {\n        x = z.from;\n    }\n        \n        return wget(\"http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=\"+x+\"&api_key=a5db9686e8a52248af25d9d4d8965527&format=json\", (a,b) => {\n            \n            let np, data = JSON.parse(b);\n            \n            let trak = data.recenttracks.track[0];\n            \n            if (trak['@attr']) {\n                np = trak['@attr'].nowplaying;\n            }\n            else {\n                np = false;\n            }\n            \n            \n            return `${x} ${np?'is now playing':'last played'} ${trak.name} by ${trak.artist['#text']} -- ${trak.url}`;\n        })\n    \n}\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

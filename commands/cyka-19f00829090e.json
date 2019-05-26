@@ -1,0 +1,6 @@
+{
+    "name": "cyka",
+    "command": "/*__TEXTCMD__*/print(`Blyat!  Cyka blyat idi nahui!`);",
+    "locked": false,
+    "starred": false
+}

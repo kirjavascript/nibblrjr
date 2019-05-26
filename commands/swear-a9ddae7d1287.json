@@ -1,0 +1,6 @@
+{
+    "name": "swear",
+    "command": "print(( // legacy command wrapper\n    IEATPOO => [\"cunt\",\"fuck\",\"bitch\",\"motherfucker\",\"fuckface\",\"dick\",\"twat\",\"bum licker\",\"asshole\",\"dickhead\",\"douche\",\"seat sniffer\"][(Math.random()*11)|0] + \" {y}☆{/}ﾟ.{y}*{/}･｡ﾟ\"\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

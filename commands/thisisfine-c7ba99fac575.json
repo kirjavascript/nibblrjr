@@ -1,0 +1,6 @@
+{
+    "name": "thisisfine",
+    "command": "print.raw('http://i.imgur.com/Xy4ZdkX.gifv');",
+    "locked": false,
+    "starred": false
+}

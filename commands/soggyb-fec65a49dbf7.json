@@ -1,0 +1,6 @@
+{
+    "name": "soggyb",
+    "command": "IRC.require('soggyb.game')\r\nif (Game.isRunning()) {\r\n  const game = (new Game()).load()\r\n  if (game.status == 'joining') {\r\n    IRC.require('soggyb.join')\r\n  }\r\n} else {\r\n  const game = (new Game()).new()\r\n  IRC.require('soggyb.join')\r\n}\r\n",
+    "locked": false,
+    "starred": false
+}

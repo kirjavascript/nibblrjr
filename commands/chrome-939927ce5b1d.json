@@ -1,0 +1,6 @@
+{
+    "name": "chrome",
+    "command": "print(`{dc}{u}http://i.imgur.com/rsv1Edz.png`)",
+    "locked": false,
+    "starred": false
+}

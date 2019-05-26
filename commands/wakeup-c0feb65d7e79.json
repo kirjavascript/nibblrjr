@@ -1,0 +1,6 @@
+{
+    "name": "wakeup",
+    "command": "print.raw(\"https://i.imgur.com/KJ1YgPz.webm\");",
+    "locked": false,
+    "starred": false
+}

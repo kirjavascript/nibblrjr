@@ -1,0 +1,6 @@
+{
+    "name": "boats",
+    "command": "print('{dc}{u}https://upload.wikimedia.org/wikipedia/commons/7/75/Supertanker_AbQaiq.jpg')",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "backwards",
+    "command": "print.raw(( // legacy command wrapper\n   $=>[...$].reverse().join('')\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

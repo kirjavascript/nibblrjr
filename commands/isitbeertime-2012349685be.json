@@ -1,0 +1,6 @@
+{
+    "name": "isitbeertime",
+    "command": "print.raw(\"yes, always.\");",
+    "locked": false,
+    "starred": false
+}

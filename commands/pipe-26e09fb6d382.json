@@ -1,0 +1,6 @@
+{
+    "name": "pipe",
+    "command": "const text = [];\nconst realPrint = print;\n\ninput.split('|').forEach((command, index) => {\n    print = (str) => {\n    text.push(str);\n    realPrint('pushed' + str);\n};\n    IRC.command = IRC.parseCommand({ text: command });\n    input = index == 0 ? IRC.command.input : text.join``;\n    //realPrint.log(input);\n    IRC.command.input = input;\n    IRC.require(IRC.command.path);\n});\n    realPrint.log(text);",
+    "locked": false,
+    "starred": false
+}

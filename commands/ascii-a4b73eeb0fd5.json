@@ -1,0 +1,6 @@
+{
+    "name": "ascii",
+    "command": "getDOM(\"http://www.asciiartfarts.com/random.cgi\")\n    .then(dom => {\n        print(dom.qs('p pre').textContent)\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": true
+}

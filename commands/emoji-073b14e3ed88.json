@@ -1,0 +1,6 @@
+{
+    "name": "emoji",
+    "command": "acquire('node-emoji').then((emoji) => print(emoji.emojify(input))).catch(print.error);",
+    "locked": true,
+    "starred": true
+}

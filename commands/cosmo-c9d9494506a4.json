@@ -1,0 +1,6 @@
+{
+    "name": "cosmo",
+    "command": "print.raw(\"http://i.imgur.com/7lKBK8A.jpg\");",
+    "locked": false,
+    "starred": false
+}

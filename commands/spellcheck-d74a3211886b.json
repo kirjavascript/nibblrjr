@@ -1,0 +1,6 @@
+{
+    "name": "spellcheck",
+    "command": "const responses = ['maybe you meant', 'no it is', 'perhaps','have you considered','try this one instead','how about', 'no idiot, it\\'s probably', 'r u dum, it\\'s'];\ngetText(`http://dict.ickler.cloud:4242/word/${input}`)\n    .then(obj => {\n        if (obj[0] === \"[\" && obj[1] == \"]\"){\n            print('{r}no data for '+input.split` `.shift())\n        }\n        else if (obj.split(\"\\\"\")[1] !== input) {\n            print(`{o}${responses[0|Math.random()*responses.length]}: {/}${obj.split(\"\\\"\")[1]}`);\n        }\n        else {\n            print('{g}seems ok !');\n        }\n    })\n    .catch(d => {\n        print('{r}no data for '+input.split` `.shift())\n    })",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "darksouls.stats",
+    "command": "print('Leaderboard:\\n1. kingchris\\n2. Scribbler\\n3. Banks\\n7. cr0sis\\nLast. Monqui');",
+    "locked": false,
+    "starred": false
+}

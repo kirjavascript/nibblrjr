@@ -1,0 +1,6 @@
+{
+    "name": "remoteEval",
+    "command": "getText(input).then(eval).catch(print.error)",
+    "locked": false,
+    "starred": false
+}

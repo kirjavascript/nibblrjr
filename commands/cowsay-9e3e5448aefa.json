@@ -1,0 +1,6 @@
+{
+    "name": "cowsay",
+    "command": "(async () => {\n    try {\n    const cow=await acquire('cowsay-browser');\n    print.log(cow.say({text: input}));\n    } catch(e) {\n        print.error(e);\n    }\n})",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "ufetch",
+    "command": "print(`{c}        /\\\\        thom{/}@{c}sparkz\n{c}       /^^\\\\       OS:{/}{bo}        Arch Linux\n{c}      /\\\\   \\\\      KERNEL:{/}{bo}    Linux 4.14.60-1-MANJARO\n{dc}    /  (  )  \\\\    PACKAGES:{/}{bo}  1048\n{dc}   / __|  |__\\\\\\\\   SHELL:{/}{bo}     zsh\n{dc}  ///        \\\\\\\\\\\\  DE:{/}{bo}        i3`)\n",
+    "locked": false,
+    "starred": false
+}

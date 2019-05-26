@@ -1,0 +1,6 @@
+{
+    "name": "rocketleague",
+    "command": "print(( // legacy command wrapper\n   function rocketleague(a){var responses = [\"Centering...\",\"I got it!\",\"Defending...\",\"Take the shot!\",\"Nice shot!\",\"Great pass!\",\"Thanks!\",\"What a save!\",\"OMG!\",\"Noooo!\",\"Wow!\",\"Close one!\",\"$#@%!\",\"No problem.\",\"Sorry!\",\"Whoops...\"];\nreturn '{r}' + responses[Math.random()*responses.length|0]}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

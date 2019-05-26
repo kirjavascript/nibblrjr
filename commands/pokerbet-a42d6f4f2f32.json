@@ -1,0 +1,6 @@
+{
+    "name": "poker.bet",
+    "command": "IRC.require('poker.game');\n(new Game()).load().bet();",
+    "locked": false,
+    "starred": false
+}

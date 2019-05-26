@@ -1,0 +1,6 @@
+{
+    "name": "roulette",
+    "command": "print(( // legacy command wrapper\n    ()=>Math.random()*6>=5?'{r}BANG':'{c}click'\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

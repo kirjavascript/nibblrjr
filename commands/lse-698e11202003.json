@@ -1,0 +1,6 @@
+{
+    "name": "lse",
+    "command": "const scramble = IRC.require('scramble').getLSEScramble().trim() + ['', ' M2'][0|Math.random()*2];\n\nprint(`LSE scramble #${IRC.require('module.count').next()}: ${scramble}`)",
+    "locked": true,
+    "starred": false
+}

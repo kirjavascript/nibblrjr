@@ -1,0 +1,6 @@
+{
+    "name": "brainfuck",
+    "command": "acquire('brainfuck-node').then( Brainfuck => {\n\n    let bf = new Brainfuck()\n    let result = bf.execute( input, '')\n    \n    print( result.output)\n})\n\n",
+    "locked": false,
+    "starred": false
+}

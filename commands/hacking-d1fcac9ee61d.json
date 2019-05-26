@@ -1,0 +1,6 @@
+{
+    "name": "hacking",
+    "command": "print.raw('http://i.imgur.com/iVHfwLc.gifv');",
+    "locked": false,
+    "starred": false
+}

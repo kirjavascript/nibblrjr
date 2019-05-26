@@ -1,0 +1,6 @@
+{
+    "name": "magic8ball",
+    "command": "print('https://i.imgur.com/pDxkMVi.jpg')",
+    "locked": false,
+    "starred": false
+}

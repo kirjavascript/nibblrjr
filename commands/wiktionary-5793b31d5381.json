@@ -1,0 +1,6 @@
+{
+    "name": "wiktionary",
+    "command": "getDOM(`https://en.m.wiktionary.org/wiki/` + input)\n.then(dom => {       \n    dom.qsa('ol > li').splice(0, IRC.command.params[0] || 3).forEach(d => {\n        const extra = d.querySelector('ul');\n        extra && extra.remove();\n        print(d.textContent)\n    })    \n})\n.catch(print.error);",
+    "locked": true,
+    "starred": true
+}

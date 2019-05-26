@@ -1,0 +1,6 @@
+{
+    "name": ":cat:",
+    "command": "print(\"🐱\");",
+    "locked": false,
+    "starred": false
+}

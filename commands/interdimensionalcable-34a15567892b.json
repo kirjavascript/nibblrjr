@@ -1,0 +1,6 @@
+{
+    "name": "interdimensionalcable",
+    "command": "print.raw(\"http://inter-dimensionalcable.xyz/\");",
+    "locked": false,
+    "starred": false
+}

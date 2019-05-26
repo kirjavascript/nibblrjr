@@ -1,0 +1,6 @@
+{
+    "name": "race",
+    "command": "print.raw(( // legacy command wrapper\n     x => x + \" challenges everyone to a race and loses. What a calamity\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

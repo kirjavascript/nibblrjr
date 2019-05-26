@@ -1,0 +1,6 @@
+{
+    "name": "joke",
+    "command": "getJSON('https://www.reddit.com/r/Jokes/random/.json')\n    .then(d => {\n        const post = d[0].data.children[0].data;\n        print(`{rand}${post.title} ${post.selftext}`)\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": false
+}

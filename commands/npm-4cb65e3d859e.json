@@ -1,0 +1,6 @@
+{
+    "name": "npm",
+    "command": "print('npm {r}ERR!{/} This is probably a problem with npm. It is likely that npm is bad.')",
+    "locked": false,
+    "starred": false
+}

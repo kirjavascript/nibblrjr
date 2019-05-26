@@ -1,0 +1,6 @@
+{
+    "name": "stab",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" begins stabbing wildly with his unsheathed instrument. Stabbing it in babies' eyes, stabbing it in a bowlful of rice - 'wang fried rice' - before serving it to customers, waving it around threateningly at bus drivers in lieu of a Daysaver. It's a tried and true measure of learning about something, like jabbing it into a wasps' nest and documenting the results\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

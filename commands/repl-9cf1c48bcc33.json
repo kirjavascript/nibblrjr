@@ -1,0 +1,6 @@
+{
+    "name": "repl",
+    "command": "IRC.require('eval')",
+    "locked": true,
+    "starred": false
+}

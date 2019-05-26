@@ -1,0 +1,6 @@
+{
+    "name": "2gll",
+    "command": "print(IRC.require('scramble').get2GLLScramble())",
+    "locked": true,
+    "starred": false
+}

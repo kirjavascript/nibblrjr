@@ -1,0 +1,6 @@
+{
+    "name": "poker.voteban",
+    "command": "IRC.require('poker.game');\nconst game = (new Game()).load();\nconst person = input.trim();\nif (!game.players.some(d => d.name == IRC.message.from)) {\n    throw new Error(`you are not playing`);\n}\nif (!game.players.some(d => d.name == person)) {\n    throw new Error(`${person} is not playing`);\n}\nif (game.status == 'joining') {\n    throw new Error('the game hasn\\'t started');\n}\nif (game.players.length < 3) {\n    throw new Error('only two people playing');\n}\nif (game.voteban[person]) {\n    if (game.voteban[person].peopleVoted.includes(IRC.message.from)) {\n        throw new Error('you have already voted');\n    }\n    game.voteban[person].peopleVoted.push(IRC.message.from);\n    game.voteban[person].value += 1;\n} else {\n    game.voteban[person] = {value: 1, peopleVoted: [IRC.message.from]};\n}\n\nconst consensus = game.players.length - 1;\nif (game.voteban[person].value < consensus) {\n    print(`{g}${IRC.message.from}{/} voted to ban {g}${person}{/} ${game.voteban[person].value} / ${game.players.length - 1}`)\n} else {\n    game.players = game.players.filter(d => d.name != person);\n    print(`{g}${person}{/} has been removed`);\n}\n\ngame.checkEven();",
+    "locked": false,
+    "starred": false
+}

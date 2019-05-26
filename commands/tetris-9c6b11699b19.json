@@ -1,0 +1,6 @@
+{
+    "name": "tetris",
+    "command": "const blocks = [\n    `\\\n{bl,o}            {/}\n{bl,o}            {/}\n{bl,o}    {/}\n{bl,o}    {/}\n    `.trimRight(),\n    `\\\n{bl,b}    {/}\n{bl,b}    {/}\n{bl,b}            {/}\n{bl,b}            {/}\n    `.trimRight(),\n    `\\\n{bl,r}        {/}\n{bl,r}        {/}\n    {bl,r}        {/}\n    {bl,r}        {/}\n    `.trimRight(),\n    `\\\n    {bl,g}        {/}\n    {bl,g}        {/}\n{bl,g}        {/}\n{bl,g}        {/}\n    `.trimRight(),\n    `\\\n{bl,c}                {/}\n{bl,c}                {/}\n    `.trimRight(),\n    `\\\n{bl,y}        {/}\n{bl,y}        {/}\n{bl,y}        {/}\n{bl,y}        {/}\n    `.trimRight(),\n    `\\\n    {bl,p}    {/}\n    {bl,p}    {/}\n{bl,p}            {/}\n{bl,p}            {/}\n    `.trimRight(),\n];\n\nprint(_.shuffle(blocks)[0]);",
+    "locked": true,
+    "starred": true
+}

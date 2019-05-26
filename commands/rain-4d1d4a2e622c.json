@@ -1,0 +1,6 @@
+{
+    "name": "rain",
+    "command": "print.raw(( // legacy command wrapper\n    x => \"The rain in Spain falls mainly on the plane; the remaining rain flows tamely down the drain\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "shrug",
+    "command": "print.raw(( // legacy command wrapper\n     x => [\"¯\\\\_(ツ)_/¯\",\"ヽ(シ)ノ\",\"ヽ(ツ)ﾉ\"][(Math.random()*3)|0]\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

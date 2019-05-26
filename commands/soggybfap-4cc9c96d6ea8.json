@@ -1,0 +1,6 @@
+{
+    "name": "soggyb.fap",
+    "command": "IRC.require('soggyb.game');\r\n(new Game()).load().fap()",
+    "locked": false,
+    "starred": false
+}

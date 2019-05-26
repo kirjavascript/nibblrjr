@@ -1,0 +1,6 @@
+{
+    "name": "pints2ml",
+    "command": "print.raw(( // legacy command wrapper\n   x => `${(x*568).toLocaleString()}ml`\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

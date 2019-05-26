@@ -1,0 +1,6 @@
+{
+    "name": "loc",
+    "command": "print(\"Lines of Code\")",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "banks.remove",
+    "command": "print.log(store.set(input, void 0))",
+    "locked": false,
+    "starred": false
+}

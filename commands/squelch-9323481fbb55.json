@@ -1,0 +1,6 @@
+{
+    "name": "squelch",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" thinks he's so fucking important, with his big clompy-clompy boots so thick-sodden from top to bottom with sogg, muck & absolute filth from stomping around in the stables all day like a self-entitled scumbag that even the Samaritans won't speak to him. It's fair to say someone's getting a bit too big for their sandals and can just fuck off like a shitboat with no paddles.\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "command",
+    "command": "const names = IRC.commandFns.names();\nconst path = 'command.';\nconst commands = names.filter(d => d.startsWith(path)).map(d => d.replace(path,''));\nprint(`there are currently {o}${names.length}{/} commands - a full list is available at {u}{b}${IRC.webAddress}{/}`)\nprint(`use {p}${IRC.trigger}command.new{/} to add a script based command and {p}${IRC.trigger}command.text{/} to just add some text\nall subcommands: ` + commands.map(d=>`{u}${d}{/}`).join` `)",
+    "locked": true,
+    "starred": true
+}

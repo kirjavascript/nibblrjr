@@ -1,0 +1,6 @@
+{
+    "name": "bananana",
+    "command": "print.raw(( // legacy command wrapper\n   () => `!speak banana\\n`.repeat(20)\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

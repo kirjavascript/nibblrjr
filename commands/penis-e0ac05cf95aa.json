@@ -1,0 +1,6 @@
+{
+    "name": "penis",
+    "command": "const wget = (url, callback) => {\n    getText(url).then(print);\n};\n\nwget(\"http://wepump.in/ascii/yellowdick.txt\",(a,b)=>b)",
+    "locked": false,
+    "starred": false
+}

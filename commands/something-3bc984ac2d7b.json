@@ -1,0 +1,6 @@
+{
+    "name": "something",
+    "command": "print(\"http://i.imgur.com/DGzSZ8h.png\");",
+    "locked": false,
+    "starred": false
+}

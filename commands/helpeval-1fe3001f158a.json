@@ -1,0 +1,6 @@
+{
+    "name": "help.eval",
+    "command": "print(`to run code in a JS interpreter, use {p}${IRC.trigger}>{/} to print the returned value and {p}${IRC.trigger}#{/} or {p}${IRC.trigger}%{/} to run a command in an async IIFE\navailable global objects are: {dc}${Object.keys(this).join` `}`)",
+    "locked": false,
+    "starred": false
+}

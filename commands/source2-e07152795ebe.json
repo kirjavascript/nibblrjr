@@ -1,0 +1,6 @@
+{
+    "name": "source2",
+    "command": "const name = (IRC.command.params[0]||'').replace(/\\s+/g, ''); print(`${name}`);",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "consider",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" gets considered for the next worst thing since bread sliced too thin it crumbles decisively into a state of mere semi-partial quantum existence, leaving gargantuan holes of deterioration the size of the wax-asteroids he constantly picks out his ear with the wrong end of a sharpened door-handle.\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

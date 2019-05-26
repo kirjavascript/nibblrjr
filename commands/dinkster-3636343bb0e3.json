@@ -1,0 +1,6 @@
+{
+    "name": "dinkster",
+    "command": "print.raw(\"Somebody ring the Dinkster?!\");",
+    "locked": false,
+    "starred": false
+}

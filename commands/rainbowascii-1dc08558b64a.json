@@ -1,0 +1,6 @@
+{
+    "name": "rainbowascii",
+    "command": "getDOM(\"http://www.asciiartfarts.com/random.cgi\")\n    .then(dom => {\n        print('{rb}' + dom.qs('p pre').textContent)\n    })\n    .catch(print.error)",
+    "locked": false,
+    "starred": false
+}

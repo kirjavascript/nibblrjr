@@ -1,0 +1,6 @@
+{
+    "name": "botquispeak",
+    "command": "print.raw(( // legacy command wrapper\n   function(a,b,c){return \"!speak \"+c.from}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "rоll7",
+    "command": "const roll = () => 1;\r\nconst dice = Array.from({length: 7}, roll);\r\nconst total = dice.reduce((a, c) => a + c, 0);\r\nconst { from } = IRC.message;\r\nIRC.require('module.count').next();\r\nconst best = store.get(from) || Infinity;\r\n\r\nconst diceRender = '{bl,gr} ' + dice.map(d => d == 1 ? '{bo}{p,gr}1{/}{bl,gr}' : d).join`-` + ' {/}';\r\n\r\nprint(`${diceRender} {dc}${from}{/} got a new score of {y}your mum gay{/}!`);",
+    "locked": true,
+    "starred": false
+}

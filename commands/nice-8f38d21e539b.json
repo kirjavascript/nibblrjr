@@ -1,0 +1,6 @@
+{
+    "name": "nice",
+    "command": "print.raw('https://i.imgur.com/G1P2lot.gifv');",
+    "locked": false,
+    "starred": false
+}

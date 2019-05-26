@@ -1,0 +1,6 @@
+{
+    "name": "boop.unboop",
+    "command": "throw 'unbooping is disabled';\n\nconst boops = store.get('boops') || 0;\nif (!boops) {\n    print(`this is the first boop`);\n    store.set('boops', '1');\n}\nelse {\n    print('a boop has been unbooped');\n    print(`${+boops-1} boops have been booped`);\n    store.set('boops', +boops - 1);\n}\n",
+    "locked": false,
+    "starred": false
+}

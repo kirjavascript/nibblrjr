@@ -1,0 +1,6 @@
+{
+    "name": "colortest",
+    "command": "/* this is \u000304red\u000f */",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "pokemon2",
+    "command": "print.raw(\"\u00032<\u000f\u000320Kirjava\u00032>\u000f POKE MON ALL OF THEM HAVE TO BE CATCHED !!\");",
+    "locked": false,
+    "starred": false
+}

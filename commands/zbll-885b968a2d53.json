@@ -1,0 +1,6 @@
+{
+    "name": "zbll",
+    "command": "print(IRC.require('scramble').getZBLLScramble())",
+    "locked": true,
+    "starred": false
+}

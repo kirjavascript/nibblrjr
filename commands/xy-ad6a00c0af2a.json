@@ -1,0 +1,6 @@
+{
+    "name": "xy",
+    "command": "/*__TEXTCMD__*/print(`The XY problem: You want to do X, but don't know how. You think you can solve it using Y, but don't know how to do that either. You ask about Y, which is a strange thing to want to do. Just ask about X. See also: http://xyproblem.info/`);",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "vote.score",
+    "command": "const [obj, setObj] = IRC.require('module.loadObject')('data');\n\n_.sortBy(Object.entries(obj), ([k, v]) => v.length)\n.reverse()\n.splice(0, 5).forEach(([k, v]) => {\n    print(`{y}${v.length}{/} - ${IRC.colors.nick(k)}`);\n})",
+    "locked": false,
+    "starred": false
+}

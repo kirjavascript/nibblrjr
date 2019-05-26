@@ -1,0 +1,6 @@
+{
+    "name": "memo.self",
+    "command": "if (!IRC.command.params[0] || !input.trim()) {\n    print(`{r}Syntax:{/} {p}${IRC.trigger}memo.self(time){/} [message] `)\n}\nelse {\n    const now = new Date();\n    const [time] = IRC.command.params;\n    const timestamp = time ? IRC.parseTime(time) : now;\n    const distance = dateFns.distanceInWordsStrict(timestamp, now);\n    if (dateFns.isBefore(timestamp, now)) {\n        throw new Error(`epoch fail - requested time is ${distance} ago`);\n    }\n    IRC.eventFns.addEvent('speak', {\n        callback: 'memo.event',\n        time: timestamp,\n        message: input,\n        target: IRC.message.from,\n    });\n    print(`Message will display after {o}${distance}{/} on {dc}${dateFns.format(timestamp, 'dddd MMMM Do YYYY HH:mm:ss')}{/}`)\n}",
+    "locked": false,
+    "starred": false
+}

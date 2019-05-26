@@ -1,0 +1,6 @@
+{
+    "name": "comps.when",
+    "command": "var url = \"\";\ngetDOM(\"https://worldcubeassociation.org/competitions\")\n    .then(dom =>\n        {\n            const compLink = dom.qsa('.competition-link');\n            for (let i = 0; i < compLink.length; i++) {\n                if (compLink[i].children[1].textContent.replace(/\\s+/g, ' ').replace(/\\-/g, ' ').toLowerCase().includes(input.toLowerCase().replace(/\\-/g, ' '))) {\n                    url+=(`https://worldcubeassociation.org${compLink[i].children[1].href}`);\n                }\n            }\n            if (url == \"\") {\n                print(`There are no competitions announced yet with the given name`)\n            } else {\n                getDOM(url)\n                    .then(dom =>\n                        {\n                            for (let i = 0; i < 3; i++) {\n                                print(dom.qs(`div.col-md-6 dl.dl-horizontal`).children[i*2+1].textContent);\n                            }\n                        }).catch(print.error)   \n            }\n        }\n    )",
+    "locked": false,
+    "starred": false
+}

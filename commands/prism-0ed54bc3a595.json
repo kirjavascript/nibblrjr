@@ -1,0 +1,6 @@
+{
+    "name": "prism",
+    "command": "const message = input.trim() || 'Usage: ~prism [message]';\nconst colors = [...'roygcbp'];\n\nprint.raw(`${\n    IRC.colors('{bo}') +\n    [...message].map((char, charIndex) => {\n        const colorCode = colors[charIndex % colors.length];\n        return [\n            IRC.colors('{'+colorCode+'}'),\n            char,\n            IRC.colors('{/}')\n        ].join('');\n    }).join('') +\n    IRC.colors('{/}')\n}`);",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "triangle",
+    "command": "const size = IRC.command.params[0] || 7;\nprint('!print ~print '.repeat(size) + (input || 'hi'));",
+    "locked": true,
+    "starred": false
+}

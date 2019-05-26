@@ -1,0 +1,6 @@
+{
+    "name": "roll",
+    "command": "const roll = () => (0|Math.random()*(IRC.command.params[0] || 6))+1;\nconst dice = Array.from({length: input || 1}, roll);\nconst total = dice.reduce((a, c) => a + c, 0);\nconst { from } = IRC.message;\nconst best = store.get(from) || Infinity;\n\nconst diceRender = '{bl,gr} ' + dice.map(d => d == 1 ? '{bo}{p,gr}1{/}{bl,gr}' : d).join`-` + ' {/}';\nprint(`${diceRender} ({o}${total}{/})`);",
+    "locked": true,
+    "starred": false
+}

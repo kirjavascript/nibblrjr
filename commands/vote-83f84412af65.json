@@ -1,0 +1,6 @@
+{
+    "name": "vote",
+    "command": "if (!input) {\n    throw new Error(`usage: ${IRC.colors.cmd('vote', 'thing')}`);\n}\n\nconst [obj, setObj] = IRC.require('module.loadObject')('data');\n\nconst { host } = IRC.message.message;\ninput = input.trim().toLowerCase();\n\nif (input in obj) {\n    obj[input].push(host);\n    print(`${IRC.colors.nick(IRC.message.from, true)} voted for {y}${input}{/} which has {dc}${obj[input].length}{/} votes`);\n} else {\n    obj[input] = [host];\n    print(`${IRC.colors.nick(IRC.message.from, true)} voted for {y}${input}{/}`);\n}\n\nsetObj(obj);",
+    "locked": true,
+    "starred": true
+}

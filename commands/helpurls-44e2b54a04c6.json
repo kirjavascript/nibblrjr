@@ -1,0 +1,6 @@
+{
+    "name": "help.urls",
+    "command": "print(`page titles will be scraped from addresses sent to the channel - add {b}##{/} to your message to disable this`);",
+    "locked": false,
+    "starred": false
+}

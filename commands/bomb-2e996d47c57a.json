@@ -1,0 +1,6 @@
+{
+    "name": "bomb",
+    "command": "print(`        ,--{y}.{r}!{y},\n     {/}__/   {/}{r}-{y}*{r}-\n   {/},d08b.  {/}{y}'{r}|{y}\\`\n   {/}0088MM     \n   \\`9MMP'`)",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "poker.nuke",
+    "command": "IRC.sudo();\n    // store.all().forEach(({key}) => store.set(key, undefined))\n    if (input){ \n        store.set(input, undefined);\n        print(`removed score for ${input}`)\n    }",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "bleep",
+    "command": "print(\"{bell}{rb}¸¸.•*¨*•.¸¸.•*¨*•.¸¸.•*¨*•.¸¸.•*¨*•.¸¸.•*¨*•.¸¸.•*¨*•.\");",
+    "locked": false,
+    "starred": false
+}

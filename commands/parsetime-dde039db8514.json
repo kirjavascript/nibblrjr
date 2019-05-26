@@ -1,0 +1,6 @@
+{
+    "name": "parsetime",
+    "command": "const diff = dateFns.distanceInWords(IRC.parseTime(input), new Date());\nconst abs = dateFns.format(IRC.parseTime(input), 'dddd MMMM Do YYYY HH:mm:ss');\nprint(`${diff} ({dc}${abs}{/})`)",
+    "locked": false,
+    "starred": false
+}

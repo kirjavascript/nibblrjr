@@ -1,0 +1,6 @@
+{
+    "name": "fetch",
+    "command": "print('http://i.imgur.com/dwxfNYj.gifv');",
+    "locked": false,
+    "starred": false
+}

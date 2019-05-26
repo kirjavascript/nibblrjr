@@ -1,0 +1,6 @@
+{
+    "name": "checkenergy",
+    "command": "if(input){\n    print(input+' is giving off s m a l l d i c k e n e r g y')\n}",
+    "locked": false,
+    "starred": false
+}

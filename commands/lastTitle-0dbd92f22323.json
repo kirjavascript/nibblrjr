@@ -1,0 +1,6 @@
+{
+    "name": "lastTitle",
+    "command": "const data = IRC.log.regex('(\\\\b(https?):\\\\/\\\\/[-A-Za-z0-9+&@#\\\\/%?=~_|!:,.;]*[-A-Za-z0-9+&@#\\\\/%=~_|])', 1, 0);\n\nif (data.length) {\n    const text = data[0].message;\n    const url = text.match(/(\\b(https?):\\/\\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/ig);\n    if (url && url[0]) {\n        getText(url[0])\n            .then((text) => {\n                const title = /<title[^>]*>([\\S\\s]+?)<\\/title>/ig.exec(text);\n\n                if (title && title[1]) {\n                    const cleanTitle = title[1].replace(/\\s+/g, ' ').trim();\n\n                        const str = `\\u000312>>\\u000f ${cleanTitle}`;\n\n                        if (str.length < 400) {\n                            print(str);\n                        } else {\n                            print(`${str.slice(0, 397)} ...`);\n                        }\n                    }\n            })\n            .catch(print.error);\n    }\n}\n",
+    "locked": true,
+    "starred": false
+}

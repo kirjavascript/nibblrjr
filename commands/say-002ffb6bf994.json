@@ -1,0 +1,6 @@
+{
+    "name": "say",
+    "command": "if (!input) {\n    print('{r}~say <input>')\n}\nelse {\n    getDOM(\"http://textart.io/figlet?text=\"+encodeURIComponent(input)+\"&font=basic\")\n        .then(dom => {\n            print('{rb}' + dom.qs('pre').textContent.replace(/\\s*$/g,''))\n        })\n        .catch(print.error)\n}",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "Cosmo",
+    "command": "print.raw(( // legacy command wrapper\n   (command, tokens, client) => client.from + ' said ' + command\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

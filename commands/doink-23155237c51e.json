@@ -1,0 +1,6 @@
+{
+    "name": "doink",
+    "command": "if (IRC.event) {\n    const { type, message, user, target, init, timestamp } = IRC.event;\n    print(`${target}: doink`);\n    IRC.eventFns.addEvent('speak', {\n        callback: 'doink',\n        time: new Date(),\n        message: target,\n        target,\n    });\n}\nelse if (input) {\n    const now = new Date();\n    IRC.eventFns.addEvent('speak', {\n        callback: 'doink',\n        time: new Date(),\n        message: input,\n        target: input,\n    });\n    print(`doink`);\n}",
+    "locked": false,
+    "starred": false
+}

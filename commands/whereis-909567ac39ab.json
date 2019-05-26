@@ -1,0 +1,6 @@
+{
+    "name": "whereis",
+    "command": "var url = \"\";\ngetDOM(\"https://worldcubeassociation.org/competitions\")\n    .then(dom =>\n        {\n            const compLink = dom.qsa('.competition-link');\n            for (let i = 0; i < compLink.length; i++) {\n                if (compLink[i].children[1].textContent.replace(/\\s+/g, ' ').replace(/\\-/g, ' ').toLowerCase().includes(input.toLowerCase().replace(/\\-/g, ' '))) {\n                    url+=(`https://worldcubeassociation.org${compLink[i].children[1].href}`);\n                }\n            }\n            getDOM(url)\n                .then(\n                    dom => {\n                        //const address = dom.qs('.text-muted');\n                        const address = $('#text-muted').text();\n                        print(`${address}`);\n                    }\n                ).catch(print.error)\n        }\n    )",
+    "locked": false,
+    "starred": false
+}

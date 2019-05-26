@@ -1,0 +1,6 @@
+{
+    "name": "osu",
+    "command": "print(fetchSync('http://jowsie.uk.to/osu.php?user='+ (input || IRC.message.from),{type: 'dom'}).document.querySelector('osu').textContent);",
+    "locked": false,
+    "starred": false
+}

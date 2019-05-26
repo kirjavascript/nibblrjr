@@ -1,0 +1,6 @@
+{
+    "name": "unifont",
+    "command": "print.raw(\"\u00032<\u00038\u0002botqui\u0002\u00032>\u000f Shreddy: wow unifont is the decloration of independence\");",
+    "locked": false,
+    "starred": false
+}

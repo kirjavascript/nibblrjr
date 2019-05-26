@@ -1,0 +1,6 @@
+{
+    "name": "true?",
+    "command": "print(['yes','no'][new Date%2])",
+    "locked": false,
+    "starred": false
+}

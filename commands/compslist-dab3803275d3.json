@@ -1,0 +1,6 @@
+{
+    "name": "comps.list",
+    "command": "if (input == \"UK\") {\n    input = \"United Kingdom\";\n}\n\nif (input == \"Africa\" ||\n    input == \"Asia\" ||\n    input == \"Europe\" ||\n    input == \"Oceania\") {\n    input = \"_\"+input;    \n}\n\nif (input == \"North America\" ||\n    input == \"South America\") {\n    input.replace(/\\s /g, '+');\n    input = \"_\"+input\n}\n\ngetDOM(`https://www.worldcubeassociation.org/competitions?region=${encodeURIComponent(input)}`)\n    .then(dom => \n        {\n            const items = dom.qsa('.competition-link'); \n            var padding = \"\";\n            for (let i = 0; i < items.length/2; i++)  {\n                if (i * 2 + 1 == items.length) {\n                    print(`${items[i*2].textContent.replace(/\\s+/g, ' ')}`)   \n                } else {\n                    for (let n = 0; n < 35 - items[i * 2].textContent.replace(/\\s+/g, ' ').length; n++) {\n                        padding += ' ';\n                    }\n                    print(`${items[i*2].textContent.replace(/\\s+/g,' ')}${padding}|| ${items[(i*2)+1].textContent.replace(/\\s+/g, ' ')}`)\n                    padding = \"\";\n                }\n            }\n        }\n    ).catch(print.error)",
+    "locked": false,
+    "starred": false
+}

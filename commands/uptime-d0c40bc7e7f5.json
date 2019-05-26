@@ -1,0 +1,6 @@
+{
+    "name": "uptime",
+    "command": "print(dateFns.distanceInWordsStrict(IRC.epoch, new Date()));",
+    "locked": true,
+    "starred": true
+}

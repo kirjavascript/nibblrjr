@@ -1,0 +1,6 @@
+{
+    "name": "eyebrowse",
+    "command": "print(( // legacy command wrapper\n   function eyebrowse(a){var responses = [\"17:22  * erbers fist bumps vanillazai in the bulbous centrifuge of his nose\",\"17:14  * eyebrowse summons a demon of hope to ignite the forsaken souls with a hellish flame of mild reassurance and eternal faith through perseverance before crumbling into a wretched pile of scourge and ash from whence he shall never return to slay a single additional drop of self-doubt\",\"17:22  * eyebrowse has what you shall not: inherent comedic value and a pair of mis-matched suede shoes that squelch with eac step as a deliberate design trait\"];\nreturn '{r}' + responses[Math.random()*responses.length|0]}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

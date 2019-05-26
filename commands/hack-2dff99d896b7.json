@@ -1,0 +1,6 @@
+{
+    "name": "hack",
+    "command": "print.raw(\"https://i1.someimage.com/uJPIbsg.png\");",
+    "locked": false,
+    "starred": false
+}

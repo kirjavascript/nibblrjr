@@ -1,0 +1,6 @@
+{
+    "name": "speak",
+    "command": "print(_.shuffle(IRC.log.random(1+(new Date%2)).map(d => d.message).join` `.split` `).join` `)",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "ck",
+    "command": "print.raw(( // legacy command wrapper\n   x => +x+ +273.15\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

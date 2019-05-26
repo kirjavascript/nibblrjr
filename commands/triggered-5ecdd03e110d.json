@@ -1,0 +1,6 @@
+{
+    "name": "triggered",
+    "command": "print.raw(\"https://i.imgur.com/wnIaRyJ.webm\");",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "e3",
+    "command": "print(`http://www.e3countdown.com`)",
+    "locked": false,
+    "starred": false
+}

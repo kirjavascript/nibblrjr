@@ -1,0 +1,6 @@
+{
+    "name": "lse-mu",
+    "command": "const scramble = [...'.'.repeat(IRC.command.params[0] || 20)].map((_,i) => i&1?'M':'U'+[\"'\",'','2'][0|Math.random()*3]).join` `;\n\nprint(`LSE-MU scramble #${IRC.require('module.count').next()}: ${scramble}`)",
+    "locked": true,
+    "starred": false
+}

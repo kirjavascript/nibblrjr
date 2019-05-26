@@ -1,0 +1,6 @@
+{
+    "name": "lsll",
+    "command": "print(IRC.require('scramble').getLSLLScramble())",
+    "locked": true,
+    "starred": false
+}

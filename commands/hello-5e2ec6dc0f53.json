@@ -1,0 +1,6 @@
+{
+    "name": "hello",
+    "command": "/*__TEXTCMD__*/print(`hello world`);",
+    "locked": false,
+    "starred": false
+}

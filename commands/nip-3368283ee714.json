@@ -1,0 +1,6 @@
+{
+    "name": "nip",
+    "command": "print.raw(( // legacy command wrapper\n   x => {if(x=='rip') return 'ヽ( ͡ ° ͜ ʖ ͡ °)⊃━☆\u000f\u000308ﾟ\u000f\u000312.\u000f\u000313 \u000f\u000309*\u000f\u000304 \u000f\u000308･\u000f\u000304 \u000f\u000312｡\u000f\u000312ﾟ\u000f\u000f NiP tRaGiC';else return 'ヽ( ͡ ° ͜ ʖ ͡ °)⊃━☆\u000f\u000308ﾟ\u000f\u000312.\u000f\u000313 \u000f\u000309*\u000f\u000304 \u000f\u000308･\u000f\u000304 \u000f\u000312｡\u000f\u000312ﾟ\u000f\u000f NiP mAgIc';}\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

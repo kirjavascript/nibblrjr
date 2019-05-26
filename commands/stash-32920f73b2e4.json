@@ -1,0 +1,6 @@
+{
+    "name": "stash",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" holds up a long & girthsome cigarette, firmly pressing it intimately under his nose until it brushes against the thick tantalizing broom of unkempt fibres germinating fiercely into a rugged carpet across his upper lip\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

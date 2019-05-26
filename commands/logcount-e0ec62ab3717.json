@@ -1,0 +1,6 @@
+{
+    "name": "log.count",
+    "command": "input = IRC.command.params[0] == 'colors' ? IRC.colors(input) : input\nconst count = IRC.log.count(input);\nprint(`{o}${count}{/} ${input ? `instance${count==1?'':'s'} of {bo}${input}`:''}`, { log: false });",
+    "locked": false,
+    "starred": false
+}

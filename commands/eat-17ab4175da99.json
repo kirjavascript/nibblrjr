@@ -1,0 +1,6 @@
+{
+    "name": "eat",
+    "command": "print(`{p}*om nom nom*`)",
+    "locked": false,
+    "starred": false
+}

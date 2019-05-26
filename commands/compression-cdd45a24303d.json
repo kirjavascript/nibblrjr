@@ -1,0 +1,6 @@
+{
+    "name": "compression",
+    "command": "print.raw(\"http://i.imgur.com/3y11yUC.png\");",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "knockknock",
+    "command": "print.raw(( // legacy command wrapper\n   function knockknock(a){var responses = [\"Knock knock \\nWho's there? \\nHow many dentists does it take James Bond to screw in a light-bulb if yo' momma walks into a bar and says 'Doctor Doctor! Why did the chicken cross the road?' with a cheeky wink & a racist smirk and the Englishman, the Scottishman & the Irishman all replied by telling this 'Knock Knock' joke. \\nIt's a really clever joke that one. Only the top 4% cleverest people will be able to get it. Tag 5 friends who would get this joke.\"];\nreturn responses[Math.random()*responses.length|0]}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}
