@@ -1,8 +1,8 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
-timeout for fetchSync
 fix function + method inspect
+module.pastebin
 node.updateConfig
 IRC.runCommand
 command autocorrect
