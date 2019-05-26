@@ -258,13 +258,13 @@ async function evaluate({
                 parseTime: scripts['parse-time'].parseTime,
             };
 
-            global.module = {};
+            global.module = { required: false };
 
             IRC.require = (str) => {
                 const obj = IRC.commandFns.get(str);
                 if (obj) {
                     const module = new Function(`
-                        const module = {};
+                        const module = { required: true };
                         ${obj.command}
                         return module;
                     `)();
