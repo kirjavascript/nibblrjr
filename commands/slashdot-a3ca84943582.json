@@ -1,0 +1,6 @@
+{
+    "name": "slashdot",
+    "command": "getDOM(\"http://www.slashdot.org/\")\n    .then(dom => {\n        print(dom.qsa('article h2 > .story-title > a')\n            .map(d => '{g}' + d.textContent.replace(/\\n/g, ' ') + '{/} - http:' + d.href)\n            .splice(0, IRC.command.params[0] || 3)\n            .join`\\n`)\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": true
+}

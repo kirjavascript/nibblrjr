@@ -1,0 +1,6 @@
+{
+    "name": "gayday",
+    "command": "print(`gayday m8!`)",
+    "locked": false,
+    "starred": false
+}

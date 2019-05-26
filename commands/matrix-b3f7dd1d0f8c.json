@@ -1,0 +1,6 @@
+{
+    "name": "matrix",
+    "command": "print(Array.from({length:IRC.command.params[1] || 5},a=>_.shuffle([...\"    0123456789ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ\"]).slice(0, IRC.command.params[0] || 240).map(d => ['{g}','{dg}'][0|Math.random()*2] + d + '{/}').join``).join`\\n`);",
+    "locked": true,
+    "starred": false
+}

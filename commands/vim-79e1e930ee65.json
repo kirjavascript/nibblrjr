@@ -1,0 +1,6 @@
+{
+    "name": "vim",
+    "command": "/*__TEXTCMD__*/print(`:smile`);",
+    "locked": false,
+    "starred": false
+}

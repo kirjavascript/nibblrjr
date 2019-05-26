@@ -1,0 +1,6 @@
+{
+    "name": "belike",
+    "command": "print.raw(( // legacy command wrapper\n   (a,b) => \"http://belikebill.azurewebsites.net/billgen-API.php?default=1&name=\"+b.join('+')\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

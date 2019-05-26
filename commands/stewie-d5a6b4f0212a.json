@@ -1,0 +1,6 @@
+{
+    "name": "stewie",
+    "command": "getDOM('http://www.smacie.com/randomizer/family_guy/stewie_griffin.html')\n.then(dom => {\n    print(dom.qs('big').textContent);\n})\n.catch(print.error);\n",
+    "locked": true,
+    "starred": false
+}

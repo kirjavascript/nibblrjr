@@ -1,0 +1,6 @@
+{
+    "name": "d",
+    "command": "print.raw(( // legacy command wrapper\n   x=>[...x].map(d=>d+d).join('')\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

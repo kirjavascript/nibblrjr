@@ -1,0 +1,6 @@
+{
+    "name": "gdq",
+    "command": "getText('http://taskinoz.com/gdq/api/')\n    .then(print)\n    .catch(print.error)",
+    "locked": true,
+    "starred": false
+}

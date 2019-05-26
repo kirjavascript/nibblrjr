@@ -1,0 +1,6 @@
+{
+    "name": "lb2st",
+    "command": "s=(+input)/14; p=(s-(s|0))*14; print(`${s|0}st ${p|0}lb`)",
+    "locked": false,
+    "starred": false
+}

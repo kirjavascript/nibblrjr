@@ -1,0 +1,6 @@
+{
+    "name": "err",
+    "command": "print(` ヘ（°□。）ヘ  ${input} ヘ（。□°）ヘ`);",
+    "locked": true,
+    "starred": false
+}

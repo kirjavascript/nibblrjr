@@ -1,0 +1,6 @@
+{
+    "name": "slap",
+    "command": "print.raw(( // legacy command wrapper\n   (x,y,z) => `${z.from} slaps ${y[0]} around a bit with a large trout`\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

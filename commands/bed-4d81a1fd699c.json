@@ -1,0 +1,6 @@
+{
+    "name": "bed",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" ought to stop being so lippy. Perhaps consider calling it a night and going to bed instead of endlessly flapping your gums and spit-spraying nonsense like you aren't actually fully aware of how much you're drilling everyone's head in you skirty Boris Johnson-looking, batty-begging bum-crust of a Migraine Merkleton, cos no-one's coming up to tuck you in or kiss you goodnight. Such a jobsworth...\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

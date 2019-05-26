@@ -1,0 +1,6 @@
+{
+    "name": "diskprices",
+    "command": "print(`https://diskprices.com/?locale=uk`)",
+    "locked": false,
+    "starred": false
+}

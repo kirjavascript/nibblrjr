@@ -1,0 +1,6 @@
+{
+    "name": "wca",
+    "command": "// https://github.com/thewca/worldcubeassociation.org/blob/master/WcaOnRails/config/routes.rb#L158\ngetJSON('https://www.worldcubeassociation.org/api/v0/search/users?persons_table=true&q=' + encodeURIComponent(input))\n    .then(obj => {\n        if (obj.result.length <= 3) {\n            print(obj.result.map(d => `${d.name} (${d.country_iso2}) {dc}{u}${d.url}{/}`).join`\\n`)\n        }\n        else {\n            const payload = obj.result.map(d => `${d.name} (${d.country_iso2}) ${d.url}`).join`\\n`;\n            getText('http://ix.io', {method: 'POST', body: 'f:1='+payload})\n                .then(url => {\n                    print(`{o}${obj.result.length}{/} results - visit {dc}{u}${url.trim()}{/} for a full list`)\n                })\n                .catch(print.error)\n        }\n    })\n    .catch(() => {throw new Error('wca is probably down')});",
+    "locked": true,
+    "starred": true
+}

@@ -1,0 +1,6 @@
+{
+    "name": "amps",
+    "command": " // legacy wrapper\nconst legacy = (ohms_volts, b) => (parseFloat(b[1]) / parseFloat(b[0])).toFixed(2);\nif (typeof legacy == 'string') {\n    print.raw(legacy);\n}\nelse {\n    print.raw(legacy(input, input.split(' '), IRC.message));\n}\n",
+    "locked": true,
+    "starred": false
+}

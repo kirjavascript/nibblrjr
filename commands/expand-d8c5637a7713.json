@@ -1,0 +1,6 @@
+{
+    "name": "expand",
+    "command": "input = input.trim();\nfor (let i = 0; i < input.length; i++) {\n    if (i == 0) {\n        print(input.toUpperCase());\n    } else {\n        let str = input[i];\n        str += ' '.repeat(i-1);\n        str += input[i];\n        print(str.toUpperCase());\n    }\n}",
+    "locked": true,
+    "starred": false
+}

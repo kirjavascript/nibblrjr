@@ -1,0 +1,6 @@
+{
+    "name": "doze",
+    "command": "print.raw(\"https://i.imgur.com/dvnEM1j.jpg http://m.imgur.com/YpsPXwy.gifv\");",
+    "locked": false,
+    "starred": false
+}

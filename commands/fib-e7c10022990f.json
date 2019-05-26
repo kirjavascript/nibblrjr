@@ -1,0 +1,6 @@
+{
+    "name": "fib",
+    "command": "print.raw(( // legacy command wrapper\n    function z(a){return 1>a?0:2>=a?1:z(a-1)+z(a-2)}\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

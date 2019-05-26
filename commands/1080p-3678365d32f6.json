@@ -1,0 +1,6 @@
+{
+    "name": "1080p",
+    "command": "print.raw(\"http://i.imgur.com/8rbHnLE.jpg\");",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "8bv",
+    "command": "print('{rb}8BitVape{/} command list:')\nprint('{g}~8bv.mix{/}      {r}*slug*{/}     {p}Display a mix using its slug{/}')\nprint('{g}~8bv.find{/}     {r}*term*{/}     {p}Search mixes and display the closest result{/}')\nprint('{g}~8bv.search{/}   {r}*term*{/}     {p}Search mixes{/}')\nprint('{g}~8bv.flavour{/}  {r}*slug*{/}     {p}Display information about a flavouring{/}')\nprint('{g}~8bv.user{/}     {r}*username*{/} {p}Display mixes belonging to a user{/}')\nprint('{g}~8bv.comments{/} {r}*slug*{/}     {p}Display comments belonging to a mix{/}')",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "clickme",
+    "command": "print(`{bl,bl}https://www.youtube.com/watch?v=dQw4w9WgXcQ`)",
+    "locked": false,
+    "starred": false
+}

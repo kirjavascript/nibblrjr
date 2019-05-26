@@ -1,0 +1,6 @@
+{
+    "name": "print",
+    "command": "print(input)",
+    "locked": true,
+    "starred": true
+}

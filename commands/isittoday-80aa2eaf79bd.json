@@ -1,0 +1,6 @@
+{
+    "name": "isittoday",
+    "command": "/*__TEXTCMD__*/print(`yes`);",
+    "locked": false,
+    "starred": false
+}

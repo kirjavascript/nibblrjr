@@ -1,0 +1,6 @@
+{
+    "name": "define",
+    "command": "try {\n    const obj = fetchSync('http://api.urbandictionary.com/v0/define?term=' + encodeURIComponent(input), {type: 'json'});\n    print('{bo}' + obj.list[IRC.command.params[0] || 0].definition.trim().replace(/[\\[\\]]/g, ''));\n} catch(e) {\n    print('{r}no data for '+input)\n}",
+    "locked": true,
+    "starred": true
+}

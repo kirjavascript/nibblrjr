@@ -1,0 +1,6 @@
+{
+    "name": "dirtyjoke",
+    "command": "getJSON('https://www.reddit.com/r/DirtyJokes/random/.json')\n    .then(obj => {\n        var post = obj[0].data.children[0].data;\n        var joke = post.title + \" \" + post.selftext;\n        print('{rand}' + joke);\n    })\n    .catch(print.error)\n",
+    "locked": false,
+    "starred": false
+}

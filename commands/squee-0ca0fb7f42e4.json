@@ -1,0 +1,6 @@
+{
+    "name": "squee",
+    "command": "print( '{p}(*^▽^*) ' + input);",
+    "locked": true,
+    "starred": false
+}

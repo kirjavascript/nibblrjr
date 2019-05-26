@@ -1,0 +1,6 @@
+{
+    "name": "checkpc",
+    "command": "(async () => {\n    const alex = await acquire('alex'); // 6.0.0 works\n    const [user, quantity] = IRC.command.params;\n    const { from } = IRC.message;\n    const message = IRC.log.user(user || from, '', quantity, 0).map(d => d.message).join` `;\n    const errors = alex(message).messages\n    const errorList = errors.map(d => d.message).join`, `.toLowerCase();\n    if (errors.length) {\n        print.error(Error((user||from) + ': ' + errorList));\n    } else {\n        print.success('seems ok');\n    }\n})();\n",
+    "locked": true,
+    "starred": false
+}

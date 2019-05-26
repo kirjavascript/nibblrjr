@@ -1,0 +1,6 @@
+{
+    "name": "paste_source",
+    "command": "    if (!input) {\r\n        print(`{r}Syntax:{/} {p}${IRC.trigger}paste_source{/} name`)\r\n    }\r\n    else {\r\n        const [command, flags] = input.split(' ');\r\n        const source = IRC.commandFns.get(command).command;\r\n            const data = fetchSync('https://paste.rs', {\r\n                method: 'POST',\r\n                body: source,\r\n                headers: {\r\n                    'Content-Type': 'application/json',\r\n                    'Accept': 'application/json',\r\n                }\r\n            });\r\n            print.info(`Pasted {o}${command}{/} to ${IRC.colors.link(data.trim())}`)\r\n    }",
+    "locked": false,
+    "starred": false
+}

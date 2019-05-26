@@ -1,0 +1,6 @@
+{
+    "name": "dwp",
+    "command": "print(input+' is fit for work')",
+    "locked": false,
+    "starred": false
+}

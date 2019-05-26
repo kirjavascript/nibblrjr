@@ -1,0 +1,6 @@
+{
+    "name": "wasteman",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" is nothing more or nothing less than a full blown, trash-can foraging, bin-bag rummaging, compost-heap tickling, asbestos freebasing waste of a ~wasteman command wasting his own wasteful wastepaper gash-back-slack-man squelchy-felched trashmannaman. On a waste-paste slag-trip\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

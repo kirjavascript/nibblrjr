@@ -1,0 +1,6 @@
+{
+    "name": "maybe",
+    "command": "print(`https://en.wikipedia.org/wiki/Monad_(functional_programming)#The_Maybe_monad`)",
+    "locked": false,
+    "starred": false
+}

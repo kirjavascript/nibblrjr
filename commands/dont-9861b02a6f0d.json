@@ -1,0 +1,6 @@
+{
+    "name": "dont",
+    "command": "print.raw(( // legacy command wrapper\n   x => {if(x=='say ok') return 'fuck you';else return 'ok';}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "golf.solution",
+    "command": "IRC.auth();\nconst [task, flags] = input.trim().split` `\nconst scores = IRC.require('module.loadObject')(`scores-${task}`)[0];\nconst found = scores[IRC.message.from];\nif (found) {\n    if (IRC.message.to == '##jsgolf' && flags !== '--force') {\n        throw new Error('cannot send to channel (use --force to force)')\n    } \n    print.raw(`${found.solution} `+ IRC.colors(`({dc}${found.bytes}{/})`));\n} else {\n   throw new Error('task/solution not found');\n}",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "wine",
+    "command": "print(\"Wine allowed tonight pal\");",
+    "locked": false,
+    "starred": false
+}

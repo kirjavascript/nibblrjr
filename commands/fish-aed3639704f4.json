@@ -1,0 +1,6 @@
+{
+    "name": "fish",
+    "command": "print('{b}~{dc}➤')",
+    "locked": false,
+    "starred": false
+}

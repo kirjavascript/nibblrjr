@@ -1,0 +1,6 @@
+{
+    "name": "jroc",
+    "command": "print.raw(( // legacy command wrapper\n   function jroc(a){var responses = [\"It's hard to admit it but, Mom, I'm white\",\"Oh my Christ know what I'm saying? You combo, battle-star gwactica, onion ring, flux capacitor\",\"Ga'head with ya striped shaved head. It's whack, dog, and I aint feelin' it!\",\"What are you lookin' at my eyes for? I ain't got no candy for you, you see some candy?\",\"Pound that in your word hole and tell me it ain't the birth of Christ.\",\"Its rainin' mah fuckas\",\"Gut Cassidy and the Sundance Cheeseburger\",\"Marty McLargeFries, Marty McGravy, 1.21 GigaGuts\",\"The day that Jroc loses his flow is the day the hair on Jim Lahey's bald head grow\",\"why you countin my know'msayns? you takin a kno'wmcensus?\",\"I spin more rhymes than a lazy Susan. And I'm always innocent until my guilt is proven\"];\nreturn responses[Math.random()*responses.length|0]}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

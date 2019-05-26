@@ -1,0 +1,6 @@
+{
+    "name": "remind",
+    "command": "if (!IRC.command.params[0] || !input.trim()) {\n    throw `usage: {p}${IRC.colors.cmd('remind', 'message', 'time')}`\n}\nelse {\n    const now = new Date();\n    const [time] = IRC.command.params;\n    const timestamp = time ? IRC.parseTime(time) : now;\n    const distance = dateFns.distanceInWordsStrict(timestamp, now);\n    if (dateFns.isBefore(timestamp, now)) {\n        throw new Error(`epoch fail - requested time is ${distance} ago`);\n    }\n    IRC.eventFns.addEvent('tick', {\n        callback: 'remind.event',\n        time: timestamp,\n        message: input,\n        target: IRC.message.isPM ? IRC.message.from : IRC.message.target,\n    });\n    print(`Reminder will display after {o}${distance}{/} on {dc}${dateFns.format(timestamp, 'dddd MMMM Do YYYY HH:mm:ss')}{/}`)\n}",
+    "locked": true,
+    "starred": true
+}

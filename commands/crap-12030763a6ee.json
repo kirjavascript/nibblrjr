@@ -1,0 +1,6 @@
+{
+    "name": "crap",
+    "command": "print(( // legacy command wrapper\n   (a,b) => {\n    \n    if(b.length<2) return \"~crap [qty] [range]\";\n    else return ('{rb}' + (new Array(parseInt(b[0]))).join(\" \").split(\"\").map(d=>String.fromCharCode(Math.random()*parseInt(b[1])|0)).join(\"\"))\n    \n}\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

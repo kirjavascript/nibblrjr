@@ -1,0 +1,6 @@
+{
+    "name": "repaste",
+    "command": "// repaste from pastebin to ptpb.pw\n(async () => {\n    try {\n        const [paste] = IRC.log.regex('(\\\\b(https?):\\\\/\\\\/(.*?)pastebin.com)', 1, 0);\n        const url = paste.message.match(/\\b(https?):\\/\\/(.*?)pastebin.com\\/(\\S*)/)[0];\n        const rawUrl = url.includes('raw') ? url : url.replace('.com/', '.com/raw/');\n        const text = await getText(rawUrl);\n        const response = await getJSON('https://ptpb.pw', {\n            method: 'POST',\n            body: JSON.stringify({\n                content: text,\n            }),\n            headers: {\n                'Content-Type': 'application/json',\n                'Accept': 'application/json',\n            },\n        });\n        print.info(`repasted {o}${url}{/} to ${IRC.colors.link(response.url)}`);\n    } catch (e) {\n        print.error(e);\n    }\n})();",
+    "locked": true,
+    "starred": true
+}

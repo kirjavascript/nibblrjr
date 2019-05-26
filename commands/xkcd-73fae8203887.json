@@ -1,0 +1,6 @@
+{
+    "name": "xkcd",
+    "command": "(x,y) => {var url = 'http://xkcd.com/';if(y.length > 0) url += x + '/'; url += 'info.0.json';return wget(url,(a,b)=>{b=JSON.parse(b);let out = '';b.transcript && (out += b.transcript);b.img && (out += '\\n'+b.img);return out})}\n\ngetJSON(`http://xkcd.com/${input}/info.0.json`)\n    .then(json => {\n        print(`${json.transcript} - ${json.img}`);\n    })\n    .catch(() => {print(`{r}xkcd #${input} not found `)})",
+    "locked": true,
+    "starred": false
+}

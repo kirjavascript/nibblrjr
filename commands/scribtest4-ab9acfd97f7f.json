@@ -1,0 +1,6 @@
+{
+    "name": "scribtest4",
+    "command": "print(`~redirect(#eggchan) triangle`)",
+    "locked": false,
+    "starred": false
+}

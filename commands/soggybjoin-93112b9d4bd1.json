@@ -1,0 +1,6 @@
+{
+    "name": "soggyb.join",
+    "command": "if (IRC.command.path == 'soggyb.join') {\r\n  throw new Error('error')\r\n}\r\nIRC.require('soggyb.game')\r\nconst { getScore, setScore, addScore } = IRC.require('soggyb.score')\r\n\r\nif (Game.isRunning()) {\r\n  const game = (new Game()).load()\r\n  if (game.status != 'joining') {\r\n    throw new Error('wait for the next time')\r\n  } else if (game.players.some(d => d.name == IRC.message.from)) {\r\n    throw new Error('you need 2 dicks if you want to play twice')\r\n  }\r\n  game.addPlayer(IRC.message.from)\r\n  const plural = game.players.length > 1 ? 's' : ''\r\n  print(`{y}${IRC.message.from}{/} has joined the game ({o}${game.players.length} player${plural}{/})`)\r\n} else {\r\n  IRC.require('soggyb')\r\n}\r\n",
+    "locked": false,
+    "starred": false
+}

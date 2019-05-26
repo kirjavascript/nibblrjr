@@ -1,0 +1,6 @@
+{
+    "name": "leafly",
+    "command": "print('https://www.leafly.com/search?q=' + input.replace(/ /g, '+'))",
+    "locked": false,
+    "starred": false
+}

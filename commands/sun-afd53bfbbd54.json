@@ -1,0 +1,6 @@
+{
+    "name": "sun",
+    "command": "print.raw(\"\\\\[T]/\");",
+    "locked": false,
+    "starred": false
+}

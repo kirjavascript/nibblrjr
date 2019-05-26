@@ -1,0 +1,6 @@
+{
+    "name": "bible",
+    "command": "getJSON(`https://bible-api.com/${input}`).then(obj => print(obj.text.replace('\\n', ' '))).catch(() => new Error('not found'))",
+    "locked": false,
+    "starred": false
+}

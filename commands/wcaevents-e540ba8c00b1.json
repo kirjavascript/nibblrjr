@@ -1,0 +1,6 @@
+{
+    "name": "wca.events",
+    "command": "getJSON('https://www.worldcubeassociation.org/api/v0/records')\n    .then(obj => {print(Object.keys(obj.world_records).join`, `);})\n    .catch(print.error);",
+    "locked": false,
+    "starred": false
+}

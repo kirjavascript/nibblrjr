@@ -1,0 +1,6 @@
+{
+    "name": "poker",
+    "command": "IRC.require('poker.game');\nif (Game.isRunning()) {\n    const game = (new Game()).load();\n    if (game.status == 'joining') {\n        IRC.require('poker.join');\n    } else {\n        if (input) {\n            throw new Error('use poker.' + input);\n        } else {\n            print(`{w,dg}  ${game.table.map(d => d.render).join`{w,dg} `}{w,dg}  Pot: {y}$${game.pot}{/}{w,dg} Bets (round, total): ${game.players.filter(d => !d.fold).map(d => `${d.name} - ({y}$${d.bet}{/}{y,dg}, $${d.totalBet}{w,dg})`).join`, `}{w,dg} `)\n        }\n    }\n    \n} else {\n    const game = (new Game()).new();\n    IRC.require('poker.join');\n}",
+    "locked": true,
+    "starred": true
+}

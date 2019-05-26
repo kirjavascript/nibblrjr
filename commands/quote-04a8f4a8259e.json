@@ -1,0 +1,6 @@
+{
+    "name": "quote",
+    "command": "store.all().forEach(({key}) => store.set(key, undefined))\r\nprint('hi')\r\nstore.all().forEach(({key, value}) => print(`Quote ${key}: ${value}`))\r\n\r\ngetQuote = (num = null) => {\r\n    if(num){\r\n        const q = store.get(num)\r\n        if(q){\r\n            return q\r\n        }else{\r\n            throw new Error(`can't find that quote`)\r\n        }\r\n    }else{\r\n        return _.shuffle(store.all())[0]\r\n    }\r\n}\r\n\r\nif(input){\r\n    const count = store.all().length\r\n    print(count)\r\n    store.set(parseInt(store.all()[store.all().length]+1), input)\r\n    print(`Quote ${count} added: ${input}`)\r\n}else if(IRC.command.params[0]){\r\n    const quote = getQuote(IRC.command.params[0])\r\n    print(`Quote ${quote.key}: ${quote.value}`)\r\n}else{\r\n    const quote = getQuote()\r\n    print(`Quote ${quote.key}: ${quote.value}`)\r\n}",
+    "locked": false,
+    "starred": false
+}

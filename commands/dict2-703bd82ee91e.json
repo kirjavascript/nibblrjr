@@ -1,0 +1,6 @@
+{
+    "name": "dict2",
+    "command": "let url = '';\r\n\r\nswitch(IRC.command.params[0]) {\r\n  case 'en':\r\n    url += 'https://www.dict.cc';\r\n    break;\r\n  \r\n  default:\r\n    url += 'https://en'+IRC.command.params[0]+'.dict.cc';\r\n}\r\n\r\ngetDOM(url + '?s=' + encodeURIComponent(input))\r\n.then(dom => {\r\n    const list = dom.qsa('td.td7nl');\r\n    Array.from({ length: IRC.command.params[1] || 1 }, (q, i) => {\r\n        const index = (i + (IRC.command.params[1] || 0)) * 2;\r\n        print(`${_.get(list, `[${index}].textContent`, '')} <> ${_.get(list, `[${index + 1}].textContent`, '').replace(/^\\d+/, '')}`)\r\n    });\r\n}).catch(print.error)",
+    "locked": false,
+    "starred": false
+}

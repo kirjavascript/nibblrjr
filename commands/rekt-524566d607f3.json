@@ -1,0 +1,6 @@
+{
+    "name": "rekt",
+    "command": "print.raw(( // legacy command wrapper\n   x => {\n    if(x=='no'||x==\"!\"||x==\"not\") return '☑ Not REKT ☐ REKT';\n    else return '☐ Not REKT ☑ REKT';\n}\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

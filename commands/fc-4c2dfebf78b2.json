@@ -1,0 +1,6 @@
+{
+    "name": "fc",
+    "command": "print.raw(( // legacy command wrapper\n   (x) => (x-32) * (5/9)\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "wtf",
+    "command": "print.raw(\"https://i1.someimage.com/m304rnY.jpg\");",
+    "locked": false,
+    "starred": false
+}

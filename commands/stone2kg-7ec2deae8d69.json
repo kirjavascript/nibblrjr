@@ -1,0 +1,6 @@
+{
+    "name": "stone2kg",
+    "command": "[st,lb]=input.split(/\\s+/g).map(Number); print(((st+(lb/14))*6.35).toFixed(2))",
+    "locked": false,
+    "starred": false
+}

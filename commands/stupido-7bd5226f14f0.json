@@ -1,0 +1,6 @@
+{
+    "name": "stupido",
+    "command": "print.raw(\"http://i.imgur.com/xvBF3aK.jpg\");",
+    "locked": false,
+    "starred": false
+}

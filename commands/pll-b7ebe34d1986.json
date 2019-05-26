@@ -1,0 +1,6 @@
+{
+    "name": "pll",
+    "command": "print(IRC.require('scramble').getPLLScramble())",
+    "locked": true,
+    "starred": false
+}

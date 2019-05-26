@@ -1,0 +1,6 @@
+{
+    "name": "app",
+    "command": "print(\"eLiquid Mixing Calculator; http://goo.gl/KLdRGU (android)\");",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "Scooby",
+    "command": "print.raw(\"<Scooby> you never taken mackerel to a drug deal before?\");",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "count",
+    "command": "for(i=0;i<parseInt(input)+1;i++)print(i); print('ok');",
+    "locked": false,
+    "starred": false
+}

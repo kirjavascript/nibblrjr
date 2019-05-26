@@ -1,0 +1,6 @@
+{
+    "name": "ship",
+    "command": "print.raw(\"Why are ships considered female? \\n A ship is called a she because there is always a great deal of bustlea around her; there is usually a gang of men about; she has a waist and stays; it takes a lot of paint to keep her good-looking; it is not the initial expense that breaks you, it is the upkeep; she can be all decked out; it takes an experienced man to handle her correctly; \\n and without a man at the helm, she is absolutely uncontrollable. She shows her topsides, hiders her bottom and, when coming into port, always heads for the buoys.\");",
+    "locked": false,
+    "starred": false
+}

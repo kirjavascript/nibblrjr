@@ -1,0 +1,6 @@
+{
+    "name": "roflcopter",
+    "command": "print.raw('Incoming ROFLCOPTER!\\n\\n    ROFL:ROFL:ROFL:ROFL\\n         ___^___ _\\n L    __/      [] \\\\    \\nLOL===__           \\\\ \\n L      \\\\___ ___ ___]\\n              I   I\\n          ----------/');",
+    "locked": false,
+    "starred": false
+}

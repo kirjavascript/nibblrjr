@@ -1,0 +1,6 @@
+{
+    "name": ":fireemoji:",
+    "command": "print.raw(\"🔥\");",
+    "locked": false,
+    "starred": false
+}

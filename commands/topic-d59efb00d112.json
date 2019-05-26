@@ -1,0 +1,6 @@
+{
+    "name": "topic",
+    "command": "const { node } = IRC.sudo();\n    node.client.send.call('TOPIC', IRC.message.target, IRC.colors(input));",
+    "locked": true,
+    "starred": true
+}

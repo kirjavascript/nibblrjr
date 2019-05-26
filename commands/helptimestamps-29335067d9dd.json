@@ -1,0 +1,6 @@
+{
+    "name": "help.timestamps",
+    "command": "print(`{p}${IRC.trigger}memo{/} and {p}${IRC.trigger}remind{/} accept various formats for times;`)\nprint(`absolute times: ${['YYYY-MM-DD','HH:MM', 'HH:MM:SS', '3am', '3pm', 'sunday', 'feb', '3rd', 'march', '2019', 'tomorrow'].map(d => `{y}${d}{/}`).join`, `}`)\nprint(`relative times: ${['3 weeks', '1y', '4 mins', '10 hours', '7d'].map(d => `{y}${d}{/}`).join`, `}`)\nprint(`each format can be combined to create a time offset`)",
+    "locked": false,
+    "starred": false
+}

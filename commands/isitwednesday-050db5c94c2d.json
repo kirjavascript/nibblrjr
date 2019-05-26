@@ -1,0 +1,6 @@
+{
+    "name": "isitwednesday",
+    "command": "print.raw(( // legacy command wrapper\n    cr0sisIsGay => new Date().getDay()==3?'It is wednesday, my dude':'no'\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

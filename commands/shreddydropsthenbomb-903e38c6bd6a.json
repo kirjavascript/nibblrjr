@@ -1,0 +1,6 @@
+{
+    "name": "shreddydropsthenbomb",
+    "command": "const data = IRC.log.user('Shreddy', 'nigga', IRC.command.params[0] || 100, IRC.command.params[1] || 0);\n\n(data.map(({time, user, command, target, message}) => (\n    `({dc}{u}${time}{/}) ${IRC.colors.nick(user, true)} ${message.replace(/\\n/g, ' ')}`\n)).forEach(d => print(d, IRC.message.target, true)));",
+    "locked": true,
+    "starred": false
+}

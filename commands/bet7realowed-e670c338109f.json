@@ -1,0 +1,6 @@
+{
+    "name": "bet7.realowed",
+    "command": "const total = store.get(IRC.message.from)\n\n{\n    if(isNaN(total) || total == 0){\n        print(\"{bo}\"+IRC.message.from+\"{/} is owed nothing (and is gay)\")  \n    \n    }else{\n        if(total < 0){\n            print(\"{bo}\"+IRC.message.from+\"{/} owes £\" + Math.abs(total))\n        }else{\n            print(\"{bo}\"+IRC.message.from+\"{/} is owed £\" + total)  \n        }\n    }    \n}\n",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "spoilers",
+    "command": "print.raw(\"https://media.giphy.com/media/NFhVNLeJtSFk4/giphy.gif\");",
+    "locked": false,
+    "starred": false
+}

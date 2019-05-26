@@ -1,0 +1,6 @@
+{
+    "name": "randomcolour",
+    "command": "print(`{rand}${input}`) ",
+    "locked": false,
+    "starred": false
+}

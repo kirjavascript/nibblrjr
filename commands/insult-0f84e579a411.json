@@ -1,0 +1,6 @@
+{
+    "name": "insult",
+    "command": "getDOM(\"https://www.insult-generator.org/\").then(d=>{\n    const msg = d.qs('.insult-text').textContent;\n    print((input.trim()||IRC.message.from) + ' you\\'re ' + ('aeiou'.includes(msg[0]) ? 'an ' : 'a ') + msg)\n}).catch(print.error)",
+    "locked": true,
+    "starred": false
+}

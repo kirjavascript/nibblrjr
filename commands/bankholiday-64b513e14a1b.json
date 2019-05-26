@@ -1,0 +1,6 @@
+{
+    "name": "bankholiday",
+    "command": "getDOM('https://www.gov.uk/bank-holidays')\n    .then(dom => {\n        print(dom.qs('#england-and-wales > div').textContent.replace(/\\s+/g,' '))\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": true
+}

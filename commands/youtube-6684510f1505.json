@@ -1,0 +1,6 @@
+{
+    "name": "youtube",
+    "command": "input &&\ngetDOM('http://www.startpage.com/do/search?query=domain:http://youtube.com%20' + encodeURIComponent(input))\n    .then(dom => {\n        dom.qsa('.list-flat .search-result')\n            .slice(0, IRC.command.params[0] || 3)\n            .forEach((node) => {\n                const title = node.querySelector('a').textContent.replace(/ - YouTube/, '');\n                const url = node.querySelector('a').href;\n                print(`{r}${title}{/} - {b}{u}${url}`)\n            });\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": true
+}

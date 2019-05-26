@@ -1,0 +1,6 @@
+{
+    "name": "command.search",
+    "command": "input = input.toLowerCase();\n\nconst commands = IRC.commandFns.names().filter(d => d.toLowerCase().indexOf(input) !== -1);\nif (!commands.length) {\n    print('{r}no commands found')\n}\nelse {\n    print(commands.map(d => `{u}${d}{/}`).join` `);\n}",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "wank",
+    "command": "print(Array.from({length: 8}, (_, i) => (['8==M=D', '8=M==D'][i%2])).join('\\n') + '\\n8M===D ~~~');",
+    "locked": true,
+    "starred": false
+}

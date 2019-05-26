@@ -1,0 +1,6 @@
+{
+    "name": "racism",
+    "command": "print.raw(( // legacy command wrapper\n   function racism(a){var responses = [\"chum\",\"friend\",\"pal\",\"bro\",\"mate\",\"fellow\",\"buddy\"];\nreturn responses[Math.random()*responses.length|0]}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

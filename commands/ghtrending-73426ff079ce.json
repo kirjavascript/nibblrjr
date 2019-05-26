@@ -1,0 +1,6 @@
+{
+    "name": "ghtrending",
+    "command": "[...fetchSync('https://github.com/trending', {type: 'dom'}).document.querySelectorAll('.repo-list > li')].slice(0, 3)\n    .forEach(repo => {\n        const link = repo.querySelector('a');\n        const desc = repo.querySelector('p');\n        print(`${link.textContent.trim()} ${IRC.colors.link('https://github.com/' + link.href)}- ${_.truncate(desc.textContent.trim(), {length: 250})}`);\n    });",
+    "locked": true,
+    "starred": true
+}

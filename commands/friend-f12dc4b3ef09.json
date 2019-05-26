@@ -1,0 +1,6 @@
+{
+    "name": "friend",
+    "command": "print.raw(\"I'm not your friend, buddy\");",
+    "locked": false,
+    "starred": false
+}

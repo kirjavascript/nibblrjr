@@ -1,0 +1,6 @@
+{
+    "name": "golf.help",
+    "command": "print(IRC.colors.link('https://gist.github.com/stenno/9c3c7720479801da0ec563e5eca99ca7'))",
+    "locked": false,
+    "starred": false
+}

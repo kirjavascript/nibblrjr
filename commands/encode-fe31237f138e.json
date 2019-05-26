@@ -1,0 +1,6 @@
+{
+    "name": "encode",
+    "command": "print(encodeURIComponent(input))",
+    "locked": false,
+    "starred": false
+}

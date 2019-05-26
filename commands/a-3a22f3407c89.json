@@ -1,0 +1,6 @@
+{
+    "name": "a",
+    "command": "print.raw(( // legacy command wrapper\n   (x,y,z,a=\" αв¢∂єƒﻭнιנкℓмησρ۹яѕтυνωχуչαв¢∂єƒﻭнιנкℓмησρ۹яѕтυνωχуչ01234567890\".split(\"\"),b=\" ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\".split(\"\"))=>x.split(\"\").map(d => a[b.indexOf(d)]).join(\"\")\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

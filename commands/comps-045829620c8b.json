@@ -1,0 +1,6 @@
+{
+    "name": "comps",
+    "command": "print(`These are the currently available commands to check informations about competitions:`)\nprint(`{p}${IRC.trigger}comps.list country{/}        List competitions in specified country`)\nprint(`{p}${IRC.trigger}comps.reg competition_name{/}         Check when registration opens, or if it is already closed`)\nprint(`{p}${IRC.trigger}comps.when competition_name{/}        List time, date and venue of specified competition`)\nprint(`{p}${IRC.trigger}comps.iscoming(comp) competitor{/}    See if person is coming to specified competition`)",
+    "locked": false,
+    "starred": false
+}

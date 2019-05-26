@@ -1,0 +1,6 @@
+{
+    "name": "angry",
+    "command": "print('{r}' + input.toUpperCase());",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "rainbow",
+    "command": "print('{rb}' + input);",
+    "locked": true,
+    "starred": false
+}

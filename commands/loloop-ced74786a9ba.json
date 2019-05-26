@@ -1,0 +1,6 @@
+{
+    "name": "loloop",
+    "command": "/*__TEXTCMD__*/print(`!print ~loloop`);",
+    "locked": false,
+    "starred": false
+}

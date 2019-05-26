@@ -1,0 +1,6 @@
+{
+    "name": "conniptions",
+    "command": "print(\"http://conniptions.gives/\");",
+    "locked": false,
+    "starred": false
+}

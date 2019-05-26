@@ -1,0 +1,6 @@
+{
+    "name": "magnet",
+    "command": "getDOM(`https://thepiratebay.org/s/?q=${encodeURIComponent(input)}&page=0&orderby=99`)\n    .then(obj => {\n        obj.qsa('tr')\n            .splice(1, IRC.command.params[0] || 1)\n            .forEach(result => {\n                const cols = result.querySelectorAll('td');\n                const magnet = result.querySelector('.detName').nextElementSibling.href;\n                const size = result.querySelector('.detDesc').textContent.match(/Size (.*?),/mi);\n                \n                print(`{r}${result.querySelector('.detLink').textContent}{/} SE {g}${cols[2].textContent}{/} LE {o}${cols[3].textContent} {p}${size&&size[1]}{/}`);\n                print(IRC.colors.link(magnet))\n            })\n    })\n    .catch((e) => {print(`{r}found nothing`)})",
+    "locked": true,
+    "starred": true
+}

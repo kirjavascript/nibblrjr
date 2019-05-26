@@ -1,0 +1,6 @@
+{
+    "name": "pokemon",
+    "command": "getDOM('http://bulbapedia.bulbagarden.net/wiki/' + input)\n    .then(dom => {\n        print(dom.qsa('#mw-content-text > p').splice(0, IRC.command.params[0] || 3).map(d => d.textContent).join` `);\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": true
+}

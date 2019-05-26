@@ -1,0 +1,6 @@
+{
+    "name": "soggyb.reset",
+    "command": "IRC.require('soggyb.game');\n\nif (!Game.isRunning()) {\n    throw new Error('poker is not running');\n}\nelse {\n        Game.reset();\n        print(`soggyb has been stopped. use {p}${IRC.trigger}soggyb{/} to start again`);\n}\n",
+    "locked": false,
+    "starred": false
+}

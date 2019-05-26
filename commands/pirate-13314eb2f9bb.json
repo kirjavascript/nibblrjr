@@ -1,0 +1,6 @@
+{
+    "name": "pirate",
+    "command": "print(\"https://www.youtube.com/watch?v=pMhfbLRoGEw\");",
+    "locked": false,
+    "starred": false
+}

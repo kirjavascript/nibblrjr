@@ -1,0 +1,6 @@
+{
+    "name": "megaproxy",
+    "command": "print.raw(\"21:07 < megaproxy> oh boy the shaft\");",
+    "locked": true,
+    "starred": false
+}

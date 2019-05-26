@@ -1,0 +1,6 @@
+{
+    "name": "banks.add",
+    "command": "if (!input.trim()) {\n    throw new Error(`{p}${IRC.trigger}banks.add{/} thing`);\n}\n\nstore.set(new Date().getTime(), input)\nprint(`{y}${input}{/} added to {p}${IRC.trigger}banks{/}`)",
+    "locked": false,
+    "starred": false
+}

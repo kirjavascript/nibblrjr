@@ -1,0 +1,6 @@
+{
+    "name": "isitchristmas",
+    "command": "print.raw(\"excuse you, it's \u0002\u001f\u001dx-mas\u0002\u001f\u001d\");",
+    "locked": false,
+    "starred": false
+}

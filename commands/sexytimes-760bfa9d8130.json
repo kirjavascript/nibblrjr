@@ -1,0 +1,6 @@
+{
+    "name": "sexytimes",
+    "command": "print(`        S E X Y T I M E S  \n      / E             / E  \n    S E X Y T I M E S   X  \n  / E   Y         / E   Y  \nS E X Y T I M E S   X   T  \nE   Y   I       E   Y   I  \nX   T   M       X   T   M  \nY   I   E       Y   I   E  \nT   M   S E X Y T I M E S  \nI   E /         I   E /    \nM   S E X Y T I M E S      \nE /             E /        \nS E X Y T I M E S          `);",
+    "locked": false,
+    "starred": false
+}

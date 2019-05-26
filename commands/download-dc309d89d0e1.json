@@ -1,0 +1,6 @@
+{
+    "name": "download",
+    "command": "getText(input).then(d => print.raw(d)).catch(print.error);",
+    "locked": false,
+    "starred": false
+}

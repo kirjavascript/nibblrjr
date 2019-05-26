@@ -1,0 +1,6 @@
+{
+    "name": "poker.setScore",
+    "command": "IRC.sudo();\n    if (input){ \n        store.set(input, IRC.command.params[0]);\n        print(`updated score for ${input} to ${IRC.command.params[0]}`)\n    }",
+    "locked": false,
+    "starred": false
+}

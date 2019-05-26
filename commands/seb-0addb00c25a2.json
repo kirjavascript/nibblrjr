@@ -1,0 +1,6 @@
+{
+    "name": "seb",
+    "command": "let day = new Date().getDay(); let days = [\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"]; let string = (day == 6 || day == 0) ?   `It is ${days[day]}, you won't see Seb here today` :   `It is ${days[day]}, you should see Seb here today. If not, consult channel admin.`;  print(string)",
+    "locked": false,
+    "starred": false
+}

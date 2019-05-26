@@ -1,0 +1,6 @@
+{
+    "name": "botsnack",
+    "command": "const { from } = IRC.message;\nswitch (Math.random()*3|0) {\n    case 0:\n        action(`{o}*nom*`);\n        break;\n    case 1:\n        print(`{o}${from}++`);\n        break;\n    case 2:\n        print(`{o}ᗧ•••😋`);\n        break;\n}",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "text",
+    "command": "// legacy wrapper\nprint.raw((\n     x=> x + \" vibrates with the receipt of a smut-ridden and crudely spelt SMS text message so profane and vulgar he clasps a hand over the phone's screen before running off in a flood of tears, absolutely overcome with embarassment.\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

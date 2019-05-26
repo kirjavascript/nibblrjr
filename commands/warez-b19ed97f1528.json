@@ -1,0 +1,6 @@
+{
+    "name": "warez",
+    "command": "var pre = [\r\n  '.torrent',\r\n  '.rar',\r\n  '.zip',\r\n  '.r001',\r\n  '.nzb'\r\n]\r\nvar ext = [\r\n  '.apk',\r\n  '.exe',\r\n  '.trojan32',\r\n  '.vbs',\r\n  '.FOR.YOU.TXT.vbs',\r\n  '.bat',\r\n  '.doc'\r\n]\r\n\r\nif(!input){\r\n    input = \"horse porn\"\r\n}\r\n\r\nprint('Searching for: ' + input)\r\n\r\nvar p = function () {\r\n  var file = input.replace(/ /g, '.') + pre[Math.floor(Math.random() * pre.length)] + ext[Math.floor(Math.random() * ext.length)]\r\n\r\n  if (Math.random() < 0.5) {\r\n    file = file.toUpperCase()\r\n  } else {\r\n    file = file.toLowerCase()\r\n  }\r\n\r\n  if (Math.floor(Math.random() * 1000) > 777) {\r\n    print('{r}{bo}BRIDES.RU{/}{/} Get hot bride for you')\r\n  } else {\r\n    print('Free Warez: ' + file + ' found! {b}{u}Click here{/}{/} to download now')\r\n  }\r\n}\r\n\r\nvar times = 0\r\n\r\nwhile (times < 5) {\r\n  p()\r\n  times += 1\r\n}",
+    "locked": false,
+    "starred": false
+}

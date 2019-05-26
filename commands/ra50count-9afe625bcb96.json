@@ -1,0 +1,6 @@
+{
+    "name": "ra50count",
+    "command": "getDOM('https://petition.parliament.uk/petitions/241584').then(dom => print(dom.qs('.count').textContent)).catch(print.error)",
+    "locked": false,
+    "starred": false
+}

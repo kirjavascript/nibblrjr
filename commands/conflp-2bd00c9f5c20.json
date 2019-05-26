@@ -1,0 +1,6 @@
+{
+    "name": "coínflíp",
+    "command": "print(new Date%1?'{o}heads':'{o}tails');",
+    "locked": false,
+    "starred": false
+}

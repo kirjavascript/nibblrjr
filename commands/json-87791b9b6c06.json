@@ -1,0 +1,6 @@
+{
+    "name": "json",
+    "command": "getJSON(input).then(print.log).catch(print.error);",
+    "locked": false,
+    "starred": false
+}

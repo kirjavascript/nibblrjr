@@ -1,0 +1,6 @@
+{
+    "name": "bbcnews",
+    "command": "getDOM('https://feeds.bbci.co.uk/news/rss.xml?edition=uk')\n    .then(dom => {\n        dom.qsa('item')\n            .slice(0, IRC.command.params[0] || 3)\n            .forEach(node => {\n                const title = node.querySelector('title').textContent.replace(/^<!\\[CDATA\\[/g, '').replace(/\\]\\]>$/g, '');\n                const link = node.querySelector('guid').textContent;\n                print(`{w,dr}{bo} ${title} {/} - ${IRC.colors.link(link)}`);\n            });\n    })\n    .catch(print.error);",
+    "locked": true,
+    "starred": true
+}

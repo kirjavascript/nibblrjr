@@ -1,0 +1,6 @@
+{
+    "name": "module.count",
+    "command": "module.exports = {\n    next(initial = 0) {\n        const value = store.get('$count') || initial;\n        const next = +value + 1;\n        store.set('$count', next);\n        return next;\n    },\n    count(initial = 0) {\n        return +(store.get('$count') || initial);\n    }\n};",
+    "locked": true,
+    "starred": false
+}

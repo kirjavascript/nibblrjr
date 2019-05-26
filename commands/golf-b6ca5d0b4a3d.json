@@ -1,0 +1,6 @@
+{
+    "name": "golf",
+    "command": "module.exports = {\n    task: () => print('{bo}Write a function that takes a number, and returns a space-delimited word representation of that number. \\nFor example, given 120 as input you would return \\'one two zero\\'  {/}'),\n    test: (solution) => {\n        const result = IRC.require('golf.eval')(solution);\n        if (typeof result !== 'function') throw new Error('result is not a function');\n        if (\n            result(123) !== 'one two three' ||\n            result(90807) !== 'nine zero eight zero seven' ||\n            result(564) !== 'five six four' ||\n            result(120349) !== 'one two zero three four nine'\n        ) throw new Error('received invalid result');\n    }\n};\nemoji = '⛳';\n\nif (IRC.command.path == 'golf') {\n    with (IRC.colors) {\n        print(emoji + ' {y}JS{g}Golf{/} - ' + [\n            cmd('golf.tasks'),\n            cmd('golf.task', 'taskname'),\n            cmd('golf.submit', ['taskname', 'solution']),\n            cmd('golf.scores', 'taskname or username'),\n            cmd('golf.solution', 'taskname'),\n        ].join`, `);\n    }\n}",
+    "locked": true,
+    "starred": true
+}

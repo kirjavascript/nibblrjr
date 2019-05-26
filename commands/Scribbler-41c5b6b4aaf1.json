@@ -1,0 +1,6 @@
+{
+    "name": "Scribbler",
+    "command": "print.raw(\"https://i.imgur.com/9rfM1Z4.jpg\");",
+    "locked": false,
+    "starred": false
+}

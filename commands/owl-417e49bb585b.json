@@ -1,0 +1,6 @@
+{
+    "name": "owl",
+    "command": "print('https://overwatchleague.com/en-us/schedule');",
+    "locked": false,
+    "starred": false
+}

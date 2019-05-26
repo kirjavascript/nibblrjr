@@ -1,0 +1,6 @@
+{
+    "name": "foobar321",
+    "command": "print(\"foo\")\nIRC.eventFns.addEvent(\"tick\", {\n    callback: \"foobar321\",\n    time: new Date(),\n    target: \"trinary\"\n})",
+    "locked": false,
+    "starred": false
+}

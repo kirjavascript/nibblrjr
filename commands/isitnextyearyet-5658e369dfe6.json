@@ -1,0 +1,6 @@
+{
+    "name": "isitnextyearyet",
+    "command": "/*__TEXTCMD__*/print(`no`);",
+    "locked": false,
+    "starred": false
+}

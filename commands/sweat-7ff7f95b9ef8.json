@@ -1,0 +1,6 @@
+{
+    "name": "sweat",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" begins to anxiously perspire through his hideously porous scars of emotional self-mutilation until the entire room suffocates with the unopposed pengy-peng of stillborn walrus farts and malignant casks of double-brewed alarmingly-psychoactive oxen bum beer\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

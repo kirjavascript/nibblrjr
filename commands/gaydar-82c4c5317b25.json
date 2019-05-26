@@ -1,0 +1,6 @@
+{
+    "name": "gaydar",
+    "command": "const amount = [...(input.trim())].map(d => d.charCodeAt(0)).reduce((a,b) => a+b)%101;\nprint(`${IRC.colors.nick(input.trim())} is {y}${(input=='Monqui'||input=='Kirjava')?(amount*123):amount}%{/} gay!`)",
+    "locked": false,
+    "starred": false
+}

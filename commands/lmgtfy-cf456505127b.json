@@ -1,0 +1,6 @@
+{
+    "name": "lmgtfy",
+    "command": "print.raw(( // legacy command wrapper\n   x => `http://lmgtfy.com/?q=${x.replace(/ /g,'+')}`\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

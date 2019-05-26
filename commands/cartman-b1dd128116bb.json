@@ -1,0 +1,6 @@
+{
+    "name": "cartman",
+    "command": "getDOM('http://www.smacie.com/randomizer/southpark/cartman.html')\n.then(dom => {\n    print(dom.qs('big').textContent);\n})\n.catch(print.error);\n// x => wget(\"http://www.smacie.com/randomizer/southpark/cartman.html\",a=>html2txt(a('big').html()))",
+    "locked": false,
+    "starred": false
+}

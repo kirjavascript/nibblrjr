@@ -1,0 +1,6 @@
+{
+    "name": "powerk.game",
+    "command": "this.Game = class Game {\n    constructor() {\n        this.new = () => {\n            this.running = true;\n            this.status = 'joining';\n            this.players = [];\n            return this;\n        };\n        \n        this.save = () => {\n            const data = JSON.stringify(this);\n            store.save('game', data);\n            return this;\n        };\n        this.load = () => {\n            const data = store.load('game');\n            if (data) {\n                Object.assign(this, JSON.parse(data));\n            }\n            else {\n                throw new Error('Attempted to load unsaved game');\n            }\n            return this;\n        };\n    }\n}",
+    "locked": false,
+    "starred": false
+}

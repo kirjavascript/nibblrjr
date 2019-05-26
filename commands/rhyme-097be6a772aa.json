@@ -1,0 +1,6 @@
+{
+    "name": "rhyme",
+    "command": "getJSON('https://api.datamuse.com/words?rel_rhy='+encodeURIComponent(input)).then(arr => {print(arr.splice(0, IRC.command.params[0] || 20).map(d => d.word).join`, `)}).catch(print.error)",
+    "locked": true,
+    "starred": false
+}

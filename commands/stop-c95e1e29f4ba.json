@@ -1,0 +1,6 @@
+{
+    "name": "stop",
+    "command": "IRC.resetBuffer();",
+    "locked": false,
+    "starred": false
+}

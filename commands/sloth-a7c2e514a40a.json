@@ -1,0 +1,6 @@
+{
+    "name": "sloth",
+    "command": "print.raw(\"https://i.imgur.com/vpwsjCF.png\");",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "weird",
+    "command": "/*__TEXTCMD__*/print(`https://www.youtube.com/watch?v=vZbG8GgjuDc`);",
+    "locked": false,
+    "starred": false
+}

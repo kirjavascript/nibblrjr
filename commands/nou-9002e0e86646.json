@@ -1,0 +1,6 @@
+{
+    "name": "nou",
+    "command": "for (let i = 0; i < 5; i++) { print(`nou`);}",
+    "locked": false,
+    "starred": false
+}

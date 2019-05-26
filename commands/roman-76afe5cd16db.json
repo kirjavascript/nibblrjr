@@ -1,0 +1,6 @@
+{
+    "name": "roman",
+    "command": "/*\n ⣿⣿⣿⡿⠟⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠿⣿⣿ \n ⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿ \n ⣿⠃⠀⠀⠀⣿⠛⡇⢸⡇⠀⡇⣿⠉⠁⣿⣀⡜⠀⠀⠀⠀⠀⠀⣿ \n ⣿⠀⠀⠀⠀⣿⣉⣹⢸⣇⣀⡇⣿⣀⡀⣿⠀⣿⠀⠀⠀⠀⠀⠀⣿ \n ⣿⠀⠀⠀⠀⠀⠠⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠀⠀⠀⠀⠀⠀⣿ \n ⣿⡀⠀⠀⢀⣀⢀⠀⠀⠉⠉⠉⠭⠭⠭⠭⠭⠭⠭⠭⠭⠄⠀⠀⣿ \n ⣿⣇⠀⠀⠘⢿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿ \n ⣿⣿⣷⣦⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣴⣾⣿⣿ \n\n\n*/\n\nif( Number( input)) {\n    if( input > 100000) {\n        print( \"No.\")\n    } else {\n        acquire('romanize').then( romanize => {\n            print( romanize( input))\n        })\n    }\n} else {\n    acquire('deromanize').then( deromanize => {\n        print( deromanize( input))\n    })\n}\n\n/*\nacquire('js-roman-numerals')\n.then( rn => {\n    let number = new rn( input)\n\n    if( Number(input)) {\n        print( number.toString())\n    } else {\n        print( number.toInt())\n    }\n})\n*/",
+    "locked": false,
+    "starred": false
+}

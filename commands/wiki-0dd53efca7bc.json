@@ -1,0 +1,6 @@
+{
+    "name": "wiki",
+    "command": "getJSON(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&formatversion=2&titles=` + encodeURIComponent(input))\n.then(({query}) => {   \n    print(`{bo}${query.pages[0].title}{/} - ${(query.pages[0].extract || 'No data').trim()}`)\n})\n.catch(print.error);",
+    "locked": true,
+    "starred": true
+}

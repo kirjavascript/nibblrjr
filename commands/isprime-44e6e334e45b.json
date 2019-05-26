@@ -1,0 +1,6 @@
+{
+    "name": "isprime",
+    "command": "print.raw(( // legacy command wrapper\n   x => !/^.?$|^(..+?)\\1+$/.test('1'.repeat(x))\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

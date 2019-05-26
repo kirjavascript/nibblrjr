@@ -1,0 +1,6 @@
+{
+    "name": "roll9999.stats",
+    "command": "const showAll = input == 'all';\nconst scores = _.sortBy(store.all(), (d) => +d.value)\n.reduce((acc, cur) => {\n    const exists = acc.findIndex((d) => d.value === cur.value);\n    if (exists !== -1) {\n        acc[exists].key += `, ${IRC.breakHighlight(cur.key)}`;\n    } else {\n        cur.key = IRC.breakHighlight(cur.key)\n        acc.push(cur);\n    }\n    return acc;\n}, []).slice(0, showAll ? Infinity : 5).filter(d => !d.key.includes('$'));\n\nconst longest = scores.reduce((acc, cur) => Math.max(acc, cur.key.length), 0) + 2;\n    \nprint(`{u}Leaderboard{/}`);\nconst colours = ['{y}','{gr}','{o}'];\nscores.forEach(({key, value}, i)=> {\n    const pad = longest - key.length - (String(i+1).length - 1);\n    print(`${i+1}. ${colours[i]||''}${key}{/}{bo}${'.'.repeat(pad>0?pad:0)}{/}{y}${+value}`)\n})\nprint(`roll9999 has been played {dc}${IRC.require('module.count').count()}{/} times`)",
+    "locked": false,
+    "starred": false
+}

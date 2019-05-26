@@ -1,0 +1,6 @@
+{
+    "name": "night",
+    "command": "print.raw(\"nn\");",
+    "locked": false,
+    "starred": false
+}

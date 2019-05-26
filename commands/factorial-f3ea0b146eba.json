@@ -1,0 +1,6 @@
+{
+    "name": "factorial",
+    "command": "(async () => {\n    if (Number(input) > 1000) {\n        return print('pls that number is going to be huge');\n    }\n    const BN = await acquire('bn.js@4.11.8');\n    function ctz32(t) {\n        return 31 - Math.clz32(t ^ (t - 1));\n    }\n    function factorial(t) {\n        const n = new BN(1);\n        let c = 1,\n            o = 0,\n            r = 0;\n        for (let e = 1; e <= t; ++e) {\n            let t = e;\n            const l = ctz32(t);\n            for (o += l, t >>= l; !(t % 5); ) (o -= 1), (r += 1), (t /= 5);\n            const i = c * t;\n            i < 67108864 ? (c = i) : (n.imuln(c), (c = t));\n        }\n        return n.imuln(c), n.ishln(o), n.toString() + '0'.repeat(r);\n    }\n    print(`factorial(${input}) = ${factorial(input)}`);\n})();\n",
+    "locked": true,
+    "starred": false
+}

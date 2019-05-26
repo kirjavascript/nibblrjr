@@ -1,0 +1,6 @@
+{
+    "name": "repeat",
+    "command": "const qty = (IRC.command.params[0] || Number.MAX_SAFE_INTEGER);\nif (qty > 10) {\n    throw new Error('pls no spam')\n}\nIRC.command = IRC.parseCommand({ text: input });\nif (IRC.command.path == 'repeat') {\n    throw new Error('pls no recursion')\n}\ninput = IRC.command.input;\nfor (let i = 0; i < qty; i++) {\n    IRC.require(IRC.command.path)\n}",
+    "locked": true,
+    "starred": true
+}

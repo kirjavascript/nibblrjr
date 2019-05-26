@@ -1,0 +1,6 @@
+{
+    "name": "len",
+    "command": "print(byteCount(input))\n\n\n    function byteCount(s) {\n        return encodeURI(s).split(/%..|./).length - 1;\n    }",
+    "locked": false,
+    "starred": false
+}

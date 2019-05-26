@@ -1,0 +1,6 @@
+{
+    "name": "linux",
+    "command": "print('http://i.imgur.com/z1gRQxt.jpg');",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "drain",
+    "command": "print.raw(( // legacy command wrapper\n     x => x + \" has to be taken aside and have all the piss and other nonsense-toxins drained out through a colostomy bag, and is then handed a medically-binding warning letter from a doctor advising not to let their narcissism build up to such dangerous levels in the future.\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

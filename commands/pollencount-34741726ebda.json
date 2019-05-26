@@ -1,0 +1,6 @@
+{
+    "name": "pollencount",
+    "command": "print(`CURRENT POLLEN COUNT: HIGH AS SHIT LOL`)",
+    "locked": false,
+    "starred": false
+}

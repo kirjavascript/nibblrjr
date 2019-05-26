@@ -1,0 +1,6 @@
+{
+    "name": "nhqdb",
+    "command": "print(fetchSync('https://nhqdb.alt.org/?' + input, { type: 'dom' }).document.querySelector('.quote_quote').textContent.trim())",
+    "locked": false,
+    "starred": false
+}

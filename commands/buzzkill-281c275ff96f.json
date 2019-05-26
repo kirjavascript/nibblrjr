@@ -1,0 +1,6 @@
+{
+    "name": "buzzkill",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" is starting to erode away at everyone's fuckin' hinges. It's about fuckin' time you got your goddamn coat and phoned a taxi home\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

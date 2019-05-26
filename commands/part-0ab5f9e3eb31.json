@@ -1,0 +1,6 @@
+{
+    "name": "part",
+    "command": "const [name, ...message] = input.split` `;\nIRC.sudo().node.client.part.call(name || IRC.message.target, IRC.colors(message.join` `));",
+    "locked": true,
+    "starred": true
+}

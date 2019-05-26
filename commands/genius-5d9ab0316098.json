@@ -1,0 +1,6 @@
+{
+    "name": "genius",
+    "command": "/*__TEXTCMD__*/print(`https://www.reddit.com/r/WTF/comments/an1d7n/genius_guy/`);",
+    "locked": false,
+    "starred": false
+}

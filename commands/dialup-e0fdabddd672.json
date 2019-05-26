@@ -1,0 +1,6 @@
+{
+    "name": "dialup",
+    "command": "print.raw(\"https://www.youtube.com/watch?v=gsNaR6FRuO0\");",
+    "locked": false,
+    "starred": false
+}

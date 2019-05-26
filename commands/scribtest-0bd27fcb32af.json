@@ -1,0 +1,6 @@
+{
+    "name": "scribtest",
+    "command": "if (IRC.message.from == 'kingchris') {\n    print('kingchris is a stupid NIGGER (wow that was racim dude)')}\nelse {\ns=_.shuffle('GINGER').join``; print(s=='GINGER'?'{o}'+s+'{/} (win)':IRC.message.from + ' is a ' +s)};",
+    "locked": false,
+    "starred": false
+}

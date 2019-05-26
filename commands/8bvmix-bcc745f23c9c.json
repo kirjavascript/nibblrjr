@@ -1,0 +1,6 @@
+{
+    "name": "8bv.mix",
+    "command": "getJSON('https://8bitvape.com/api/mix/' + input)\n    .then(obj => {\n        if (obj) {\n            if (obj.error) {\n                print('not found')\n                return\n            }\n            print(`{g}${obj.name}{/} by {b}${obj.user}{/}`)\n            print(`{dg}${obj.description}{/}`)\n            obj.flavours.forEach(function(flv){\n                print(`{p}${flv.company}{/} {y}${flv.name}{/}: {r}${flv.percentage}%{/}`)\n            })\n        }\n        else {\n            print('not found');\n        }\n    })\n    .catch(print.error);",
+    "locked": false,
+    "starred": false
+}

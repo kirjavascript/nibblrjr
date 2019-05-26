@@ -1,0 +1,6 @@
+{
+    "name": "poker.fold",
+    "command": "IRC.require('poker.game');\n(new Game()).load().fold();",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "isitfriday",
+    "command": "print.raw(( // legacy command wrapper\n    () => new Date().getDay()==5?'hell yes':'no :('\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

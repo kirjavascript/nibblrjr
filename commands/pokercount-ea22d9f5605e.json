@@ -1,0 +1,6 @@
+{
+    "name": "poker.count",
+    "command": "print(`poker has been played {dc}${IRC.require('module.count').count()}{/} times`)",
+    "locked": false,
+    "starred": false
+}

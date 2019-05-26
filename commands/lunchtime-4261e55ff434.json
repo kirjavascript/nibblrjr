@@ -1,0 +1,6 @@
+{
+    "name": "lunchtime",
+    "command": "print.raw(\"https://i.imgur.com/WgVfyit.png\");",
+    "locked": false,
+    "starred": false
+}

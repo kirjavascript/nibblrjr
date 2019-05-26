@@ -1,0 +1,6 @@
+{
+    "name": "sexy",
+    "command": " const wget = (url, callback) => {\n    getText(url).then(d => print(callback(null, d)));\n};\n\nprint.raw(( // legacy command wrapper\n    x => wget(\"http://www.textfiles.com/art/ASCIIPR0N/pr0n81.txt\", (a,b) => b)\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

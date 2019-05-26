@@ -1,0 +1,6 @@
+{
+    "name": "bestword",
+    "command": "if(input){\n    if(input.split(' ').length > 1){\n        print(\"Are you fucking retarded that's not one word\")\n    }else{\n        store.set('word', input) \n    }\n}else{\n    const word = store.get('word')\n    print('The best word I know is '+word)\n}",
+    "locked": false,
+    "starred": false
+}

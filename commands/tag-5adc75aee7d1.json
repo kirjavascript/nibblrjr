@@ -1,0 +1,6 @@
+{
+    "name": "tag",
+    "command": "const who = store.get('it');\nif (!who || IRC.message.from.toLowerCase() == who.trim().toLowerCase()) {\n    store.set('it', input.trim());\n    print(`{r}${input.trim()}{/} is it!`);\n}\nelse {\n    print(`${who} is it tho`);\n}",
+    "locked": true,
+    "starred": false
+}

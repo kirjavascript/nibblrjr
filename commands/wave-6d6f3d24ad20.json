@@ -1,0 +1,6 @@
+{
+    "name": "wave",
+    "command": "print('{dc}' + String.fromCharCode(...[...Array(64)].map((_, i) => 9605 + Math.sin(i / 5) * 4 | 0)) )",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "hltv",
+    "command": "print.raw(( // legacy command wrapper\n   x => {if(x=='matches') return 'http://www.hltv.org/matches/';if(x=='results') return 'http://www.hltv.org/results/';else return 'http://www.hltv.org';}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

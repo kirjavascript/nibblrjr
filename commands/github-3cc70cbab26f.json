@@ -1,0 +1,6 @@
+{
+    "name": "github",
+    "command": "getDOM(`https://github.com/search?q=` + input)\n.then(dom => {\n    print(`${dom.qsa('.repo-list h3 > a')\n        .map(d => `http://github.com${d.href} - ${d.parentNode.nextElementSibling.textContent.trim()}`)\n        .splice(0, IRC.command.params[0] || 3)\n        .join`\\n`}`);\n})\n.catch(print.error);",
+    "locked": true,
+    "starred": false
+}

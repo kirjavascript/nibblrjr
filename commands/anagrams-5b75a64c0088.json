@@ -1,0 +1,6 @@
+{
+    "name": "anagrams",
+    "command": "input &&\ngetDOM('http://anagram-solver.net/' + encodeURIComponent(input))\n    .then(dom => {\n        const answers = dom.qsa('.answers a').map(d => d.textContent);\n        print(answers.join` `);\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "isitmonday",
+    "command": "print(( // legacy command wrapper\n    () => new Date().getDay()==1?'yep :(':'{p}nope!'\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

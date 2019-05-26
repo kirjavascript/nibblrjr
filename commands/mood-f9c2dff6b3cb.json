@@ -1,0 +1,6 @@
+{
+    "name": "mood",
+    "command": "action.raw(( // legacy command wrapper\n   function mood(a){var responses = [\n    'happy (◍•ᴗ•◍)',\n    'sleepy (-_-)zzz',\n    'horny ( ͡~ ͜ʖ ͡°)',\n    'dog (❍ᴥ❍ʋ)',\n    'surprised (⚆_⚆)',\n    'annoyed (¬_¬)',\n    'upset .·´¯`(>▂<)´¯`·.',\n    'smoochy ( ˘ ³˘)♥',\n    'retarded ヘ（。□°）ヘ',\n    'unsure ⊜_⊜',\n    'serious (•_•)',\n    'content (◡‿◡✿)',\n    'frisky （*＾3＾）/～♡',\n    'baked ( ͡ຈ ͜ʖ ͡ຈ)',\n    'sad ʘ︵ʘ',\n    'mad 凸(⊙▂⊙✖ )',\n    'classy (•_•) ( •_•)>⌐■-■ (⌐■_■)',\n    'drunk （ ^_^）o自自o（^_^ ）',\n    'alarmed (┛◉Д◉)┛彡┻━┻',\n    'wat ●_●',\n    'dancy └(=^‥^=)┐',\n    'suave 〜(￣△￣〜)',\n    'sassy (~˘▾˘)~'\n    ];\nreturn responses[(0| (new Date) / 1e5) % responses.length]}\n)(input, input.split(' '), IRC.message));",
+    "locked": true,
+    "starred": false
+}

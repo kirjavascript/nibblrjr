@@ -1,0 +1,6 @@
+{
+    "name": "q",
+    "command": "print.raw(( // legacy command wrapper\n   x => '¿' + x + '?'\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

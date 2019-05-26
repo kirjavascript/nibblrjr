@@ -1,0 +1,6 @@
+{
+    "name": "sex",
+    "command": "print.raw(\"!sex sex\");",
+    "locked": false,
+    "starred": false
+}

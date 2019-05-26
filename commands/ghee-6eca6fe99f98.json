@@ -1,0 +1,6 @@
+{
+    "name": "ghee",
+    "command": "print(input+' is ghee')",
+    "locked": false,
+    "starred": false
+}

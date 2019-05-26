@@ -1,0 +1,6 @@
+{
+    "name": "poker.isRunning",
+    "command": "IRC.require('poker.game');\nprint(Game.isRunning()?'yes':'no');",
+    "locked": false,
+    "starred": false
+}

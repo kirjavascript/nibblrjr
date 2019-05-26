@@ -1,0 +1,6 @@
+{
+    "name": "poker.score",
+    "command": "function getScore(name) {\n    const obj = store.get(name);\n    if (typeof obj == 'undefined') {\n        store.set(name, '1000');   \n        return 1000;\n    }\n    else {\n        return +obj;\n    }\n};\nfunction setScore(name, amount) {\n    store.set(name, String(Math.max(amount, 0)|0));\n};\nfunction addScore(name, amount) {\n    setScore(name, getScore(name) + amount);\n};\nfunction subScore(name, amount) {\n    setScore(name, getScore(name) - amount);\n};\n\nfunction addBuyin(name) {\n    const obj = store.get('buyin$' + name);\n    if (typeof obj == 'undefined') {\n        store.set('buyin$' + name, '1');\n    }\n    else {\n        store.set('buyin$' + name, (+obj + 1));\n    }\n};\n\nfunction getBuyin(name) {\n    const obj = store.get('buyin$' + name);\n    if (typeof obj == 'undefined') {\n        return 0;\n    }\n    else {\n        return +obj;\n    }\n};\n\nmodule.exports = {\n    getScore, setScore, addScore, subScore, addBuyin, getBuyin,\n};",
+    "locked": false,
+    "starred": false
+}

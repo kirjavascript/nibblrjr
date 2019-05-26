@@ -1,0 +1,6 @@
+{
+    "name": "inspect",
+    "command": "print.raw(( // legacy command wrapper\n   x => x + \" gets a little bit up too close and personal with his 'Inspector Gadget' Ultro-Magnificard magnifying glass as he continues to closely inspect all the way down your knicker-drawers despite the disapproving throat-clearings of an increasing multitude of passers by.\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "pool",
+    "command": "throw new Error('{bo}{bl,b}P{r}O{o}O{bl}L{/}');\n// 19:11 <&cr0sis> ~pool.shot 0deg 0vel",
+    "locked": true,
+    "starred": false
+}

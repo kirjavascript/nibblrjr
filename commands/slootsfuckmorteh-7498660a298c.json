@@ -1,0 +1,6 @@
+{
+    "name": "sloots.fuckmorteh",
+    "command": "store.set('Morteh', 0);",
+    "locked": false,
+    "starred": false
+}

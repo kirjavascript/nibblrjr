@@ -1,0 +1,6 @@
+{
+    "name": "bashbest",
+    "command": "getDOM(\"http://www.bash.org/?top\")\n    .then(dom => {\n        print(dom.qs('.qt').textContent)\n        \n    })\n    .catch(print.error)",
+    "locked": false,
+    "starred": false
+}

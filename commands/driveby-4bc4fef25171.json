@@ -1,0 +1,6 @@
+{
+    "name": "driveby",
+    "command": "print.raw(\"fuck you\");",
+    "locked": false,
+    "starred": false
+}

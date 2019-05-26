@@ -1,0 +1,6 @@
+{
+    "name": "powerup",
+    "command": "print.raw(\"http://i.imgbox.com/1y2CZ2vq.gif \");",
+    "locked": false,
+    "starred": false
+}

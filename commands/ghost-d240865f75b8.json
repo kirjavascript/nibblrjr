@@ -1,0 +1,6 @@
+{
+    "name": "ghost",
+    "command": "print(\"👻\");",
+    "locked": false,
+    "starred": false
+}

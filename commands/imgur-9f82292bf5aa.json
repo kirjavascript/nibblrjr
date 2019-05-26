@@ -1,0 +1,6 @@
+{
+    "name": "imgur",
+    "command": "getJSON('https://api.imgur.com/3/gallery/search/top/0/?q='+encodeURIComponent(input), {\n    headers: {\n        'Authorization': 'Client-ID 40c7a9fdded8139',\n    },\n})\n    .then(obj => {\n        const image = _.shuffle(obj.data).pop();\n        if (image) {\n            print(`{g}${image.title}{/} - {b}{u}${image.link}`);\n        }\n        else {\n            throw new Error('No image found');\n        }\n    })\n    .catch(d=>print(d.message))",
+    "locked": true,
+    "starred": true
+}

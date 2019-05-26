@@ -1,0 +1,6 @@
+{
+    "name": "ed",
+    "command": "print.raw(( // legacy command wrapper\n   function ed(a){var responses = [\"GRAVY!\", \"1 plus 1 is 1 on a bun!\", \"Eggs, eggs, eggs, eggs, eggs...\", \"Show yourself, Mutant Scab Laborer!\", \"Show yourself, Mutant Scab Laborer!\", \"1 plus 1 is 1 on a bun!\"]; return responses[Math.random()*responses.length|0]}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

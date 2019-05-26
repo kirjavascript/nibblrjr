@@ -1,0 +1,6 @@
+{
+    "name": "dots",
+    "command": "// Buck\n\nlet base = +'0x2800'\n\nlet text = input.split('.').map( x => parseInt( x, 36).toString(2))\n\nwhile( text.length%4) { text.push( '0')}\n\nlet colCount = Math.max( ...text.map( x => x.length))\nlet rowCount = text.length\n\ntext = text.map( x => x.padStart (colCount, '0'))\n\nlet output = ''\n\nfor(let row=0; row<rowCount; row+=4) {\n    for(let col=0; col<colCount; col+=2) {\n        let binary = ''\n        \n        binary += text[row+3][col+1]\n        binary += text[row+3][col]\n        binary += text[row+2][col+1]\n        binary += text[row+1][col+1]\n        binary += text[row][col+1]\n        binary += text[row+2][col]\n        binary += text[row+1][col]\n        binary += text[row][col]\n        \n        let value = parseInt( binary, 2)\n        output += String.fromCharCode(base+value)\n    }\n    output += '\\n'\n}\n\nprint( output)",
+    "locked": false,
+    "starred": false
+}

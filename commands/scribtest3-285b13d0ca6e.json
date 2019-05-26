@@ -1,0 +1,6 @@
+{
+    "name": "scribtest3",
+    "command": "IRC.require('poker.game'); store.set('buyin$' + 'Scribbler', '1');",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "poke",
+    "command": "action(`☞${input}`);",
+    "locked": false,
+    "starred": false
+}

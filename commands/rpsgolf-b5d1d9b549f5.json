@@ -1,0 +1,6 @@
+{
+    "name": "rps-golf",
+    "command": "m=['rock','paper','scissors'];c=0|Math.random()*3;h=m.indexOf(input);print(['draw','lose','win'][((c-h)%3+3)%3]+'-'+m[c])",
+    "locked": true,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "poopfact",
+    "command": "print(require('poo').fact())",
+    "locked": false,
+    "starred": false
+}

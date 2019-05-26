@@ -1,0 +1,6 @@
+{
+    "name": "bar",
+    "command": "print('http://i.imgur.com/S6HNlQu.jpg');",
+    "locked": false,
+    "starred": false
+}

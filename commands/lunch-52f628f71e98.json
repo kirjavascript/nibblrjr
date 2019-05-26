@@ -1,0 +1,6 @@
+{
+    "name": "lunch",
+    "command": "function onLunch(user){\r\n    return typeof(store.get(user)) !== \"undefined\"\r\n}\r\n\r\nif (input.length > 0){\r\n    let lunch_check = input.split(\" \")[0];\r\n    if (onLunch(lunch_check)){\r\n        print(`${lunch_check} is fooding right now`)\r\n    }\r\n    else{\r\n        print(`${lunch_check} is not fooding anymore`)\r\n    }\r\n}\r\nelse{\r\n    let lunched_user = IRC.message.from\r\n    if (!onLunch(lunched_user)){\r\n        print(`${lunched_user} will be fooding now`)\r\n        store.set(lunched_user,Date.now())\r\n    }\r\n    else{\r\n        let lunch_time = new Date(+store.get(lunched_user))\r\n        print(`${lunched_user} was on lunch from ${lunch_time.toGMTString()} to ${(new Date(Date.now())).toGMTString()} and has returned`)\r\n        store.set(lunched_user,undefined)\r\n    }\r\n}",
+    "locked": false,
+    "starred": false
+}

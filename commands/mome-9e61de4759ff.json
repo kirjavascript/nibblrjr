@@ -1,0 +1,6 @@
+{
+    "name": "mome",
+    "command": "print(`s/[a-zA-Z0-9]/mome/gi`)",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "while",
+    "command": "let i = 1;\r\n\r\nfunction roughSizeOfObject( object ) {\r\n\r\n    var objectList = [];\r\n    var stack = [ object ];\r\n    var bytes = 0;\r\n\r\n    while ( stack.length ) {\r\n        var value = stack.pop();\r\n\r\n        if ( typeof value === 'boolean' ) {\r\n            bytes += 4;\r\n        }\r\n        else if ( typeof value === 'string' ) {\r\n            bytes += value.length * 2;\r\n        }\r\n        else if ( typeof value === 'number' ) {\r\n            bytes += 8;\r\n        }\r\n        else if\r\n        (\r\n            typeof value === 'object'\r\n            && objectList.indexOf( value ) === -1\r\n        )\r\n        {\r\n            objectList.push( value );\r\n\r\n            for( var i in value ) {\r\n                stack.push( value[ i ] );\r\n            }\r\n        }\r\n    }\r\n    return bytes;\r\n}\r\n\r\nwhile(1) {\r\n  i *= (i+1)**2;\r\n\r\n  print(roughSizeOfObject(i));\r\n}",
+    "locked": false,
+    "starred": false
+}

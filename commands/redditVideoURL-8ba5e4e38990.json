@@ -1,0 +1,6 @@
+{
+    "name": "redditVideoURL",
+    "command": "getJSON(`${input}/.json`)\n    .then(obj => {\n        print(`{u}{dc}${obj[0].data.children[0].data.secure_media.reddit_video.fallback_url}`)\n    })\n    .catch(e => {\n        throw new Error(e);\n    })",
+    "locked": true,
+    "starred": false
+}

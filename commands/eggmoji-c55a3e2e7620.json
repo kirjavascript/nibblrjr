@@ -1,0 +1,6 @@
+{
+    "name": "eggmoji",
+    "command": "print('🥚'.repeat(40))\nprint('🥚'.repeat(40))\nprint('🥚'.repeat(40))\nprint('🥚'.repeat(40))\nprint('🥚'.repeat(40))\nprint('🥚'.repeat(40))\nprint('🥚'.repeat(40))\nprint('🥚'.repeat(40))\nprint('🥚'.repeat(40))\nprint('🥚'.repeat(40))",
+    "locked": false,
+    "starred": false
+}

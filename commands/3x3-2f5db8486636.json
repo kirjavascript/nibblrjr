@@ -1,0 +1,6 @@
+{
+    "name": "3x3",
+    "command": "IRC.require('3')",
+    "locked": true,
+    "starred": false
+}

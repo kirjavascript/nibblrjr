@@ -1,0 +1,6 @@
+{
+    "name": "me",
+    "command": "print.log(IRC.message);",
+    "locked": true,
+    "starred": false
+}

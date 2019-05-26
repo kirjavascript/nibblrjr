@@ -1,0 +1,6 @@
+{
+    "name": "chill",
+    "command": "print.raw(( // legacy command wrapper\n     x => x + \" needs to simmer-down and take a time-out before he bursts his jets and spills forth a molten river of pure splurty pyroclastic rage-hate.\"\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

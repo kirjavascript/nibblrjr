@@ -1,0 +1,6 @@
+{
+    "name": "brain",
+    "command": "print.raw(( // legacy command wrapper\n   function brain(a){var responses = [\"'Brain' loosely refers to the act of giving or receiving oral sex; though more specifically it is used to refer to an exceptionally memorable act of fellatio, of which its significance, strictly, could only be described as particularly mind-blowing. \\n'Giving brain' is a remarkable technical feat of the human body only achievable by a very minute fraction of a percentage of the human population, causing one to experience sensations upon the bulbous bell-end the confusing tactile sensation of a human brain, being quickly mushed and smooshed repeatedly by Fireman's hosepipe. \\nThis sensation is colloquially and ironically referred to - primarily by a lost-all-hope 'Angry Birds' generation - as 'gaining knowledge'.\"];\nreturn responses[Math.random()*responses.length|0]}\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

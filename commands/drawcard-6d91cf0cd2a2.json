@@ -1,0 +1,6 @@
+{
+    "name": "drawcard",
+    "command": "print(\"123456789⒑JQK\".split(\"\")[(Math.random()*13)|0] + [\"♠\",\"{r}♥\",\"{r}♦\",\"♣\"][(Math.random()*4)|0]);",
+    "locked": true,
+    "starred": false
+}

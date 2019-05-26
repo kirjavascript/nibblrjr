@@ -1,0 +1,6 @@
+{
+    "name": "speedgaming",
+    "command": "print(`http://speedgaming.org/schedule/?timezone-uk=UK`)",
+    "locked": false,
+    "starred": false
+}

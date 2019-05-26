@@ -1,0 +1,6 @@
+{
+    "name": "lsewings",
+    "command": "const moves=['2R','2L','m','U'];\nconst aufs=['','\\'','2'];\nconst getNextMove=(last = {}, last2) => {\n    const aufIndex = 0|Math.random()*aufs.length;\n    let moveIndex = last.moveIndex;\n    while (moveIndex == last.moveIndex) {\n        moveIndex = 0|Math.random()*moves.length;\n    }\n    if (moveIndex < 3 && last.moveIndex < 3 || moveIndex < 2 && last.moveIndex == 1 && last2.moveIndex < 2) {\n        moveIndex = 3;\n    }\n    return {\n        aufIndex,\n        moveIndex,\n    };\n};\n\nconst s = [...Array(25)].reduce((a, c) => (\n    a.push(getNextMove(a[a.length-1], a[a.length-2])),a\n), [])\n\nconst scramble = s.map(({aufIndex, moveIndex})=> `${moves[moveIndex]}${aufs[aufIndex]}`).join` `;\n\nprint(`LSEWings scramble #${IRC.require('module.count').next()}: ${scramble}`)",
+    "locked": true,
+    "starred": false
+}

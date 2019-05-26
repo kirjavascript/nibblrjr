@@ -1,0 +1,6 @@
+{
+    "name": "ayyyy",
+    "command": "print.raw( Array(3).join(\"(☞ﾟ∀ﾟ)☞\\n☜(ﾟヮﾟ☜)\\n\"));",
+    "locked": true,
+    "starred": false
+}

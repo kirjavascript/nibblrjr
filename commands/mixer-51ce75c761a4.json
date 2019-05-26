@@ -1,0 +1,6 @@
+{
+    "name": "mixer",
+    "command": "print('{u}{dc}http://mixer.kirjava.xyz')",
+    "locked": true,
+    "starred": false
+}

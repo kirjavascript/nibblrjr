@@ -1,0 +1,6 @@
+{
+    "name": "sarcasm",
+    "command": "print.raw(\"https://www.youtube.com/watch?v=-sbFhOeqTzY\");",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "simpsons",
+    "command": "getDOM(\"http://www.randomsimpsonsquote.com/\")\n    .then(dom => {\n        print(dom.qs('blockquote').textContent)\n    })\n    .catch(print.error)",
+    "locked": true,
+    "starred": false
+}

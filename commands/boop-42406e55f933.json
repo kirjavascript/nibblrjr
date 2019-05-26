@@ -1,0 +1,6 @@
+{
+    "name": "boop",
+    "command": "const boops = store.get('boops') || 0;\nif (!boops) {\n    store.set('boops', '1');\n}\nelse {\n    print(`${+boops+1} boops have been booped`);\n    store.set('boops', +boops + 1);\n}\n",
+    "locked": true,
+    "starred": true
+}

@@ -1,0 +1,6 @@
+{
+    "name": "d.va",
+    "command": "print(( // legacy command wrapper\n   function dva(a){var responses = [\"I play to win.\",\"Suiting up!\",\"Game on!\",\"I'm back in the fight!\",\"I'll show them.\",\"Nerf this!\",\"??\",\"Thanks.\",\"Thumbs up!\",\"Got it.\",\"Okay!\",\"I need healing!\",\"I could use a hand.\",\"Form up!\",\" Ultimate ready!\",\"I'm on a roll\",\"I'm just getting warmed up!\",\"???\",\"They're taking the point! Time to get some kills.\",\"Enemies on the point! Let's clear them out.\",\"Bailing out!\",\"Time to raise my APM!\",\"Defenes Matrix activated.\",\"Get through this!\",\"I'm gonna shoot you down.\",\"Boosters engaged.\",\"Bunny hop!\",\"Taking off.\",\"??? ?\",\"Dammit.\",\"Love, D.va!\",\"D.va 1, bad guys 0.\",\"I'm number one!\",\"MEKA leads the way!\",\"No hacks required.\",\"The best things in life come in small packages!\",\"Winky face!\",\"Here comes a new challenger!\",\"Hehe, G G!\",\"Is this easy mode?\"];\nreturn '{r}' + responses[Math.random()*responses.length|0]\n)(input, input.split(' '), IRC.message));",
+    "locked": false,
+    "starred": false
+}

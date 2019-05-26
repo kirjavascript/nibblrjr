@@ -1,0 +1,6 @@
+{
+    "name": "memó",
+    "command": "if (!IRC.command.params[0] || !input.trim()) {\n    throw new SyntaxError(`{p}${IRC.trigger}memó(name){/} [message] or {p}${IRC.trigger}memó(name, time){/} [message]`)\n}\nelse {\n    const now = new Date();\n    const [name, time] = IRC.command.params;\n    const timestamp = time ? IRC.parseTime(time) : now;\n    const distance = dateFns.distanceInWordsStrict(timestamp, now);\n    if (dateFns.isBefore(timestamp, now)) {\n        throw new Error(`epoch fail - requested time is ${distance} ago`);\n    }\n    IRC.eventFns.addEvent('speak', {\n        callback: 'memó.event',\n        time: timestamp,\n        message: `Jablinksi Gaming`,\n        target: name.trim(),\n    });\n    print(`Saved message for ${IRC.colors.nick(name)}` + (timestamp.getTime() == now.getTime() ? '' : ` in {o}${distance}{/} on {dc}${dateFns.format(timestamp, 'dddd MMMM Do YYYY HH:mm:ss')}{/}`))\n}",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "umad",
+    "command": "print.raw(\"http://i.imgur.com/vk4LVJW.jpg\");",
+    "locked": false,
+    "starred": false
+}

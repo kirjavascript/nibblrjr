@@ -1,0 +1,6 @@
+{
+    "name": "bet7.test",
+    "command": "print.log(store.all())",
+    "locked": false,
+    "starred": false
+}

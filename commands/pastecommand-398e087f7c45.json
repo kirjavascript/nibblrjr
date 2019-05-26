@@ -1,0 +1,6 @@
+{
+    "name": "paste_command",
+    "command": "//create new command from paste\r\n \r\n(async () => {\r\n    try {\r\n        const url = input;\r\n        const rawUrl = url.includes('raw') ? url : url.replace('.com/', '.com/raw/');\r\n        const text = await getText(rawUrl);\r\n        const name = (IRC.command.params[0]||'').replace(/\\s+/g, '');\r\n        const obj = IRC.commandFns.get(name);\r\n \r\n        if (!name || !input) {\r\n            print(`{r}Syntax:{/} {p}${IRC.trigger}command.new(name){/} print(\\`hello world\\`)`)\r\n        }\r\n        else if (obj && obj.locked) {\r\n            print(`{r}Error:{/} ${name} is locked`)\r\n        }\r\n        else if (obj) {\r\n            print(`{r}Error:{/} ${name} already exists - use {p}${IRC.trigger}command.edit{/}`)\r\n        }\r\n        else {\r\n            const status = IRC.commandFns.setSafe(name, text);\r\n            if (status) {\r\n                print(`{p}${IRC.trigger}${name}{/} added`)\r\n            }\r\n            else {\r\n                print(`error adding {p}${IRC.trigger}${name}{/} - parent command may be locked`)\r\n            }\r\n        }\r\n    } catch (e) {\r\n        print.error(e);\r\n    }\r\n})();",
+    "locked": false,
+    "starred": false
+}

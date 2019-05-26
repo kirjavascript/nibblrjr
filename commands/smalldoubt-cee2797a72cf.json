@@ -1,0 +1,6 @@
+{
+    "name": "smalldoubt",
+    "command": "print.raw(\"http://i.imgur.com/gttcHbd.png\");",
+    "locked": false,
+    "starred": false
+}

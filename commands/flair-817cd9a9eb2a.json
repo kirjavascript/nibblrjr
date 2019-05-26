@@ -1,0 +1,6 @@
+{
+    "name": "flair",
+    "command": "print(\"http://i.imgur.com/fnEnENY.jpg\");",
+    "locked": false,
+    "starred": false
+}

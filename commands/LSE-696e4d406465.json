@@ -1,0 +1,6 @@
+{
+    "name": "LSE",
+    "command": "IRC.require('lse')",
+    "locked": false,
+    "starred": false
+}

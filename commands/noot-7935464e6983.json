@@ -1,0 +1,6 @@
+{
+    "name": "noot",
+    "command": "print.raw(\"\u0002NOOT\u0002\\n\u0002\u001f\u001dNOOT\u0002\u001f\u001d\");",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "scribtest69",
+    "command": "const { from } = IRC.message; print(`${from}`)",
+    "locked": false,
+    "starred": false
+}

@@ -1,0 +1,6 @@
+{
+    "name": "numberDate",
+    "command": "x => wget(\"http://numbersapi.com/\"+x+\"/date\",(a,b)=>b)",
+    "locked": true,
+    "starred": false
+}

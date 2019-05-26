@@ -1,0 +1,6 @@
+{
+    "name": "kick",
+    "command": "const [name, ...message] = input.split` `;\nIRC.sudo().node.client.send.call('KICK', IRC.message.target, name, IRC.colors(message.join` `));",
+    "locked": true,
+    "starred": true
+}

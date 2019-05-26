@@ -1,0 +1,6 @@
+{
+    "name": "rx",
+    "command": "if (!input) {\n    throw new Error(`usage: ${IRC.colors.cmd('rx', '^regex$/replacement', 'user')}`);\n}\nconst [rx, rep] = input.split('/');\nconst [user, offset] = IRC.command.params;\nconst { from } = IRC.message;\nconst msg = !!user ? `${from} thinks ${user} meant to say: ` : `${from} meant to say: `;\nprint(msg + IRC.log.user(user || from, '', 1, offset || 0)[0].message.replace(new RegExp(rx, 'g'), rep))",
+    "locked": true,
+    "starred": true
+}

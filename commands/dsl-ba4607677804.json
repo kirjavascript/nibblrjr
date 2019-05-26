@@ -1,0 +1,6 @@
+{
+    "name": "dsl",
+    "command": "print('http://i.imgur.com/mMhC07e.jpg');",
+    "locked": false,
+    "starred": false
+}

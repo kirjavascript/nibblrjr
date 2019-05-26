@@ -1,0 +1,6 @@
+{
+    "name": "reset",
+    "command": "// see also: help.spam\nIRC.resetBuffer();",
+    "locked": true,
+    "starred": true
+}

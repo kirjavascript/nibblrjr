@@ -1,0 +1,6 @@
+{
+    "name": "hipster",
+    "command": "print.raw(\"http://imgur.com/a/Dlq1G\");",
+    "locked": false,
+    "starred": false
+}
