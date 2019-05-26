@@ -96,6 +96,10 @@ function createCommandDB() {
         return getAllCommands().map(cmd => cmd.name);
     };
 
+    const count = () => {
+        return fs.readdirSync(commandPath()).length;
+    };
+
     const setSafe = (name, value) => {
         const obj = get(name);
         const isEval = ['>', '#', '%'].includes(name);
@@ -128,6 +132,7 @@ function createCommandDB() {
         get,
         list,
         names,
+        count,
         setSafe,
         deleteSafe,
     });
