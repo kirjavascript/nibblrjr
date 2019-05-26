@@ -1,10 +1,10 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
+timeout for fetchSync
 fix function + method inspect
 node.updateConfig
 IRC.runCommand
-IRC.secrets
 command autocorrect
 secret commands
 sleep(1); poker
@@ -15,7 +15,6 @@ docs
 change command db to JSON
 http push /
 updateConfig / merge getChannelConfig and .get
-SyntaxError displays wrong
 index db
 ~chess
 add print limit to get envinronment to limit event callback spam

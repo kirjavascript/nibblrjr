@@ -46,6 +46,7 @@ async function evaluate({
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
                 epoch: node.parent.epoch,
                 version,
+                secret: node.get('secrets', {})[command.root],
             },
         };
 
@@ -163,7 +164,7 @@ async function evaluate({
         }
 
         wrapFns(node.database.logFactory(msgData.target), 'log');
-        wrapFns(node.database.storeFactory(command.list[0]), 'store');
+        wrapFns(node.database.storeFactory(command.root), 'store');
         wrapFns(node.parent.database.commands.getCommandFns(node), 'commandFns');
         wrapFns(node.database.eventFactory(msgData), 'eventFns');
 
