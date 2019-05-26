@@ -10,6 +10,7 @@ function parseCommand({ trigger = '', text }) {
         path: commandPath,
         list: commandList,
         params: paramList,
+        root: commandList[0],
         input,
     };
 }

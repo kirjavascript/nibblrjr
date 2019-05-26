@@ -177,7 +177,7 @@ class ServerNode {
                 else {
                     const cmdData = parent.database.commands.get(command.path);
                     const canBroadcast = this.get('broadcast-commands', [])
-                        .includes(command.list[0]);
+                        .includes(command.root);
 
                     if (cmdData) {
                         mod.evaluate({
