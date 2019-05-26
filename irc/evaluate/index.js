@@ -165,7 +165,7 @@ async function evaluate({
 
         wrapFns(node.database.logFactory(msgData.target), 'log');
         wrapFns(node.database.storeFactory(command.root), 'store');
-        wrapFns(node.parent.database.commands.getCommandFns(node), 'commandFns');
+        wrapFns(node.parent.database.commands.getCommandFns(), 'commandFns');
         wrapFns(node.database.eventFactory(msgData), 'eventFns');
 
         await (await isolate.compileScript(`
