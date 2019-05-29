@@ -1,6 +1,0 @@
-{
-    "name": "golf_score",
-    "command": "const username = IRC.message.from\nconst task = input\n\nconst scores = IRC.require('module.loadObject')(`scores-${task}`)[0]\n\nif( scores[username]) {\n    print(`Score for ${task} for ${username} is ${scores[username].bytes} bytes`)\n} else {\n    print(`No score on ${task} for ${username}.`)\n}\n",
-    "locked": false,
-    "starred": false
-}

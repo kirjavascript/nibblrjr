@@ -1,0 +1,6 @@
+{
+    "name": "terser",
+    "command": "const out = require('terser').minify(input, { toplevel: true }).code.replace(/;$/, '');\nprint(`${out} ({dc}${byteCount(input)-byteCount(out)}{/} bytes saved)`)\n\nfunction byteCount(s) {\n    return encodeURI(s).split(/%..|./).length - 1;\n}",
+    "locked": true,
+    "starred": true
+}
