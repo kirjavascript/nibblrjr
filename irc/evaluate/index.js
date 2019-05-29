@@ -172,8 +172,8 @@ async function evaluate({
             global.scripts = {};
             ${scripts.map(([name, script]) => `
                 (function() {
-                    const module = {};
                     const exports = {};
+                    const module = { exports };
                     ${script};
                     global.scripts[${JSON.stringify(name)}] = module.exports;
                 })();
