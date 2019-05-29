@@ -386,6 +386,7 @@ async function evaluate({
 
             delete global.config;
             delete global.scripts;
+            global.console = {};
 
             ['global', 'acquire', 'module']
                 .forEach(key => {
