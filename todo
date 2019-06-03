@@ -8,7 +8,6 @@ IRC.runCommand
 command autocorrect
 secret commands
 sleep(1); poker
-/usr/share/dict/words IRC.wordList Array
 nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
 provide a message when downloading from npm
 docs
