@@ -1,0 +1,6 @@
+{
+    "name": "scrabble.find",
+    "command": "getJSON(`http://dict.ickler.cloud:4242/scrabble/${input}`)\n    .then(obj => {\n        print(obj[\"Message\"])\n    })\n    .catch(d => {\n        print('Error')\n    })",
+    "locked": false,
+    "starred": false
+}

@@ -1,6 +1,6 @@
 {
     "name": "imdb",
-    "command": "// http://www.omdbapi.com/?apikey=9eda7178&s=pokemon\n// http://www.omdbapi.com/?apikey=9eda7178&t=pokemon\n// http://www.omdbapi.com/?apikey=9eda7178&i=tt0190641\ngetJSON(`http://www.omdbapi.com/?apikey=9eda7178&s=${encodeURIComponent(input)}`)\n    .then((obj) => {\n        if (!obj.Search) {\n            return print('{r}Error:{/} no resultaroos, friend');\n        }\n        obj.Search.splice(0, IRC.command.params[0] || 3)\n            .forEach((result) => {\n                getJSON(`http://www.omdbapi.com/?apikey=9eda7178&i=${result.imdbID}`)\n                    .then((obj) => {\n                        print(`${obj.Title} (${obj.Released}) - ${obj.imdbRating} {y}★{/} (${obj.imdbVotes} votes) {u}{dc}https://www.imdb.com/title/${obj.imdbID}`);\n                    })\n                    .catch(print.error);\n            });\n    })\n    .catch(print.error);\n",
-    "locked": true,
+    "command": "getJSON(`http://www.omdbapi.com/?apikey=9eda7178&s=${encodeURIComponent(input)}`)\n    .then((obj) => {\n        if (!obj.Search) {\n            return print.error('no resultaroos, friend');\n        }\n        obj.Search.splice(0, IRC.command.params[0] || 3)\n            .forEach((result) => {\n                getJSON(`http://www.omdbapi.com/?apikey=9eda7178&i=${result.imdbID}`)\n                    .then((obj) => {\n                        print(`${obj.Title} (${obj.Released}) - ${obj.imdbRating} {y}★{/} (${obj.imdbVotes} votes) {u}{dc}https://www.imdb.com/title/${obj.imdbID}`);\n                    })\n                    .catch(print.error);\n            });\n    })\n    .catch(print.error);\n",
+    "locked": false,
     "starred": false
 }
