@@ -1,4 +1,4 @@
-// from object-inspect, modified for nibblrjr
+// from object-inspect, modified for IRC
 // original licence follows
 //
 // This software is released under the MIT license:
@@ -132,7 +132,8 @@ function inspect_(obj, opts, depth, seen) {
     }
     if (isArray(obj)) {
         if (obj.length === 0) return '[]';
-        return '[ ' + arrObjKeys(obj, inspect).join(', ') + ' ]';
+        if (obj.length > 1000) return `[ ${arrObjKeys(obj.slice(0, 1000), inspect).join(', ')} ... ${obj.length - 1000} more items ]`
+        return `[ ${arrObjKeys(obj, inspect).join(', ')} ]`;
     }
     if (isError(obj)) {
         var parts = arrObjKeys(obj, inspect);
