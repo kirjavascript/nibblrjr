@@ -1,3 +1,4 @@
+const fs = require('fs');
 const ivm = require('isolated-vm');
 const fetch = require('node-fetch');
 const _ = require('lodash');
@@ -88,6 +89,21 @@ async function evaluate({
                 .then((...args) => { resolve.applySync(undefined, args) })
                 .catch((...args) => { reject.applySync(undefined, args) });
         }));
+        jail.setSync('_wordList', new ivm.Reference(() => (
+            new Promise((resolve, reject) => {
+                const path = '/usr/share/dict/words';
+                fs.exists(path, (exists) => {
+                    if (exists) {
+                        fs.readFile(path, 'utf8', (err, data) => {
+                            if (err) reject(err);
+                            else resolve(new ivm.ExternalCopy(data).copyInto());
+                        });
+                    } else {
+                        reject(new Error(`no such file: ${path}`));
+                    }
+                });
+            })
+        )));
         jail.setSync('_fetchSync', new ivm.Reference((str, config = {}) => (
             new Promise((resolve, reject) => {
                 fetch(str, config)
@@ -140,7 +156,6 @@ async function evaluate({
                 }
             }
         }));
-
         jail.setSync('_loadLazy', new ivm.Reference((filename) => {
             return new Promise((resolve, reject) => {
                 loadLazy(filename, (err, success) => {
@@ -294,6 +309,10 @@ async function evaluate({
                     new ref.ivm.Reference(res),
                     new ref.ivm.Reference(rej),
                 ]);
+            });
+
+            Object.defineProperty(IRC, 'wordList', {
+                get: () => ref.wordList.applySyncPromise().trim().split(/[\n\r]/),
             });
 
             function unwrapFns(name) {
