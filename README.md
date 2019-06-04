@@ -1,6 +1,5 @@
 nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 
-* built in help
 * multiple servers/channels
 * web CRUD command UI
 * rich IRC command API
