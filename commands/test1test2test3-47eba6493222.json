@@ -1,0 +1,6 @@
+{
+    "name": "test1.test2.test3",
+    "command": "print(IRC.command.root)",
+    "locked": false,
+    "starred": false
+}

@@ -1,8 +1,9 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
 // TODO //
+module.paste
+command.pasteTo pasteFrom
 fix function + method inspect
-module.pastebin
 node.updateConfig
 IRC.runCommand
 IRC.sudo().evalAsCommand
