@@ -5,6 +5,7 @@ fix function + method inspect
 module.pastebin
 node.updateConfig
 IRC.runCommand
+IRC.sudo().evalAsCommand
 command autocorrect
 secret commands
 sleep(1); poker
