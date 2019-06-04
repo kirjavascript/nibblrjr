@@ -19,4 +19,6 @@ nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 * various API integrations
 * texas hold em
 
-see the [example config](config.json.example) and then type `~help`
+[read the documentation](DOCUMENTATION.md)
+
+or see the [example config](config.json.example) and then type `~help`
