@@ -1,0 +1,6 @@
+{
+    "name": "scrabble.game",
+    "command": "const { from } = IRC.message;\n\nfunction storeExist(key){\n    return typeof(store.get(key)) !== \"undefined\"\n}\n\nfunction isGameRunning(){\n    return storeExist(\"game\")\n}\n\nfunction saveHighScore(user){\n    // Increase the High Score of a user who answered correctly\n    store.set(\"game\",undefined)\n    if (storeExist(user)){\n        store.set(user,+store.get(user) + 1)\n    }else{\n        store.set(user,1)\n    }\n}\n\nfunction getRandomWord(){\n    let filtered = IRC.wordList.filter(x =>  x.length < 8);\n    return _.shuffle(filtered[Math.floor(Math.random() * filtered.length)]).join(\"\");\n}\n\nif(isGameRunning()){\n    \n}\nelse(){\n    \n}\n",
+    "locked": false,
+    "starred": false
+}
