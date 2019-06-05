@@ -1,0 +1,6 @@
+{
+    "name": "scrabble",
+    "command": "IRC.require('scrabble.game')",
+    "locked": false,
+    "starred": true
+}
