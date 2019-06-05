@@ -1,13 +1,17 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
+version 4: data scoping & ORM
+
 // TODO //
 module.paste
 command.pasteTo pasteFrom
+command.add
 fix function + method inspect
 node.updateConfig
 IRC.runCommand
 IRC.sudo().evalAsCommand
 command autocorrect
+fetchSync().text()
 secret commands
 sleep(1); poker
 nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
