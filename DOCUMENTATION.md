@@ -4,14 +4,14 @@ describe basic commands
 add source [<>]
 -->
 
-## nibblrjr documentation - (WIP)
+# nibblrjr documentation - (WIP)
 
 * [API Reference](#api-reference)
 * [Configuration](#configuration)
 
-### API Reference
+## API Reference
 
-#### functions for printing text
+### functions for printing text
 
 <a name="print" href="#print">#</a> <b>print</b>(<i>string</i>{, <i>options</i>})
 
@@ -30,7 +30,7 @@ same as <a href="#print">print</a> but for notices
 
 same as <a href="#print">print</a> but for actions
 
-#### sub methods for printing functions
+### sub methods for printing functions
 
 <a name="log" href="#log">#</a> <i>printer</i>.<b>log</b>(<i>object</i>{, <i>options</i>})
 
@@ -54,7 +54,7 @@ prints text with <a href="IRC-colors-info">IRC.colors.info</a>
 
 prints text with <a href="IRC-colors-success">IRC.colors.success</a>
 
-#### functions for fetching data
+### functions for fetching data
 
 <a name="fetchsync" href="#fetchsync">#</a> <b>fetchSync</b>(<i>url</i>{, <i>options</i>}) -> <i>data</i>
 
@@ -71,17 +71,17 @@ const { window, document } = fetchSync('http://google.com', {type: 'json'});
 
 the following commands are deprecated
 
-<a name="getText" href="#getText">#</a> <b>getText</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>
-<a name="getJSON" href="#getJSON">#</a> <b>getJSON</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>
+<a name="getText" href="#getText">#</a> <b>getText</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
+<a name="getJSON" href="#getJSON">#</a> <b>getJSON</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
 <a name="getDOM" href="#getDOM">#</a> <b>getDOM</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>
 
-#### functions for using npm packages
+### functions for using npm packages
 
 <a name="require" href="#require">#</a> <b>require</b>(<i>packagename</i>) -> <i>object</i>
 
-download a package from npm and bundle it with webpack. npm scripts are ignored for safety. subsequent accesses of the same package are cached.
+download a package from npm and bundle it with webpack. npm scripts are ignored for safety. subsequent accesses of the same package are cached
 
-*packagename* can include the version and a path, like - `react-dom/server@16.8.6`
+*packagename* can include the version and a path, like - `require('react-dom/server@16.8.6').renderToString( ... )`
 
 package namespaces are currently broken
 
@@ -91,4 +91,4 @@ the following command is deprecated
 
 <a name="acquire" href="#acquire">#</a> <b>acquire</b>(<i>packagename</i>) -> <i>promise</i>
 
-### Configuration
+## Configuration
