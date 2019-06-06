@@ -1,8 +1,7 @@
 <!---
 alk about module convention
 describe basic commands
-add source [src]
-REPL
+REPL - can take params
 -->
 
 
@@ -97,8 +96,25 @@ the following command is deprecated
 
 data is scoped by server. a future version may introduce additional scope
 
+<a name="set" href="#set">#</a> store.<b>set</b>(<i>key</i>, <i>value</i>) 
 
-<a name="set" href="#set">#</a> store.<b>set</b>(<i>string</i>) 
+a simple key-value store. the value can be either *string*, or *undefined|null* to remove the value
+
+<a name="get" href="#get">#</a> store.<b>get</b>(<i>key</i>) -> <i>string|undefined</i>
+
+retrieve the stored value
+
+<a name="all" href="#all">#</a> store.<b>all</b>() -> <i>array</i>
+
+returns an array of objects have have the properties *key* and *value* corresponding to the data in the store
+
+<a name="clear" href="#clear">#</a> store.<b>clear</b>()
+
+removes all values from the store
+
+<a name="namespace" href="#namespace">#</a> store.<b>namespace</b> <i>string</i>
+
+equal to <a href="#IRC-command-root">IRC.command.root</a>
 
 different commands store data in different namespaces, only commands with the same `root` share the same namespace
 
@@ -107,7 +123,7 @@ read more about `command.root` in <a href="#IRC-command">IRC.command</a>
 there is an experimental react-hooks like API for dealing with non-string values in the command module `module.loadObject` that can be used with <a href="#IRC-require">IRC.require</a>
 
 ```javascript
-const [scores, setScores] = IRC.require('module.loadObject');
+const [scores, setScores] = IRC.require('module.loadObject')('someKey');
 ```
 
 once the API is finalised, it'll be moved into the core
