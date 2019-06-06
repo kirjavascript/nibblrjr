@@ -1,6 +1,0 @@
-{
-    "name": "scrabbleCheat",
-    "command": "out = IRC.wordList.filter(d => [...d].sort().join`` === [...input.trim().toLowerCase()].sort().join``)\nprint.log(out)",
-    "locked": false,
-    "starred": false
-}
