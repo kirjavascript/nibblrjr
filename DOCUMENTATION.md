@@ -164,6 +164,26 @@ a parsed representation of the current command
 * `root` - _string_ &emsp; the command namespace ( ~**full**.path )
 * `input` - _string_ &emsp; the text after the command ( ~command **some text** )
 
+<a name="IRC-channels" href="#IRC-channels">#</a> IRC.<b>channels</b>
+
+an **object** containing information about channels
+
+<a name="IRC-webAddress" href="#IRC-webAddress">#</a> IRC.<b>webAddress</b>
+
+config-defined URL pointing to the web frontend
+
+<a name="IRC-epoch" href="#IRC-epoch">#</a> IRC.<b>epoch</b>
+
+**date** object indicating when the node process was started
+
+<a name="IRC-version" href="#IRC-version">#</a> IRC.<b>version</b>
+
+current version
+
+<a name="IRC-secret" href="#IRC-secret">#</a> IRC.<b>secret</b>
+
+a config-defined value for a specific command root. useful for API keys
+
 ```javascript
 with(IRC.colors) {
     print(`${link()}`)
