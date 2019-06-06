@@ -158,13 +158,20 @@ the current nickname of the bot
 
 <a name="IRC-command" href="#IRC-command">#</a> IRC.<b>command</b>
 
-a parsed representation of the current command
+a parsed representation of the current command. uses <a href="#IRC-parseCommand">IRC.parseCommand</a>
 
 * `path` - _string_ &emsp; the actual command requested ( ~**full.path** )
 * `list` - _array_ &emsp; the path, split by the `.` character
 * `params` - _array_ &emsp; list of strings from the command ( ~full.path(**param, ...**) )
 * `root` - _string_ &emsp; the command namespace ( ~**full**.path )
 * `input` - _string_ &emsp; the text after the command ( ~command **some text** )
+
+<a name="IRC-parseCommand" href="#IRC-parseCommand">#</a> IRC.<b>parseCommand</b>(<i>object</i>) -> <i>object</i>
+
+used internally to parse commands. object has the following properties;
+
+* `trigger` - _string|undefined_ &emsp; the command prefix to use, if at all 
+* `text` - _string_ &emsp; the full message
 
 <a name="IRC-channels" href="#IRC-channels">#</a> IRC.<b>channels</b>
 
@@ -188,7 +195,7 @@ a config-defined value for a specific command root. useful for API keys
 
 ### functions for colours / formatting
 
-<a name="IRC-colors" href="#IRC-colors">#</a> IRC.<b>colors</b>(<i>string</i>)
+<a name="IRC-colors" href="#IRC-colors">#</a> IRC.<b>colors</b>(<i>string</i>) -> <i>string</i>
 
 DSL parsing function. colours can be disabled entirely in the config
 
@@ -229,37 +236,74 @@ for example
 
 `{r}red{/} and {bo}bold{/} and {rb}rainbow{/} and {r,g}red with green background`
 
-<a name="IRC-colors-hash" href="#IRC-colors-hash">#</a> IRC.colors.<b>hash</b>(<i>string</i>)
+<a name="IRC-colors-hash" href="#IRC-colors-hash">#</a> IRC.colors.<b>hash</b>(<i>string</i>) -> <i>string</i>
 
 produces a colour hashed from the input string
 
-<a name="IRC-colors-nick" href="#IRC-colors-nick">#</a> IRC.colors.<b>nick</b>(<i>string</i>[, <i>boolean</i>])
+<a name="IRC-colors-nick" href="#IRC-colors-nick">#</a> IRC.colors.<b>nick</b>(<i>string</i>[, <i>boolean</i>]) -> <i>string</i>
 
 uses hashing to render a nickname. additionally pass *false* to not render the angle brackets
 
-<a name="IRC-colors-link" href="#IRC-colors-link">#</a> IRC.colors.<b>link</b>(<i>string</i>)
+<a name="IRC-colors-link" href="#IRC-colors-link">#</a> IRC.colors.<b>link</b>(<i>string</i>) -> <i>string</i>
 
 a simple function to render a hyperlink
 
-<a name="IRC-colors-error" href="#IRC-colors-error">#</a> IRC.colors.<b>error</b>(<i>error|string</i>)
+<a name="IRC-colors-error" href="#IRC-colors-error">#</a> IRC.colors.<b>error</b>(<i>error|string</i>) -> <i>string</i>
 
 renders an error's name (if different to 'Error') and message
 
-<a name="IRC-colors-info" href="#IRC-colors-info">#</a> IRC.colors.<b>info</b>(<i>string</i>)
+<a name="IRC-colors-info" href="#IRC-colors-info">#</a> IRC.colors.<b>info</b>(<i>string</i>) -> <i>string</i>
 
 renders a neutral message
 
-<a name="IRC-colors-success" href="#IRC-colors-success">#</a> IRC.colors.<b>success</b>(<i>string</i>)
+<a name="IRC-colors-success" href="#IRC-colors-success">#</a> IRC.colors.<b>success</b>(<i>string</i>) -> <i>string</i>
 
 renders a successful message
 
-sometimes I unironically do things like this;
+### functions for dealing with time
 
-```javascript
-with(IRC.colors) {
-    print(`${nick(user)} ${link(location)}`)
-}
-```
+<a name="IRC-parseTime" href="#IRC-parseTime">#</a> IRC.<b>parseTime</b>(<i>string</i>) -> <i>date</i>
 
+used in the `memo` and `remind` commands
+
+parses a *string* into a date object. it accepts various formats
+
+absolute times
+
+    YYYY-MM-DD
+    HH:MM
+    HH:MM:SS
+    3am
+    3pm
+    sunday
+    feb
+    3rd
+    march
+    2019
+    tomorrow
+
+relative times
+
+    3 weeks
+    1y
+    4 mins
+    10 hours
+    7d
+
+each format can be combined to create a time offset
+
+[see here](https://github.com/kirjavascript/nibblrjr/blob/master/irc/evaluate/scripts/parse-time.js) for a full list of strings that are accepted
+
+<a name="datefns" href="#datefns">#</a> <b>dateFns</b>
+
+the [date-fns](https://date-fns.org/) library
+
+
+
+
+IRC wordList
+// link input to IRC.command.input
+> datefns
+> lodash
 
 ## Configuration
