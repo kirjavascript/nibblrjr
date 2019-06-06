@@ -1,7 +1,7 @@
 <!---
-sub menu
 talk about module convention
 describe basic commands
+fetchurl
 REPL - can take params
 WEB
 replace ~help (not commands)
@@ -326,6 +326,30 @@ each format can be combined to create a time offset
 the [date-fns](https://date-fns.org/) library
 
 ### reading logs
+
+used in the `log` command and subcommands, but also used to create sed like functionality for messages
+
+<a name="IRC-log-get" href="#IRC-log-get">#</a> IRC.log.<b>get</b>(<i>text</i>[, <i>limit</i>, <i>offset</i>]) -> <i>array</i>
+
+retrieve messages from the current channel
+
+<a name="IRC-log-getGlobal" href="#IRC-log-getGlobal">#</a> IRC.log.<b>getGlobal</b>(<i>text</i>[, <i>limit</i>, <i>offset</i>]) -> <i>array</i>
+
+same as <a href="#IRC-log-get">IRC.log.get</a> but for every channel
+
+<a name="IRC-log-count" href="#IRC-log-count">#</a> IRC.log.<b>count</b>(<i>text</i>) -> <i>number</i>
+
+return the number of lines that match the provided string
+
+<a name="IRC-log-user" href="#IRC-log-user">#</a> IRC.log.<b>user</b>(<i>nick</i>, <i>text</i>[, <i>limit</i>, <i>offset</i>]) -> <i>array</i>
+
+retrieves messages from a specific user
+
+<a name="IRC-log-random" href="#IRC-log-random">#</a> IRC.log.<b>random</b>([<i>quantity</i>]) -> <i>array</i>
+
+pull random messages from the log
+
+<a name="IRC-log-regex" href="#IRC-log-regex">#</a> IRC.log.<b>regex</b>(<i>regex</i>, <i>text</i>[, <i>limit</i>, <i>offset</i>]) -> <i>array</i>
 
 ### manipulating commands
 
