@@ -1,5 +1,6 @@
 <!---
 alk about module convention
+sub menu
 describe basic commands
 REPL - can take params
 -->
@@ -112,9 +113,9 @@ returns an array of objects have have the properties *key* and *value* correspon
 
 removes all values from the store
 
-<a name="namespace" href="#namespace">#</a> store.<b>namespace</b> <i>string</i>
+<a name="namespace" href="#namespace">#</a> store.<b>namespace</b>
 
-equal to <a href="#IRC-command-root">IRC.command.root</a>
+equal to **IRC.command.root**
 
 different commands store data in different namespaces, only commands with the same `root` share the same namespace
 
@@ -129,5 +130,43 @@ const [scores, setScores] = IRC.require('module.loadObject')('someKey');
 once the API is finalised, it'll be moved into the core
 
 ### the IRC object
+
+the IRC object includes data and helper functions for IRC-related things, but also contains some general things that didnt quite make it into the big league global scope
+
+<a name="IRC-trigger" href="#IRC-trigger">#</a> IRC.<b>trigger</b>
+
+a config-defined *string* denoting the prefix to run commands with
+
+can be revealed by running `.bots` with no prefix if IBIP is enabled
+
+<a name="IRC-message" href="#IRC-message">#</a> IRC.<b>message</b>
+
+an *object* with information about the current message that triggered the command. has the folowing properties:
+
+* `from` - _string_ &emsp; nickname of the message sender 
+* `to` - _string_ &emsp; where the message was sent
+* `text` - _string_ &emsp; full text of the message
+* `message` - _object_ &emsp; raw information about the message
+* `target` - _string_ &emsp; where the response message is aimed
+* `isPM` - _bool_ &emsp; if the original message was in PM
+
+<a name="IRC-nick" href="#IRC-nick">#</a> IRC.<b>nick</b>
+
+the current nickname of the bot
+
+<a name="IRC-command" href="#IRC-command">#</a> IRC.<b>command</b>
+
+a parsed representation of the current command
+
+* `path` - _string_ &emsp; the actual command requested ( ~**full.path** )
+* `list` - _array_ &emsp; the path, split by the `.` character
+* `params` - _array_ &emsp; list of strings from the command ( ~full.path(**param, ...**) )
+* `root` - _string_ &emsp; the command namespace ( ~**full**.path )
+* `input` - _string_ &emsp; the text after the command ( ~command **some text** )
+
+```javascript
+with(IRC.colors) {
+    print(`${link()}`)
+}
 
 ## Configuration

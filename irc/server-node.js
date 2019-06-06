@@ -36,7 +36,7 @@ class ServerNode {
                 || (msgData.isPM ? 50 : 10);
         };
 
-        this.trigger = this.get('trigger', '!');
+        this.trigger = this.get('trigger', '~');
 
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels.map(c => c.name),
