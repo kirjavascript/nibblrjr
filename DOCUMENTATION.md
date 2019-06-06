@@ -403,6 +403,7 @@ used in the `memo` and `remind` commands
 
 if the command is running in an event, contains the event information
 
+* `idx` - _number_ &emsp; index
 * `callback` - _string_ &emsp; name of the command to trigger when the event happens
 * `type` - _string_ &emsp; type of event triggered
 * `timestamp` - _date_ &emsp; timestamp the message should reach before triggering
@@ -419,6 +420,18 @@ type can be `speak` to trigger after a user has spoken, or `tick` to trigger aft
 * `time` - _date_ &emsp; minimum timestamp the message should reach before triggering
 * `message` - _string_ &emsp; additional text to send with the event
 * `target` - _string_ &emsp; user the event is intended for. (does nothing for tick)
+
+<a name="IRC-eventFns-speakElapsed" href="#IRC-eventFns-speakElapsed">#</a> IRC.eventFns.<b>speakElapsed</b>(<i>nick</i>) -> <i>array</i>
+
+an *array* of elapsed speak events for a specific user with the same format as <a href="#IRC-event">IRC.event</a>
+
+<a name="IRC-eventFns-tickElapsed" href="#IRC-eventFns-tickElapsed">#</a> IRC.eventFns.<b>tickElapsed</b>() -> <i>array</i>
+
+an *array* of elapsed tick events for a specific user with the same format as <a href="#IRC-event">IRC.event</a>
+
+<a name="IRC-eventFns-delete" href="#IRC-eventFns-delete">#</a> IRC.eventFns.<b>delete</b>(<i>index</i>)
+
+used to delete events
 
 ### authentication
 
