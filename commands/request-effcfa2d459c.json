@@ -1,6 +1,6 @@
 {
     "name": "request",
-    "command": "print('{b}{u}https://github.com/kirjavascript/nibblrjr/issues')",
+    "command": "print(IRC.colors.link('https://github.com/kirjavascript/nibblrjr/issues'))",
     "locked": false,
     "starred": false
 }
