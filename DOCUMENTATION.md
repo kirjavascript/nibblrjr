@@ -458,7 +458,7 @@ the `node` proxy allows you to send raw commands and update config options on th
 
 ### modules
 
-<a name="IRC-require" href="#IRC-require">#</a> IRC.<b>require</b>(<i>commandname</i>) -> <i>object</i>
+<a name="IRC-require" href="#IRC-require">#</a> IRC.<b>require</b>(<i>name</i>) -> <i>object</i>
 
 loads a command as a module. the object is whatever was added to <a href="#module-exports">module.exports</a>
 
