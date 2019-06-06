@@ -1,6 +1,6 @@
 {
     "name": "help.about",
-    "command": "print(`{c}nibblr{dc}jr{/} is an IRC bot framework written in JS by {g}Kirjava{/}\nweb frontend: {b}{u}${IRC.webAddress}{/} source: {b}{u}https://github.com/kirjavascript/nibblrjr{/}`)",
+    "command": "print(`{c}nibblr{/}{dc}jr{/} {dgr}v${IRC.version}{/} {bo}★{/}  web frontend: ${IRC.colors.link(IRC.webAddress)} docs: ${IRC.colors.link('https://github.com/kirjavascript/nibblrjr/blob/master/DOCUMENTATION.md')}`)",
     "locked": false,
     "starred": false
 }
