@@ -1,0 +1,6 @@
+{
+    "name": "word",
+    "command": "const { wordList } = IRC;\nprint(wordList[0|Math.random()*wordList.length])",
+    "locked": false,
+    "starred": false
+}
