@@ -4,6 +4,7 @@ version 4: data scoping & ORM
 
 // TODO //
 IRC.commandFns.delete|lock|star -> uses sudo
+~poll
 module.paste
 command.pasteTo pasteFrom
 command.add
