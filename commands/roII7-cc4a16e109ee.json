@@ -1,0 +1,6 @@
+{
+    "name": "roII7",
+    "command": "const roll = () => (0|Math.random()*2)+1;\nconst dice = Array.from({length: 7}, roll);\nconst total = dice.reduce((a, c) => a + c, 0);\nconst { from } = IRC.message;\nIRC.require('module.count').next();\nconst best = store.get(from) || Infinity;\n\nconst diceRender = '{bl,gr} ' + dice.map(d => d == 1 ? '{bo}{p,gr}1{/}{bl,gr}' : d).join`-` + ' {/}';\n\nif (total < best) {\n    store.set(from, total);\n    print(`${diceRender} {dc}${from}{/} got a new score of {y}${total}{/}!`);\n}\nelse {\n    print(`${diceRender} {dc}${from}{/} got {o}${total}{/}`);\n}\n\nif (total == 7) {\n    print('{y}~verified legit~')\n}",
+    "locked": false,
+    "starred": false
+}

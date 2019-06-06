@@ -1,0 +1,6 @@
+{
+    "name": "scrabble.game.hint",
+    "command": "const {isGameRunning } = IRC.require(\"scrabble.game\")\n\nfunction getHint(word){\n    let data = fetchSync(\"https://www.collinsdictionary.com/dictionary/english/\" + word,{type:'dom'})\n\n    definition = data.document.getElementsByClassName(\"sense\")\n    origin = data.document.getElementsByClassName(\"etym\")\n    \n    if (definition.length > 0){\n        print(definition[0].textContent.replace(word,\"█\".repeat(word.length)))\n    }\n    else{\n        print(\"No Data\")\n    }\n}\n\nif(isGameRunning()){\n    getHint(store.get(\"game\"))\n}",
+    "locked": false,
+    "starred": false
+}
