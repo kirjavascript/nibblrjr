@@ -47,12 +47,16 @@ async function evaluate({
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
                 epoch: node.parent.epoch,
                 version,
-                secret: node.get('secrets', {})[command.root],
             },
         };
 
+        const secret = node.get('secrets', {})[command.root];
+
         if (event) {
             config.IRC.event = event;
+        }
+        if (secret) {
+            config.IRC.secret = secret;
         }
 
         const isolate = new ivm.Isolate({ memoryLimit: 128 });
