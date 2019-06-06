@@ -208,6 +208,10 @@ current version
 
 a config-defined value for a specific command root. useful for API keys
 
+<a name="IRC-wordList" href="#IRC-wordList">#</a> IRC.<b>wordList</b>
+
+an *array* of words from `/usr/share/dict/words`
+
 <a name="IRC-resetBuffer" href="#IRC-resetBuffer">#</a> IRC.<b>resetBuffer</b>() 
 
 cancel all pending messages (to suppress spam). used in the `reset` command
@@ -329,11 +333,11 @@ the [date-fns](https://date-fns.org/) library
 
 used in the `log` command and subcommands, but also used to create sed like functionality for messages
 
-<a name="IRC-log-get" href="#IRC-log-get">#</a> IRC.log.<b>get</b>(<i>text</i>[, <i>limit</i>, <i>offset</i>]) -> <i>array</i>
+<a name="IRC-log-get" href="#IRC-log-get">#</a> IRC.log.<b>get</b>(<i>text</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
 
 retrieve messages from the current channel
 
-<a name="IRC-log-getGlobal" href="#IRC-log-getGlobal">#</a> IRC.log.<b>getGlobal</b>(<i>text</i>[, <i>limit</i>, <i>offset</i>]) -> <i>array</i>
+<a name="IRC-log-getGlobal" href="#IRC-log-getGlobal">#</a> IRC.log.<b>getGlobal</b>(<i>text</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
 
 same as <a href="#IRC-log-get">IRC.log.get</a> but for every channel
 
@@ -341,7 +345,7 @@ same as <a href="#IRC-log-get">IRC.log.get</a> but for every channel
 
 return the number of lines that match the provided string
 
-<a name="IRC-log-user" href="#IRC-log-user">#</a> IRC.log.<b>user</b>(<i>nick</i>, <i>text</i>[, <i>limit</i>, <i>offset</i>]) -> <i>array</i>
+<a name="IRC-log-user" href="#IRC-log-user">#</a> IRC.log.<b>user</b>(<i>nick</i>, <i>text</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
 
 retrieves messages from a specific user
 
@@ -349,9 +353,46 @@ retrieves messages from a specific user
 
 pull random messages from the log
 
-<a name="IRC-log-regex" href="#IRC-log-regex">#</a> IRC.log.<b>regex</b>(<i>regex</i>, <i>text</i>[, <i>limit</i>, <i>offset</i>]) -> <i>array</i>
+<a name="IRC-log-regex" href="#IRC-log-regex">#</a> IRC.log.<b>regex</b>(<i>string</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
+
+takes a regex as a *string* to search the database with
 
 ### manipulating commands
+
+used in the `command` command and subcommands. commands can also be manipulated via the web frontend
+
+<a name="IRC-commandFns-get" href="#IRC-commandFns-get">#</a> IRC.commandFns.<b>get</b>(<i>name</i>) -> <i>object|undefined</i>
+
+returns information on a command. properties are;
+
+* `name` - _string_ &emsp; name of the command
+* `command` - _string_ &emsp; code snippet that is run when the command is triggered
+* `locked` - _boolean_ &emsp; if the command is locked from editing
+* `starred` - _boolean_ &emsp; if the command is a star ★
+
+commands that share the same <a href="#IRC-command">root</a> also share the same locked / starred state
+
+<a name="IRC-commandFns-list" href="#IRC-commandFns-list">#</a> IRC.commandFns.<b>list</b>() -> <i>array</i>
+
+returns an array of all command information
+
+<a name="IRC-commandFns-names" href="#IRC-commandFns-names">#</a> IRC.commandFns.<b>names</b>() -> <i>array</i>
+
+returns an array of all the command names
+
+<a name="IRC-commandFns-count" href="#IRC-commandFns-count">#</a> IRC.commandFns.<b>count</b>() -> <i>number</i>
+
+returns the number of commands
+
+<a name="IRC-commandFns-setSafe" href="#IRC-commandFns-setSafe">#</a> IRC.commandFns.<b>setSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
+
+sets the code for a particular command. returns *true* if successful
+
+<a name="IRC-commandFns-deleteSafe" href="#IRC-commandFns-deleteSafe">#</a> IRC.commandFns.<b>deleteSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
+
+deletes the command. returns *true* if successful
+
+the names `deleteSafe` and `setSafe` are used as in future, additional `delete` and `set` functions will be able to modify locked commands for admins
 
 ### interacting with events
 
