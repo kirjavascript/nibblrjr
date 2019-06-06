@@ -1,0 +1,6 @@
+{
+    "name": "klarstrup",
+    "command": "print(`${IRC.log.get('').pop().message} these nuts`)",
+    "locked": false,
+    "starred": false
+}

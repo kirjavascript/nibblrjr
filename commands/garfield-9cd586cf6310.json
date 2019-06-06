@@ -1,0 +1,6 @@
+{
+    "name": "garfield",
+    "command": "function randomDate(start, end) {\n    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));\n}\n\nlet date = randomDate(new Date(1978, 6, 19), new Date())\nlet file_name = date.toISOString().split(\"T\")[0]\n\nprint(`https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/${date.getFullYear()}/${file_name}.gif`)",
+    "locked": false,
+    "starred": false
+}

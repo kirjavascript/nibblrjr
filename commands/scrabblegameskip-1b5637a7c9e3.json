@@ -1,6 +1,6 @@
 {
     "name": "scrabble.game.skip",
-    "command": "print(`The correct answer was {dc}${store.get(\"game\")}{/}, better luck next time`)\nendGame();\nfunction storeExist(key){\n    return typeof(store.get(key)) !== \"undefined\"\n}\nfunction setGuesses(user,reset=false){\n    let key = user + \"_guesses\";\n    return store.set(key,reset || !storeExist(key) ? 0 : +store.get(key) + 1)\n}\nfunction getParticipants(){\n    return storeExist(\"participants\") ? JSON.parse(store.get(\"participants\")) : []\n}\nfunction resetGuesses(user){\n    getParticipants().map(user => setGuesses(user,true))\n}\nfunction resetParticipants(){\n    store.set(\"participants\",undefined)\n}\n\nfunction endGame(){\n    resetGuesses();\n    resetParticipants();\n    store.set(\"game\",undefined)\n}",
+    "command": "const { endGame,isGameRunning } = IRC.require(\"scrabble.game\")\n\nif (isGameRunning()){\n    print(`The correct answer was {dc}${store.get(\"game\")}{/}, better luck next time`)\n    endGame();  \n}\n\n",
     "locked": false,
     "starred": false
 }
