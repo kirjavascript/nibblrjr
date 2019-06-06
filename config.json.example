@@ -1,22 +1,22 @@
 {
     "trigger": "~",
-    "broadcast-commands": ["poker", "golf", "remind"], // commands that are able to PM other users
+    "broadcastCommands": ["poker", "golf"],
     "timezone": "Europe/London",
     "servers": [
         {
             "address": "irc.rizon.net",
             "channels": ["#nibblr", "#poker"],
-            "admins": ["Kirjava"], // can use IRC.sudo and related commands
+            "admins": ["Kirjava"],
             "nickname": "nibblrjr"
         },
         {
             "address": "irc.furnet.org",
             "channels": [{
                 "name": "#purple",
-                "lineLimit": 10
+                "lineLimit": 100
             }],
             "nickname": "purple",
-            "fetchURL": false, // disable auto-msg for url scraping
+            "fetchURL": false,
             "password": "milkshake"
         },
         {
@@ -24,7 +24,7 @@
             "trigger": "!",
             "channels": ["#bottest"],
             "nickname": "nibblrjr",
-            "colors": false // btw comments arent allowed in JSON
+            "colors": false
         }
     ],
     "web": {

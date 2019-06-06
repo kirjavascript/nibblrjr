@@ -125,7 +125,7 @@ class ServerNode {
         setTimeout(this.tick, 5000);
 
         this.client.addListener('message', (from, to, text, message) => {
-            if (this.get('ignore-hosts', []).includes(message.host)) return;
+            if (this.get('ignoreHosts', []).includes(message.host)) return;
             const isPM = to == this.client.nick;
             const target = isPM ? from : to;
             from = from[0] == '#' ? from.toLowerCase() : from;
@@ -176,7 +176,7 @@ class ServerNode {
                 // normal commands
                 else {
                     const cmdData = parent.database.commands.get(command.path);
-                    const canBroadcast = this.get('broadcast-commands', [])
+                    const canBroadcast = this.get('broadcastCommands', [])
                         .includes(command.root);
 
                     if (cmdData) {
