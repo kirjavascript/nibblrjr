@@ -435,6 +435,23 @@ used to delete events
 
 ### authentication
 
+<a name="IRC-auth" href="#IRC-auth">#</a> IRC.<b>auth</b>()
+
+if the user is not authenticated with nickserv, throws an error. otherwise does nothing
+
+<a name="IRC-sudo" href="#IRC-sudo">#</a> IRC.<b>sudo</b>() -> <i>object</i>
+
+checks the user is authenticated to nickserv, and checks if the user is in the `admins` config option for that server
+
+the returned object has the following properties
+
+* `exit` - _function_ &emsp; kills the main process
+* `node` - _proxy_ &emsp; a bridge out of the vm to the channel's internal node object in the main process
+
+the `node` proxy allows you to send raw commands and update config options on the fly. examples of its use can be seen in the following commands; `reboot`, `update`, `join`, `part`, `mode`, `topic`, `kick`, `nick`, `redirect`, `ignore`
+
+`update` can be used to update the base code without rebooting
+
 ### modules
 
 IRC.require
