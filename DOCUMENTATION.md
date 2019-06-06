@@ -27,6 +27,10 @@ replace ~help (not commands)
 
 ## API Reference
 
+<a name="input" href="#input">#</a> <b>input</b>
+
+equal to <a href="#IRC-command">IRC.command.input</a>
+
 ### printing text 
 
 <a name="print" href="#print">#</a> <b>print</b>(<i>string</i>{, <i>options</i>})
@@ -127,7 +131,7 @@ removes all values from the store
 
 <a name="namespace" href="#namespace">#</a> store.<b>namespace</b>
 
-equal to **IRC.command.root**
+equal to <a href="#IRC-command">IRC.command.root</a>
 
 different commands store data in different namespaces, only commands with the same `root` share the same namespace
 
@@ -454,14 +458,16 @@ the `node` proxy allows you to send raw commands and update config options on th
 
 ### modules
 
-IRC.require
+<a name="IRC-require" href="#IRC-require">#</a> IRC.<b>require</b>(<i>commandname</i>) -> <i>object</i>
 
-module
+loads a command as a module. the object is whatever was added to <a href="#module-exports">module.exports</a>
 
-// link input to IRC.command.input
-> lodash
-module
+<a name="module-exports" href="#module-exports">#</a> module.<b>exports</b>
 
-admin commands for sudo
+an *object* to place functions you would like to export on 
+
+<a name="module-required" href="#module-required">#</a> module.<b>required</b>
+
+a *boolean* indicating if the current command has been required or not
 
 ## Configuration
