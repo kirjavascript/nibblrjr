@@ -22,6 +22,7 @@ replace ~help (not commands)
     * [manipulating commands](#manipulating-commands)
     * [interacting with events](#interacting-with-events)
     * [authentication](#authentication)
+    * [modules](#modules)
 * [Configuration](#configuration)
 
 ## API Reference
@@ -396,14 +397,40 @@ the names `deleteSafe` and `setSafe` are used as in future, additional `delete` 
 
 ### interacting with events
 
+used in the `memo` and `remind` commands
+
+<a name="IRC-event" href="#IRC-event">#</a> IRC.<b>event</b>
+
+if the command is running in an event, contains the event information
+
+* `callback` - _string_ &emsp; name of the command to trigger when the event happens
+* `type` - _string_ &emsp; type of event triggered
+* `timestamp` - _date_ &emsp; timestamp the message should reach before triggering
+* `init` - _date_ &emsp; timestamp from when the event was created
+* `user` - _string_ &emsp; user that created the event
+* `target` - _string_ &emsp; user/channel the message is targeted at
+* `message` - _string_ &emsp; additional text to send with the event
+
+<a name="IRC-eventFns-addEvent" href="#IRC-eventFns-addEvent">#</a> IRC.eventFns.<b>addEvent</b>(<i>type</i>{, <i>options</i>})
+
+type can be `speak` to trigger after a user has spoken, or `tick` to trigger after an elapsed amount of time. options are;
+
+* `callback` - _string_ &emsp; name of the command to trigger when the event happens
+* `time` - _date_ &emsp; minimum timestamp the message should reach before triggering
+* `message` - _string_ &emsp; additional text to send with the event
+* `target` - _string_ &emsp; user the event is intended for. (does nothing for tick)
+
 ### authentication
 
+### modules
 
+IRC.require
 
-IRC wordList
+module
+
 // link input to IRC.command.input
-> datefns
 > lodash
+module
 
 admin commands for sudo
 
