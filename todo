@@ -3,6 +3,7 @@ reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 version 4: data scoping & ORM
 
 // TODO //
+IRC.commandFns.delete|lock|star -> uses sudo
 module.paste
 command.pasteTo pasteFrom
 command.add

@@ -11,17 +11,26 @@ replace ~help (not commands)
 # nibblrjr documentation - (WIP)
 
 * [API Reference](#api-reference)
+    * [printing text](#printing-text)
+    * [fetching data](#fetching-data)
+    * [using npm packages](#using-npm-packages)
+    * [storing data](#storing-data)
+    * [the IRC object](#the-irc-object)
+    * [colours / formatting](#colours--formatting)
+    * [dealing with time](#dealing-with-time)
+    * [reading logs](#reading-logs)
+    * [manipulating commands](#manipulating-commands)
+    * [interacting with events](#interacting-with-events)
+    * [authentication](#authentication)
 * [Configuration](#configuration)
 
 ## API Reference
 
-### functions for printing text 
+### printing text 
 
 <a name="print" href="#print">#</a> <b>print</b>(<i>string</i>{, <i>options</i>})
 
-prints text using the colour parser from <a href="#IRC-colors">IRC.colors</a>
-
-**_options_**
+prints text using the colour parser from <a href="#IRC-colors">IRC.colors</a>. options are;
 
 * `log` - _boolean_ &emsp; setting `false` will omit bot messages from the log
 * `target` - _string_ &emsp; channel / user to send to (only works if the command is included in the `broadcast-commands` config array)
@@ -34,7 +43,7 @@ same as <a href="#print">print</a> but for notices
 
 same as <a href="#print">print</a> but for actions
 
-### sub methods for printing functions
+each of the above functions has additional properties;
 
 <a name="log" href="#log">#</a> <i>printer</i>.<b>log</b>(<i>object</i>{, <i>options</i>})
 
@@ -58,7 +67,7 @@ prints text with <a href="#IRC-colors-info">IRC.colors.info</a>
 
 prints text with <a href="#IRC-colors-success">IRC.colors.success</a>
 
-### functions for fetching data
+### fetching data
 
 <a name="fetchsync" href="#fetchsync">#</a> <b>fetchSync</b>(<i>url</i>{, <i>options</i>}) -> <i>data</i>
 
@@ -79,7 +88,7 @@ the following functions are deprecated
 <a name="getJSON" href="#getJSON">#</a> <b>getJSON</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
 <a name="getDOM" href="#getDOM">#</a> <b>getDOM</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>
 
-### functions for using npm packages
+### using npm packages
 
 <a name="require" href="#require">#</a> <b>require</b>(<i>packagename</i>) -> <i>object</i>
 
@@ -95,7 +104,7 @@ the following command is deprecated
 
 <a name="acquire" href="#acquire">#</a> <b>acquire</b>(<i>packagename</i>) -> <i>promise</i>
 
-### functions for storing data
+### storing data
 
 data is scoped by server. a future version may introduce additional scope
 
@@ -156,6 +165,12 @@ an *object* with information about the current message that triggered the comman
 
 the current nickname of the bot
 
+<a name="IRC-setNick" href="#IRC-setNick">#</a> IRC.<b>setNick</b>(<i>string</i>)
+
+change the bot's nick. only works if the user is an admin or the channel has the `setNick` config option enabled
+
+used in the `nick` command
+
 <a name="IRC-command" href="#IRC-command">#</a> IRC.<b>command</b>
 
 a parsed representation of the current command. uses <a href="#IRC-parseCommand">IRC.parseCommand</a>
@@ -193,7 +208,19 @@ current version
 
 a config-defined value for a specific command root. useful for API keys
 
-### functions for colours / formatting
+<a name="IRC-resetBuffer" href="#IRC-resetBuffer">#</a> IRC.<b>resetBuffer</b>() 
+
+cancel all pending messages (to suppress spam). used in the `reset` command
+
+<a name="IRC-whois" href="#IRC-whois">#</a> IRC.<b>whois</b>(<i>nick</i>) -> <i>object</i> 
+
+provides whois information for a user. properties are: nick, user, host, realname, channels, server, serverinfo, account, accountinfo
+
+<a name="IRC-ping" href="#IRC-ping">#</a> IRC.<b>ping</b>(<i>host</i>) -> <i>promise</i> 
+
+runs the CLI ping command at the specified host and provides the output
+
+### colours / formatting
 
 <a name="IRC-colors" href="#IRC-colors">#</a> IRC.<b>colors</b>(<i>string</i>) -> <i>string</i>
 
@@ -260,7 +287,7 @@ renders a neutral message
 
 renders a successful message
 
-### functions for dealing with time
+### dealing with time
 
 <a name="IRC-parseTime" href="#IRC-parseTime">#</a> IRC.<b>parseTime</b>(<i>string</i>) -> <i>date</i>
 
@@ -298,6 +325,13 @@ each format can be combined to create a time offset
 
 the [date-fns](https://date-fns.org/) library
 
+### reading logs
+
+### manipulating commands
+
+### interacting with events
+
+### authentication
 
 
 
@@ -305,5 +339,7 @@ IRC wordList
 // link input to IRC.command.input
 > datefns
 > lodash
+
+admin commands for sudo
 
 ## Configuration
