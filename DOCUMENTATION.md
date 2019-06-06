@@ -1,8 +1,10 @@
 <!---
-alk about module convention
 sub menu
+talk about module convention
 describe basic commands
 REPL - can take params
+WEB
+replace ~help (not commands)
 -->
 
 
@@ -166,7 +168,7 @@ a parsed representation of the current command
 
 <a name="IRC-channels" href="#IRC-channels">#</a> IRC.<b>channels</b>
 
-an **object** containing information about channels
+an *object* containing information about channels
 
 <a name="IRC-webAddress" href="#IRC-webAddress">#</a> IRC.<b>webAddress</b>
 
@@ -174,7 +176,7 @@ config-defined URL pointing to the web frontend
 
 <a name="IRC-epoch" href="#IRC-epoch">#</a> IRC.<b>epoch</b>
 
-**date** object indicating when the node process was started
+*date* object indicating when the node process was started
 
 <a name="IRC-version" href="#IRC-version">#</a> IRC.<b>version</b>
 
@@ -183,6 +185,48 @@ current version
 <a name="IRC-secret" href="#IRC-secret">#</a> IRC.<b>secret</b>
 
 a config-defined value for a specific command root. useful for API keys
+
+### functions for colours / formatting
+
+<a name="IRC-colors" href="#IRC-colors">#</a> IRC.<b>colors</b>
+
+DSL parsing function. colours can be disabled entirely in the config
+
+colours
+
+    {r}red
+    {dr}dark red
+    {w}white
+    {bl}black
+    {c}cyan
+    {dc}dark cyan
+    {b}blue
+    {db}dark blue
+    {g}green
+    {dg}dark green
+    {p}magenta
+    {dp}dark magenta
+    {o}orange
+    {y}yellow
+    {gr}grey
+    {dgr}dark grey
+
+formatting
+
+    {bo}bold
+    {u}underline
+    {i}italic
+
+misc
+
+    {rb}rainbow
+    {g,r}background
+    {rand}random
+    {bell}ascii beep
+    {/}cancel effects
+
+`{r}red{/} and {bo}bold{/} and {rb}rainbow{/}`
+
 
 ```javascript
 with(IRC.colors) {
