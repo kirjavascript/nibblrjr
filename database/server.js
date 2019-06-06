@@ -215,6 +215,9 @@ function createServerDBFactory(database) {
         const setDeleteQuery = db.prepare(`
             DELETE FROM store WHERE namespace = ? AND key = ?
         `);
+        const clearQuery = db.prepare(`
+            DELETE FROM store WHERE namespace = ?
+        `);
         const allQuery = db.prepare(`
             SELECT key, value FROM store WHERE namespace = ?
         `);
@@ -247,8 +250,10 @@ function createServerDBFactory(database) {
                 const obj = allQuery.all(namespace);
                 return !Array.isArray(obj) ? [] : obj;
             };
-
-            return { get, set, all, namespace };
+            const clear = () => {
+                clearQuery.run(namespace);
+            };
+            return { get, set, all, namespace, clear };
         };
 
         return { log, logFactory, storeFactory, eventFactory, eventFns };
