@@ -1,8 +1,3 @@
-<!---
-fetchurl
--->
-
-
 # nibblrjr documentation
 
 * [API Reference](#api-reference)
@@ -19,8 +14,7 @@ fetchurl
     * [authentication](#authentication)
     * [modules](#modules)
 * [Configuration](#configuration)
-* [REPL](REPL)
-* [URL Title Fetching](#url-title-fetching)
+* [REPL](#REPL)
 
 ## API Reference
 
@@ -35,7 +29,7 @@ equal to <a href="#IRC-command">IRC.command.input</a>
 prints text using the colour parser from <a href="#IRC-colors">IRC.colors</a>. options are;
 
 * `log` - _boolean_ &emsp; setting `false` will omit bot messages from the log
-* `target` - _string_ &emsp; channel / user to send to (only works if the command is included in the `broadcast-commands` config array)
+* `target` - _string_ &emsp; channel / user to send to (only works if the command is included in the `broadcastCommands` config array)
 
 <a name="notice" href="#notice">#</a> <b>notice</b>(<i>string</i>{, <i>options</i>})
 
@@ -478,16 +472,51 @@ a *boolean* indicating if the current command has been required or not
 
 ## Configuration
 
+all properties are optional. [see the example config](config.json.example)
+
+trigger
+timezone
+userName
+floodProtection
+floodProtectionDelay
+autoRejoin
+enableIBIP
+commandLimit
+ignoreHosts
+web
+    url
+    port
+    password
+secrets
+broadcastCommands
+servers
+    address
+    channels
+        name
+        lineLimit
+        setNick
+        fetchURLAll
+        ignoreEvents
+    nickname
+    admins
+    password
+    colors
+    fetchURL
+
+
+
+the following options can also be placed in the server's local config
+
+the following options 
+
 ## REPL
 
 to run code in a JS interpreter, combine the <a href="#IRC-trigger">trigger</a> prefix with one of the following symbols 
 
 `>` prints the returned value and `#` or `%` run a command in an async IIFE
 
-the REPL works as a command like any other, and `>` takes params. the params look like:
+the REPL works as a command like any other, and `>` takes optional params. the params look like:
 
 **>**(<i>depth</i>, <i>truncate</i>)
 
 which correspond to the options from <a href="#IRC-inspect">IRC.inspect</a>
-
-## URL Title Fetching
