@@ -150,7 +150,7 @@ an *object* with information about the current message that triggered the comman
 * `text` - _string_ &emsp; full text of the message
 * `message` - _object_ &emsp; raw information about the message
 * `target` - _string_ &emsp; where the response message is aimed
-* `isPM` - _bool_ &emsp; if the original message was in PM
+* `isPM` - _boolean_ &emsp; if the original message was in PM
 
 <a name="IRC-nick" href="#IRC-nick">#</a> IRC.<b>nick</b>
 
@@ -188,7 +188,7 @@ a config-defined value for a specific command root. useful for API keys
 
 ### functions for colours / formatting
 
-<a name="IRC-colors" href="#IRC-colors">#</a> IRC.<b>colors</b>
+<a name="IRC-colors" href="#IRC-colors">#</a> IRC.<b>colors</b>(<i>string</i>)
 
 DSL parsing function. colours can be disabled entirely in the config
 
@@ -221,11 +221,21 @@ misc
 
     {rb}rainbow
     {g,r}background
-    {rand}random
+    {rand}random colour
     {bell}ascii beep
     {/}cancel effects
 
-`{r}red{/} and {bo}bold{/} and {rb}rainbow{/}`
+for example
+
+`{r}red{/} and {bo}bold{/} and {rb}rainbow{/} and {r,g}red with green background`
+
+<a name="IRC-colors-hash" href="#IRC-colors-hash">#</a> IRC.colors.<b>hash</b>(<i>string</i>)
+
+produces a colour hashed from the input string
+
+<a name="IRC-colors-nick" href="#IRC-colors-nick">#</a> IRC.colors.<b>nick</b>(<i>string</i>[, <i>boolean</i>])
+
+uses hashing to render a nickname. additionally pass *false* to not render the angle brackets
 
 
 ```javascript

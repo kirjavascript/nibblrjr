@@ -91,7 +91,7 @@ const hash = (str) => {
     return `{${rand[index]}}`;
 };
 
-const nick = (str, withBrackets = false) => {
+const nick = (str, withBrackets = true) => {
     const nick = `${hash(str)}${str}{/}`;
     return withBrackets ? `{bo}<{/}${nick}{bo}>{/}` : nick;
 };
