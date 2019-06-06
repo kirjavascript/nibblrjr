@@ -1,14 +1,9 @@
 <!---
-talk about module convention
-describe basic commands
 fetchurl
-REPL - can take params
-WEB
-replace ~help (not commands)
 -->
 
 
-# nibblrjr documentation - (WIP)
+# nibblrjr documentation
 
 * [API Reference](#api-reference)
     * [printing text](#printing-text)
@@ -24,6 +19,8 @@ replace ~help (not commands)
     * [authentication](#authentication)
     * [modules](#modules)
 * [Configuration](#configuration)
+* [REPL](REPL)
+* [URL Title Fetching](#url-title-fetching)
 
 ## API Reference
 
@@ -228,6 +225,15 @@ provides whois information for a user. properties are: nick, user, host, realnam
 <a name="IRC-ping" href="#IRC-ping">#</a> IRC.<b>ping</b>(<i>host</i>) -> <i>promise</i> 
 
 runs the CLI ping command at the specified host and provides the output
+
+<a name="IRC-inspect" href="#IRC-inspect">#</a> IRC.<b>inspect</b>(<i>value</i>{, <i>options</i>}) -> <i>string</i> 
+
+object inspector designed for IRC specifically. takes the following options;
+
+* `depth` - _number_ &emsp; what level of of the tree should be rendered
+* `truncate` - _number_ &emsp; at which point to truncate the output
+
+values of zero will show the maximum instead
 
 ### colours / formatting
 
@@ -454,7 +460,7 @@ the returned object has the following properties
 
 the `node` proxy allows you to send raw commands and update config options on the fly. examples of its use can be seen in the following commands; `reboot`, `update`, `join`, `part`, `mode`, `topic`, `kick`, `nick`, `redirect`, `ignore`
 
-`update` can be used to update the base code without rebooting
+`update` can be used to update the bot without rebooting
 
 ### modules
 
@@ -471,3 +477,17 @@ an *object* to place functions you would like to export on
 a *boolean* indicating if the current command has been required or not
 
 ## Configuration
+
+## REPL
+
+to run code in a JS interpreter, combine the <a href="#IRC-trigger">trigger</a> prefix with one of the following symbols 
+
+`>` prints the returned value and `#` or `%` run a command in an async IIFE
+
+the REPL works as a command like any other, and `>` takes params. the params look like:
+
+**>**(<i>depth</i>, <i>truncate</i>)
+
+which correspond to the options from <a href="#IRC-inspect">IRC.inspect</a>
+
+## URL Title Fetching
