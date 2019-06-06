@@ -474,8 +474,10 @@ a *boolean* indicating if the current command has been required or not
 
 all properties are optional. [see the example config](config.json.example)
 
-trigger
-timezone
+all root properties (except `timezone` and `web`) are global or can also placed inside the server config for a local override
+
+* `trigger` _string_ &emsp; the prefix to use for running commands (default: `~`)
+* `timezone` _string_ &emsp; timezone to use for dates (default: `Europe/London`)
 userName
 floodProtection
 floodProtectionDelay
@@ -483,6 +485,9 @@ autoRejoin
 enableIBIP
 commandLimit
 ignoreHosts
+admins
+colors
+fetchURL
 web
     url
     port
@@ -498,14 +503,11 @@ servers
         fetchURLAll
         ignoreEvents
     nickname
-    admins
     password
-    colors
-    fetchURL
 
 
 
-the following options can also be placed in the server's local config
+the following options can also be placed in the server's local config to override them
 
 the following options 
 
