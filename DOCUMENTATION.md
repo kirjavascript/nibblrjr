@@ -48,7 +48,7 @@ prints text without parsing the colour DSL
 
 <a name="error" href="#error">#</a> <i>printer</i>.<b>error</b>(<i>error</i>{, <i>options</i>})
 
-prints errors with <a href="#IRC-colors-error">IRC.colors.error</a>
+prints errors with <a href="#IRC-colors-error">IRC.colors.error</a>. also used to print thrown errors
 
 <a name="info" href="#info">#</a> <i>printer</i>.<b>info</b>(<i>string</i>{, <i>options</i>})
 
@@ -237,10 +237,29 @@ produces a colour hashed from the input string
 
 uses hashing to render a nickname. additionally pass *false* to not render the angle brackets
 
+<a name="IRC-colors-link" href="#IRC-colors-link">#</a> IRC.colors.<b>link</b>(<i>string</i>)
+
+a simple function to render a hyperlink
+
+<a name="IRC-colors-error" href="#IRC-colors-error">#</a> IRC.colors.<b>error</b>(<i>error|string</i>)
+
+renders an error's name (if different to 'Error') and message
+
+<a name="IRC-colors-info" href="#IRC-colors-info">#</a> IRC.colors.<b>info</b>(<i>string</i>)
+
+renders a neutral message
+
+<a name="IRC-colors-success" href="#IRC-colors-success">#</a> IRC.colors.<b>success</b>(<i>string</i>)
+
+renders a successful message
+
+sometimes I unironically do things like this;
 
 ```javascript
 with(IRC.colors) {
-    print(`${link()}`)
+    print(`${nick(user)} ${link(location)}`)
 }
+```
+
 
 ## Configuration
