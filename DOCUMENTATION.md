@@ -1,8 +1,10 @@
 <!---
 alk about module convention
 describe basic commands
-add source [<>]
+add source [src]
+REPL
 -->
+
 
 # nibblrjr documentation - (WIP)
 
@@ -11,7 +13,7 @@ add source [<>]
 
 ## API Reference
 
-### functions for printing text
+### functions for printing text 
 
 <a name="print" href="#print">#</a> <b>print</b>(<i>string</i>{, <i>options</i>})
 
@@ -44,15 +46,15 @@ prints text without parsing the colour DSL
 
 <a name="error" href="#error">#</a> <i>printer</i>.<b>error</b>(<i>error</i>{, <i>options</i>})
 
-prints errors with <a href="IRC-colors-error">IRC.colors.error</a>
+prints errors with <a href="#IRC-colors-error">IRC.colors.error</a>
 
 <a name="info" href="#info">#</a> <i>printer</i>.<b>info</b>(<i>string</i>{, <i>options</i>})
 
-prints text with <a href="IRC-colors-info">IRC.colors.info</a>
+prints text with <a href="#IRC-colors-info">IRC.colors.info</a>
 
 <a name="success" href="#success">#</a> <i>printer</i>.<b>success</b>(<i>string</i>{, <i>options</i>})
 
-prints text with <a href="IRC-colors-success">IRC.colors.success</a>
+prints text with <a href="#IRC-colors-success">IRC.colors.success</a>
 
 ### functions for fetching data
 
@@ -69,7 +71,7 @@ const { window, document } = fetchSync('http://google.com', {type: 'json'});
 ```
 <a href="#fetchsync">fetchSync</a> blocks, but each command is run concurrently in a separate vm - so other features continue to be responsive
 
-the following commands are deprecated
+the following functions are deprecated
 
 <a name="getText" href="#getText">#</a> <b>getText</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
 <a name="getJSON" href="#getJSON">#</a> <b>getJSON</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
@@ -90,5 +92,26 @@ not everything works, compatibility fares better the closer you get to ECMAScrip
 the following command is deprecated
 
 <a name="acquire" href="#acquire">#</a> <b>acquire</b>(<i>packagename</i>) -> <i>promise</i>
+
+### functions for storing data
+
+data is scoped by server. a future version may introduce additional scope
+
+
+<a name="set" href="#set">#</a> store.<b>set</b>(<i>string</i>) 
+
+different commands store data in different namespaces, only commands with the same `root` share the same namespace
+
+read more about `command.root` in <a href="#IRC-command">IRC.command</a>
+
+there is an experimental react-hooks like API for dealing with non-string values in the command module `module.loadObject` that can be used with <a href="#IRC-require">IRC.require</a>
+
+```javascript
+const [scores, setScores] = IRC.require('module.loadObject');
+```
+
+once the API is finalised, it'll be moved into the core
+
+### the IRC object
 
 ## Configuration
