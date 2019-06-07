@@ -478,7 +478,7 @@ all root properties (except `timezone` and `web`) are global or can also placed 
 
 * `trigger` _string_ &emsp; the prefix to use for running commands (default: `~`)
 * `timezone` _string_ &emsp; timezone to use for dates (default: `Europe/London`)
-userName
+* `userName` _string_ &emsp; 
 floodProtection
 floodProtectionDelay
 autoRejoin
