@@ -1,7 +1,6 @@
 {
     "trigger": "~",
     "broadcastCommands": ["poker", "golf"],
-    "timezone": "Europe/London",
     "servers": [
         {
             "address": "irc.rizon.net",
