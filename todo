@@ -5,12 +5,13 @@ version 4: data scoping & ORM
 // TODO //
 IRC.commandFns.delete|lock|star -> uses sudo
 ~poll
+IRC.runCommand
 module.paste
+fix store.namespace
 command.pasteTo pasteFrom
 command.add
 fix function + method inspect
 node.updateConfig
-IRC.runCommand
 IRC.sudo().evalAsCommand
 command autocorrect
 fetchSync().text()

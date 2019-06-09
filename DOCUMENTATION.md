@@ -474,26 +474,27 @@ a *boolean* indicating if the current command has been required or not
 
 all properties are optional. [see the example config](config.json.example)
 
-all root properties (except `timezone` and `web`) are global or can also placed inside the server config for a local override
+all root properties (except `timezone` and `web`) are global, and can also placed inside the server config for a local override
 
 * `trigger` _string_ &emsp; the prefix to use for running commands (default: `~`)
 * `timezone` _string_ &emsp; timezone to use for dates (default: `Europe/London`)
-* `userName` _string_ &emsp; 
-floodProtection
-floodProtectionDelay
-autoRejoin
-enableIBIP
-commandLimit
-ignoreHosts
-admins
-colors
-fetchURL
+* `userName` _string_ &emsp; username shown in whois information
+* `realName` _string_ &emsp; real name shown in whois information
+* `floodProtection` _boolean_ &emsp; should flood protection be enabled (default: `true`)
+* `floodProtectionDelay` _number_ &emsp; set flood protection time delay in ms (default: `250`)
+* `autoRejoin` _boolean_ &emsp; should the bot autorejoin channels when kicked (default: `true`)
+* `enableIBIP` _boolean_ &emsp; should the bot conform to [IBIP](https://git.teknik.io/Teknikode/IBIP) standard (default: `true`)
+* `commandLimit` _number_ &emsp; limit the number of times funcitons that manipulate commands can be used in a single REPL call (default: `2`)
+* `ignoreHosts` _array_ &emsp; list of hostnames to ignore for events and messages entirely
+* `admins` _array_ &emsp; list of nicknames of users that have access to <a href="#IRC-sudo">IRC.sudo</a>
+* `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
+* `fetchURL` _boolean_ &emsp; should URLs posted in channel have their titles displayed (default: `true`)
+secrets
+broadcastCommands
 web
     url
     port
     password
-secrets
-broadcastCommands
 servers
     address
     channels
