@@ -74,7 +74,7 @@ works the same as [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch
 the `dom` option is useful for scraping websites or RSS feeds
 
 ```javascript
-const { window, document } = fetchSync('http://google.com', {type: 'json'});
+const { window, document } = fetchSync('http://google.com', {type: 'dom'});
 ```
 <a href="#fetchsync">fetchSync</a> blocks, but each command is run concurrently in a separate vm - so other features continue to be responsive
 
