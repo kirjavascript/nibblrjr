@@ -1,0 +1,6 @@
+{
+    "name": "anagram",
+    "command": "IRC.require('scrabble.game').main()",
+    "locked": false,
+    "starred": false
+}
