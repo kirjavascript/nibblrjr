@@ -1,0 +1,6 @@
+{
+    "name": "postlog",
+    "command": "const [url, limit, offset] = input.split(' ')\nconst data = IRC.log.getGlobal(\"\", limit, offset);\n\nfetchSync(url, {\n    method: 'POST',\n    //headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(data)\n})\n",
+    "locked": false,
+    "starred": false
+}

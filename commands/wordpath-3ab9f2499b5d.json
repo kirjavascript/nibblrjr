@@ -1,0 +1,6 @@
+{
+    "name": "wordpath",
+    "command": "/*\n ⣿⣿⣿⡿⠟⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠿⣿⣿ \n ⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿ \n ⣿⠃⠀⠀⠀⣿⠛⡇⢸⡇⠀⡇⣿⠉⠁⣿⣀⡜⠀⠀⠀⠀⠀⠀⣿ \n ⣿⠀⠀⠀⠀⣿⣉⣹⢸⣇⣀⡇⣿⣀⡀⣿⠀⣿⠀⠀⠀⠀⠀⠀⣿ \n ⣿⠀⠀⠀⠀⠀⠠⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠀⠀⠀⠀⠀⠀⣿ \n ⣿⡀⠀⠀⢀⣀⢀⠀⠀⠉⠉⠉⠭⠭⠭⠭⠭⠭⠭⠭⠭⠄⠀⠀⣿ \n ⣿⣇⠀⠀⠘⢿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿ \n ⣿⣿⣷⣦⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣴⣾⣿⣿ \n\n\n*/\n\nconst words = IRC.wordList.filter( x=>x.length===4)\n\nconst wordpath = input.split(/\\s+/)\n\nif( wordpath.map( w => words.includes( w)).filter( x=>x===false).length>0) {\n    print( 'Some of those words are probably not real words.')\n    return\n}\n\nconst diff = (a, b) => {\n    let count=0;\n    for(let i=0; i<a.length; i++) {\n        if( a[i] !== b[i]) count++\n    }\n    return count\n}\n\nfor(let i=0; i<wordpath.length-1; i++) {\n    if(diff( wordpath[i], wordpath[i+1])!==1) {\n        print( wordpath[i] + ' and ' + wordpath[i+1] + ' either differ too much or are the same.')\n        return\n    }\n}\n\nprint( \"Valid wordpath!\")\n",
+    "locked": false,
+    "starred": false
+}

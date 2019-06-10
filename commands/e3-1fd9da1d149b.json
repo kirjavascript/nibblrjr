@@ -1,6 +1,6 @@
 {
     "name": "e3",
-    "command": "print(`http://www.e3countdown.com`)",
+    "command": "print(\"https://2019.e3recap.com\");",
     "locked": false,
     "starred": false
 }
