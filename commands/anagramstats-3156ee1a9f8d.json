@@ -1,0 +1,6 @@
+{
+    "name": "anagram.stats",
+    "command": "IRC.require('scrabble.game.stats')",
+    "locked": false,
+    "starred": false
+}
