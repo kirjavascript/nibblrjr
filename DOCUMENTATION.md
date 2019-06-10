@@ -477,7 +477,7 @@ all properties are optional. [see the example config](config.json.example)
 all root properties (except `timezone` and `web`) are global, and can also placed inside the server config for a local override
 
 * `trigger` _string_ &emsp; the prefix to use for running commands (default: `~`)
-* `timezone` _string_ &emsp; timezone to use for dates (default: `Europe/London`)
+* `nickname` _string_ &emsp; nickname
 * `userName` _string_ &emsp; username shown in whois information
 * `realName` _string_ &emsp; real name shown in whois information
 * `floodProtection` _boolean_ &emsp; should flood protection be enabled (default: `true`)
@@ -489,28 +489,22 @@ all root properties (except `timezone` and `web`) are global, and can also place
 * `admins` _array_ &emsp; list of nicknames of users that have access to <a href="#IRC-sudo">IRC.sudo</a>
 * `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
 * `fetchURL` _boolean_ &emsp; should URLs posted in channel have their titles displayed (default: `true`)
-secrets
-broadcastCommands
-web
-    url
-    port
-    password
-servers
-    address
-    channels
-        name
-        lineLimit
-        setNick
-        fetchURLAll
-        ignoreEvents
-    nickname
-    password
-
-
-
-the following options can also be placed in the server's local config to override them
-
-the following options 
+* `secrets` _object_ &emsp; keys in this object correspond to commands that have an <a href="#IRC-secret">IRC.secret</a> value
+* `broadcastCommands` _array_ &emsp; list of commands that are able to use the *target* property of <a href="#print">print</a>
+* `timezone` _string_ &emsp; timezone to use for dates (default: `Europe/London`)
+* `web` _object_ &emsp; configuration for the web frontend
+    * `url` _string_ &emsp; web address for the frontend, available at <a href="#IRC-webAddress">IRC.webAddress</a>
+    * `port` _number_ &emsp; port to host the content at
+    * `password` _string_ &emsp; logging in to the web interface allows you to modify locked commands
+* `servers` _array_ &emsp; list of IRC servers to connect to 
+    * `address` _string_ &emsp; for example: `irc.freenode.org`
+    * `password` _string_ &emsp; password to use for services authentication
+    * `channels` _array_ &emsp; list of channels to join. (can just be a list of strings of channel names)
+        * `name` _string_ &emsp; channel name to join. for example: `##rust`
+        * `lineLimit` _number_ &emsp; maximum number of lines a command can display (default: `10`)
+        * `setNick` _boolean_ &emsp; does anyone in this channel have access to <a href="#IRC-setNick">IRC.setNick</a> (default: `false`)
+        * `fetchURLAll` _boolean_ &emsp; should every scraped URL be shown, or just 'useful' ones (default: `false`)
+        * `ignoreEvents` _boolean_ &emsp; should this channel ignore `speak` and `tick` events (default: `false`)
 
 ## REPL
 
