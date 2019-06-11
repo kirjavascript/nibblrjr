@@ -462,13 +462,19 @@ the `node` proxy allows you to send raw commands and update config options on th
 
 loads a command as a module. the object is whatever was added to <a href="#module-exports">module.exports</a>
 
+some useful utilities are available as subcommands of the `module` command. for example:
+
+```javascript
+IRC.require('module.paste')('hello world') == 'https://paste.rs/PN2'
+```
+
 <a name="module-exports" href="#module-exports">#</a> module.<b>exports</b>
 
 an *object* to place functions you would like to export on 
 
 <a name="module-required" href="#module-required">#</a> module.<b>required</b>
 
-a *boolean* indicating if the current command has been required or not
+a *boolean* indicating if the current command has been required or not. allows commands to be used as commands or modules
 
 ## Configuration
 
