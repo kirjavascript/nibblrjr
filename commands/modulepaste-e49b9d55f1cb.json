@@ -1,0 +1,6 @@
+{
+    "name": "module.paste",
+    "command": "module.exports = (source) => fetchSync('https://paste.rs', {\r    method: 'POST',\r    body: source,\r    headers: {\r        'Content-Type': 'application/json',\r        'Accept': 'application/json',\r    }\r}).trim();",
+    "locked": false,
+    "starred": false
+}
