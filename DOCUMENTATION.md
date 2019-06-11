@@ -74,7 +74,7 @@ works the same as [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch
 the `dom` option is useful for scraping websites or RSS feeds
 
 ```javascript
-const { window, document } = fetchSync('http://google.com', {type: 'json'});
+const { window, document } = fetchSync('http://google.com', {type: 'dom'});
 ```
 <a href="#fetchsync">fetchSync</a> blocks, but each command is run concurrently in a separate vm - so other features continue to be responsive
 
@@ -462,13 +462,19 @@ the `node` proxy allows you to send raw commands and update config options on th
 
 loads a command as a module. the object is whatever was added to <a href="#module-exports">module.exports</a>
 
+some useful utilities are available as subcommands of the `module` command. for example:
+
+```javascript
+IRC.require('module.paste')('hello world') == 'https://paste.rs/PN2'
+```
+
 <a name="module-exports" href="#module-exports">#</a> module.<b>exports</b>
 
 an *object* to place functions you would like to export on 
 
 <a name="module-required" href="#module-required">#</a> module.<b>required</b>
 
-a *boolean* indicating if the current command has been required or not
+a *boolean* indicating if the current command has been required or not. allows commands to be used as commands or modules
 
 ## Configuration
 
