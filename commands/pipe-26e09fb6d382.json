@@ -1,6 +1,6 @@
 {
     "name": "pipe",
-    "command": "const text = [];\nconst realPrint = print;\n\ninput.split('|').forEach((command, index) => {\n    print = (str) => {\n    text.push(str);\n    realPrint('pushed' + str);\n};\n    IRC.command = IRC.parseCommand({ text: command });\n    input = index == 0 ? IRC.command.input : text.join``;\n    //realPrint.log(input);\n    IRC.command.input = input;\n    IRC.require(IRC.command.path);\n});\n    realPrint.log(text);",
+    "command": "\n(function() {\n    const cmds = input.split('|').map(d => d.trim());\n    global.input = IRC.parseCommand({ text: cmds[0] }).input;\n    let data = ''\n    const [_print, _log] = [print, print.log];\n\n    ['print', 'notice', 'action'].forEach(printer => {\n        global[printer] = (str) => {\n            // _log(str);\n            data += str;\n        };\n\n        global[printer].raw = (str) => {\n            // _log(str);\n            data += str;\n        };\n    });\n\n    cmds.forEach(cmd => {\n        // _log([data, input, cmd]);\n        IRC.command = IRC.parseCommand({ text: cmd });\n        // _log([global.input, IRC.command.path])\n        IRC.require(IRC.command.path);\n        global.input = data;\n        data = ''\n    })\n\n    _print(input);\n\n})()\n",
     "locked": false,
     "starred": false
 }
