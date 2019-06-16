@@ -1,0 +1,6 @@
+{
+    "name": "spamroll7",
+    "command": "let output=''\nconst [_print, _log] = [print, print.log];\nglobal['print'] = s=>output+=s\n\nprint( IRC.command.root)\n\nfor(let i=0; i<input; i++) {\n    IRC.command = IRC.parseCommand({ text: \"roll7\", message: IRC.message, root: \"roll7\" });\n    IRC.command.root = 'roll7'\n    print( IRC.command.root)\n    IRC.require(IRC.command.path);\n}\n\n_print( output)",
+    "locked": false,
+    "starred": false
+}
