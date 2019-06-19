@@ -1,0 +1,6 @@
+{
+    "name": "rollez",
+    "command": "print(`{dc}${IRC.message.from}{/} won!`)",
+    "locked": false,
+    "starred": false
+}
