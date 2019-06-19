@@ -1,0 +1,6 @@
+{
+    "name": "recipe",
+    "command": "print('Recipe for ' + input)\nprint('Ingredients:')\nprint('1. Computer')\nprint('2. Internet connection')\nprint('Method:')\nprint('1. Go to justeat.co.uk')\nprint('2. Order ' + input)\nprint('3. Wait 45 minutes or until food arrives')",
+    "locked": false,
+    "starred": false
+}
