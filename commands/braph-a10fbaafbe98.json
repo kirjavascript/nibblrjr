@@ -1,6 +1,6 @@
 {
     "name": "braph",
-    "command": "const width = IRC.command.params[0] || 50;\n\nlet f = eval( 'x=>' + input)\n\nlet miny=maxy=f(0)\n\nfor(x=-width;x<=width;x++) {\n    let value = f(x)\n    miny = Math.min( miny, value)\n    maxy = Math.max( maxy, value)\n}\n\nlet scale=7/(maxy-miny)\nlet offset=(maxy-miny)/2\n\nlet output=[]\n\nfor(x=-width;x<=width;x++) {\n    let value = (f(x)-miny)*scale\n    output.push(value+.5|0)\n}\n\nprint( output.map( x=>String.fromCharCode(9601+x)).join(''))",
+    "command": "/*\n ⣿⣿⣿⡿⠟⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠿⣿⣿ \n ⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿ \n ⣿⠃⠀⠀⠀⣿⠛⡇⢸⡇⠀⡇⣿⠉⠁⣿⣀⡜⠀⠀⠀⠀⠀⠀⣿ \n ⣿⠀⠀⠀⠀⣿⣉⣹⢸⣇⣀⡇⣿⣀⡀⣿⠀⣿⠀⠀⠀⠀⠀⠀⣿ \n ⣿⠀⠀⠀⠀⠀⠠⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠤⠀⠀⠀⠀⠀⠀⣿ \n ⣿⡀⠀⠀⢀⣀⢀⠀⠀⠉⠉⠉⠭⠭⠭⠭⠭⠭⠭⠭⠭⠄⠀⠀⣿ \n ⣿⣇⠀⠀⠘⢿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿ \n ⣿⣿⣷⣦⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣴⣾⣿⣿ \n\n\n*/\n\nconst width = IRC.command.params[0] || 50;\n\nlet f = eval( 'x=>' + input)\n\nlet miny=maxy=f(0)\n\nfor(x=-width;x<=width;x++) {\n    let value = f(x)\n    miny = Math.min( miny, value)\n    maxy = Math.max( maxy, value)\n}\n\nlet scale=7/(maxy-miny)\nlet offset=(maxy-miny)/2\n\nlet output=[]\n\nfor(x=-width;x<=width;x++) {\n    let value = (f(x)-miny)*scale\n    output.push(value+.5|0)\n}\n\nprint( output.map( x=>String.fromCharCode(9601+x)).join(''))",
     "locked": true,
     "starred": true
 }
