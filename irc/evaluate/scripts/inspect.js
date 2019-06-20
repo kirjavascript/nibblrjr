@@ -22,7 +22,7 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module.exports = (obj, opts) => {
+module.exports = (obj, opts = {}) => {
     const output = inspect_(obj, opts);
     const { truncate = 390 } = opts;
     return output.length > truncate && truncate > 0
