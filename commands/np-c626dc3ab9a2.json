@@ -1,6 +1,6 @@
 {
     "name": "np",
     "command": "IRC.require('lfm');",
-    "locked": false,
+    "locked": true,
     "starred": false
 }

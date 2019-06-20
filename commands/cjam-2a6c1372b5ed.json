@@ -1,6 +1,6 @@
 {
     "name": "cjam",
-    "command": "print(fetchSync(\"http://cjamsrv.aditsu.net/?\" + encodeURIComponent(input)))",
+    "command": "print.raw(fetchSync(\"http://cjamsrv.aditsu.net/?\" + encodeURIComponent(input)))",
     "locked": false,
     "starred": false
 }
