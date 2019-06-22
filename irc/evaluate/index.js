@@ -409,7 +409,16 @@ async function evaluate({
 
             delete global.config;
             delete global.scripts;
-            global.console = {};
+
+            global.console = new Proxy({}, {
+                get: (_, key) => {
+                    if (typeof key == 'symbol') {
+                        return () => '{}';
+                    } else {
+                        throw new Error(`{i}console{/}.{dc}${key}{/} not available, see ${IRC.colors.cmd('help.about')}`);
+                    }
+                },
+            });
 
             ['global', 'acquire', 'module']
                 .forEach(key => {

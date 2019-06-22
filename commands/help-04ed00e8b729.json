@@ -1,6 +1,6 @@
 {
     "name": "help",
     "command": "const path = IRC.command.path + '.', commands = IRC.commandFns.names().filter(d => d.startsWith(path)).map(d => d.replace(path,''));\ninput = input.trim(); \nif (input && commands.includes(input)) {\n    IRC.require('help.' + input);\n} else {\n    print(`{c}${IRC.nick.replace(/jr/, '{/}{dc}jr{c}')}{/} {bo}★{/}  use ${IRC.colors.cmd('help', 'topic')} to view info for: ${commands.map(d => `{u}${d}{/}`).join` `} `);\n}",
-    "locked": false,
-    "starred": false
+    "locked": true,
+    "starred": true
 }
