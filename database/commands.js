@@ -57,6 +57,7 @@ function createCommandDB() {
         // some kind of caching/indexing would improve performance here
         const cmdList = getAllCommands();
         return cmdList.map(cmd => {
+            delete cmd.command;
             const { root } = parseCommand({ text: cmd.name });
             if (cmd.name == root) return cmd;
             // const parent = getCommand(root);
@@ -73,11 +74,14 @@ function createCommandDB() {
 
     const set = (name, value) => {
         const safeName = name.replace(/\s+/g, '');
-        setCommand({
-            name,
-            command: value,
+        const options = getCommand(name) || {
             locked: false,
             starred: false,
+        };
+        setCommand({
+            ...options,
+            name,
+            command: value,
         });
     };
 
