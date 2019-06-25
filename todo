@@ -5,11 +5,14 @@ make events more powerful, restrict how they're created -> current event API is 
 s/thing/thing hooks
 
 // TODO //
+configurable store limit (buck)
+make ~>> silent
+IRC.runCommand -> make roll7 return something for bet7
+configurable wss URL
 global log function
 ~docs parses the markdown
 IRC.commandFns.delete|lock|star -> uses sudo
 ~poll
-IRC.runCommand
 fix store.namespace
 command.pasteTo pasteFrom
 blackjack
@@ -40,9 +43,8 @@ tinyurl the url (crc32)
 specify regex for command name
 set request content type url bug https://arin.ga/BXMkyl
 strip only starred commands for github ?
-provide a toQueryString
+provide a toQueryString / URLSearchParams
 truncate log messages (or also how nibblr saves itself to log)
-documentation show global object tree
 
 ====
 
