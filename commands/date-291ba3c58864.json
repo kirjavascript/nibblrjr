@@ -1,6 +1,6 @@
 {
     "name": "date",
-    "command": "print(`friday june 15th 2027`)",
+    "command": "print(`friday smarch 15nd 2028`)",
     "locked": false,
     "starred": false
 }

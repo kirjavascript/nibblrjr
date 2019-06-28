@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "k2c",
+    "command": "print(String(Number(input) - 273.1))"
+}
