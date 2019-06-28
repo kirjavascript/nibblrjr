@@ -232,12 +232,14 @@ async function evaluate({
                 },
             }));
 
+            global.log = print.log;
+
             // fetch stuff
 
             Object.assign(global, scripts.fetch.global);
 
             const { wrapDOM } = scripts.fetch;
-            global.fetchSync = (str, config) => {
+            global.fetchSync = (str, config = {}) => {
                 return wrapDOM(config, (config) => {
                     return ref.fetchSync.applySyncPromise(undefined, [
                         str,
@@ -410,15 +412,11 @@ async function evaluate({
             delete global.config;
             delete global.scripts;
 
-            global.console = new Proxy({}, {
-                get: (_, key) => {
-                    if (typeof key == 'symbol') {
-                        return () => '{}';
-                    } else {
-                        throw new Error(`{i}console{/}.{dc}${key}{/} not available, see ${IRC.colors.cmd('help.about')}`);
-                    }
+            global.console = {
+                log: () => {
+                    throw new Error(`{i}console{/}.{dc}log{/} not available, see ${IRC.colors.cmd('help.about')}`);
                 },
-            });
+            };
 
             ['global', 'acquire', 'module']
                 .forEach(key => {
