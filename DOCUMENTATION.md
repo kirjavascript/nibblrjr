@@ -226,6 +226,7 @@ object inspector designed for IRC specifically. takes the following options;
 
 * `depth` - _number_ &emsp; what level of of the tree should be rendered
 * `truncate` - _number_ &emsp; at which point to truncate the output
+* `colors` - _bool_ &emsp; should output be formatted with colours
 
 values of zero will show the maximum instead
 
