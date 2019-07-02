@@ -3,16 +3,27 @@ reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 version 4: data scoping & ORM
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks
+trigger commands when not even at start of message
+
+<grr12314> ~golf.submit wordpath _=>['swim','shim'] (4 hours ago)
+https://github.com/google/schism (7 hours ago)
 
 // TODO //
-configurable store limit (buck)
+21:36 <+Buck> ~golf.submit triangle f=n=>1n+BigInt(n)
+configurable store limit (buck) -> module.fetchCached
+IRC.stripColors
+log commands again
 make ~>> silent
+move away from external CSS
+commands ending with a comment break (add an \n)
+make logging nibblr a config option
+
 IRC.runCommand -> make roll7 return something for bet7
 configurable wss URL
 global log function
 ~docs parses the markdown
 IRC.commandFns.delete|lock|star -> uses sudo
-~poll
+~poll editor vim
 fix store.namespace
 command.pasteTo pasteFrom
 blackjack
@@ -21,7 +32,6 @@ fix function + method inspect
 node.updateConfig
 IRC.sudo().evalAsCommand
 command autocorrect
-fetchSync().text()
 secret commands
 sleep(1); poker
 nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
