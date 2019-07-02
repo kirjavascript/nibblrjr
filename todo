@@ -8,9 +8,7 @@ trigger commands when not even at start of message
 https://github.com/google/schism
 
 // TODO //
-configurable store limit (buck) -> module.fetchCached
-log commands again / make logging nibblr a config option
-make ~>> silent
+module.fetchCached
 
 IRC.runCommand -> make roll7 return something for bet7
 configurable wss URL
@@ -18,7 +16,7 @@ global log function
 ~docs parses the markdown
 IRC.commandFns.delete|lock|star -> uses sudo
 ~poll editor vim
-fix store.namespace
+configurable store limit (buck)
 command.pasteTo pasteFrom
 blackjack
 command.add
@@ -87,5 +85,3 @@ database explorer
 // EDITOR
 edited
 testing
-
-constants: '>'

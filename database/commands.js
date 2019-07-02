@@ -2,6 +2,7 @@ const { parseCommand } = require('../irc/evaluate/scripts/parse-command');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const reserved = require('../base/reserved');
 
 function commandPath(name = '') {
     return path.join(__dirname, '../commands', name);
@@ -106,12 +107,12 @@ function createCommandDB() {
 
     const setSafe = (name, value) => {
         const obj = get(name);
-        const isEval = ['>', '#', '%'].includes(name);
+        const isReserved = reserved.includes(name);
         const parentCmdName = parseCommand({text: name}).list[0];
         const parentCmd = get(parentCmdName);
         if (
             obj && obj.locked
-            || isEval
+            || isReserved
             || !obj && parentCmd && parentCmd.locked
         ) {
             return false;

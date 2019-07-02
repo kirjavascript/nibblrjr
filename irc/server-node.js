@@ -1,4 +1,5 @@
 const { Client } = require('irc');
+const reserved = require('../base/reserved');
 
 const { mod, updateLoader } = require('./hot-loader');
 
@@ -161,8 +162,8 @@ class ServerNode {
 
                 // eval
                 // > - print output
-                // #/% - no output, async IIFE
-                if (['>','#','%'].includes(command.path)) {
+                // >>/#/% - no output, async IIFE
+                if (reserved.includes(command.path)) {
                     const { input, path } = command;
                     const isAsync = path != '>';
                     mod.evaluate({
