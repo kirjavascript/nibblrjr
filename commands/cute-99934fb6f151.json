@@ -1,6 +1,6 @@
 {
     "name": "cute",
-    "command": "print(`(Ɔ ˘⌣˘){r}♥{/}  ${input}`)",
+    "command": "print(`(Ɔ ˘⌣˘){r}${['♥','💕'][new Date%2]}{/}  ${input}`)",
     "locked": true,
     "starred": false
 }
