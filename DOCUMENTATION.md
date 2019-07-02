@@ -495,7 +495,8 @@ all root properties (except `timezone` and `web`) are global, and can also place
 * `floodProtectionDelay` _number_ &emsp; set flood protection time delay in ms (default: `250`)
 * `autoRejoin` _boolean_ &emsp; should the bot autorejoin channels when kicked (default: `true`)
 * `enableIBIP` _boolean_ &emsp; should the bot conform to [IBIP](https://git.teknik.io/Teknikode/IBIP) standard (default: `true`)
-* `commandLimit` _number_ &emsp; limit the number of times funcitons that manipulate commands can be used in a single REPL call (default: `2`)
+* `commandLimit` _number_ &emsp; limit the number of times functions that manipulate commands can be used in a single REPL call (default: `2`)
+* `logCommands` _bool_ &emsp; should messages that trigger commands be logged (default: `true`)
 * `ignoreHosts` _array_ &emsp; list of hostnames to ignore for events and messages entirely
 * `admins` _array_ &emsp; list of nicknames of users that have access to <a href="#IRC-sudo">IRC.sudo</a>
 * `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)

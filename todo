@@ -11,7 +11,6 @@ https://github.com/google/schism
 configurable store limit (buck) -> module.fetchCached
 log commands again / make logging nibblr a config option
 make ~>> silent
-move away from external CSS
 
 IRC.runCommand -> make roll7 return something for bet7
 configurable wss URL
