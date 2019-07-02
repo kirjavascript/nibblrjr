@@ -454,7 +454,7 @@ async function evaluate({
                     );
                 })();
             `
-            : `(async () => { ${script} })();`
+            : `(async () => { \n${script}\n })();`
         );
 
         await code.run(context, {timeout});
