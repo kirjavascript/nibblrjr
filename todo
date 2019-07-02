@@ -5,8 +5,7 @@ make events more powerful, restrict how they're created -> current event API is 
 s/thing/thing hooks
 trigger commands when not even at start of message
 
-<grr12314> ~golf.submit wordpath _=>['swim','shim'] (4 hours ago)
-https://github.com/google/schism (7 hours ago)
+https://github.com/google/schism
 
 // TODO //
 configurable store limit (buck) -> module.fetchCached

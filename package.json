@@ -1,5 +1,5 @@
 {
-    "version": "3.1.4",
+    "version": "3.1.5",
     "scripts": {
         "start-pm2": "pm2 start --name \"nibblrjr\" index.js",
         "start": "node index.js",

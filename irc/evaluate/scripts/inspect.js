@@ -32,8 +32,9 @@ module.exports = (obj, opts = {}) => {
 
 const codes = { r: '04', dr: '05', w: '00', bl: '01', c: '11', dc: '10', b: '12', db: '02', g: '09', dg: '03', p: '13', dp: '06', o: '07', y: '08', gr: '15', dgr: '14' };
 
+let hasColors = true;
 const color = (code, text) => {
-    return `\u0003${codes[code]}${text}\u000f`
+    return hasColors ? `\u0003${codes[code]}${text}\u000f` : text;
 }
 
 var inspectSymbol = module.exports.symbol = Symbol('inspect');
@@ -53,6 +54,7 @@ var bigIntValueOf = typeof BigInt === 'function' ? BigInt.prototype.valueOf : nu
 
 function inspect_(obj, opts, depth, seen) {
     if (!opts) opts = {};
+    hasColors = opts.colors !== false;
 
     if (has(opts, 'quoteStyle') && (opts.quoteStyle !== 'single' && opts.quoteStyle !== 'double')) {
         throw new TypeError('option "quoteStyle" must be "single" or "double"');
