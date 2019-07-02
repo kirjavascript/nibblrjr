@@ -9,14 +9,10 @@ trigger commands when not even at start of message
 https://github.com/google/schism (7 hours ago)
 
 // TODO //
-21:36 <+Buck> ~golf.submit triangle f=n=>1n+BigInt(n)
 configurable store limit (buck) -> module.fetchCached
-IRC.stripColors
-log commands again
+log commands again / make logging nibblr a config option
 make ~>> silent
 move away from external CSS
-commands ending with a comment break (add an \n)
-make logging nibblr a config option
 
 IRC.runCommand -> make roll7 return something for bet7
 configurable wss URL
