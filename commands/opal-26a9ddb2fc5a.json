@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "opal",
+    "command": "console.log = (...args) => {};\neval(fetchSync('https://cdn.opalrb.com/opal/current/opal.js'));\nOpal.load('opal');\neval(fetchSync('https://cdn.opalrb.com/opal/current/opal-parser.js'));\nOpal.load('opal-parser');\nprint.log(Opal.eval(input));"
+}
