@@ -239,8 +239,8 @@ function createServerDBFactory(database) {
                 }
                 // update / add data
                 else if (!hasData) {
-                    if (String(value).length > 5000) {
-                        throw new Error('Store size limit is 5000');
+                    if (String(value).length > 1048576) {
+                        throw new Error('Store size limit is 1MB');
                     }
                     setInsertQuery.run(String(value), namespace, key);
                 }
@@ -256,7 +256,7 @@ function createServerDBFactory(database) {
             const clear = () => {
                 clearQuery.run(namespace);
             };
-            return { get, set, all, namespace, clear };
+            return { get, set, all, clear };
         };
 
         return { log, logFactory, storeFactory, eventFactory, eventFns };

@@ -522,7 +522,7 @@ all root properties (except `timezone` and `web`) are global, and can also place
 
 to run code in a JS interpreter, combine the <a href="#IRC-trigger">trigger</a> prefix with one of the following symbols 
 
-`>` prints the returned value and `#` or `%` run a command in an async IIFE
+`>` prints the returned value and `>>`, `#` or `%` run code in an async IIFE
 
 the REPL works as a command like any other, and `>` takes optional params. the params look like:
 

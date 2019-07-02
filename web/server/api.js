@@ -1,4 +1,5 @@
 const { parseCommand } = require('../../irc/evaluate/scripts/parse-command');
+const reserved = require('../../base/reserved');
 
 function msgHandler({parent, ws}) {
     let isAdmin = false;
@@ -57,8 +58,8 @@ function msgHandler({parent, ws}) {
                 const parentCmdName = parseCommand({text: name}).list[0];
                 const parentCmd = parent.database.commands.get(parentCmdName);
                 const locked = parentCmd && parentCmd.locked;
-                const isEval = ['>', '#', '%'].includes(name);
-                if (!isEval && !exists && (!locked || isAdmin)) {
+                const isReserved = reserved.includes(name);
+                if (!isReserved && !exists && (!locked || isAdmin)) {
                     parent.database.commands.set(name, '');
                     sendList();
                 }

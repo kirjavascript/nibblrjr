@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { env } from '#store';
 import { Editor } from './editor';
 import { parseCommand } from '../../../irc/evaluate/scripts/parse-command';
+import reserved from '../../../base/reserved';
 
 @observer
 export class Commands extends Component {
@@ -32,8 +33,8 @@ export class Commands extends Component {
         const { list } = parseCommand({text: value});
         const parent = env.list.find(d => d.name == list[0]);
         const locked = parent && parent.locked;
-        const isEval = ['>', '%', '#'].includes(value);
-        const valid = !isEval && !exists && (!locked || env.admin);
+        const isReserved = reserved.includes(value);
+        const valid = !isReserved && !exists && (!locked || env.admin);
 
         this.setState({
             newName: value.replace(/\s+/g, ''),
