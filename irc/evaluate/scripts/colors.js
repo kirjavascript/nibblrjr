@@ -120,11 +120,17 @@ const info = (message) => {
     return `{b}>>{/} ${message}`;
 };
 
+const strip = (str) => (
+    String(str)
+        .replace(/(\x03\d{0,2}(,\d{0,2}|\x02\x02)?|\x0f|\x07|\x1D|\x02|\x1f)/g, '')
+);
+
 const getColorFuncs = (trigger) => {
     const colors = (str) => parseColors(str);
     return Object.assign(colors, {
         hash, nick, link,
         error, success, info,
+        strip,
         cmd: (str, input, params) => {
             const iStr = Array.isArray(input)
                 ? ' ' + input.map(param => `{bo}[${param}]{/}`).join` `

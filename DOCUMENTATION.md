@@ -296,6 +296,10 @@ renders a neutral message
 
 renders a successful message
 
+<a name="IRC-colors-strip" href="#IRC-colors-strip">#</a> IRC.colors.<b>strip</b>(<i>string</i>) -> <i>string</i>
+
+removes (rendered) colour codes and formatting from a string
+
 ### dealing with time
 
 <a name="IRC-parseTime" href="#IRC-parseTime">#</a> IRC.<b>parseTime</b>(<i>string</i>) -> <i>date</i>

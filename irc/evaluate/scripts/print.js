@@ -43,7 +43,7 @@ function messageFactory(type, {
             text = String(text);
         }
         if (!hasColors) {
-            text = text.replace(/(\x03\d{0,2}(,\d{0,2}|\x02\x02)?|\x0f|\x07|\x1D|\x02|\x1f)/g, '');
+            text = colors.strip(text);
         }
         // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
         text = text.replace(/\r/g, '\n');
