@@ -53,7 +53,10 @@ function createServerDBFactory(database) {
                 ) {
                     const hasMessage = !!message.args.length;
                     const text = hasMessage ? message.args.slice(1).join(' ') : '';
-                    if (!text.startsWith(node.trigger)) {
+                    if (
+                        node.get('logCommands', true)
+                        || !text.startsWith(node.trigger)
+                    ) {
                         logQuery.run([
                             message.nick,
                             message.command,
