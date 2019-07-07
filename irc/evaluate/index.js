@@ -419,9 +419,7 @@ async function evaluate({
                 },
             };
 
-            // patch RegExp.$_
-
-            /nibblrjr/.test('nibblrjr');
+            /\s*/.test(''); // patch RegExp.$_
 
             ['global', 'acquire', 'module']
                 .forEach(key => {
