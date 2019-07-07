@@ -419,6 +419,10 @@ async function evaluate({
                 },
             };
 
+            // patch RegExp.$_
+
+            /nibblrjr/.test('nibblrjr');
+
             ['global', 'acquire', 'module']
                 .forEach(key => {
                     Object.defineProperty(global, key, { enumerable: false });
