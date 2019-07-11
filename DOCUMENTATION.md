@@ -198,7 +198,11 @@ config-defined URL pointing to the web frontend
 
 <a name="IRC-version" href="#IRC-version">#</a> IRC.<b>version</b>
 
-current version
+bot version
+
+<a name="IRC-nodeVersion" href="#IRC-nodeVersion">#</a> IRC.<b>nodeVersion</b>
+
+node.js version
 
 <a name="IRC-secret" href="#IRC-secret">#</a> IRC.<b>secret</b>
 

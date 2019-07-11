@@ -47,6 +47,7 @@ async function evaluate({
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
                 epoch: node.parent.epoch,
                 version,
+                nodeVersion: process.version.slice(1),
             },
         };
 
