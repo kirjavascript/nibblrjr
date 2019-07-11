@@ -47,6 +47,7 @@ async function evaluate({
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
                 epoch: node.parent.epoch,
                 version,
+                nodeVersion: process.version.slice(1),
             },
         };
 
@@ -418,6 +419,8 @@ async function evaluate({
                     throw new Error(`{i}console{/}.{dc}log{/} not available, see ${IRC.colors.cmd('help.about')}`);
                 },
             };
+
+            /\s*/.test(''); // patch RegExp.$_
 
             ['global', 'acquire', 'module']
                 .forEach(key => {

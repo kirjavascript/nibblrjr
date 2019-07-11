@@ -1,4 +1,4 @@
-// from object-inspect, modified for IRC
+// from object-inspect, modified for IRC and extended
 // original licence follows
 //
 // This software is released under the MIT license:
@@ -177,6 +177,9 @@ function inspect_(obj, opts, depth, seen) {
     if (isPromise(obj)) {
         return 'Promise {}';
     }
+    if (isIterator(obj)) {
+        return 'Iterator {}';
+    }
     var xs = arrObjKeys(obj, inspect);
     if (xs.length === 0) return '{}';
     return '{ ' + xs.join(', ') + ' }';
@@ -201,6 +204,7 @@ function isNumber (obj) { return toStr(obj) === '[object Number]'; }
 function isBigInt (obj) { return toStr(obj) === '[object BigInt]'; }
 function isBoolean (obj) { return toStr(obj) === '[object Boolean]'; }
 function isPromise (obj) { return toStr(obj) === '[object Promise]'; }
+function isIterator (obj) { return obj != null && typeof obj[Symbol.iterator] === 'function'; }
 
 var hasOwn = Object.prototype.hasOwnProperty || function (key) { return key in this; };
 function has (obj, key) {
