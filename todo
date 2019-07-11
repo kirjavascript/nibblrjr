@@ -4,12 +4,13 @@ version 4: data scoping & ORM
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks
 trigger commands when not even at start of message
+sort out indexing on tables
 
-https://github.com/google/schism
+isolated-vm need swap sometimes to work https://linuxize.com/post/create-a-linux-swap-file/
 
 // TODO //
 module.fetchCached
-
+updateConfig / merge getChannelConfig and .get -> expose lineLimit
 IRC.runCommand -> make roll7 return something for bet7
 configurable wss URL
 global log function
@@ -31,7 +32,6 @@ provide a message when downloading from npm
 docs
 change command db to JSON
 http push /
-updateConfig / merge getChannelConfig and .get
 index db
 ~chess
 add print limit to get envinronment to limit event callback spam
