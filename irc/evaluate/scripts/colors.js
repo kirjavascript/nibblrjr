@@ -27,7 +27,7 @@ const codes = {
     '/': '\u000f',
 };
 
-const rainbow = [...'roygcbp'];
+const rainbow = 'roygcbp';
 const rand = ['r', 'y', 'c', 'o', 'p', 'dc', 'g'];
 
 function parseColors(text) {
