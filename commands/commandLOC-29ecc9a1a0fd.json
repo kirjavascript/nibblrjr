@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "commandLOC",
+    "command": "print(IRC.commandFns.names().map(d => IRC.commandFns.get(d).command.split('\\n').length).reduce((a,b) => a+b))"
+}
