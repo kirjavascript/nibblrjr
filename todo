@@ -9,17 +9,17 @@ sort out indexing on tables
 isolated-vm need swap sometimes to work https://linuxize.com/post/create-a-linux-swap-file/
 
 // TODO //
+configurable wss URL
+neovim (rust?) plugin for editing commands
 module.fetchCached
 updateConfig / merge getChannelConfig and .get -> expose lineLimit
 IRC.runCommand -> make roll7 return something for bet7
-configurable wss URL
-global log function
 ~docs parses the markdown
-IRC.commandFns.delete|lock|star -> uses sudo
 ~poll editor vim
-configurable store limit (buck)
-command.pasteTo pasteFrom
 blackjack
+roulette
+IRC.commandFns.delete|lock|star -> uses sudo
+command.pasteTo pasteFrom
 command.add
 fix function + method inspect
 node.updateConfig
@@ -52,16 +52,13 @@ truncate log messages (or also how nibblr saves itself to log)
 
 ~pipe e hello | rainbow
 ~poll event.tick
-~pipe can still do async chaining by changing what print and getJSON etc do, getting commands to run and executing them in promises
 ~matrix(7)1 - command parse bug
 ~commands.*
 ~print(){r}hello
 http://passpigs.tripod.com/prob.html
-blackjack
 getDOM('https://apps.timwhitlock.info/unicode/inspect?s='+encodeURIComponent('™')).then(dom => { print(dom.qs('#inspect tbody').textContent.replace(/\s+/g,' ')) }).catch(print.log);
 https://github.com/4chan/4chan-API
 trivia() { // http://opentdb.com/api.php?amount=10
-roulette
 mdn
 memo.pending
 ciu
