@@ -43,8 +43,8 @@ function acquire(input) {
     return new Promise(async (resolve, rejectRaw) => {
         const reject = (e) => {
             e.message = e.message
-                .replace(new RegExp(path.resolve('../../'), 'g'), '???')
-                .replace(/\n.*/g, '');
+                .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
+                .replace(/(\n|\r).*/g, '');
             rejectRaw(e);
         };
         try {
