@@ -31,6 +31,10 @@ prints text using the colour parser from <a href="#IRC-colors">IRC.colors</a>. o
 * `log` - _boolean_ &emsp; setting `false` will omit bot messages from the log
 * `target` - _string_ &emsp; channel / user to send to (only works if the command is included in the `broadcastCommands` config array)
 
+<a name="log" href="#log">#</a> <b>log</b>(<i>object</i>{, <i>options</i>})
+
+alias for <a href="#printer-log">print.log</a>
+
 <a name="notice" href="#notice">#</a> <b>notice</b>(<i>string</i>{, <i>options</i>})
 
 same as <a href="#print">print</a> but for notices
@@ -41,25 +45,25 @@ same as <a href="#print">print</a> but for actions
 
 each of the above functions has additional properties;
 
-<a name="log" href="#log">#</a> <i>printer</i>.<b>log</b>(<i>object</i>{, <i>options</i>})
+<a name="printer-log" href="#printer-log">#</a> <i>printer</i>.<b>log</b>(<i>object</i>{, <i>options</i>})
 
 renders and prints an object using <a href="#IRC-inspect">IRC.inspect</a>
 
 options can be those of <a href="#print">print</a> and <a href="#IRC-inspect">IRC.inspect</a>
 
-<a name="raw" href="#raw">#</a> <i>printer</i>.<b>raw</b>(<i>string</i>{, <i>options</i>})
+<a name="printer-raw" href="#printer-raw">#</a> <i>printer</i>.<b>raw</b>(<i>string</i>{, <i>options</i>})
 
 prints text without parsing the colour DSL
 
-<a name="error" href="#error">#</a> <i>printer</i>.<b>error</b>(<i>error</i>{, <i>options</i>})
+<a name="printer-error" href="#printer-error">#</a> <i>printer</i>.<b>error</b>(<i>error</i>{, <i>options</i>})
 
 prints errors with <a href="#IRC-colors-error">IRC.colors.error</a>. also used to print thrown errors
 
-<a name="info" href="#info">#</a> <i>printer</i>.<b>info</b>(<i>string</i>{, <i>options</i>})
+<a name="printer-info" href="#printer-info">#</a> <i>printer</i>.<b>info</b>(<i>string</i>{, <i>options</i>})
 
 prints text with <a href="#IRC-colors-info">IRC.colors.info</a>
 
-<a name="success" href="#success">#</a> <i>printer</i>.<b>success</b>(<i>string</i>{, <i>options</i>})
+<a name="printer-success" href="#printer-success">#</a> <i>printer</i>.<b>success</b>(<i>string</i>{, <i>options</i>})
 
 prints text with <a href="#IRC-colors-success">IRC.colors.success</a>
 
@@ -288,6 +292,10 @@ uses hashing to render a nickname. additionally pass *false* to not render the a
 <a name="IRC-colors-link" href="#IRC-colors-link">#</a> IRC.colors.<b>link</b>(<i>string</i>) -> <i>string</i>
 
 a simple function to render a hyperlink
+
+<a name="IRC-colors-cmd" href="#IRC-colors-cmd">#</a> IRC.colors.<b>cmd</b>(<i>name</i>[, <i>args</i>, <i>params</i>]) -> <i>string</i>
+
+renders a command with usage information. args and params can be a *string* or an *array* of strings
 
 <a name="IRC-colors-error" href="#IRC-colors-error">#</a> IRC.colors.<b>error</b>(<i>error|string</i>) -> <i>string</i>
 

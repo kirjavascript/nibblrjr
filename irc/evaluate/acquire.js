@@ -40,7 +40,13 @@ function acquire(input) {
     const moduleRaw = `${nameRaw}@${version}`;
     const module = `${name}@${version}`;
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, rejectRaw) => {
+        const reject = (e) => {
+            e.message = e.message
+                .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
+                .replace(/(\n|\r).*/g, '');
+            rejectRaw(e);
+        };
         try {
             // create cache dir if it doesn't exist
             if (!await existsAsync(moduleDir)) {
