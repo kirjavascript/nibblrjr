@@ -12,7 +12,7 @@ const existsAsync = promisify(fs.exists);
 const mkdirAsync = promisify(fs.mkdir);
 const readdirAsync = promisify(fs.readdir);
 
-const moduleDir = __dirname + '/../../acquire_cache';
+const moduleDir = path.resolve(__dirname + '/../../acquire_cache');
 
 // load npm
 let npmInstall, npmView;
@@ -40,7 +40,13 @@ function acquire(input) {
     const moduleRaw = `${nameRaw}@${version}`;
     const module = `${name}@${version}`;
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, rejectRaw) => {
+        const reject = (e) => {
+            e.message = e.message
+                .replace(new RegExp(process.cwd(), 'g'), '<cwd>')
+                .replace(/\n.*/g, '');
+            rejectRaw(e);
+        };
         try {
             // create cache dir if it doesn't exist
             if (!await existsAsync(moduleDir)) {
