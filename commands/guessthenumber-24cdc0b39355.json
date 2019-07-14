@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "guessthenumber",
+    "command": "n=0|Math.random()*99999; if (n==input) { print.success('correct!'); } else { print.error(`nope, the number was ${n}`); }"
+}
