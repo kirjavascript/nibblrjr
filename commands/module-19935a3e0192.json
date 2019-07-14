@@ -1,6 +1,6 @@
 {
     "name": "module",
     "command": "const commands = IRC.commandFns.names().filter(d => d.startsWith(IRC.command.list[0] + '.')).map(d => d.split('.').slice(1).join('.'));\nprint(`all submodules: ` + commands.map(d=>`{u}${d}{/}`).join` `)",
-    "locked": false,
-    "starred": false
+    "locked": true,
+    "starred": true
 }
