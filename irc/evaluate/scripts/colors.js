@@ -55,7 +55,7 @@ function parseColors(text) {
         // rainbow
         .replace(/{rb}(.*?)({(.*?)}|$)/gsm, (str, key, key2) => {
             return [...key].map((ch, i) => {
-                return `{${rainbow[rainbowIndex++%rainbow.length]}}${ch}{/}`;
+                return `{${rainbow[rainbowIndex++%rainbow.length]}}${ch}`;
             }).join('') + key2;
         })
         // formatting
