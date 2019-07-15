@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "roulette.debug",
-    "command": "log(JSON.parse(store.get('game')))"
+    "command": "log(JSON.parse(store.get('game')), {truncate: 0})"
 }
