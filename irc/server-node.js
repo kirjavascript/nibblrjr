@@ -85,7 +85,10 @@ class ServerNode {
         });
 
         this.client.addListener('raw', (message) => {
-            this.database.log(this, message);
+            setTimeout(() => {
+                // ensure message enters the log after vm has run
+                this.database.log(this, message);
+            }, 200);
         });
 
         // check tick events that have elapsed
