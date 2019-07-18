@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "roulette.scores",
-    "command": ""
+    "command": "const showAll = input.includes('all');\nconst showStack = input.includes('stack');\nconst showPlays = input.includes('plays');\nconst [game] = IRC.require('roulette.game').useGame();\nconst scores = Object.entries(game.scores).map(([name, score]) => {\n    const rebuys = game.rebuys[name] || 0;\n    const plays = game.plays[name] || 1;\n    const adjusted = score - (rebuys * 1000);\n    const rebuyStr = rebuys ? `({y}${rebuys}{/} rebuys - {y}$${Intl.NumberFormat().format(+adjusted)}{/})` : '({g}no{/} rebuys)';\n    let extra = showStack ? rebuyStr : '';\n    if (showPlays) {\n        extra += ` ({dc}${plays}{/} play${plays > 1 ? 's' : ''})`;\n    }\n    return {\n        name,\n        score: showStack ? score : adjusted,\n        extra,\n    };\n});\nprint(IRC.require('module.leaderboard').render({ \n    scores,\n    currency: '$',\n    limit: showAll ? 0 : 5,\n}));"
 }
