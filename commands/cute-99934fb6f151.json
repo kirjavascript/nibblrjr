@@ -1,6 +1,6 @@
 {
     "name": "cute",
-    "command": "print(`(Ɔ ˘⌣˘){r}${['♥','💕'][new Date%2]}{/}  ${input}`)",
+    "command": "const faces = [\n    '(っ⌒‿⌒)っ~',\n    '(✿◠‿◠)っ~',\n    '( ＾◡＾)っ~',\n    '( ´・‿-) ~',\n    '(Ɔ ˘⌣˘) ~',\n];\nprint(`${faces[0|Math.random()*faces.length]} {r}♥{/}  ${input}`)",
     "locked": true,
     "starred": false
 }
