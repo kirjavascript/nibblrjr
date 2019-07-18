@@ -1,6 +1,6 @@
 {
     "name": "apple",
-    "command": " const wget = (url, callback) => {\n    getText(url).then(d => print(callback(null, d))).catch(print.error);\n};\n\n(( // legacy command wrapper\n   x => wget(\"http://wepump.in/ascii/apple.txt\", (a,b) => b)\n)(input, input.split(' '), IRC.message));",
+    "command": "\napple = `{g}                       „▄▄▌             \n                     ˛████'             \n                    ˛████‾              \n             ˛„▄▄„_ ´▀▀_„▄▄▄_           \n           ▄████████■■████████▄_        \n{y}         ˛████████████████████▀‾        \n         ████████████████████▀          \n{o}         ████████████████████           \n         ████████████████████           \n{r}         ▐████████████████████_         \n         ´█████████████████████▄▄       \n{p}          ▐█████████████████████        \n           ╙███████████████████         \n{b}             ▀███████████████▀          \n              ‾▀▀▀‾    ‾‾▀▀‾    `\n\nprint( apple)",
     "locked": false,
     "starred": false
 }

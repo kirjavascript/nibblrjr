@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "roulette.stats",
+    "command": "const { useGame, renderNumber, fmtNum, renderLocation, isRed } = IRC.require('roulette.game');\nconst [game] = useGame();\nprint(`Last 20 spins: ${game.history.slice(Math.max(game.history.length - 20, 1)).map(d => renderNumber(d)).join``}`);\nconst blackPct = Math.floor((game.history.filter(d => d !== 0 && !isRed(d)).length / game.history.length) * 100);\nconst redPct = Math.floor((game.history.filter(d => d !== 0 && isRed(d)).length / game.history.length) * 100);\nconst zeroPct = Math.floor((game.history.filter(d => d === 0 ).length / game.history.length) * 100);\nprint(`Last 100 spin stats: ${renderLocation('black')} {dc}${blackPct}%{/} ${renderLocation('red')} {dc}${redPct}%{/} \\\n${renderLocation('0')} {dc}${zeroPct}%{/}`);\nprint(`Roulette has been played {dc}${IRC.require('module.count').count()}{/} times - House has ${fmtNum(game.house)}`);\nconst [user, amt] = Object.entries(game.plays).reduce((a, [k, v]) => v > a[1] ? [k, v]: a, ['', 0]);\nprint(`${IRC.colors.nick(user, false)} has played the most - {dc}${amt}{/} times!`);"
+}
