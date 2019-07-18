@@ -1,6 +1,6 @@
 {
     "name": "log.global",
-    "command": "const data = IRC.log.getGlobal(input, IRC.command.params[0] || 3, (IRC.command.params[1] || 0) + 1);\n\n(data.map(({time, user, command, target, message}) => (\n    IRC.colors(`({dc}{u}${time}{/}) {bo}<{/}${IRC.colors.hash(user)}${user}${command=='PRIVMSG'?'':':' + command.toLowerCase()}{/}{bo}>{/}`)\n    + ` ${message.replace(/\\n/g, ' ')}`\n)).forEach(d => print.raw(d, {log: false})));",
+    "command": "const data = IRC.log.getGlobal(input, IRC.command.params[0] || 3, IRC.command.params[1] || 0);\n\n(data.map(({time, user, command, target, message}) => (\n    IRC.colors(`({dc}{u}${time}{/}) {bo}<{/}${IRC.colors.hash(user)}${user}${command=='PRIVMSG'?'':':' + command.toLowerCase()}{/}{bo}>{/}`)\n    + ` ${message.replace(/\\n/g, ' ')}`\n)).forEach(d => print.raw(d, {log: false})));",
     "locked": false,
     "starred": false
 }
