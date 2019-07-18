@@ -8,8 +8,12 @@ sort out indexing on tables
 
 isolated-vm need swap sometimes to work https://linuxize.com/post/create-a-linux-swap-file/
 
+Timeout.js - Can pause isolate exec time, but needs a  max execution time to defeat while 1 require fs
+
 // TODO //
+lag log 250ms
 configurable wss URL
+stub fs as a require module
 neovim (rust?) plugin for editing commands
 module.fetchCached
 updateConfig / merge getChannelConfig and .get -> expose lineLimit
@@ -26,7 +30,6 @@ node.updateConfig
 IRC.sudo().evalAsCommand
 command autocorrect
 secret commands
-sleep(1); poker
 nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
 provide a message when downloading from npm
 docs

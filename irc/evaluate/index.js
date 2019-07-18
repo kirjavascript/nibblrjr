@@ -266,13 +266,7 @@ async function evaluate({
 
             // acquire (legacy)
 
-            global.acquire = (str) => new Promise((resolve, reject) => {
-                try {
-                    resolve(require(str));
-                } catch (e) {
-                    reject(e);
-                }
-            });
+            global.acquire = async (str) => require(str);
 
             // timeouts
 
