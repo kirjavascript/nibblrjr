@@ -109,8 +109,9 @@ function inspect_(obj, opts, depth, seen) {
     }
 
     if (typeof obj === 'function') {
-        var name = nameOf(obj);
-        const defn = '[Function' + (name ? ': ' + name : '') + ']';
+        const name = nameOf(obj);
+        const isAsync = nameOf(obj.constructor || {}) === 'AsyncFunction';
+        const defn = `[${isAsync ? 'Async' : ''}Function${(name ? ': ' + name : '')}]`;
         // if (!Object.keys(obj).length) {
             return color('dc', defn);
         // } else {

@@ -124,6 +124,11 @@ async function evaluate({
                     .catch(e => reject(new Error(e.message)));
             })
         )));
+        jail.setSync('_sleep', new ivm.Reference((ms) => (
+            new Promise((resolve) => {
+                setTimeout(resolve, Math.min(ms, timeout));
+            })
+        )));
         jail.setSync('_logDB', new ivm.Reference((obj) => {
             obj.nick = config.IRC.nick;
             node.database.log(node, obj);
@@ -262,6 +267,10 @@ async function evaluate({
             // acquire (legacy)
 
             global.acquire = async (str) => require(str);
+
+            // timeouts
+
+            global.sleep = (ms) => ref.sleep.applySyncPromise(undefined, [ms]);
 
             // create IRC object
 
