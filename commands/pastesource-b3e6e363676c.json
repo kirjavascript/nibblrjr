@@ -1,6 +1,6 @@
 {
     "name": "paste_source",
-    "command": "!input ? print.error(IRC.colors.cmd('paste_source', 'name')) : print(`pasted {o}${input.trim()}{/} to ${IRC.colors.link(IRC.require('module.paste')(IRC.commandFns.get(input.trim()).command))}`)",
+    "command": "!input ? print.error(IRC.colors.cmd('paste_source', 'name')) : print(`pasted {o}${input.trim()}{/} to ${IRC.colors.link(IRC.require('module.paste')(IRC.commandFns.get(input.trim()).command) + '.js')}`)",
     "locked": false,
     "starred": false
 }
