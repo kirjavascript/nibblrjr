@@ -1,5 +1,5 @@
 {
-    "locked": false,
+    "locked": true,
     "starred": false,
     "name": "noeval",
     "command": "(function() { \n    const noeval = eval;\n    const stub = eval = Function = function NopeFunction(){throw \"Nope\"};\n    ;[function(){}, async function(){}, function*(){}, async function*(){}].forEach(x=>{\n        const proto = Object.getPrototypeOf(x);\n        delete proto.constructor;\n        proto.constructor = stub;\n    });\n    log(noeval(input));\n})();"
