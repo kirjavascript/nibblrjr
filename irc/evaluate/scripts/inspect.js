@@ -292,6 +292,10 @@ function collectionOf (type, size, entries) {
     return type + ' (' + size + ') {' + entries.join(', ') + '}';
 }
 
+function emptySlots(qty) {
+    return `<${qty} empty slot${qty > 1 ? 's' : ''}>`;
+}
+
 function arrObjKeys (obj, inspect) {
     var isArr = isArray(obj);
     var xs = [];
@@ -299,6 +303,23 @@ function arrObjKeys (obj, inspect) {
         xs.length = obj.length;
         for (var i = 0; i < obj.length; i++) {
             xs[i] = has(obj, i) ? inspect(obj[i], obj) : '';
+        }
+        // combine empty slots
+        let emptyQty = 0;
+        xs = xs.reduce((a, c) => {
+            if (c === '') {
+                emptyQty += 1;
+            } else {
+                if (emptyQty > 0) {
+                    a.push(emptySlots(emptyQty));
+                    emptyQty = 0;
+                }
+                a.push(c);
+            }
+            return a;
+        }, []);
+        if (emptyQty > 0) {
+            xs.push(emptySlots(emptyQty));
         }
     }
     for (var key in obj) {
