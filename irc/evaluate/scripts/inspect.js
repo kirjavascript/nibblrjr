@@ -292,8 +292,8 @@ function collectionOf (type, size, entries) {
     return type + ' (' + size + ') {' + entries.join(', ') + '}';
 }
 
-function emptySlots(qty) {
-    return `<${qty} empty slot${qty > 1 ? 's' : ''}>`;
+function emptySlots (qty) {
+    return color('dgr', `<${qty} empty slot${qty > 1 ? 's' : ''}>`);
 }
 
 function arrObjKeys (obj, inspect) {
