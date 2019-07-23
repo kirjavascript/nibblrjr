@@ -305,22 +305,22 @@ function arrObjKeys (obj, inspect) {
             xs[i] = has(obj, i) ? inspect(obj[i], obj) : '';
         }
         // combine empty slots
-        let emptyQty = 0;
-        xs = xs.reduce((a, c) => {
-            if (c === '') {
-                emptyQty += 1;
-            } else {
-                if (emptyQty > 0) {
-                    a.push(emptySlots(emptyQty));
-                    emptyQty = 0;
-                }
-                a.push(c);
+        const withEmpty = [];
+        let qty = 0;
+        for (let i = 0; i < xs.length; i++) {
+            const el = xs[i];
+            if (el === '') {
+                qty += 1;
             }
-            return a;
-        }, []);
-        if (emptyQty > 0) {
-            xs.push(emptySlots(emptyQty));
+            if ((el === '' && i === xs.length - 1) || el !== '' && qty > 0) {
+                withEmpty.push(emptySlots(qty));
+                qty = 0;
+            }
+            if (el !== '') {
+                withEmpty.push(el);
+            }
         }
+        xs = withEmpty;
     }
     for (var key in obj) {
         if (!has(obj, key)) continue;
