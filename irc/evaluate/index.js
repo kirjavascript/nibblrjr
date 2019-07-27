@@ -417,12 +417,6 @@ async function evaluate({
             delete global.config;
             delete global.scripts;
 
-            global.console = {
-                log: () => {
-                    throw new Error(`{i}console{/}.{dc}log{/} not available, see ${IRC.colors.cmd('help.about')}`);
-                },
-            };
-
             /\s*/.test(''); // patch RegExp.$_
 
             ['global', 'acquire', 'module']
