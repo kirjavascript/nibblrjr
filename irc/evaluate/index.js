@@ -322,7 +322,7 @@ async function evaluate({
             });
 
             Object.defineProperty(IRC, 'wordList', {
-                get: () => ref.wordList.applySyncPromise().trim().split(/[\n\r]/),
+                get: () => ref.wordList.applySyncPromise().trim().split(/\n|\r\n/),
             });
 
             function unwrapFns(name) {
