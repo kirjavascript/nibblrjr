@@ -1,6 +1,6 @@
 {
     "name": "scrabble.cheat",
-    "command": "const {isGameRunning } = IRC.require(\"scrabble.game\")\n\nif (!isGameRunning()){\n    out = IRC.wordList.filter(d => [...d].sort().join`` === [...input.trim().toLowerCase()].sort().join``);\n    print.log(out) \n}else{\n    print(\"Scrabble game is running, you lousy cheater\")\n}",
+    "command": "const {isGameRunning } = IRC.require(\"scrabble.game\")\n\nif (!isGameRunning()){\n    out = IRC.wordList.filter(d => [...d].sort().join`` === [...input.trim().toUpperCase()].sort().join``);\n    print.log(out) \n}else{\n    print(\"Scrabble game is running, you lousy cheater\")\n}",
     "locked": false,
     "starred": false
 }

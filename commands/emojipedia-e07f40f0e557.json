@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "emojipedia",
+    "command": "input = input.trim();\nconst { document } = fetchSync('https://emojipedia.org/search/?q=' + encodeURIComponent(input), { type: 'dom'});\n\nconst emoji = [...document.querySelectorAll('h2 > a')];\nconst rx = new RegExp(input, 'i');\n\nconst render = emoji.filter(d => rx.test(d.textContent)).map(d => d.textContent).join(', ');\n\nprint(render);"
+}
