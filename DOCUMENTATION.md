@@ -462,7 +462,7 @@ if the user is not authenticated with nickserv, throws an error. otherwise does 
 
 <a name="IRC-sudo" href="#IRC-sudo">#</a> IRC.<b>sudo</b>() -> <i>object</i>
 
-checks the user is authenticated to nickserv, and checks if the user is in the `admins` config option for that server
+checks the user is authenticated to nickserv, and checks if the user is in the `admins` config option for that server, otherwise throw an error
 
 the returned object has the following properties
 
