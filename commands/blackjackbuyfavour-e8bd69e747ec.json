@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.buyfavour",
+    "command": "const { getProfile } = IRC.require('blackjack.game')\nconst { from: user } = IRC.message\nconst profile = getProfile( user)\n\nif( profile.favours === 0) {\n    print( `{o}${user}{/}, you have no favours owed.`)\n} else if( profile.balance < 1000) {\n    print( `{o}${user}{/}, you can't afford to buy back any favours.`)\n} else {\n    profile.favours--\n    profile.balance -= 1000\n    profile.save()\n    print( `{o}${user}{/}. Buying back one ({y}1{/}) favour out of {y}${profile.favours+1}{/}. `)\n}\n"
+}

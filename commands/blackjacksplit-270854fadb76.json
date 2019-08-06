@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.split",
+    "command": "const { printTable, finishGame, getProfile, split, showActions } = IRC.require('blackjack.game')\nconst { from: user } = IRC.message\nconst profile = getProfile( user)\n\nif( !profile.isInGame) {\n    print( `{o}${user}{/}: No active hand found to {g}split{/}. Start a new game with .blackjack`)\n} else {\n    if( profile.activeHand.availableActions.split) {\n        \n        if( profile.balance < Number( profile.state.initialBet)) {\n            print(`Sorry, {o}${user}{/}, you don't have enough money to double your bet.`)\n            return\n        }\n\n        split( profile.game)\n        profile.save()\n        printTable( profile)\n    } else {\n        print( `{o}${user}{/}: It's not possible to split the current hand. `)\n        showActions( profile.game)\n    }\n}\n"
+}

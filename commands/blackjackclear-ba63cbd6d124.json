@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.clear",
+    "command": "IRC.sudo()\n\nconst { clearGame, setBalance } = IRC.require('blackjack.game')\nconst { from: user } = IRC.message\n\nsetBalance( user, 1000)\nclearGame( user)\n\nstore.clear( user)\n\nprint( `{o}${user}{/}: Your game is nullified`)"
+}

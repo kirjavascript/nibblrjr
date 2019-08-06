@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.paste",
+    "command": "IRC.sudo()\n\nconst { newGame, restoreGame, getActiveHand, getActivePosition,\n        hit, handToText, dealerHandToText, saveGame, showActions } = IRC.require('blackjack.game')\nconst { from: user } = IRC.message\nconst game = restoreGame( user)\n\nlet state = game.getState()\nstate.deck = null\nprint(`pasted {o}${input.trim()}{/} to ${IRC.colors.link(IRC.require('module.paste')(JSON.stringify(state)))}`)\n"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.eval",
+    "command": "IRC.sudo()\n\nconst { getProfile } = IRC.require('blackjack.game')\n\nprint.log(eval(input))"
+}
