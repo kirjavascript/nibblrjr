@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.toggle",
+    "command": "const { printTable, finishGame, getProfile } = IRC.require('blackjack.game')\nconst { from: user } = IRC.message\nconst profile = getProfile( user)\n\nconst option = input.trim()\n\nif( ['compact'].includes( option)) {\n    const current = profile.data.preferences[option]\n\n    profile.data.preferences[option] = !current\n    print(`Toggled ${option} to ${!current}`)\n    \n    profile.save()\n}\n"
+}

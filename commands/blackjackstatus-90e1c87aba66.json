@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.status",
+    "command": "const { printTable, getProfile } = IRC.require('blackjack.game')\nconst { from: user } = IRC.message\nconst profile = getProfile( user)\n\nif( !profile.isInGame) {\n    print( `{o}${user}{/}: You're not currently in a game.`)\n} else {\n    printTable( profile)\n    print( `{o}${user}{/}: The current stage of your game is {g}${profile.state.stage}{/}.`)\n}"
+}
