@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.highrollers",
+    "command": "const { getProfile } = IRC.require('blackjack.game')\n\nlet rollers = store\n    .all()\n    .map( item => getProfile( item.key))\n    .sort( (a, b) => (b.balance-b.favours*1000)-(a.balance-a.favours*1000))\n    .map( profile => `{o}${IRC.breakHighlight(profile.name)}{/}: {g}¤${profile.balance}{/}, {y}${profile.favours}{/} favour${profile.favours===1?'':'s'}.`)\n    .join(' ')\n    \nprint( rollers)"
+}

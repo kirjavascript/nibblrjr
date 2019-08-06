@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.double",
+    "command": "const { printTable, finishGame, getProfile, double, showActions } = IRC.require('blackjack.game')\nconst { from: user } = IRC.message\nconst profile = getProfile( user)\n\nif( !profile.isInGame) {\n    print( `{o}${user}{/}: No active game found to {g}double{/} on. Start a new game with .blackjack`)\n} else {\n\n    if( profile.activeHand.availableActions.double) {\n        \n        const bet = Number( profile.state.initialBet)\n        \n        if( profile.balance < bet) {\n            print(`Sorry, {o}${user}{/}, you don't have enough money to double your bet.`)\n            return\n        }\n\n        profile.balance -= bet\n        double( profile.game)\n        printTable( profile)\n        \n        if( !profile.isInGame) {\n            finishGame( profile)\n        }\n        profile.save()\n    } else {\n        print( `{o}${user}{/}: It's not possible to double on the current hand. `)\n        showActions( profile.game)\n    }\n}\n"
+}

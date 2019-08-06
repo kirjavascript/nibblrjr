@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "blackjack.balance",
+    "command": "const { getProfile } = IRC.require('blackjack.game')\nconst { from: user } = IRC.message\nconst profile = getProfile( user)\n\nprint( `{o}${user}{/}, your balance is {g}¤${profile.balance}{/}, and you owe the bank {y}${profile.favours}{/} favour${profile.favours===1?'':'s'}.`)"
+}
