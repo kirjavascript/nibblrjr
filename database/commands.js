@@ -150,4 +150,8 @@ function createCommandDB() {
 module.exports = {
     createCommandDB,
     commandHash,
+    getAllCommands,
+    getCommand,
+    setCommand,
+    deleteCommand,
 };
