@@ -15,9 +15,8 @@ nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 * memo system
 * reminders
 * 1000+ commands
-* roll7
 * various API integrations
-* texas hold em
+* texas hold em, roulette, blackjack, roll7, slots
 
 [read the documentation](DOCUMENTATION.md)
 
