@@ -76,7 +76,7 @@ function createCommandDB() {
     const set = (name, value) => {
         const safeName = name.replace(/\s+/g, '');
         const options = getCommand(name) || {
-            locked: false,
+            locked: false, // setting these is really optional
             starred: false,
         };
         setCommand({

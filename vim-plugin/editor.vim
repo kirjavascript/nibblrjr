@@ -1,9 +1,7 @@
 let s:jspath = expand('<sfile>:p:h')
-let s:help="nibblrjr command editor - o:open D:delete
-         \\n-------------------------------------------------"
+let s:help="nibblrjr command editor - o:open a:add D:delete
+         \\n-----------------------------------------------"
 let s:helpLines = 2
-
-" for add, find
 
 " command NibblrList call CommandList()
 
@@ -20,6 +18,7 @@ function CommandList()
     setlocal nowrap
     setlocal nomodifiable
     noremap <buffer> <silent> o :call CommandGet()<cr>
+    noremap <buffer> <silent> a :call CommandAdd()<cr>
     noremap <buffer> <silent> D :call CommandDelete()<cr>
 endfunction
 
@@ -56,7 +55,7 @@ endfunction
 
 function CommandDelete()
     let l:name = getline('.')
-    let l:choice = confirm('Are you sure you want to delete ' . l:name, "&Ok\n&Cancel")
+    let l:choice = confirm('are you sure you want to delete ' . l:name, "&Ok\n&Cancel")
     if line('.') > s:helpLines && l:choice == 1
         silent let l:out = trim(system('node ' . s:jspath . '/delete', l:name))
         if v:shell_error == 0
@@ -69,8 +68,20 @@ function CommandDelete()
     endif
 endfunction
 
-" message locked / starred
-" use command hash
-" syntax
+function CommandAdd()
+    let l:name = input('new command name: ')
+    " hack to clear the input prompt
+    normal :<ESC>
+    silent let l:out = trim(system('node ' . s:jspath . '/add', l:name))
+    if v:shell_error == 0
+        setlocal modifiable
+        put=l:name
+        setlocal nomodifiable
+    else
+        echo l:out
+    endif
+endfunction
+
 " ? / ~ commands
-" new command -> prompt
+" message locked / starred
+" syntax
