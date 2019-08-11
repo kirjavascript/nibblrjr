@@ -17,7 +17,6 @@ document sleep
 update config
 configurable wss URL
 stub fs as a require module
-neovim (rust?) plugin for editing commands
 module.fetchCached
 updateConfig / merge getChannelConfig and .get -> expose lineLimit
 IRC.runCommand -> make roll7 return something for bet7

@@ -31,7 +31,6 @@ function! NibblrList()
     syntax match String /\%1lnibblr/
     syntax match Constant /\%1ljr/
     syntax match Type /\%1l\(\S\):/
-    syntax match Special /\%1l:\(\S+\)/
 
     noremap <buffer> <silent> o :call NibblrGet()<cr>
     noremap <buffer> <silent> a :call NibblrAdd()<cr>
