@@ -1,9 +1,10 @@
+const { readFile } = require('fs');
 const express = require('express');
 const webpack = require('webpack');
 const wdm = require('webpack-dev-middleware');
 const reporter = require('webpack-dev-middleware/lib/reporter');
 const initSocket = require('./socket');
-const { readFile } = require('fs');
+const initAPI = require('./api');
 
 function initWeb(parent) {
 

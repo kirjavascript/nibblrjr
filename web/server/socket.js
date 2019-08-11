@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
 const { stringify, parse } = require('zipson');
-const { msgHandler } = require('./api-ws');
+const { msgHandler } = require('./socket-msg');
 
 module.exports = function initSocket({parent, server}) {
     const wss = new WebSocket.Server({server});
