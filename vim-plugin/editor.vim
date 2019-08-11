@@ -1,5 +1,6 @@
 if v:version < 801
     echoe 'nibblrjr editor requires vim 8.1'
+    finish
 else
 
 let s:jspath = expand('<sfile>:p:h')
