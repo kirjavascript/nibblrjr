@@ -49,7 +49,7 @@ endfunction
 function CommandSet()
     let l:name = expand('%')
     let l:buf = join(getline(1, '$'), "\n")
-    echo trim(system('node ' . s:jspath . '/set', l:name . ' ' . l:buf))
+    echo Trim(system('node ' . s:jspath . '/set', l:name . ' ' . l:buf))
     let &modified = 0
 endfunction
 
@@ -57,7 +57,7 @@ function CommandDelete()
     let l:name = getline('.')
     let l:choice = confirm('are you sure you want to delete ' . l:name, "&Ok\n&Cancel")
     if line('.') > s:helpLines && l:choice == 1
-        silent let l:out = trim(system('node ' . s:jspath . '/delete', l:name))
+        silent let l:out = Trim(system('node ' . s:jspath . '/delete', l:name))
         if v:shell_error == 0
             setlocal modifiable
             normal dd
@@ -72,7 +72,7 @@ function CommandAdd()
     let l:name = input('new command name: ')
     " hack to clear the input prompt
     normal :<ESC>
-    silent let l:out = trim(system('node ' . s:jspath . '/add', l:name))
+    silent let l:out = Trim(system('node ' . s:jspath . '/add', l:name))
     if v:shell_error == 0
         setlocal modifiable
         put=l:name
@@ -82,6 +82,15 @@ function CommandAdd()
     endif
 endfunction
 
+function! Trim(input)
+    if v:version > 800
+        return trim(a:input)
+    else
+        return substitute(a:input, '^\s*\(.\{-}\)\s*$', '\1', '')
+    endif
+endfunction
+
 " ? / ~ commands
 " message locked / starred
 " syntax
+" s - vsplit
