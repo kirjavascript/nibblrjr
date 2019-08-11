@@ -13,9 +13,9 @@ let s:helpLines = 2
 function! NibblrList()
     enew
     put=s:help
-    keepjumps normal ggddG
+    keepjumps normal! ggddG
     silent execute 'read! node ' . s:jspath . '/list'
-    keepjumps normal gg
+    keepjumps normal! gg
 
     let &modified = 0
     setlocal buftype=nofile
@@ -50,11 +50,11 @@ function! NibblrGet()
             silent execute 'file ' . l:name
         else
             silent execute 'edit ' . l:name
-            keepjumps normal ggdG
+            keepjumps normal! ggdG
         endif
 
         put = system('node ' . s:jspath . '/get', l:name)
-        keepjumps normal ggdd
+        keepjumps normal! ggdd
         let &modified = 0
         setlocal filetype=javascript
         setlocal buftype=acwrite
@@ -72,12 +72,11 @@ endfunction
 
 function! NibblrDelete()
     let l:name = getline('.')
-    let l:choice = confirm('are you sure you want to delete ' . l:name, "&Ok\n&Cancel")
-    if line('.') > s:helpLines && l:choice == 1
+    if line('.') > s:helpLines && confirm('are you sure you want to delete ' . l:name, "&Ok\n&Cancel") == 1
         silent let l:out = trim(system('node ' . s:jspath . '/delete', l:name))
         if v:shell_error == 0
             setlocal modifiable
-            normal dd
+            normal! dd
             setlocal nomodifiable
         else
             echo l:out
@@ -88,7 +87,7 @@ endfunction
 function! NibblrAdd()
     let l:name = input('new command name: ')
     " hack to clear the input prompt
-    normal :<ESC>
+    normal! :<ESC>
     silent let l:out = trim(system('node ' . s:jspath . '/add', l:name))
     if v:shell_error == 0
         setlocal modifiable
@@ -102,7 +101,7 @@ endfunction
 " ? / ~ commands
 " s - vsplit
 " namespace commands
-" http request
 " support locking/starring
-" json_encode
+" json_encode / curl
 " ~ / ? / "> not working
+" help

@@ -7,7 +7,7 @@ const { readFile } = require('fs');
 
 function initWeb(parent) {
 
-    const web = parent.web;
+    const { web } = parent;
 
     const app = express();
 
@@ -41,12 +41,13 @@ function initWeb(parent) {
         });
     }
 
-    // assign static asset folders //
+    // assign static asset folders
 
     app.use('/', express.static(__dirname + '/../static'))
         .use('/', express.static(__dirname + '/../bundles'));
 
     // wildcard defaulting
+
     app.use('*', (req, res) => {
         readFile(__dirname + '/../static/index.html', 'utf8', (err, out) => {
             res.send(out);
