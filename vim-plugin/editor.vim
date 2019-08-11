@@ -100,9 +100,9 @@ function! NibblrAdd()
 endfunction
 
 " ? / ~ commands
-" message locked / starred
-" syntax
 " s - vsplit
 " namespace commands
 " http request
+" support locking/starring
 " json_encode
+" ~ / ? / "> not working
