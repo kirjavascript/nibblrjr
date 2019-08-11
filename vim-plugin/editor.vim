@@ -5,7 +5,7 @@ let s:helpLines = 2
 
 " command NibblrList call CommandList()
 
-function CommandList()
+function! CommandList()
     enew
     put=s:help
     keepjumps normal ggddG
@@ -24,7 +24,7 @@ endfunction
 
 call CommandList() " TODO: remove
 
-function CommandGet()
+function! CommandGet()
     if line('.') > s:helpLines
         let l:name = getline('.')
 
@@ -46,14 +46,14 @@ function CommandGet()
     endif
 endfunction
 
-function CommandSet()
+function! CommandSet()
     let l:name = expand('%')
     let l:buf = join(getline(1, '$'), "\n")
     echo Trim(system('node ' . s:jspath . '/set', l:name . ' ' . l:buf))
     let &modified = 0
 endfunction
 
-function CommandDelete()
+function! CommandDelete()
     let l:name = getline('.')
     let l:choice = confirm('are you sure you want to delete ' . l:name, "&Ok\n&Cancel")
     if line('.') > s:helpLines && l:choice == 1
@@ -68,7 +68,7 @@ function CommandDelete()
     endif
 endfunction
 
-function CommandAdd()
+function! CommandAdd()
     let l:name = input('new command name: ')
     " hack to clear the input prompt
     normal :<ESC>
