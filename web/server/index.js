@@ -17,6 +17,7 @@ function initWeb(parent) {
     });
 
     web.wss = initSocket({parent, server});
+    initAPI({ parent, app });
 
     // load webpack middleware
 

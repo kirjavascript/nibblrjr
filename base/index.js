@@ -14,11 +14,11 @@ new (class Nibblr {
 
         Object.assign(this, config);
 
-        // load web interface
-        this.web = initWeb(this);
-
         // load databases
         this.database = new Database(this);
+
+        // load web interface
+        this.web = initWeb(this);
 
         // load server nodes
         this.servers = this.servers.map(server => (
