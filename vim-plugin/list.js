@@ -1,5 +1,7 @@
 const { getAllCommands } = require('../database/commands');
 getAllCommands()
-    .forEach(command => {
-        console.log(command.name);
+    .forEach(({ name, locked, starred }) => {
+        console.log(
+            `${name.padEnd(20)} ${starred ? '★' : ' '} ${locked ? '🔒' : ''}`
+        );
     });
