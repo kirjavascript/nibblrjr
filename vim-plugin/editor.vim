@@ -1,11 +1,15 @@
+if v:version < 801
+    echoe 'nibblrjr editor requires vim 8.1'
+else
+
 let s:jspath = expand('<sfile>:p:h')
 let s:help="nibblrjr command editor - o:open a:add D:delete
          \\n-----------------------------------------------"
 let s:helpLines = 2
 
-" command NibblrList call CommandList()
+" command NibblrList call NibblrList()
 
-function! CommandList()
+function! NibblrList()
     enew
     put=s:help
     keepjumps normal ggddG
@@ -14,17 +18,20 @@ function! CommandList()
 
     let &modified = 0
     setlocal buftype=nofile
+    if v:version > 800
+        return trim(a:input)
+    else
     setlocal noswapfile
     setlocal nowrap
     setlocal nomodifiable
-    noremap <buffer> <silent> o :call CommandGet()<cr>
-    noremap <buffer> <silent> a :call CommandAdd()<cr>
-    noremap <buffer> <silent> D :call CommandDelete()<cr>
+    noremap <buffer> <silent> o :call NibblrGet()<cr>
+    noremap <buffer> <silent> a :call NibblrAdd()<cr>
+    noremap <buffer> <silent> D :call NibblrDelete()<cr>
 endfunction
 
-call CommandList() " TODO: remove
+call NibblrList() " TODO: remove
 
-function! CommandGet()
+function! NibblrGet()
     if line('.') > s:helpLines
         let l:name = getline('.')
 
@@ -39,25 +46,25 @@ function! CommandGet()
         put = system('node ' . s:jspath . '/get', l:name)
         keepjumps normal ggdd
         let &modified = 0
-        set filetype=javascript
-        set buftype=acwrite
+        setlocal filetype=javascript
+        setlocal buftype=acwrite
         setlocal noswapfile
-        autocmd! BufWriteCmd <buffer> call CommandSet()
+        autocmd! BufWriteCmd <buffer> call NibblrSet()
     endif
 endfunction
 
-function! CommandSet()
+function! NibblrSet()
     let l:name = expand('%')
     let l:buf = join(getline(1, '$'), "\n")
-    echo Trim(system('node ' . s:jspath . '/set', l:name . ' ' . l:buf))
+    echo trim(system('node ' . s:jspath . '/set', l:name . ' ' . l:buf))
     let &modified = 0
 endfunction
 
-function! CommandDelete()
+function! NibblrDelete()
     let l:name = getline('.')
     let l:choice = confirm('are you sure you want to delete ' . l:name, "&Ok\n&Cancel")
     if line('.') > s:helpLines && l:choice == 1
-        silent let l:out = Trim(system('node ' . s:jspath . '/delete', l:name))
+        silent let l:out = trim(system('node ' . s:jspath . '/delete', l:name))
         if v:shell_error == 0
             setlocal modifiable
             normal dd
@@ -68,11 +75,11 @@ function! CommandDelete()
     endif
 endfunction
 
-function! CommandAdd()
+function! NibblrAdd()
     let l:name = input('new command name: ')
     " hack to clear the input prompt
     normal :<ESC>
-    silent let l:out = Trim(system('node ' . s:jspath . '/add', l:name))
+    silent let l:out = trim(system('node ' . s:jspath . '/add', l:name))
     if v:shell_error == 0
         setlocal modifiable
         put=l:name
@@ -82,15 +89,10 @@ function! CommandAdd()
     endif
 endfunction
 
-function! Trim(input)
-    if v:version > 800
-        return trim(a:input)
-    else
-        return substitute(a:input, '^\s*\(.\{-}\)\s*$', '\1', '')
-    endif
-endfunction
-
 " ? / ~ commands
 " message locked / starred
 " syntax
 " s - vsplit
+" namespace commands
+" http request
+" json_encode
