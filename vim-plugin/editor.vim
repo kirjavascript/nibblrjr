@@ -86,7 +86,7 @@ function! Trim(input)
     if v:version > 800
         return trim(a:input)
     else
-        return substitute(a:input, '^\s*\(.\{-}\)\s*$', '\1', '')
+        return substitute(a:input, '\s*\(.\{-}\)\s*', '\1', '')
     endif
 endfunction
 
