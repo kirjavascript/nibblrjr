@@ -1,6 +1,6 @@
 if v:version < 801
     echoe 'nibblrjr editor requires vim 8.1'
-else
+endif
 
 let s:jspath = expand('<sfile>:p:h')
 let s:help="nibblrjr command editor - o:open a:add D:delete
@@ -18,9 +18,6 @@ function! NibblrList()
 
     let &modified = 0
     setlocal buftype=nofile
-    if v:version > 800
-        return trim(a:input)
-    else
     setlocal noswapfile
     setlocal nowrap
     setlocal nomodifiable
