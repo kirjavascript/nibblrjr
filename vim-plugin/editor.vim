@@ -22,6 +22,17 @@ function! NibblrList()
     setlocal noswapfile
     setlocal nowrap
     setlocal nomodifiable
+
+    set filetype=nibblrjr
+    syntax match Comment /\%2l-/
+    syntax match Type /★/
+    syntax match Include /🔒/
+    syntax match Operator /^\(\S*\) /
+    syntax match String /\%1lnibblr/
+    syntax match Constant /\%1ljr/
+    syntax match Type /\%1l\(\S\):/
+    syntax match Special /\%1l:\(\S+\)/
+
     noremap <buffer> <silent> o :call NibblrGet()<cr>
     noremap <buffer> <silent> a :call NibblrAdd()<cr>
     noremap <buffer> <silent> D :call NibblrDelete()<cr>
