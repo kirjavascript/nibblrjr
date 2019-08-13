@@ -1,3 +1,6 @@
+" local prototype command editor for vim
+" see https://github.com/kirjavascript/nibblrjr.vim
+
 if v:version < 801
     echoe 'nibblrjr editor requires vim 8.1'
     finish
