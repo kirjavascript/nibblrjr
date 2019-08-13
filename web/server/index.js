@@ -1,5 +1,6 @@
 const { readFile } = require('fs');
 const express = require('express');
+const bodyParser = require('body-parser');
 const webpack = require('webpack');
 const wdm = require('webpack-dev-middleware');
 const reporter = require('webpack-dev-middleware/lib/reporter');
@@ -11,6 +12,8 @@ function initWeb(parent) {
     const { web } = parent;
 
     const app = express();
+
+    app.use(bodyParser.json());
 
     const server = app.listen(web.port, () => {
         console.log(`Server running on http://localhost:${web.port}/`)
@@ -31,8 +34,7 @@ function initWeb(parent) {
                 web.wss.sendAll('RELOAD');
             },
         }));
-    }
-    else {
+    } else {
         const webpackConfig = require('../../webpack.config.js')();
         webpackConfig.mode = 'production'
         const compiler = webpack(webpackConfig);

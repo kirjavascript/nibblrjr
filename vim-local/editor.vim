@@ -1,4 +1,4 @@
-" local prototype command editor for vim
+" local prototype json editor for vim
 " see https://github.com/kirjavascript/nibblrjr.vim
 
 if v:version < 801
@@ -100,11 +100,3 @@ function! NibblrAdd()
         echo l:out
     endif
 endfunction
-
-" ? / ~ commands
-" s - vsplit
-" namespace commands
-" support locking/starring
-" json_encode / curl
-" ~ / ? / "> not working
-" help
