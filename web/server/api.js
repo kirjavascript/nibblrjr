@@ -6,7 +6,7 @@ function initAPI({ parent, app }) {
         res.getCommand = (name) => {
             const info = commands.get(name);
             if (!info) {
-                res.json({ error: 'no such command' + name })
+                res.json({ error: 'no such command ' + name }).end();
             }
             return info;
         };
