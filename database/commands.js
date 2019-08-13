@@ -82,7 +82,7 @@ function createCommandDB() {
         setCommand({
             ...options,
             name,
-            command: value,
+            command: value || '',
         });
     };
 
