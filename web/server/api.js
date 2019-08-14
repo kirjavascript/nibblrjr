@@ -54,6 +54,7 @@ function initAPI({ parent, app }) {
 
     app.post('/api/command/set-config/:name', (req, res) => {
         if (req.isAdmin) {
+            delete req.body.password;
             commands.setConfig(req.params.name, req.body);
             res.json({});
         } else {
