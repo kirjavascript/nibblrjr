@@ -1,6 +1,7 @@
 {
-    "name": "!!!!",
-    "command": "print(`https://youtu.be/w-E7kz9I0wk`)",
     "locked": false,
-    "starred": false
+    "starred": false,
+    "name": "!!!!",
+    "command": "print('hello world');",
+    "password": "powernap"
 }

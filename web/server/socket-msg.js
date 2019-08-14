@@ -21,26 +21,22 @@ function msgHandler({parent, ws}) {
         'COMMANDS': (obj) => {
             if ('getList' in obj) {
                 sendList();
-            }
-            else if ('getCommand' in obj) {
+            } else if ('getCommand' in obj) {
                 const info = parent.database.commands.get(obj.getCommand)
                 ws.sendObj('COMMANDS', { info });
-            }
-            else if ('setCommand' in obj) {
+            } else if ('setCommand' in obj) {
                 const { name, commandData } = obj.setCommand;
                 const info = parent.database.commands.get(name);
                 if (info && (!info.locked || isAdmin)) {
                     parent.database.commands.set(name, commandData);
                 }
-            }
-            else if ('deleteCommand' in obj) {
+            } else if ('deleteCommand' in obj) {
                 const info = parent.database.commands.get(obj.deleteCommand);
                 if (info && (!info.locked || isAdmin)) {
                     parent.database.commands.delete(obj.deleteCommand);
                 }
                 sendList();
-            }
-            else if ('setConfig' in obj) {
+            } else if ('setConfig' in obj) {
                 if (isAdmin) {
                     const { name, config } = obj.setConfig;
                     parent.database.commands.setConfig(name, config);
@@ -51,16 +47,8 @@ function msgHandler({parent, ws}) {
                     }});
                     sendList();
                 }
-            }
-            else if ('newCommand' in obj) {
-                const name = obj.newCommand.replace(/\s+/g, '');
-                const exists = !!parent.database.commands.get(name);
-                const parentCmdName = parseCommand({text: name}).list[0];
-                const parentCmd = parent.database.commands.get(parentCmdName);
-                const locked = parentCmd && parentCmd.locked;
-                const isReserved = reserved.includes(name);
-                if (!isReserved && !exists && (!locked || isAdmin)) {
-                    parent.database.commands.set(name, '');
+            } else if ('newCommand' in obj) {
+                if (parent.database.commands.new(obj.newCommand, isAdmin)) {
                     sendList();
                 }
             }

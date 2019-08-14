@@ -40,7 +40,8 @@ function getAllCommands() {
 }
 
 function createCommandDB() {
-    const get = (name) => {
+    const get = (unsafeName) => {
+        const name = unsafeName.replace(/\s+/g, '');
         const obj = getCommand(name);
         if (!obj) return;
         const { root } = parseCommand({ text: name });
@@ -75,24 +76,38 @@ function createCommandDB() {
 
     const set = (name, value) => {
         const safeName = name.replace(/\s+/g, '');
-        const options = getCommand(name) || {
+        const options = getCommand(safeName) || {
             locked: false, // setting these is really optional
             starred: false,
         };
         setCommand({
             ...options,
-            name,
+            name: safeName,
             command: value || '',
         });
     };
 
     const setConfig = (name, config) => {
         // only operates on the parent (if it exists)
-        const { root } = parseCommand({ text: name });
+        const { root } = parseCommand({ text: name })
         const parent = getCommand(root);
         const realName = parent ? root : name;
         const obj = getCommand(realName);
         setCommand(Object.assign(obj, config));
+    };
+
+    const _new = (unsafeName, isAdmin) => {
+        const name = unsafeName.replace(/\s+/g, '');
+        const exists = !!get(name);
+        const parentCmdName = parseCommand({text: name}).root;
+        const parentCmd = get(parentCmdName);
+        const locked = parentCmd && parentCmd.locked;
+        const isReserved = reserved.includes(name);
+        if (!isReserved && !exists && (!locked || isAdmin)) {
+            set(name, '');
+            return true;
+        }
+        return false;
     };
 
     // public API
@@ -143,7 +158,13 @@ function createCommandDB() {
     });
 
     return {
-        get, delete: deleteCommand, set, list, setConfig, getCommandFns,
+        get,
+        set,
+        new: _new,
+        delete: deleteCommand,
+        list,
+        setConfig,
+        getCommandFns,
     };
 }
 

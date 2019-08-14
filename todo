@@ -14,6 +14,7 @@ Timeout.js - Can pause isolate exec time, but needs a  max execution time to def
 
 // TODO //
 document sleep
+FormData URLSearchParams Headers
 update config
 configurable wss URL
 stub fs as a require module
