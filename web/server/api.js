@@ -3,6 +3,7 @@ function initAPI({ parent, app }) {
 
     app.use('/api/*', (req, res, next) => {
         req.isAdmin = req.body.password === parent.web.password;
+        delete req.body.password;
         res.getCommand = (name) => {
             const info = commands.get(name);
             if (!info) {
@@ -54,7 +55,6 @@ function initAPI({ parent, app }) {
 
     app.post('/api/command/set-config/:name', (req, res) => {
         if (req.isAdmin) {
-            delete req.body.password;
             commands.setConfig(req.params.name, req.body);
             res.json({});
         } else {
