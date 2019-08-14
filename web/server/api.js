@@ -36,12 +36,25 @@ function initAPI({ parent, app }) {
         }
     });
 
+    app.post('/api/command/new/:name', (req, res) => {
+        const result = commands.new(req.params.name, req.isAdmin);
+        res.json(result ? {} : { error: '???' });
+    });
+
     app.post('/api/command/delete/:name', (req, res) => {
         const { name } = req.params;
-        const { command } = req.body;
         const info = res.getCommand(name);
         if (!info.locked || req.isAdmin) {
             commands.delete(name);
+            res.json({});
+        } else {
+            res.json({ error: 'no access' });
+        }
+    });
+
+    app.post('/api/command/set-config/:name', (req, res) => {
+        if (req.isAdmin) {
+            commands.setConfig(req.params.name, req.body);
             res.json({});
         } else {
             res.json({ error: 'no access' });
