@@ -1,6 +1,0 @@
-{
-    "locked": false,
-    "starred": false,
-    "name": "wcapb",
-    "command": "function pad(num){\n    if(num < 10){\n        return \"0\" + num\n    }else{\n        return num\n    }\n}\n\nfunction format_number(num){\n    if(num > 5999){\n        return Math.floor(num / 6000) + \":\" + pad((num % 6000) / 100)\n    }else{\n        return +num / 100\n    }\n}\n\nconst obj = fetchSync(`https://www.worldcubeassociation.org/api/v0/persons/${IRC.command.params[0]}`, {type: 'json'});\nconst event = IRC.command.params[1]\nif(obj){\n    if(event in obj[\"personal_records\"]){\n        let pb = obj[\"personal_records\"][event]\n        if(event == \"333fm\"){\n            print(`Single: ${pb[\"single\"][\"best\"]}`)\n            if (pb[\"average\"]) print(`Average: ${pb[\"average\"][\"best\"] / 100}`)\n        }else{\n            print(`Single: ${format_number(pb[\"single\"][\"best\"])}`)\n            if(pb[\"average\"]){\n                print(`Average: ${format_number(pb[\"average\"][\"best\"])}`)\n            }\n        }\n    }else{\n        print(\"user hasn't done this event\")\n    }\n}else{\n    throw 'usage: ' + IRC.colors.cmd(IRC.command.path, void 0, ['wcaID', 'event']);\n}"
-}
