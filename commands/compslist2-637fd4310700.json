@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "comps.list2",
+    "command": "if (input == \"UK\") {\n    input = \"United Kingdom\";\n}\n\nlet obj = fetchSync(\"http://fca.ickler.cloud/api/v0/competitions?q=\"+input+\"&start=\"+new Date().toISOString().split(\"T\")[0],{\"type\": \"json\"})\nif (obj){\n    for(let i = obj.length - 1; i >= 0; i--){\n        print(`${obj[i][\"name\"]}, ${obj[i][\"city\"]}, ${obj[i][\"start_date\"]}`)\n    }\n}\nelse {\n    print(\"No Comps found\")\n}"
+}
