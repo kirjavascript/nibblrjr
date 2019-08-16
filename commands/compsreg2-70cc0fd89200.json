@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "comps.reg2",
+    "command": "// Get closest matching competition to query\nlet obj = fetchSync(\"http://fca.ickler.cloud/api/v0/competitions?q=\"+input+\"&start=\"+new Date().toISOString().split(\"T\")[0],{\"type\": \"json\"})\n\nif (obj){\n    let comp = obj[0]\n    let comp_id = comp[\"url\"].split(\"/\")[4]\n    let wcaif = fetchSync(\"http://fca.ickler.cloud/api/v0/competitions/\"+comp_id+\"/wcif\",{\"type:\"json\"})\n    \n    print(wcaif[\"registration_open\"])\n}else{\n    print(\"No comp found\")\n}"
+}

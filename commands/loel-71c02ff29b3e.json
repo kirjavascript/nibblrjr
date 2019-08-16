@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": true,
+    "name": "l[oe]l",
+    "command": "print('l' + 'oe'[new Date%2] + 'l')"
+}
