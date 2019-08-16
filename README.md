@@ -21,3 +21,5 @@ nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 [read the documentation](DOCUMENTATION.md)
 
 or see the [example config](config.json.example) and then type `~help`
+
+as well as the web UI, you can manipulate commands with a [vim plugin](https://www.github.com/kirjavascript/nibblrjr.vim)
