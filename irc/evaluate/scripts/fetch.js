@@ -8,19 +8,16 @@ async function getJSON(...args) {
 }
 async function getDOM(...args) {
     const html = await getWeb('text', ...args);
-    const dom = new (jsdom().JSDOM)(html);
-    // not allowed for opaque origins (we don't need them anyway)
-    delete dom.window.localStorage;
-    delete dom.window.sessionStorage;
+    const window = createDOM(html);
     return {
-        ...dom.window,
+        ...window,
         // DOM shortcuts
-        body: dom.window.document.body,
+        body: window.document.body,
         qs: (selector) => {
-            return dom.window.document.querySelector(selector) || {};
+            return window.document.querySelector(selector) || {};
         },
         qsa: (selector) => {
-            return [...dom.window.document.querySelectorAll(selector)] || [];
+            return [...window.document.querySelectorAll(selector)] || [];
         },
     };
 }
@@ -29,19 +26,40 @@ async function getWeb(type, url, options = {}) {
     return fetchSync(url, options);
 }
 
-// for adding DOM to fetchSync
+// fetchSync
 
-function wrapDOM(config = {}, fromConfig) {
-    if (config.type == 'dom') {
-        config.type = 'text';
-        const text = fromConfig(config);
-        const dom = new (jsdom().JSDOM)(text);
-        delete dom.window.localStorage;
-        delete dom.window.sessionStorage;
-        return dom.window;
-    } else {
-        return fromConfig(config);
-    }
+function createDOM(text) {
+    const dom = new (jsdom().JSDOM)(text);
+    delete dom.window.localStorage;
+    delete dom.window.sessionStorage;
+    return dom.window;
+}
+
+function createFetchSync(ref) {
+    const fetchRaw = (url, type, config = {}) => {
+        return ref.fetchSync.applySyncPromise(undefined, [
+            url,
+            type,
+            new ref.ivm.ExternalCopy(config).copyInto(),
+        ]);
+    };
+    const fetchSync = (url, config) => {
+        if (config.type == 'dom') {
+            const text = fetchRaw(url, 'text', config);
+            return createDOM(text);
+        }
+        return fetchRaw(url, config.type, config);
+    };
+
+    fetchSync.json = (url, config) => {
+        return fetchRaw(url, 'json', config);
+    };
+
+    fetchSync.dom = (url, config) => {
+        return createDOM(fetchRaw(url, 'text', config));
+    };
+
+    return fetchSync;
 }
 
 module.exports = {
@@ -50,5 +68,5 @@ module.exports = {
         getJSON,
         getDOM,
     },
-    wrapDOM,
+    createFetchSync,
 };
