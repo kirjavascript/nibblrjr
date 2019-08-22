@@ -13,11 +13,11 @@ adjust isolated-vm timeout
 Timeout.js - Can pause isolate exec time, but needs a  max execution time to defeat while 1 require fs
 
 // TODO //
-document sleep
-fetchSync.dom
+make reserved/silent configurable
+configurable wss URL
+
 FormData URLSearchParams Headers
 update config
-configurable wss URL
 stub fs as a require module
 module.fetchCached
 updateConfig / merge getChannelConfig and .get -> expose lineLimit
