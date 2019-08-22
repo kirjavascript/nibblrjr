@@ -3,14 +3,15 @@
 * [API Reference](#api-reference)
     * [printing text](#printing-text)
     * [fetching data](#fetching-data)
-    * [using npm packages](#using-npm-packages)
     * [storing data](#storing-data)
+    * [using npm packages](#using-npm-packages)
     * [the IRC object](#the-irc-object)
     * [colours / formatting](#colours--formatting)
     * [dealing with time](#dealing-with-time)
     * [reading logs](#reading-logs)
     * [manipulating commands](#manipulating-commands)
     * [interacting with events](#interacting-with-events)
+    * [timers](#timers)
     * [authentication](#authentication)
     * [modules](#modules)
 * [Configuration](#configuration)
@@ -82,27 +83,19 @@ const { window, document } = fetchSync('http://google.com', {type: 'dom'});
 ```
 <a href="#fetchsync">fetchSync</a> blocks, but each command is run concurrently in a separate vm - so other features continue to be responsive
 
+<a name="fetchsync-json" href="#fetchsync-json">#</a> fetchSync.<b>json</b>(<i>url</i>{, <i>options</i>}) -> <i>object</i>
+
+same as fetchSync <a href="#fetchsync">fetchSync</a>, except parses the response as JSON and returns an object
+
+<a name="fetchsync-dom" href="#fetchsync-dom">#</a> fetchSync.<b>dom</b>(<i>url</i>{, <i>options</i>}) -> <i>DOM</i>
+
+same as fetchSync <a href="#fetchsync">fetchSync</a>, except parses the response as HTML and returns a window object
+
 the following functions are deprecated
 
 <a name="getText" href="#getText">#</a> <b>getText</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
 <a name="getJSON" href="#getJSON">#</a> <b>getJSON</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
 <a name="getDOM" href="#getDOM">#</a> <b>getDOM</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>
-
-### using npm packages
-
-<a name="require" href="#require">#</a> <b>require</b>(<i>packagename</i>) -> <i>object</i>
-
-download a package from npm and bundle it with webpack. npm scripts are ignored for safety. subsequent accesses of the same package are cached
-
-*packagename* can include the version and a path, like - `require('react-dom/server@16.8.6').renderToString( ... )`
-
-package namespaces are currently broken
-
-not everything works, compatibility fares better the closer you get to ECMAScript
-
-the following command is deprecated
-
-<a name="acquire" href="#acquire">#</a> <b>acquire</b>(<i>packagename</i>) -> <i>promise</i>
 
 ### storing data
 
@@ -139,6 +132,22 @@ const [scores, setScores] = IRC.require('module.loadObject')('someKey');
 ```
 
 once the API is finalised, it'll be moved into the core
+
+### using npm packages
+
+<a name="require" href="#require">#</a> <b>require</b>(<i>packagename</i>) -> <i>object</i>
+
+download a package from npm and bundle it with webpack. npm scripts are ignored for safety. subsequent accesses of the same package are cached
+
+*packagename* can include the version and a path, like - `require('react-dom/server@16.8.6').renderToString( ... )`
+
+package namespaces are currently broken
+
+not everything works, compatibility fares better the closer you get to ECMAScript
+
+the following command is deprecated
+
+<a name="acquire" href="#acquire">#</a> <b>acquire</b>(<i>packagename</i>) -> <i>promise</i>
 
 ### the IRC object
 
@@ -453,6 +462,14 @@ an *array* of elapsed tick events for a specific user with the same format as <a
 <a name="IRC-eventFns-delete" href="#IRC-eventFns-delete">#</a> IRC.eventFns.<b>delete</b>(<i>index</i>)
 
 used to delete events
+
+### timers
+
+<a name="sleep" href="#sleep">#</a> <b>sleep</b>(<i>milliseconds</i>)
+
+blocks the current thread for the specified time. other commands will continue to run
+
+async timers may be added in future
 
 ### authentication
 

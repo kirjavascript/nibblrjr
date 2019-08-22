@@ -109,10 +109,10 @@ async function evaluate({
                 });
             })
         )));
-        jail.setSync('_fetchSync', new ivm.Reference((str, config = {}) => (
+        jail.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
             new Promise((resolve, reject) => {
-                fetch(str, config)
-                    .then((res) => res[config.type || 'text']())
+                fetch(url, config)
+                    .then((res) => res[type || 'text']())
                     .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
                     .catch(e => reject(new Error(e.message)));
             })
@@ -243,16 +243,7 @@ async function evaluate({
             // fetch stuff
 
             Object.assign(global, scripts.fetch.global);
-
-            const { wrapDOM } = scripts.fetch;
-            global.fetchSync = (str, config = {}) => {
-                return wrapDOM(config, (config) => {
-                    return ref.fetchSync.applySyncPromise(undefined, [
-                        str,
-                        new ref.ivm.ExternalCopy(config).copyInto(),
-                    ]);
-                });
-            };
+            global.fetchSync = scripts.fetch.createFetchSync(ref);
 
             // npm-require
 
