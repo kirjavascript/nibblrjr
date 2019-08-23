@@ -13,6 +13,8 @@ adjust isolated-vm timeout
 Timeout.js - Can pause isolate exec time, but needs a  max execution time to defeat while 1 require fs
 
 // TODO //
+fix `throw {name: 'test', message: 'test' }` isolated-vm error
+
 document sleep
 fetchSync.dom
 FormData URLSearchParams Headers
