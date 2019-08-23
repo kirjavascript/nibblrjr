@@ -85,11 +85,11 @@ const { window, document } = fetchSync('http://google.com', {type: 'dom'});
 
 <a name="fetchsync-json" href="#fetchsync-json">#</a> fetchSync.<b>json</b>(<i>url</i>{, <i>options</i>}) -> <i>object</i>
 
-same as fetchSync <a href="#fetchsync">fetchSync</a>, except parses the response as JSON and returns an object
+same as <a href="#fetchsync">fetchSync</a>, except parses the response as JSON and returns an object
 
 <a name="fetchsync-dom" href="#fetchsync-dom">#</a> fetchSync.<b>dom</b>(<i>url</i>{, <i>options</i>}) -> <i>DOM</i>
 
-same as fetchSync <a href="#fetchsync">fetchSync</a>, except parses the response as HTML and returns a window object
+same as <a href="#fetchsync">fetchSync</a>, except parses the response as HTML and returns a window object
 
 the following functions are deprecated
 

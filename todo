@@ -14,12 +14,11 @@ Timeout.js - Can pause isolate exec time, but needs a  max execution time to def
 
 // TODO //
 fix `throw {name: 'test', message: 'test' }` isolated-vm error
+make reserved/silent configurable
+configurable wss URL
 
-document sleep
-fetchSync.dom
 FormData URLSearchParams Headers
 update config
-configurable wss URL
 stub fs as a require module
 module.fetchCached
 updateConfig / merge getChannelConfig and .get -> expose lineLimit
