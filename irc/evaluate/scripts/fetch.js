@@ -43,7 +43,7 @@ function createFetchSync(ref) {
             new ref.ivm.ExternalCopy(config).copyInto(),
         ]);
     };
-    const fetchSync = (url, config) => {
+    const fetchSync = (url, config = {}) => {
         if (config.type == 'dom') {
             const text = fetchRaw(url, 'text', config);
             return createDOM(text);
