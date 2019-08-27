@@ -1,5 +1,6 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
+
 version 4: data scoping & ORM
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks
@@ -17,6 +18,7 @@ fix `throw {name: 'test', message: 'test' }` isolated-vm error
 make reserved/silent configurable
 configurable wss URL
 
+koth game (you have 10 points to share around)
 FormData URLSearchParams Headers
 update config
 stub fs as a require module
