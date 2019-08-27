@@ -19,6 +19,7 @@ make reserved/silent configurable
 configurable wss URL
 
 koth game (you have 10 points to share around)
+proxy for storage autosave
 FormData URLSearchParams Headers
 update config
 stub fs as a require module
