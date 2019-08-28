@@ -3096,10 +3096,10 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
 
-isolated-vm@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/isolated-vm/-/isolated-vm-2.0.0.tgz#889d7ab4744407a131edac39a360daa89f3ea2cd"
-  integrity sha512-0lbrddF7si/HrYAYmktej/Js3X3z3urFvEqO7Rz2ueImV9FUnuCuNxc8+kfDpCLbeTpFOdQ8F2EuOCC7Z3MFlw==
+isolated-vm@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/isolated-vm/-/isolated-vm-2.0.1.tgz#dee5a652539c02996b876788b73ca94c63dd27fd"
+  integrity sha512-RTvRsenkiUrvdVYRtNBae7MjqAbYnmSLeBR261KHkD4Dunpi9+HTwKuH3HJm68MrzAOgboErbUuWTcDnRHf13w==
 
 isstream@~0.1.2:
   version "0.1.2"

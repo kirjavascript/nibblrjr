@@ -11,6 +11,7 @@ const { loadScripts, loadLazy }  = require('./load-scripts');
 const { version } = require('../../package.json');
 
 const timeout = 30000;
+const maxTimeout = 60000 * 5;
 
 // grab scripts to inject into the isolate
 const scripts = loadScripts();
@@ -24,6 +25,14 @@ async function evaluate({
     command,
     event,
 }) {
+    const isolate = new ivm.Isolate({ memoryLimit: 128 });
+    const context = await isolate.createContext();
+    const dispose = () => {
+        if (!isolate.isDisposed) {
+            isolate.dispose();
+            context.release();
+        }
+    };
 
     try {
         const channels = Object.entries(_.cloneDeep(node.client.chans))
@@ -60,8 +69,6 @@ async function evaluate({
             config.IRC.secret = secret;
         }
 
-        const isolate = new ivm.Isolate({ memoryLimit: 128 });
-        const context = await isolate.createContext();
         const jail = context.global;
 
         jail.setSync('global', jail.derefInto());
@@ -126,7 +133,7 @@ async function evaluate({
         )));
         jail.setSync('_sleep', new ivm.Reference((ms) => (
             new Promise((resolve) => {
-                setTimeout(resolve, Math.min(ms, timeout));
+                setTimeout(resolve, Math.min(ms, maxTimeout));
             })
         )));
         jail.setSync('_logDB', new ivm.Reference((obj) => {
@@ -417,14 +424,11 @@ async function evaluate({
         });
         await bootstrap.run(context);
 
-        // dispose stuff after timeout
+        // dispose stuff incase sleep/require/fetchSync are still running
 
         setTimeout(() => {
-            context.release();
-            if (!isolate.isDisposed) {
-                isolate.dispose();
-            }
-        }, timeout + 1000);
+            dispose();
+        }, maxTimeout);
 
         // run script
 
@@ -438,7 +442,7 @@ async function evaluate({
                     const result = (0, eval)(${JSON.stringify(script)});
                     printRaw(
                         IRCinspect(result, {
-                            depth: depth || 1,
+                            depth: depth || 2,
                             truncate: truncate || 390,
                         })
                     );
@@ -455,6 +459,7 @@ async function evaluate({
         }
         createNodeSend(node, msgData).print.error(e);
     }
+    dispose();
 }
 
 module.exports = { evaluate };

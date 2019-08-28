@@ -15,7 +15,7 @@
         "html-entities": "^1.2.1",
         "import-glob-loader": "^1.1.0",
         "irc": "^0.5.2",
-        "isolated-vm": "^2.0.0",
+        "isolated-vm": "^2.0.1",
         "lodash": "^4.17.13",
         "mobx": "^4.1.0",
         "mobx-react": "^5.0.0",
