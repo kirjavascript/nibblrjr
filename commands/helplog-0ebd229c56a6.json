@@ -1,6 +1,6 @@
 {
     "name": "help.log",
-    "command": "const commands = IRC.commandFns.names().filter(d => d.startsWith('log.'));\nconst { cmd } = IRC.colors;\nprint(`log subcommands are ${commands.map(d => `{p}${IRC.trigger}${d}{/}`).join` `} logs take optional parameters; ${cmd('log','',['quantity','offset'])}, ${cmd('log.name','',['name', 'quantity','offset'])}`)",
+    "command": "const commands = IRC.commandFns.names().filter(d => d.startsWith('log.'));\nconst { cmd } = IRC.colors;\nprint(`log subcommands are ${commands.map(d => `{p}${IRC.trigger}${d}{/}`).join` `} logs take optional parameters; ${cmd('log','',['quantity','offset'])}, ${cmd('log.user','',['name', 'quantity','offset'])}`)",
     "locked": false,
     "starred": false
 }

@@ -1,6 +1,6 @@
 {
     "name": "google",
-    "command": "input &&\ngetDOM('http://www.startpage.com/do/search?query=' + encodeURIComponent(input))\n    .then(dom => {\n        dom.qsa('.w-gl__result')\n            .slice(0, IRC.command.params[0] || 3)\n            .forEach((node) => {\n                const title = node.querySelector('a').textContent.trim();\n                const url = node.querySelector('a').href;\n                print(`{g}${title}{/} - {b}{u}${url}`)\n            });\n    })\n    .catch(print.error)",
+    "command": "const Google = IRC.require('module.google');\n\ninput && Google(input, IRC.command.params[0])\n    .forEach(({ title, url }) => {\n        print(`{g}${title}{/} - {b}{u}${url}`)\n    });",
     "locked": true,
     "starred": true
 }
