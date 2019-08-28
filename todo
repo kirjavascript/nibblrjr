@@ -9,8 +9,6 @@ sort out indexing on tables
 
 isolated-vm need swap sometimes to work https://linuxize.com/post/create-a-linux-swap-file/
 
-fix `throw {name: 'test', message: 'test' }` isolated-vm error
-
 // TODO //
 configurable wss URL
 @babel/parser
