@@ -9,18 +9,16 @@ sort out indexing on tables
 
 isolated-vm need swap sometimes to work https://linuxize.com/post/create-a-linux-swap-file/
 
-adjust isolated-vm timeout
-
-Timeout.js - Can pause isolate exec time, but needs a  max execution time to defeat while 1 require fs
+fix `throw {name: 'test', message: 'test' }` isolated-vm error
 
 // TODO //
-fix `throw {name: 'test', message: 'test' }` isolated-vm error
-make reserved/silent configurable
 configurable wss URL
-/* IRC.ops() */
-
+@babel/parser
 proxy for storage autosave
+
 koth game (you have HP to share around? - damnit bobby)
+make reserved/silent configurable
+/* IRC.ops() */
 FormData URLSearchParams Headers
 update config
 stub fs as a require module
