@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "ghstats",
+    "command": "const { window, document } = fetchSync.dom('https://github.com/' + encodeURIComponent(input))\n\nconst activity = [];\n\ndocument\n    .querySelectorAll('.contribution-activity-listing')\n    .forEach(node => {\n        const getText = (sel) => {\n            const item = node.querySelector(sel);\n            return item ? item.textContent.replace(/\\s+/g, ' ').trim() : '';\n        };\n        const period = getText('h3');\n        const details = getText('.Details button > span')\n        const act = getText('.profile-timeline > div > span');\n        print(`{dc}${period}{/} ${details}${act}`);\n    });"
+}
