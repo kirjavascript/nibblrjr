@@ -121,14 +121,14 @@ async function evaluate({
                 fetch(url, config)
                     .then((res) => res[type || 'text']())
                     .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
-                    .catch(e => reject(new Error(e.message)));
+                    .catch(reject);
             })
         )));
         jail.setSync('_require', new ivm.Reference((str) => (
             new Promise((resolve, reject) => {
                 acquire(str)
                     .then(obj => { resolve(obj.toString()) })
-                    .catch(e => reject(new Error(e.message)));
+                    .catch(reject);
             })
         )));
         jail.setSync('_sleep', new ivm.Reference((ms) => (
@@ -426,9 +426,7 @@ async function evaluate({
 
         // dispose stuff incase sleep/require/fetchSync are still running
 
-        setTimeout(() => {
-            dispose();
-        }, maxTimeout);
+        setTimeout(dispose, maxTimeout);
 
         // run script
 
