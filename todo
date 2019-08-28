@@ -17,9 +17,10 @@ Timeout.js - Can pause isolate exec time, but needs a  max execution time to def
 fix `throw {name: 'test', message: 'test' }` isolated-vm error
 make reserved/silent configurable
 configurable wss URL
+/* IRC.ops() */
 
-koth game (you have 10 points to share around)
 proxy for storage autosave
+koth game (you have HP to share around? - damnit bobby)
 FormData URLSearchParams Headers
 update config
 stub fs as a require module
