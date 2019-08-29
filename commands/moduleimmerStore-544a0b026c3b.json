@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "module.immerStore",
+    "command": "module.exports = (produce = x => x, name = '__data__', _default = {}) => {\n    const stored = store.get(name);\n    const data = typeof stored !== 'undefined' ? JSON.parse(stored) : _default;\n    const save = (data) => {\n        store.set(name, JSON.stringify(data));\n        return data;\n    };\n    return save(require('immer').produce(data, produce));\n};"
+}
