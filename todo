@@ -12,7 +12,7 @@ isolated-vm need swap sometimes to work https://linuxize.com/post/create-a-linux
 // TODO //
 configurable wss URL
 @babel/parser
-proxy for storage autosave
+proxy/immer for storage autosave
 
 koth game (you have HP to share around? - damnit bobby)
 make reserved/silent configurable
