@@ -9,6 +9,7 @@ process.on('uncaughtException', console.error); // pls dont crash
 new (class Nibblr {
     constructor() {
         this.dev = process.argv.includes('--dev');
+        this.noWebpack = process.argv.includes('--no-webpack');
 
         this.epoch = new Date();
 

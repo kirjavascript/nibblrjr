@@ -1,4 +1,15 @@
+
 function initAPI({ parent, app }) {
+
+    app.get('/api/socketURL', (req, res) => {
+        const protocol = req.protocol.includes('https') ? 'wss' : 'ws';
+        const url = `${protocol}://${req.hostname}:${parent.web.port}`;
+        res.send(parent.web.socketURL || url);
+        // TODO: --disable-webpack
+    });
+
+    // only used in vim plugin, subject to change
+
     const { commands } = parent.database;
 
     app.use('/api/*', (req, res, next) => {
