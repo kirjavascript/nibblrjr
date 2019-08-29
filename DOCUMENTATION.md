@@ -512,7 +512,7 @@ a *boolean* indicating if the current command has been required or not. allows c
 
 ## Configuration
 
-all properties are optional. [see the example config](config.json.example)
+**all properties are optional**. [see the example config](config.json.example)
 
 all root properties (except `timezone` and `web`) are global, and can also placed inside the server config for a local override
 
@@ -536,6 +536,7 @@ all root properties (except `timezone` and `web`) are global, and can also place
 * `web` _object_ &emsp; configuration for the web frontend
     * `url` _string_ &emsp; web address for the frontend, available at <a href="#IRC-webAddress">IRC.webAddress</a>
     * `port` _number_ &emsp; port to host the content at
+    * `socketURL` _string_ &emsp; websocket URL to connect to
     * `password` _string_ &emsp; logging in to the web interface allows you to modify locked commands
 * `servers` _array_ &emsp; list of IRC servers to connect to 
     * `address` _string_ &emsp; for example: `irc.freenode.org`
@@ -558,3 +559,7 @@ the REPL works as a command like any other, and `>` takes optional params. the p
 **>**(<i>depth</i>, <i>truncate</i>)
 
 which correspond to the options from <a href="#IRC-inspect">IRC.inspect</a>
+
+## Flags
+
+`--no-webpack` will disable rebuilding the frontend assets when run

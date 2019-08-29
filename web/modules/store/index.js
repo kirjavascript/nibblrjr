@@ -1,35 +1,35 @@
 import { observable, action } from 'mobx';
 import { stringify, parse } from 'zipson';
-import config from '../../../config.json';
 
 class Environment {
-
     constructor() {
-        // do socket stuff
-        const protocol = location.protocol.includes('https') ? 'wss' : 'ws';
-        this.ws = new WebSocket(`${protocol}://${location.hostname}:${config.web.port}`);
+        fetch('/api/socketURL')
+            .then(res => res.text())
+            .then((url) => {
+                this.ws = new WebSocket(url);
+                this.ws.sendObj = (_type, obj = {}) => {
+                    this.ws.send(stringify({ ...obj, _type }));
+                };
 
-        this.ws.sendObj = (_type, obj = {}) => {
-            this.ws.send(stringify({ ...obj, _type }));
-        };
+                this.ws.addEventListener('message', (e) => {
+                    try {
+                        const { _type, ...obj } = parse(e.data);
+                        if (_type == 'RELOAD') {
+                            location.reload();
+                        }
+                        else {
+                            this.onMessage(_type, obj);
+                        }
+                    }
+                    catch (e) {
+                        console.error(e);
+                    }
+                });
 
-        this.ws.addEventListener('message', (e) => {
-            try {
-                const { _type, ...obj } = parse(e.data);
-                if (_type == 'RELOAD') {
-                    location.reload();
-                }
-                else {
-                    this.onMessage(_type, obj);
-                }
-            }
-            catch (e) {
-                console.error(e);
-            }
-        });
-
-        this.ws.addEventListener('open', this.onConnected);
-        this.ws.addEventListener('close', () => location.reload());
+                this.ws.addEventListener('open', this.onConnected);
+                this.ws.addEventListener('close', () => location.reload());
+            })
+            .catch(console.error);
     }
 
     // general
@@ -98,7 +98,6 @@ class Environment {
     @action login = (password) => {
         this.ws.sendObj('AUTH', {password});
     };
-
 }
 
 export const env = new Environment();
