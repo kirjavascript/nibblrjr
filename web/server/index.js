@@ -24,25 +24,27 @@ function initWeb(parent) {
 
     // load webpack middleware
 
-    if (parent.dev) {
-        const webpackConfig = require('../../webpack.config.js')({dev: true});
-        webpackConfig.mode = 'development'
-        const compiler = webpack(webpackConfig);
-        app.use(wdm(compiler, {
-            reporter: (...args) => {
-                reporter(...args);
-                web.wss.sendAll('RELOAD');
-            },
-        }));
-    } else {
-        const webpackConfig = require('../../webpack.config.js')();
-        webpackConfig.mode = 'production'
-        const compiler = webpack(webpackConfig);
-        compiler.run((err, stats) => {
-            console.info(stats.toString({
-                colors: true
+    if (!parent.noWebpack) {
+        if (parent.dev) {
+            const webpackConfig = require('../../webpack.config.js')({dev: true});
+            webpackConfig.mode = 'development'
+            const compiler = webpack(webpackConfig);
+            app.use(wdm(compiler, {
+                reporter: (...args) => {
+                    reporter(...args);
+                    web.wss.sendAll('RELOAD');
+                },
             }));
-        });
+        } else {
+            const webpackConfig = require('../../webpack.config.js')();
+            webpackConfig.mode = 'production'
+            const compiler = webpack(webpackConfig);
+            compiler.run((err, stats) => {
+                console.info(stats.toString({
+                    colors: true
+                }));
+            });
+        }
     }
 
     // assign static asset folders
