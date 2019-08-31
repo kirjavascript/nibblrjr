@@ -9,9 +9,6 @@ sort out indexing on tables
 // TODO //
     // docs to markdown and parsed
 
-    // react-dom/server
-    // @babel/parser
-    // lodash@1.2.3
 @babel/parser - stub node modules
 proxy/immer for storage autosave
 

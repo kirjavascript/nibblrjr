@@ -13,7 +13,7 @@ const mkdirAsync = promisify(fs.mkdir);
 const readdirAsync = promisify(fs.readdir);
 
 const moduleDir = __dirname + '/../../acquire_cache';
-
+const stubbed = require("module").builtinModules;
 
 // load npm
 let npmInstall, npmView;
@@ -33,15 +33,18 @@ function acquire(input) {
     if (!input.length || input.startsWith('.') || input.startsWith('_') || /[~\(\)'!\*]/.test(input) || input.includes('..')) {
         throw new Error('Invalid package name');
     }
+    const isNamespaced = input[0] == '@';
     const hasVersion = input.indexOf('@') > 0;
-    const version = hasVersion ? input.replace(/^(.+?)@/, '') : 'latest';
-    const name = (hasVersion ? input.replace(/@(.*?)$/, '') : input).replace(/\//g, '#');
+    const version = hasVersion ? input.replace(/^.+?@/, '') : 'latest';
+    const nameBase = hasVersion ? input.replace(/@.*?$/, '') : input;
+    const name = nameBase.replace(/\//g, '#');
     const [nameRaw, ...pathRaw] = name.split('#');
     const subPath = pathRaw.join('/');
-    const moduleRaw = `${nameRaw}@${version}`;
+    const moduleRaw = `${isNamespaced ? nameBase : nameRaw}@${version}`;
     const module = `${name}@${version}`;
 
     return new Promise(async (resolve, rejectRaw) => {
+        if (stubbed.includes(nameBase)) return resolve('self.__acquire__ = {};');
         const reject = (e) => {
             // strip fullpath
             e.message = e.message
@@ -98,10 +101,15 @@ function acquire(input) {
 
             // install a freshy
             const result = await npmInstall(moduleDir, [moduleRaw]);
-            const resultVersion = result[0][0].replace(/^(.*?)@/,'');
+            const resultVersion = result[0][0].replace(/^.+?@/,'');
             const bundlename = `${name}@${resultVersion}.js`;
             const modulePath = path.resolve(moduleDir, 'node_modules', nameRaw);
-            const packagePath = path.resolve(modulePath, 'package.json');
+            const packageSubPath = isNamespaced ? subPath : '';
+            const packagePath = path.resolve(
+                modulePath,
+                packageSubPath,
+                'package.json',
+            );
             if (!await existsAsync(packagePath)) {
                 return reject(new Error(`package.json not found`));
             }
