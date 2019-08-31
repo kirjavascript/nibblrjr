@@ -16,41 +16,42 @@
     * [modules](#modules)
 * [Configuration](#configuration)
 * [REPL](#REPL)
+* [Flags](#Flags)
 
 ## API Reference
 
 <a name="input" href="#input">#</a> <b>input</b>
 
-equal to <a href="#IRC-command">IRC.command.input</a>
+equal to [IRC.command.input](#IRC-command)
 
 ### printing text 
 
 <a name="print" href="#print">#</a> <b>print</b>(<i>string</i>{, <i>options</i>})
 
-prints text using the colour parser from <a href="#IRC-colors">IRC.colors</a>. options are;
+prints text using the colour parser from [IRC.colors](#IRC-colors). options are;
 
 * `log` - _boolean_ &emsp; setting `false` will omit bot messages from the log
 * `target` - _string_ &emsp; channel / user to send to (only works if the command is included in the `broadcastCommands` config array)
 
 <a name="log" href="#log">#</a> <b>log</b>(<i>object</i>{, <i>options</i>})
 
-alias for <a href="#printer-log">print.log</a>
+alias for [print.log](#printer-log)
 
 <a name="notice" href="#notice">#</a> <b>notice</b>(<i>string</i>{, <i>options</i>})
 
-same as <a href="#print">print</a> but for notices
+same as [print](#print) but for notices
 
 <a name="action" href="#action">#</a> <b>action</b>(<i>string</i>{, <i>options</i>})
 
-same as <a href="#print">print</a> but for actions
+same as [print](#print) but for actions
 
 each of the above functions has additional properties;
 
 <a name="printer-log" href="#printer-log">#</a> <i>printer</i>.<b>log</b>(<i>object</i>{, <i>options</i>})
 
-renders and prints an object using <a href="#IRC-inspect">IRC.inspect</a>
+renders and prints an object using [IRC.inspect](#IRC-inspect)
 
-options can be those of <a href="#print">print</a> and <a href="#IRC-inspect">IRC.inspect</a>
+options can be those of [print](#print) and [IRC.inspect](#IRC-inspect)
 
 <a name="printer-raw" href="#printer-raw">#</a> <i>printer</i>.<b>raw</b>(<i>string</i>{, <i>options</i>})
 
@@ -58,15 +59,15 @@ prints text without parsing the colour DSL
 
 <a name="printer-error" href="#printer-error">#</a> <i>printer</i>.<b>error</b>(<i>error</i>{, <i>options</i>})
 
-prints errors with <a href="#IRC-colors-error">IRC.colors.error</a>. also used to print thrown errors
+prints errors with [IRC.colors.error](#IRC-colors-error). also used to print thrown errors
 
 <a name="printer-info" href="#printer-info">#</a> <i>printer</i>.<b>info</b>(<i>string</i>{, <i>options</i>})
 
-prints text with <a href="#IRC-colors-info">IRC.colors.info</a>
+prints text with [IRC.colors.info](#IRC-colors-info)
 
 <a name="printer-success" href="#printer-success">#</a> <i>printer</i>.<b>success</b>(<i>string</i>{, <i>options</i>})
 
-prints text with <a href="#IRC-colors-success">IRC.colors.success</a>
+prints text with [IRC.colors.success](#IRC-colors-success)
 
 ### fetching data
 
@@ -81,15 +82,15 @@ the `dom` option is useful for scraping websites or RSS feeds
 ```javascript
 const { window, document } = fetchSync('http://google.com', {type: 'dom'});
 ```
-<a href="#fetchsync">fetchSync</a> blocks, but each command is run concurrently in a separate vm - so other features continue to be responsive
+[fetchSync](#fetchsync) blocks, but each command is run concurrently in a separate vm - so other features continue to be responsive
 
 <a name="fetchsync-json" href="#fetchsync-json">#</a> fetchSync.<b>json</b>(<i>url</i>{, <i>options</i>}) -> <i>object</i>
 
-same as <a href="#fetchsync">fetchSync</a>, except parses the response as JSON and returns an object
+same as [fetchSync](#fetchsync), except parses the response as JSON and returns an object
 
 <a name="fetchsync-dom" href="#fetchsync-dom">#</a> fetchSync.<b>dom</b>(<i>url</i>{, <i>options</i>}) -> <i>DOM</i>
 
-same as <a href="#fetchsync">fetchSync</a>, except parses the response as HTML and returns a window object
+same as [fetchSync](#fetchsync), except parses the response as HTML and returns a window object
 
 the following functions are deprecated
 
@@ -119,13 +120,13 @@ removes all values from the store
 
 <a name="namespace" href="#namespace">#</a> store.<b>namespace</b>
 
-equal to <a href="#IRC-command">IRC.command.root</a>
+equal to [IRC.command.root](#IRC-command)
 
 different commands store data in different namespaces, only commands with the same `root` share the same namespace
 
-read more about `command.root` in <a href="#IRC-command">IRC.command</a>
+read more about `command.root` in [IRC.command](#IRC-command)
 
-there is an experimental react-hooks like API for dealing with non-string values in the command module `module.loadObject` that can be used with <a href="#IRC-require">IRC.require</a>
+there is an experimental react-hooks like API for dealing with non-string values in the command module `module.loadObject` that can be used with [IRC.require](#IRC-require)
 
 ```javascript
 const [scores, setScores] = IRC.require('module.loadObject')('someKey');
@@ -182,7 +183,7 @@ used in the `nick` command
 
 <a name="IRC-command" href="#IRC-command">#</a> IRC.<b>command</b>
 
-a parsed representation of the current command. uses <a href="#IRC-parseCommand">IRC.parseCommand</a>
+a parsed representation of the current command. uses [IRC.parseCommand](#IRC-parseCommand)
 
 * `path` - _string_ &emsp; the actual command requested ( ~**full.path** )
 * `list` - _array_ &emsp; the path, split by the `.` character
@@ -370,7 +371,7 @@ retrieve messages from the current channel
 
 <a name="IRC-log-getGlobal" href="#IRC-log-getGlobal">#</a> IRC.log.<b>getGlobal</b>(<i>text</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
 
-same as <a href="#IRC-log-get">IRC.log.get</a> but for every channel
+same as [IRC.log.get](#IRC-log-get) but for every channel
 
 <a name="IRC-log-count" href="#IRC-log-count">#</a> IRC.log.<b>count</b>(<i>text</i>) -> <i>number</i>
 
@@ -401,7 +402,7 @@ returns information on a command. properties are;
 * `locked` - _boolean_ &emsp; if the command is locked from editing
 * `starred` - _boolean_ &emsp; if the command is a star ★
 
-commands that share the same <a href="#IRC-command">root</a> also share the same locked / starred state
+commands that share the same [root](#IRC-command) also share the same locked / starred state
 
 <a name="IRC-commandFns-list" href="#IRC-commandFns-list">#</a> IRC.commandFns.<b>list</b>() -> <i>array</i>
 
@@ -453,11 +454,11 @@ type can be `speak` to trigger after a user has spoken, or `tick` to trigger aft
 
 <a name="IRC-eventFns-speakElapsed" href="#IRC-eventFns-speakElapsed">#</a> IRC.eventFns.<b>speakElapsed</b>(<i>nick</i>) -> <i>array</i>
 
-an *array* of elapsed speak events for a specific user with the same format as <a href="#IRC-event">IRC.event</a>
+an *array* of elapsed speak events for a specific user with the same format as [IRC.event](#IRC-event)
 
 <a name="IRC-eventFns-tickElapsed" href="#IRC-eventFns-tickElapsed">#</a> IRC.eventFns.<b>tickElapsed</b>() -> <i>array</i>
 
-an *array* of elapsed tick events for a specific user with the same format as <a href="#IRC-event">IRC.event</a>
+an *array* of elapsed tick events for a specific user with the same format as [IRC.event](#IRC-event)
 
 <a name="IRC-eventFns-delete" href="#IRC-eventFns-delete">#</a> IRC.eventFns.<b>delete</b>(<i>index</i>)
 
@@ -494,7 +495,7 @@ the `node` proxy allows you to send raw commands and update config options on th
 
 <a name="IRC-require" href="#IRC-require">#</a> IRC.<b>require</b>(<i>name</i>) -> <i>object</i>
 
-loads a command as a module. the object is whatever was added to <a href="#module-exports">module.exports</a>
+loads a command as a module. the object is whatever was added to [module.exports](#module-exports)
 
 some useful utilities are available as subcommands of the `module` command. for example:
 
@@ -527,14 +528,14 @@ all root properties (except `timezone` and `web`) are global, and can also place
 * `commandLimit` _number_ &emsp; limit the number of times functions that manipulate commands can be used in a single REPL call (default: `2`)
 * `logCommands` _bool_ &emsp; should messages that trigger commands be logged (default: `true`)
 * `ignoreHosts` _array_ &emsp; list of hostnames to ignore for events and messages entirely
-* `admins` _array_ &emsp; list of nicknames of users that have access to <a href="#IRC-sudo">IRC.sudo</a>
+* `admins` _array_ &emsp; list of nicknames of users that have access to [IRC.sudo](#IRC-sudo)
 * `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
 * `fetchURL` _boolean_ &emsp; should URLs posted in channel have their titles displayed (default: `true`)
-* `secrets` _object_ &emsp; keys in this object correspond to commands that have an <a href="#IRC-secret">IRC.secret</a> value
-* `broadcastCommands` _array_ &emsp; list of commands that are able to use the *target* property of <a href="#print">print</a>
+* `secrets` _object_ &emsp; keys in this object correspond to commands that have an [IRC.secret](#IRC-secret) value
+* `broadcastCommands` _array_ &emsp; list of commands that are able to use the *target* property of [print](#print)
 * `timezone` _string_ &emsp; timezone to use for dates (default: `Europe/London`)
 * `web` _object_ &emsp; configuration for the web frontend
-    * `url` _string_ &emsp; web address for the frontend, available at <a href="#IRC-webAddress">IRC.webAddress</a>
+    * `url` _string_ &emsp; web address for the frontend, available at [IRC.webAddress](#IRC-webAddress)
     * `port` _number_ &emsp; port to host the content at
     * `socketURL` _string_ &emsp; websocket URL to connect to
     * `password` _string_ &emsp; logging in to the web interface allows you to modify locked commands
@@ -544,13 +545,13 @@ all root properties (except `timezone` and `web`) are global, and can also place
     * `channels` _array_ &emsp; list of channels to join. (can just be a list of strings of channel names)
         * `name` _string_ &emsp; channel name to join. for example: `##rust`
         * `lineLimit` _number_ &emsp; maximum number of lines a command can display (default: `10`)
-        * `setNick` _boolean_ &emsp; does anyone in this channel have access to <a href="#IRC-setNick">IRC.setNick</a> (default: `false`)
+        * `setNick` _boolean_ &emsp; does anyone in this channel have access to [IRC.setNick](#IRC-setNick) (default: `false`)
         * `fetchURLAll` _boolean_ &emsp; should every scraped URL be shown, or just 'useful' ones (default: `false`)
         * `ignoreEvents` _boolean_ &emsp; should this channel ignore `speak` and `tick` events (default: `false`)
 
 ## REPL
 
-to run code in a JS interpreter, combine the <a href="#IRC-trigger">trigger</a> prefix with one of the following symbols 
+to run code in a JS interpreter, combine the [trigger](#IRC-trigger) prefix with one of the following symbols 
 
 `>` prints the returned value and `>>`, `#` or `%` run code in an async IIFE
 
@@ -558,8 +559,9 @@ the REPL works as a command like any other, and `>` takes optional params. the p
 
 **>**(<i>depth</i>, <i>truncate</i>)
 
-which correspond to the options from <a href="#IRC-inspect">IRC.inspect</a>
+which correspond to the options from [IRC.inspect](#IRC-inspect)
 
 ## Flags
 
 `--no-webpack` will disable rebuilding the frontend assets when run
+`--dev` will enable development mode
