@@ -14,6 +14,12 @@ const readdirAsync = promisify(fs.readdir);
 
 const moduleDir = __dirname + '/../../acquire_cache';
 
+// docs to markdown and parsed
+
+// react-dom/server
+// @babel/parser
+// lodash@1.2.3
+
 // load npm
 let npmInstall, npmView;
 npm.load({loglevel: 'silent', lock: false}, (err, success) => {
