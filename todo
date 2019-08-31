@@ -1,21 +1,23 @@
 reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
 
-
 version 4: data scoping & ORM
 make events more powerful, restrict how they're created -> current event API is bad
-s/thing/thing hooks
+s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
 sort out indexing on tables
 
-isolated-vm need swap sometimes to work https://linuxize.com/post/create-a-linux-swap-file/
-
 // TODO //
-configurable wss URL
-@babel/parser
+    // docs to markdown and parsed
+
+    // react-dom/server
+    // @babel/parser
+    // lodash@1.2.3
+@babel/parser - stub node modules
 proxy/immer for storage autosave
 
 koth game (you have HP to share around? - damnit bobby)
 make reserved/silent configurable
+arcsecond command parser
 /* IRC.ops() */
 FormData URLSearchParams Headers
 update config
@@ -37,10 +39,6 @@ command autocorrect
 secret commands
 nick/hash hash should wrap a full piece of text and nick should auto brackets and take more options
 provide a message when downloading from npm
-docs
-change command db to JSON
-http push /
-index db
 ~chess
 add print limit to get envinronment to limit event callback spam
 _.deburr for title parser
