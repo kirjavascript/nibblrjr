@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "docs",
+    "command": "const md = fetchSync('https://raw.githubusercontent.com/kirjavascript/nibblrjr/master/DOCUMENTATION.md');\nconst entities = require('html-entities-decoder');\nconst rmMD = require('remove-markdown');\nconst docs = rmMD(entities(md.replace(/^#.*$/gm, '')));\nconst match = docs.match(new RegExp(`^(${input}\\\\(.*\\\\)[^]*?)^[a-zA-Z.]+\\\\(.*\\\\)`, 'gm'));\nif (match) {\n    print.raw(match[0].replace(/\\n^[a-zA-Z.]+\\(.*\\).*$/gm, ''));\n}"
+}
