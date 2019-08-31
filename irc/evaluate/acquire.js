@@ -14,11 +14,6 @@ const readdirAsync = promisify(fs.readdir);
 
 const moduleDir = __dirname + '/../../acquire_cache';
 
-// docs to markdown and parsed
-
-// react-dom/server
-// @babel/parser
-// lodash@1.2.3
 
 // load npm
 let npmInstall, npmView;
@@ -48,6 +43,7 @@ function acquire(input) {
 
     return new Promise(async (resolve, rejectRaw) => {
         const reject = (e) => {
+            // strip fullpath
             e.message = e.message
                 .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
                 .replace(/(\n|\r).*/g, '');
