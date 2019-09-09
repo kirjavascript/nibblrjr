@@ -13,7 +13,7 @@ const mkdirAsync = promisify(fs.mkdir);
 const readdirAsync = promisify(fs.readdir);
 
 const moduleDir = __dirname + '/../../acquire_cache';
-const stubbed = require("module").builtinModules;
+const stubbed = require('module').builtinModules;
 
 // load npm
 let npmInstall, npmView;

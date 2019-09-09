@@ -11,6 +11,8 @@ function createServerDBFactory(database) {
                 target VARCHAR (100),
                 message TEXT
             );
+            CREATE INDEX IF NOT EXISTS message ON log (message);
+            CREATE INDEX IF NOT EXISTS user ON log (user);
             CREATE TABLE IF NOT EXISTS store (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                 namespace VARCHAR(100),
