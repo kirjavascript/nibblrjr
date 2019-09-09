@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "eggo",
+    "command": "print('eggo'.repeat(1000))"
+}

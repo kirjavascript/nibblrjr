@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "palindrome",
+    "command": "print('raceca'.repeat(3) + 'r')"
+}

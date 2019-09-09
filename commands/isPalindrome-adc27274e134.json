@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "isPalindrome",
+    "command": "log([...input].reverse().join``==input)"
+}

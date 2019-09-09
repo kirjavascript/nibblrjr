@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "diamondsquare",
+    "command": "i=input||5;print('{r}╱╲{p}┌┐'[r='repeat'](i)+'\\n'+'{r}╲╱{p}└┘'[r](i));"
+}
