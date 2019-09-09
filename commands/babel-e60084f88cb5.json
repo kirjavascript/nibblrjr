@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "babel",
+    "command": "const { transform } = require('@babel/standalone');\nconst { code, map, ast } = transform(input, IRC.require('babel.options'));\nlog((0, eval)(code));"
+}

@@ -417,7 +417,7 @@ async function evaluate({
 
             /\s*/.test(''); // patch RegExp.$_
 
-            ['global', 'acquire', 'module']
+            ['global', 'acquire', 'module', 'getText', 'getDOM', 'getJSON']
                 .forEach(key => {
                     Object.defineProperty(global, key, { enumerable: false });
                 });
@@ -440,7 +440,7 @@ async function evaluate({
                     const result = (0, eval)(${JSON.stringify(script)});
                     printRaw(
                         IRCinspect(result, {
-                            depth: depth || 2,
+                            depth: depth || 1,
                             truncate: truncate || 390,
                         })
                     );

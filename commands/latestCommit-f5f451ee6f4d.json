@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "latestCommit",
+    "command": "const { document, window } = fetchSync.dom(`https://github.com/${input.trim()}/commits/master`);\nprint([\n    document.querySelector('.sha').textContent,\n    document.querySelector('.commit-title a').textContent,\n    document.querySelector('.commit-author').textContent,\n    'committed',\n    document.querySelector('.commit-meta relative-time').textContent,\n].map(d => d.replace(/\\s+/,' ').trim()).join` {dc}|{/} `);"
+}

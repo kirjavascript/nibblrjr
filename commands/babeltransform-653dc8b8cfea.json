@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "babel.transform",
+    "command": "const { transform } = require('@babel/standalone');\nconst { code, map, ast } = transform(input, IRC.require('babel.options'));\nprint(code.replace(/\\s+/g, ' '));"
+}
