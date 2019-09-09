@@ -7,22 +7,17 @@ trigger commands when not even at start of message
 sort out indexing on tables
 
 // TODO //
-    // docs to markdown and parsed
-
-@babel/parser - stub node modules
-proxy/immer for storage autosave
-
+web stats
+remove lodash / datefns from API
+FormData URLSearchParams Headers
+arcsecond command parser
 koth game (you have HP to share around? - damnit bobby)
 make reserved/silent configurable
-arcsecond command parser
 /* IRC.ops() */
-FormData URLSearchParams Headers
 update config
-stub fs as a require module
 module.fetchCached
 updateConfig / merge getChannelConfig and .get -> expose lineLimit
 IRC.runCommand -> make roll7 return something for bet7
-~docs parses the markdown
 ~poll editor vim
 blackjack
 roulette
