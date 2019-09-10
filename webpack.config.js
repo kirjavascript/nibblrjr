@@ -4,7 +4,7 @@ module.exports = (env={}, args={}) => {
 
     const config = {
         entry : {
-            root: __dirname + '/web/modules/root.js',
+            main: __dirname + '/web/modules/main.js',
         },
         output: {
             path: __dirname  + '/web/bundles',

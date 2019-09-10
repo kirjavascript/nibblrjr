@@ -39,10 +39,8 @@ function initWeb(parent) {
             const webpackConfig = require('../../webpack.config.js')();
             webpackConfig.mode = 'production'
             const compiler = webpack(webpackConfig);
-            compiler.run((err, stats) => {
-                console.info(stats.toString({
-                    colors: true
-                }));
+            compiler.run(() => {
+                console.log('Compiled web bundles');
             });
         }
     }

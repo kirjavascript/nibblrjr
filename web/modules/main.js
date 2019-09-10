@@ -1,4 +1,4 @@
-import './styles/root.scss';
+import './styles/main.scss';
 
 import React, { Component } from 'react';
 import { render } from 'react-dom';
@@ -9,7 +9,7 @@ import { Commands } from './commands';
 import { Auth } from './auth';
 
 @observer
-export class Root extends Component {
+export class Main extends Component {
 
     render() {
         return do {
@@ -37,4 +37,4 @@ export class Root extends Component {
     }
 }
 
-render(<Root/>, document.body.appendChild(document.createElement('div')));
+render(<Main/>, document.body.appendChild(document.createElement('div')));

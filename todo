@@ -8,8 +8,8 @@ sort out indexing on tables
 
 // TODO //
 web stats
-remove lodash / datefns from API
-FormData URLSearchParams Headers
+bundle webpack assets statically
+FormData URLSearchParams
 arcsecond command parser
 koth game (you have HP to share around? - damnit bobby)
 make reserved/silent configurable
