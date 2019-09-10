@@ -21,22 +21,19 @@ export class Auth extends Component {
     };
 
     render() {
-        return do {
-            if (env.admin) {
-                <div className="login">
-                    ~admin mode~
-                </div>
-            }
-            else {
-                <input
-                    type="password"
-                    value={this.state.password}
-                    className="login tr"
-                    placeholder="admin login"
-                    onChange={this.onChange}
-                    onKeyDown={this.onKeyDown}
-                />
-            }
-        };
+        return env.admin ? (
+            <div className="login">
+                ~admin mode~
+            </div>
+        ) : (
+            <input
+                type="password"
+                value={this.state.password}
+                className="login tr"
+                placeholder="admin login"
+                onChange={this.onChange}
+                onKeyDown={this.onKeyDown}
+            />
+        );
     }
 }

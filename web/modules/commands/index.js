@@ -120,18 +120,13 @@ export class Commands extends Component {
                     })}
                 </div>
                 <div className="fl w-70">
-                    { do {
-                        if (command) {
-                            <Editor
-                                key={command}
-                                command={command}
-                                delete={this.onDelete}
-                            />
-                        }
-                        else {
-                            false
-                        }
-                    }}
+                    {!!command && (
+                        <Editor
+                            key={command}
+                            command={command}
+                            delete={this.onDelete}
+                        />
+                    )}
                 </div>
             </div>
         );
