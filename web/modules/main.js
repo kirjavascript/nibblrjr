@@ -2,36 +2,26 @@ import './styles/main.scss';
 
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { observer } from 'mobx-react';
 
-import { env } from './store/index';
-import { Commands } from './commands';
-import { Auth } from './auth';
 
-@observer
-export class Main extends Component {
+// editor from website / paste
+// react router
+// stats main / server / channel as FILTER w/ URL
 
-    render() {
-        return !env.connected
-            ? <span>Connecting...</span>
-            : (
-                <main>
-                    <nav className="flex">
-                        <div className="w-50">
-                            <h1>nibblr</h1>
-                        </div>
-                        <div className="w-50 tr">
-                            <Auth />
-                        </div>
-                    </nav>
-                    <Commands />
-                    <img
-                        className="absolute right-0 bottom-0 nibblr"
-                        src="/nibblr.gif"
-                    />
-                </main>
-            );
-    }
-}
+// commands / stats / docs / source
 
-render(<Main/>, document.body.appendChild(document.createElement('div')));
+render((
+    <main>
+        <nav className="flex">
+            <div className="w-50">
+                <h1>nibblr</h1>
+            </div>
+            <div className="w-50 tr">
+            </div>
+        </nav>
+        <img
+            className="absolute right-0 bottom-0 nibblr"
+            src="/nibblr.gif"
+        />
+    </main>
+), document.body.appendChild(document.createElement('div')));

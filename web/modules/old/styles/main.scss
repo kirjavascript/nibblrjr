@@ -1,0 +1,65 @@
+html, input, button {
+    font-family: Inconsolata, monospace;
+}
+
+*:focus {
+    outline: none;
+}
+
+$menuHeight: 40px;
+
+nav {
+    height: $menuHeight;
+    overflow: hidden;
+}
+
+h1 {
+    margin: 0;
+}
+
+.command-list, .editor {
+    overflow-y: scroll;
+}
+
+.command-list {
+    padding: 5px;
+    height: calc(100vh - #{$menuHeight});
+}
+
+.login {
+    outline: none;
+    border: none;
+    background-color: transparent;
+    padding: 2px;
+    margin: 2px 5px;
+}
+
+.items-grow > * {
+    flex-grow: 1;
+    flex: 1;
+}
+
+.nibblr {
+    opacity: 0.3;
+    filter: grayscale(100%);
+    pointer-events: none;
+}
+
+.buttons {
+    z-index: 1;
+    position: fixed;
+    margin-top: -30px;
+    width: 70vw;
+    button {
+        white-space: nowrap;
+    }
+    & + div {
+        z-index: 0;
+        // margin-top: 30px;
+    }
+}
+
+.editor {
+    margin-top: 30px;
+    height: calc(100vh - 70px);
+}

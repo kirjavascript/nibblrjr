@@ -40,7 +40,7 @@ function initWeb(parent) {
             webpackConfig.mode = 'production'
             const compiler = webpack(webpackConfig);
             compiler.run(() => {
-                console.log('Compiled web bundles');
+                console.log('Compiled web assets');
             });
         }
     }
