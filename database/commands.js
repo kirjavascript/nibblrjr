@@ -148,7 +148,7 @@ function createCommandDB() {
         }
     };
 
-    const getCommandFns = () => ({
+    const getCommandFns = (node) => ({
         get,
         list,
         names,

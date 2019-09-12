@@ -2,9 +2,18 @@ module.exports = function({ parent, app }) {
 
     const { commands } = parent.database;
 
+    // read dbs, not parent.servers ( just get directory listing)
+
     app.get('/api/stats/commands', (req, res) => {
-        res.json({ count: commands.count() });
+        const servers = parent.servers
+            .map(({ address, channels }) => ({
+                address,
+                channels: channels.map(channel => channel.name),
+            }));
+
+        res.json({ count: commands.count(), servers });
     });
+
 
     // number of commands served
     // most mentioned person
@@ -33,5 +42,4 @@ module.exports = function({ parent, app }) {
 // 21:33 <+IckleFinn> Kirjava: If you give me a csv with timestamp, user, message I might do some random machine learning on it
 
 
-//     // parent.serbers
-// };
+};
