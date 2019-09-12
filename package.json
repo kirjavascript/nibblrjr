@@ -21,6 +21,8 @@
         "node-fetch": "^2.2.0",
         "react": "^16.8.0",
         "react-dom": "^16.8.0",
+        "react-router": "^5.0.1",
+        "react-router-dom": "^5.0.1",
         "semver": "^5.5.1",
         "ws": "^5.0.0",
         "zipson": "^0.2.7"

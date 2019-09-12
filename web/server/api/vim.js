@@ -1,12 +1,6 @@
-function initAPI({ parent, app }) {
+module.exports = function({ parent, app }) {
 
-    app.get('/api/socketURL', (req, res) => {
-        const protocol = req.protocol.includes('https') ? 'wss' : 'ws';
-        const url = `${protocol}://${req.hostname}:${parent.web.port}`;
-        res.send(parent.web.socketURL || url);
-    });
-
-    // only used in vim plugin, subject to change
+    // also a generic command API - maybe deprecate the socket one
 
     const { commands } = parent.database;
 
@@ -74,6 +68,5 @@ function initAPI({ parent, app }) {
     app.get('/api/command/list', (req, res) => {
         res.json(commands.list());
     });
-}
 
-module.exports = initAPI;
+};

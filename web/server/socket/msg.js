@@ -1,5 +1,4 @@
-const { parseCommand } = require('../../irc/evaluate/scripts/parse-command');
-const reserved = require('../../base/reserved');
+const { parseCommand } = require('../../../irc/evaluate/scripts/parse-command');
 
 function msgHandler({parent, ws}) {
     let isAdmin = false;

@@ -148,7 +148,7 @@ function createCommandDB() {
         }
     };
 
-    const getCommandFns = (node) => ({
+    const getCommandFns = () => ({
         get,
         list,
         names,
@@ -162,6 +162,7 @@ function createCommandDB() {
         set,
         new: _new,
         delete: deleteCommand,
+        count,
         list,
         setConfig,
         getCommandFns,

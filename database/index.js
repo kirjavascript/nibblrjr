@@ -3,7 +3,6 @@ const SQLiteDatabase = require('better-sqlite3');
 
 const { createCommandDB } = require('./commands');
 const { createServerDBFactory } = require('./server');
-const dateFns = require('date-fns');
 
 class Database {
     constructor(parent) {
