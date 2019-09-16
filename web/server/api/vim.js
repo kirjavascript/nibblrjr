@@ -1,6 +1,7 @@
 module.exports = function({ parent, app }) {
 
     // also a generic command API - maybe deprecate the socket one
+    // TODO: change auth and send a deprecatedcx notice to old plugin
 
     const { commands } = parent.database;
 
@@ -65,7 +66,7 @@ module.exports = function({ parent, app }) {
         }
     });
 
-    app.get('/api/command/list', (req, res) => {
+    app.get('/api/command/list', (_req, res) => {
         res.json(commands.list());
     });
 

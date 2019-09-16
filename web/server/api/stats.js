@@ -1,19 +1,54 @@
+const fs = require('fs');
+const path = require('path');
+const Database = require('better-sqlite3');
+
 module.exports = function({ parent, app }) {
 
     const { commands } = parent.database;
 
-    // read dbs, not parent.servers ( just get directory listing)
+    const storagePath = path.join(__dirname, '../../../storage');
+    const databases = fs.readdirSync(storagePath)
+        .map(file => {
+            const db = new Database(path.join(storagePath, file));
+            return [path.parse(file).name, db];
+        })
+        .filter(([_, db]) => (
+            db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='log';`).get()
+        ));
 
-    app.get('/api/stats/commands', (req, res) => {
-        const servers = parent.servers
+    databases.forEach(([name, db]) => {
+        console.log(
+            db.prepare(`
+                SELECT user, count(lower(user))
+                FROM log
+                WHERE lower(target)="#code"
+                AND time BETWEEN date('now', '-7 day') AND date('now')
+                GROUP BY user
+                ORDER BY count(lower(user)) DESC
+                LIMIT 10
+                ;
+            `)
+                .all()
+        )
+    });
+
+    app.get('/api/stats/commands', (_req, res) => {
+        const serversOnline = parent.servers
             .map(({ address, channels }) => ({
                 address,
                 channels: channels.map(channel => channel.name),
             }));
 
-        res.json({ count: commands.count(), servers });
+        // TODO: uptime
+        res.json({
+            count: commands.count(),
+            serversOnline,
+            databases
+        });
     });
-
+// http://buffy.myrealm.co.uk/afsmg/stats/
+    //https://chanstat.net/stats/rizon/%23homescreen
+    // hardcode cake^ -> Kirjava
 
     // number of commands served
     // most mentioned person
@@ -40,6 +75,7 @@ module.exports = function({ parent, app }) {
 // 21:08 <+IckleFinn> longest time online without message
 // 21:17 <+IckleFinn> Kirjava: You going to make a heatmap for activity based on time?
 // 21:33 <+IckleFinn> Kirjava: If you give me a csv with timestamp, user, message I might do some random machine learning on it
+// 10:56 <nibblrjr1> <Kirjava> track nick changes stats with nibblr (also maybe use it to work out nick groups (1 day ago)
 
 
 };

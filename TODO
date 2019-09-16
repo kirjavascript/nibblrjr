@@ -11,6 +11,7 @@ web stats
 bundle webpack assets statically
 FormData URLSearchParams
 arcsecond command parser
+require('jsdom|lodash|date-fns')
 koth game (you have HP to share around? - damnit bobby)
 make reserved/silent configurable
 /* IRC.ops() */
