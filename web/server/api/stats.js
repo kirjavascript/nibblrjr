@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const Database = require('better-sqlite3');
 
+// updated hourly
+
 module.exports = function({ parent, app }) {
 
     const { commands } = parent.database;
@@ -9,28 +11,64 @@ module.exports = function({ parent, app }) {
     const storagePath = path.join(__dirname, '../../../storage');
     const databases = fs.readdirSync(storagePath)
         .map(file => {
-            const db = new Database(path.join(storagePath, file));
+            const db = new Database(path.join(storagePath, file), { readonly: true });
             return [path.parse(file).name, db];
         })
         .filter(([_, db]) => (
             db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='log';`).get()
         ));
 
+    // todo: truncate nibblr messages to log
+    // activity: do a multiline chart with hover over messages
+
     databases.forEach(([name, db]) => {
         console.log(
             db.prepare(`
-                SELECT user, count(lower(user))
-                FROM log
-                WHERE lower(target)="#code"
-                AND time BETWEEN date('now', '-7 day') AND date('now')
-                GROUP BY user
-                ORDER BY count(lower(user)) DESC
-                LIMIT 10
-                ;
             `)
                 .all()
         )
     });
+
+`
+    #server total lines
+    SELECT COALESCE(MAX(idx)+1, 0) FROM log
+
+    #user activity
+    SELECT user, count(lower(user)) as count
+    FROM log
+    WHERE lower(target)="#code"
+    AND time BETWEEN date('now', '-1 year') AND date('now')
+    GROUP BY lower(user)
+    ORDER BY count DESC
+    LIMIT 10
+
+    #user avg line length
+    SELECT user, avg(length(message)) as average
+    FROM log
+    GROUP BY lower(user)
+    ORDER BY average DESC
+    LIMIT 10
+
+    #user kicks
+    SELECT user, count(lower(user)) as count
+    FROM log
+    WHERE command = "KICK"
+    GROUP BY lower(user)
+    ORDER BY count DESC
+    LIMIT 10
+
+    #user kicked
+    SELECT kicked, count(kicked) as count
+    FROM (
+        SELECT substr(message, 1, instr(message, ' ')-1) as kicked
+        FROM log
+        WHERE command = "KICK"
+        AND lower(target)="#rubik"
+    )
+    GROUP BY kicked
+    ORDER BY count DESC
+`;
+// 23:22 <+nibblrjr> <Kirjava> 3173651 rows -> SELECT COALESCE(MAX(idx)+1, 0) FROM log; (7 days ago)
 
     app.get('/api/stats/commands', (_req, res) => {
         const serversOnline = parent.servers
@@ -39,11 +77,10 @@ module.exports = function({ parent, app }) {
                 channels: channels.map(channel => channel.name),
             }));
 
-        // TODO: uptime
         res.json({
             count: commands.count(),
             serversOnline,
-            databases
+            uptime: 0 | (new Date() - parent.epoch) / 36e5,
         });
     });
 // http://buffy.myrealm.co.uk/afsmg/stats/
@@ -51,14 +88,14 @@ module.exports = function({ parent, app }) {
     // hardcode cake^ -> Kirjava
 
     // number of commands served
+    // most kicked
+    // questions asked
+    // yelling
     // most mentioned person
     // semtiment analysis
     // activity time
     // I also want to see people who join the most compared to people who stay online
-    //
 // URL linkers
-// 21:02 <mordini> ~who
-// 21:02 <+IckleFinn> Longest average message
 // 21:03 <+Kirjava> this is all great
 // 21:03 <eyeoh> what about pisg
 // 21:03 <eyeoh> http://pisg.sourceforge.net/examples

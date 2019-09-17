@@ -7,6 +7,7 @@ trigger commands when not even at start of message
 sort out indexing on tables
 
 // TODO //
+use a proxy for the config (!)
 web stats
 bundle webpack assets statically
 FormData URLSearchParams
