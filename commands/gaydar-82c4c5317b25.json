@@ -1,6 +1,6 @@
 {
     "name": "gaydar",
-    "command": "const amount = [...(input.trim())].map(d => d.charCodeAt(0)).reduce((a,b) => a+b)%101;\nprint(`${IRC.colors.nick(input.trim(), false)} is {y}${(input=='Monqui'||input=='Kirjava')?(amount*123):amount}%{/} gay!`)",
-    "locked": false,
+    "command": "const amount = (r=>{var n=1,o=0;for(i=0;i<r.length;i++)o=(o+(n=(n+r.charCodeAt(i))%65521))%65521;return(o<<16|n)%101})(input.trim());\nprint(`${IRC.colors.nick(input.trim(), false)} is {y}${(input=='Monqui'||input=='Kirjava')?(amount*123):amount}%{/} gay!`)",
+    "locked": true,
     "starred": false
 }

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "command.paste",
+    "command": "!input ? print.error(IRC.colors.cmd('paste_source', 'name')) : print(`pasted {o}${input.trim()}{/} to ${IRC.colors.link(IRC.require('module.paste')(IRC.commandFns.get(input.trim()).command) + '.js')}`)"
+}

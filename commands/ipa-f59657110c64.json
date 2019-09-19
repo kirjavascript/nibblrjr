@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "ipa",
+    "command": "const IPA = [...fetchSync.dom('https://en.wiktionary.org/wiki/' + encodeURIComponent(input)).document.querySelectorAll('.IPA')];\nprint(IPA.map(d => d.textContent).join`, `);"
+}

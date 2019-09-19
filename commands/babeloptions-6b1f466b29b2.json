@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "babel.options",
-    "command": "module.exports = {\n    plugins: [\n        require('@babel/plugin-proposal-optional-chaining'),\n        require('@babel/plugin-proposal-do-expressions'),\n        require('@babel/plugin-proposal-numeric-separator'),\n        [require('@babel/plugin-proposal-pipeline-operator'), { proposal: 'minimal' }],\n        require('@babel/plugin-proposal-nullish-coalescing-operator'),\n        require('@babel/plugin-transform-react-jsx'),\n        require('@babel/plugin-proposal-function-bind'),\n        require('@babel/plugin-proposal-partial-application'),\n    ],\n};"
+    "command": "module.exports = {\n    plugins: [\n        require('@babel/plugin-proposal-optional-chaining'),\n        require('@babel/plugin-proposal-do-expressions'),\n        require('@babel/plugin-proposal-numeric-separator'),\n        [require('@babel/plugin-proposal-pipeline-operator'), { proposal: 'minimal' }],\n        require('@babel/plugin-proposal-nullish-coalescing-operator'),\n        require('@babel/plugin-transform-react-jsx'),\n        require('@babel/plugin-proposal-function-bind'),\n        require('@babel/plugin-proposal-partial-application'),\n    ],\n    sourceType: 'script', // disable ES modules / strict mode\n};"
 }
