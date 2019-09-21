@@ -1,5 +1,7 @@
 # nibblrjr documentation
 
+[//]: # (__docs__)
+
 * [API Reference](#api-reference)
     * [printing text](#printing-text)
     * [fetching data](#fetching-data)
