@@ -10,9 +10,9 @@ sort out indexing on tables
 use a proxy for the config (!)
 web stats
 bundle webpack assets statically
-FormData URLSearchParams
+FormData URLSearchParams { form }
 arcsecond command parser
-require('jsdom|lodash|date-fns')
+require('jsdom|lodash|date-fns') + 'Downloading from npm'
 koth game (you have HP to share around? - damnit bobby)
 make reserved/silent configurable
 /* IRC.ops() */

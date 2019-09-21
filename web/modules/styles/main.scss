@@ -1,0 +1,28 @@
+@import './variables';
+@import './typography';
+@import './menu';
+
+html, body, input, button {
+    font-family: Hack;
+    font-size: 14px;
+    margin: none;
+}
+
+a {
+    color: $brand;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+h1 {
+    position: fixed;
+    top: 0px;
+    left: 5px;
+    font-size: 12px;
+    @media only screen and (max-width: 650px) {
+        display: none;
+    }
+    span {
+        color: $red;
+    }
+}

@@ -2,32 +2,77 @@ const fs = require('fs');
 const path = require('path');
 const Database = require('better-sqlite3');
 
-// updated hourly
-
 module.exports = function({ parent, app }) {
 
-    const { commands } = parent.database;
+    // load databases
 
     const storagePath = path.join(__dirname, '../../../storage');
     const databases = fs.readdirSync(storagePath)
         .map(file => {
             const db = new Database(path.join(storagePath, file), { readonly: true });
-            return [path.parse(file).name, db];
+            const name = path.parse(file).name;
+            const server = parent.servers.find(d => d.address == name);
+            const trigger = server ? server.trigger : '~';
+            return { db, name, trigger };
         })
-        .filter(([_, db]) => (
+        .filter(({ db }) => (
             db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='log';`).get()
         ));
 
+    // api
+
+    const { commands } = parent.database;
+
+    app.get('/api/stats/base', (_req, res) => {
+        const serversOnline = parent.servers
+            .map(({ address, channels }) => ({
+                address,
+                channels: channels.map(channel => channel.name),
+            }));
+
+        res.json({
+            count: commands.count(),
+            serversOnline,
+            uptime: 0 | (new Date() - parent.epoch) / 36e5,
+        });
+    });
+
+    function getStat(statement) {
+        return databases.reduce((acc, { db, name }) => {
+            acc.push(
+                ...db.prepare(statement).all().map(obj => ({
+                    ...obj,
+                    server: name,
+                }))
+            )
+            return acc;
+        }, []);
+    }
+
+    app.get('/api/stats/activity', (_req, res) => {
+        res.json(getStat(`
+            SELECT user, count(lower(user)) as count
+            FROM log
+            WHERE 1
+            AND time BETWEEN date('now', '-1 month') AND date('now')
+            GROUP BY lower(user)
+            ORDER BY count DESC
+            LIMIT 10
+        `));
+    });
+
     // todo: truncate nibblr messages to log
     // activity: do a multiline chart with hover over messages
+// updated hourly
 
-    databases.forEach(([name, db]) => {
-        console.log(
-            db.prepare(`
-            `)
-                .all()
-        )
-    });
+
+    // databases.forEach(({ db }) => {
+    //     console.log(
+    //         db.prepare(`
+    //         `)
+    //         .all()
+    //     )
+    // });
 
 `
     #server total lines
@@ -68,21 +113,7 @@ module.exports = function({ parent, app }) {
     GROUP BY kicked
     ORDER BY count DESC
 `;
-// 23:22 <+nibblrjr> <Kirjava> 3173651 rows -> SELECT COALESCE(MAX(idx)+1, 0) FROM log; (7 days ago)
 
-    app.get('/api/stats/commands', (_req, res) => {
-        const serversOnline = parent.servers
-            .map(({ address, channels }) => ({
-                address,
-                channels: channels.map(channel => channel.name),
-            }));
-
-        res.json({
-            count: commands.count(),
-            serversOnline,
-            uptime: 0 | (new Date() - parent.epoch) / 36e5,
-        });
-    });
 // http://buffy.myrealm.co.uk/afsmg/stats/
     //https://chanstat.net/stats/rizon/%23homescreen
     // hardcode cake^ -> Kirjava

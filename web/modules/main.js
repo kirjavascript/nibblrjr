@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
@@ -10,34 +10,38 @@ import './styles/main.scss';
 // remove tachyons
 // localstate duplex
 
-// commands / stats / docs / source
-
-const nav = ['commands', 'stats', 'docs', 'source'];
-
 render((
     <Router>
-            <Route
-                component={({location}) => (
-                    <div className="menu" ref={(node) => {
-                        if (node) {
-                            const { height } = node.getBoundingClientRect();
-                            document.body.style.marginTop = height + 'px';
-                        }
-                    }}>
-                        {links.map(link => (
-                            <Link
-                                className={
-                                    location.pathname.split('/')[1] === link
-                                        ? 'active' : ''
-                                }
-                                key={link}
-                                to={'/' + link}>
-                                {link}
-                            </Link>
-                        ))}
-                    </div>
-                )}
-            />
+        <Route
+            component={({location}) => (
+                <div className="menu" ref={(node) => {
+                    if (node) {
+                        const { height } = node.getBoundingClientRect();
+                        document.body.style.marginTop = height + 'px';
+                    }
+                }}>
+                    <h1>nibblrjr <span className="heart">♥</span></h1>
+                    {['cmds', 'stats', 'docs'].map(link => (
+                        <Link
+                            className={
+                                location.pathname.split('/')[1] === link
+                                ? 'active' : ''
+                            }
+                            key={link}
+                            to={'/' + link}>
+                            {link}
+                        </Link>
+                    ))}
+                    <a
+                        target="_blank"
+                        rel="noopener"
+                        href="https://www.github.com/kirjavascript/nibblrjr"
+                    >
+                        src
+                    </a>
+                </div>
+            )}
+        />
 
         {/*
             <Route exact path="/" component={About} />

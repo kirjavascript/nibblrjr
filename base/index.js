@@ -18,12 +18,12 @@ new (class Nibblr {
         // load databases
         this.database = new Database(this);
 
-        // load web interface
-        this.web = initWeb(this);
-
         // load server nodes
         this.servers = this.servers.map(server => (
             new ServerNode(this, server)
         ));
+
+        // load web interface
+        this.web = initWeb(this);
     }
 });

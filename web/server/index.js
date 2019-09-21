@@ -52,7 +52,7 @@ function initWeb(parent) {
 
     // wildcard defaulting
 
-    app.use('*', (req, res) => {
+    app.use(/^(?!\/api)/, (req, res) => {
         readFile(__dirname + '/../static/index.html', 'utf8', (err, out) => {
             res.send(out);
         });
