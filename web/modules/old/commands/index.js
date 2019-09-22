@@ -103,7 +103,7 @@ export class Commands extends Component {
                         return <div key={command.name}>
                             <a
                                 href="javascript:;"
-                                onClick={()  => {
+                                onClick={() => {
                                     this.setState({command: command.name});
                                 }}
                             >

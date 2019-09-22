@@ -18,6 +18,8 @@ function initAPI({ parent, app }) {
         });
     });
 
+    statsAPI({ parent, app });
+
     // auth
 
     const basicAuth = /^\s*basic\s+(.+)$/i
@@ -26,7 +28,7 @@ function initAPI({ parent, app }) {
         if (authorization && basicAuth.test(authorization)) {
             const [, creds] = authorization.match(basicAuth);
             const credsString = Buffer.from(creds, 'base64').toString();
-            const [,, password] = credsString.match(/^([^:]*):(.*)$/);
+            const [, password] = credsString.match(/^(?:[^:]*):(.*)$/);
             req.isAdmin = password === parent.web.password;
         } else {
             req.isAdmin = false;
@@ -34,14 +36,13 @@ function initAPI({ parent, app }) {
         next();
     });
 
-    app.use('/api/is-admin', (_req, res) => {
+    app.use('/api/is-admin', (req, res) => {
         res.json(req.isAdmin);
     });
 
-    // additional APIs
+    // auth APIs
 
     commandsAPI({ parent, app });
-    statsAPI({ parent, app });
 }
 
 module.exports = initAPI;

@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-const { stringify, parse } = require('zipson');
 const { msgHandler } = require('./msg');
 
 module.exports = function initSocket({parent, server}) {
@@ -8,7 +7,7 @@ module.exports = function initSocket({parent, server}) {
     wss.sendAll = (_type, obj = {}) => {
         wss.clients.forEach((client) => {
             if (client.readyState == WebSocket.OPEN) {
-                client.send(stringify({ ...obj, _type, }));
+                client.send(JSON.stringify({ ...obj, _type, }));
             }
         });
     };

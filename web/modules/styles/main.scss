@@ -1,7 +1,9 @@
 @import './variables';
 @import './typography';
+@import './codemirror';
 @import './menu';
 @import './docs';
+@import './cmds';
 
 html, body, input, button {
     font-family: Hack;
@@ -33,6 +35,27 @@ h1 {
     }
 }
 
+input {
+    background-color: $brand;
+    color: white;
+    padding: 10px 10px;
+    border: 0;
+    border-radius: 2px;
+    width: 100%;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+hr {
+    border-radius: 2px;
+    border-bottom: 5px solid $brand;
+}
+
+::placeholder {
+    font-weight: 400;
+    font-style: italic;
+}
+
 .nibblr {
     opacity: 0.125;
     filter: grayscale(100%);
@@ -51,8 +74,4 @@ main {
     left: 0;
     right: 0;
     overflow-y: scroll;
-}
-
-.main-cmds {
-    overflow-y: hidden;
 }

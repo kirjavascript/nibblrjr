@@ -2,8 +2,9 @@ import React, { useRef } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 
-import Docs from './docs';
+import Cmds from './cmds';
 import Stats from './stats';
+import Docs from './docs';
 
 import './styles/main.scss';
 
@@ -12,6 +13,8 @@ import './styles/main.scss';
 // stats main / server / channel as FILTER w/ URL / time period
 // remove tachyons
 // localstate duplex
+// push .vim update
+// check unsaved
 
 const Nibblr = withRouter(({ location }) => {
     const currentPath = location.pathname.split('/')[1];
@@ -42,18 +45,11 @@ const Nibblr = withRouter(({ location }) => {
                 </a>
             </div>
             <main className={`main-${currentPath}`}>
-                <Route exact path="/stats" component={Stats} />
+                <Route path="/cmds" component={Cmds} />
+                <Route path="/stats" component={Stats} />
                 <Route exact path="/docs" component={Docs} />
             </main>
             <img src="/nibblr.gif" className="nibblr" />
-
-            {/*
-            <Route exact path="/" component={About} />
-            <Route path="/algs" component={Algs} />
-            <Route exact path="/subsets" component={Subsets} />
-            <Route exact path="/subsets/unsolved" component={Unsolved} />
-            <Route path="/trainer" component={Trainer} />
-            */}
         </>
     );
 });

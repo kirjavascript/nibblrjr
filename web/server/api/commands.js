@@ -1,7 +1,5 @@
 module.exports = function({ parent, app }) {
 
-    // maybe deprecate the socket one
-
     const { commands } = parent.database;
 
     app.use('/api/*', (_req, res, next) => {
