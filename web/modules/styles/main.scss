@@ -1,6 +1,7 @@
 @import './variables';
 @import './typography';
 @import './menu';
+@import './docs';
 
 html, body, input, button {
     font-family: Hack;
@@ -19,10 +20,11 @@ h1 {
     top: 0px;
     left: 5px;
     font-size: 18px;
+    color: $green;
+
     @media only screen and (max-width: 650px) {
         display: none;
     }
-    color: limegreen;
     .heart {
         color: $red;
     }
@@ -35,13 +37,15 @@ h1 {
     opacity: 0.125;
     filter: grayscale(100%);
     pointer-events: none;
-    position: absolute;
+    position: fixed;
     right: 0;
     bottom: 0;
+    z-index: 0;
 }
 
-.main-docs {
+main {
     position: absolute;
+    margin-top: 0;
     top: $nav-height;
     bottom: 0;
     left: 0;
@@ -49,14 +53,6 @@ h1 {
     overflow-y: scroll;
 }
 
-.docs {
-    max-width: 800px;
-    padding: 40px 20px;
-    margin: 0 auto;
-    @media only screen and (max-width: 650px) {
-        padding: 10px;
-    }
-    pre {
-        white-space: pre-wrap;
-    }
+.main-cmds {
+    overflow-y: hidden;
 }

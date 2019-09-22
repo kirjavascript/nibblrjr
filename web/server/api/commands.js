@@ -1,13 +1,10 @@
 module.exports = function({ parent, app }) {
 
-    // also a generic command API - maybe deprecate the socket one
-    // TODO: change auth and send a deprecatedcx notice to old plugin
+    // maybe deprecate the socket one
 
     const { commands } = parent.database;
 
-    app.use('/api/*', (req, res, next) => {
-        req.isAdmin = req.body.password === parent.web.password;
-        delete req.body.password;
+    app.use('/api/*', (_req, res, next) => {
         res.getCommand = (name) => {
             const info = commands.get(name);
             if (!info) {
