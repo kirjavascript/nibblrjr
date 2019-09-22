@@ -18,18 +18,31 @@ h1 {
     position: fixed;
     top: 0px;
     left: 5px;
-    font-size: 12px;
+    font-size: 18px;
     @media only screen and (max-width: 650px) {
         display: none;
     }
-    span {
+    color: limegreen;
+    .heart {
         color: $red;
+    }
+    .jr {
+        color: $brand;
     }
 }
 
-main {
+.nibblr {
+    opacity: 0.125;
+    filter: grayscale(100%);
+    pointer-events: none;
     position: absolute;
-    top: 49px;
+    right: 0;
+    bottom: 0;
+}
+
+.main-docs {
+    position: absolute;
+    top: $nav-height;
     bottom: 0;
     left: 0;
     right: 0;
