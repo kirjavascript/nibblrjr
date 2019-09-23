@@ -1,12 +1,13 @@
 import React, { useState, useEffect }  from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
+import reserved from '../../../base/reserved';
 
 import Editor from './editor';
 
 function Cmds() {
     const [commands, setCommands] = useState([]);
-    // const [search, setSearch] = useState('');
-    // const [newName, setNewName] = useState('');
+    const [search, setSearch] = useState('');
+    const [newName, setNewName] = useState('');
 
     useEffect(() => {
         fetch('/api/command/list')
@@ -22,10 +23,16 @@ function Cmds() {
                     <input
                         type="text"
                         placeholder="new command"
+                        value={newName}
+                        onChange={(e) => {}}
                     />
                     <input
                         type="text"
                         placeholder="search commands (regex)"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                        }}
                     />
                     <span className="">★</span>
                     <input
@@ -37,11 +44,11 @@ function Cmds() {
                     {commands.map((command) => {
                         return <div key={command.name}>
                             <Link
-                                to={`/cmds/${command.name}`}
+                                to={`/cmds/${encodeURIComponent(command.name)}`}
                             >
                                 {command.name}
                             </Link>
-                            {command.starred && <span className="gold"> ★</span>}
+                            {command.starred && <span className="star"> ★</span>}
                             {' '}
                             {command.locked && (
                                 <svg width="8" height="8" viewBox="0 0 20 20">
@@ -57,10 +64,37 @@ function Cmds() {
                 </div>
             </div>
             <div className="cmd-editor">
-                <Editor
-                    value={'test'}
-                />
+                <Route path="/cmds/:name" component={EditorPane} />
             </div>
+        </>
+    );
+}
+
+function EditorPane({ match: { params } }) {
+    const [cmd, setCmd] = useState({ command: '/* loading ... */' });
+
+    // save n minutes ago
+
+    useEffect(() => {
+        fetch('/api/command/get/' + params.name)
+            .then(res => res.json())
+            .then(setCmd)
+            .catch(console.error);
+    }, [params.name]);
+
+    const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
+
+    return (
+        <>
+            <pre>
+                {JSON.stringify(cmd, null, 4)}
+            </pre>
+            <Editor
+                value={source}
+                onChange={(res) => {
+                    // console.log(res);
+                }}
+            />
         </>
     );
 }
