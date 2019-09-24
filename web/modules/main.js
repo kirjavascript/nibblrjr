@@ -12,9 +12,10 @@ import './styles/main.scss';
 // react router
 // stats main / server / channel as FILTER w/ URL / time period
 // remove tachyons
-// localstate duplex
+// localstate duplex -> SAVE AUTH
 // push .vim update
 // check unsaved
+// virtualised command list
 
 const Nibblr = withRouter(({ location }) => {
     const currentPath = location.pathname.split('/')[1];

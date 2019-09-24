@@ -8,6 +8,7 @@ import CmdList from './cmd-list';
 function Cmds() {
     const [commands, setCommands] = useState([]);
     const [search, setSearch] = useState('');
+    const [starred, setStarred] = useState(false);
     const [newName, setNewName] = useState('');
 
     useEffect(() => {
@@ -16,6 +17,13 @@ function Cmds() {
             .then(setCommands)
             .catch(console.error);
     }, []);
+
+    let rx;
+    try { rx = new RegExp(search); }
+    catch(e) {}
+
+    const commandFltr = commands;
+    const commandSrch = commandFltr.filter(d => !search || d.name.match(rx));
 
     return (
         <>
@@ -35,13 +43,20 @@ function Cmds() {
                             setSearch(e.target.value);
                         }}
                     />
-                    <span className="">★</span>
+                    <span className="star">★</span>
                     <input
                         type="checkbox"
+                        checked={starred}
+                        onChange={(e) => {
+                            setStarred(!starred);
+                        }}
                     />
+                    TODO: locked
+
+                    <span> {commandSrch.length} / {commandFltr.length} </span>
                 </div>
 
-                <CmdList commands={commands} />
+                <CmdList commands={commandSrch} />
             </div>
             <div className="cmd-editor">
                 <Route path="/cmds/:name" component={EditorPane} />
@@ -69,6 +84,10 @@ function EditorPane({ match: { params } }) {
             <pre>
                 {JSON.stringify(cmd, null, 4)}
             </pre>
+            <button>save</button>
+            <button>lock</button>
+            <button>star</button>
+            <button>delete</button>
             <Editor
                 value={source}
                 onChange={(res) => {

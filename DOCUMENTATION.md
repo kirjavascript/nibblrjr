@@ -527,6 +527,7 @@ all root properties (except `timezone` and `web`) are global, and can also place
 * `floodProtectionDelay` _number_ &emsp; set flood protection time delay in ms (default: `250`)
 * `autoRejoin` _boolean_ &emsp; should the bot autorejoin channels when kicked (default: `true`)
 * `enableIBIP` _boolean_ &emsp; should the bot conform to [IBIP](https://git.teknik.io/Teknikode/IBIP) standard (default: `true`)
+* `enableCommands` _boolean_ &emsp; should commands be triggerable (default: `true`)
 * `commandLimit` _number_ &emsp; limit the number of times functions that manipulate commands can be used in a single REPL call (default: `2`)
 * `logCommands` _bool_ &emsp; should messages that trigger commands be logged (default: `true`)
 * `ignoreHosts` _array_ &emsp; list of hostnames to ignore for events and messages entirely

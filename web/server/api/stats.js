@@ -73,8 +73,7 @@ module.exports = function({ parent, app }) {
     //         .all()
     //     )
     // });
-    //
-    // most run commands
+
 
 `
     #server total lines
@@ -115,6 +114,8 @@ module.exports = function({ parent, app }) {
     GROUP BY kicked
     ORDER BY count DESC
 `;
+
+    // most run commands
 
 // http://buffy.myrealm.co.uk/afsmg/stats/
     //https://chanstat.net/stats/rizon/%23homescreen

@@ -14,14 +14,14 @@ module.exports = function initSocket({parent, server}) {
 
     wss.on('connection', (ws) =>  {
         ws.sendObj = (_type, obj = {}) => {
-            ws.send(stringify({ ...obj, _type, }));
+            ws.send(JSON.stringify({ ...obj, _type, }));
         };
 
         const api = msgHandler({parent, ws});
 
         ws.on('message', (message) => {
             try {
-                const { _type, ...obj } = parse(message);
+                const { _type, ...obj } = JSON.parse(message);
                 api(_type, obj);
             }
             catch (e) {
