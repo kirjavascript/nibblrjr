@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "comps.link",
-    "command": "let obj = fetchSync.json(\"https://worldcubeassociation.org/api/v0/competitions?q=\"+input+\"&start=\"+new Date().toISOString().split(\"T\")[0])\nif (obj && obj.length > 0){\n    print(`wca.link${obj[0][\"id\"]}`)\n}"
+    "command": "let obj = fetchSync.json(\"https://worldcubeassociation.org/api/v0/competitions?q=\"+input+\"&start=\"+new Date().toISOString().split(\"T\")[0])\nif (obj && obj.length > 0){\n    print(`wca.link/${obj[0][\"id\"]}`)\n}"
 }
