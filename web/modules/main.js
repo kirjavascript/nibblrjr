@@ -42,7 +42,7 @@ const Nibblr = withRouter(({ location }) => {
                     rel="noopener"
                     href="https://www.github.com/kirjavascript/nibblrjr"
                 >
-                    src
+                    src^
                 </a>
             </div>
             <main className={`main-${currentPath}`}>
