@@ -52,6 +52,22 @@ button {
 
 .star {
     color: $green;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.checkbox {
+    border: 2px solid $brand;
+    border-radius: 2px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    path {
+        fill: $brand;
+    }
 }
 
 input {

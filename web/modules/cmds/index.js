@@ -1,6 +1,8 @@
 import React, { useState, useEffect }  from 'react';
 import { Route } from 'react-router-dom';
 import reserved from '../../../base/reserved';
+import Checkbox from '../checkbox';
+import Lock from './lock';
 
 import Editor from './editor';
 import CmdList from './cmd-list';
@@ -9,6 +11,7 @@ function Cmds() {
     const [commands, setCommands] = useState([]);
     const [search, setSearch] = useState('');
     const [starred, setStarred] = useState(false);
+    const [locked, setLocked] = useState(false);
     const [newName, setNewName] = useState('');
 
     useEffect(() => {
@@ -22,7 +25,12 @@ function Cmds() {
     try { rx = new RegExp(search); }
     catch(e) {}
 
-    const commandFltr = commands;
+    const commandFltr = commands.filter((cmd) => {
+        return (
+            ((cmd.starred && starred) || !starred)
+            && ((cmd.locked && locked) || !locked)
+        );
+    });
     const commandSrch = commandFltr.filter(d => !search || d.name.match(rx));
 
     return (
@@ -33,7 +41,7 @@ function Cmds() {
                         type="text"
                         placeholder="new command"
                         value={newName}
-                        onChange={(e) => {}}
+                        onChange={(_e) => {}}
                     />
                     <input
                         type="text"
@@ -44,14 +52,15 @@ function Cmds() {
                         }}
                     />
                     <span className="star">★</span>
-                    <input
-                        type="checkbox"
+                    <Checkbox
                         checked={starred}
-                        onChange={(e) => {
-                            setStarred(!starred);
-                        }}
+                        onChange={() => setStarred(!starred)}
                     />
-                    TODO: locked
+                    <Lock />
+                    <Checkbox
+                        checked={locked}
+                        onChange={() => setLocked(!locked)}
+                    />
 
                     <span> {commandSrch.length} / {commandFltr.length} </span>
                 </div>
@@ -94,7 +103,7 @@ function EditorPane({ match: { params } }) {
                     // console.log(res);
                 }}
             />
-        </>
+    </>
     );
 }
 

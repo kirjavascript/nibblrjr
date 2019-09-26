@@ -1,4 +1,4 @@
-// from object-inspect, modified for IRC and extended
+// from object-inspect, extended and modified for IRC
 // original licence follows
 //
 // This software is released under the MIT license:
