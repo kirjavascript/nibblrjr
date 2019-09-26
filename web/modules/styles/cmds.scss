@@ -18,6 +18,21 @@
     flex-direction: column;
 }
 
+.cmd-filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cmd-options {
+    display: flex;
+    .star, .lock {
+        align-self: center;
+        margin: 0 5px;
+        display: block;
+    }
+}
+
 .cmd-list {
     overflow-y: scroll;
     align-self: stretch;

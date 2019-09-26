@@ -51,18 +51,21 @@ function Cmds() {
                             setSearch(e.target.value);
                         }}
                     />
-                    <span className="star">★</span>
-                    <Checkbox
-                        checked={starred}
-                        onChange={() => setStarred(!starred)}
-                    />
-                    <Lock />
-                    <Checkbox
-                        checked={locked}
-                        onChange={() => setLocked(!locked)}
-                    />
-
-                    <span> {commandSrch.length} / {commandFltr.length} </span>
+                    <div className="cmd-filter">
+                        <span> {commandSrch.length} / {commandFltr.length} </span>
+                        <div className="cmd-options">
+                            <span className="star">★</span>
+                            <Checkbox
+                                checked={starred}
+                                onChange={() => setStarred(!starred)}
+                            />
+                            <Lock />
+                            <Checkbox
+                                checked={locked}
+                                onChange={() => setLocked(!locked)}
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <CmdList commands={commandSrch} />
