@@ -89,6 +89,8 @@ function EditorPane({ updateList, history, match: { params } }) {
     const [saveText, setSaveText] = useState('save');
     const [deleteText, setDeleteText] = useState('delete');
 
+    // new -> make isValid a derived value
+
     useEffect(() => {
         fetchAPI('command/get/' + params.name)
             .then(setCmd)

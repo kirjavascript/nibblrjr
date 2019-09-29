@@ -16,8 +16,6 @@
         "isolated-vm": "^2.0.1",
         "lodash": "^4.17.13",
         "marked": "^0.7.0",
-        "mobx": "^4.8.0",
-        "mobx-react": "^5.0.0",
         "node-fetch": "^2.2.0",
         "react": "^16.8.0",
         "react-dom": "^16.8.0",
