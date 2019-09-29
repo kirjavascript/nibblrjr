@@ -20,6 +20,9 @@ export default function Default() {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <p>
+                an interface for manipulating commands
+            </p>
+            <p>
                 alternatively, try the{' '}
                 <a
                     href="https://www.github.com/kirjavascript/nibblrjr.vim"

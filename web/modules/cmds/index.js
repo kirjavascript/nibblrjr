@@ -83,7 +83,7 @@ function Cmds() {
     );
 }
 
-function EditorPane({ updateList, match: { params } }) {
+function EditorPane({ updateList, history, match: { params } }) {
     const { fetchAPI, admin } = useFetch();
     const [cmd, setCmd] = useState({ command: '/* loading ... */' });
     const [saveText, setSaveText] = useState('save');
@@ -93,6 +93,8 @@ function EditorPane({ updateList, match: { params } }) {
         fetchAPI('command/get/' + params.name)
             .then(setCmd)
             .catch(console.error);
+        setSaveText('save');
+        setDeleteText('delete');
     }, [params.name]);
 
     const toggleOption = (type) => {
@@ -128,10 +130,10 @@ function EditorPane({ updateList, match: { params } }) {
         if (deleteText !== 'confirm?') {
             setDeleteText('confirm?');
         } else {
-            fetchAPI('command/delete' + params.name)
+            fetchAPI('command/delete/' + params.name, { method: 'POST' })
                 .then(obj => {
                     if (!obj.error) {
-                        console.log('deleted');
+                        history.push('/cmds');
                     } else {
                         setDeleteText(obj.error);
                     }
