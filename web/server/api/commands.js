@@ -1,18 +1,8 @@
-function initAPI({ parent, app }) {
-
-    app.get('/api/socketURL', (req, res) => {
-        const protocol = req.protocol.includes('https') ? 'wss' : 'ws';
-        const url = `${protocol}://${req.hostname}:${parent.web.port}`;
-        res.send(parent.web.socketURL || url);
-    });
-
-    // only used in vim plugin, subject to change
+module.exports = function({ parent, app }) {
 
     const { commands } = parent.database;
 
-    app.use('/api/*', (req, res, next) => {
-        req.isAdmin = req.body.password === parent.web.password;
-        delete req.body.password;
+    app.use('/api/*', (_req, res, next) => {
         res.getCommand = (name) => {
             const info = commands.get(name);
             if (!info) {
@@ -71,9 +61,8 @@ function initAPI({ parent, app }) {
         }
     });
 
-    app.get('/api/command/list', (req, res) => {
+    app.get('/api/command/list', (_req, res) => {
         res.json(commands.list());
     });
-}
 
-module.exports = initAPI;
+};

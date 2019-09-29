@@ -39,10 +39,15 @@ function initWeb(parent) {
             const webpackConfig = require('../../webpack.config.js')();
             webpackConfig.mode = 'production'
             const compiler = webpack(webpackConfig);
+<<<<<<< HEAD
             compiler.run((err, stats) => {
                 console.info(stats.toString({
                     colors: true
                 }));
+=======
+            compiler.run(() => {
+                console.log('Compiled web assets');
+>>>>>>> webstats
             });
         }
     }
@@ -54,7 +59,11 @@ function initWeb(parent) {
 
     // wildcard defaulting
 
+<<<<<<< HEAD
     app.use('*', (req, res) => {
+=======
+    app.use(/^(?!\/api)/, (_req, res) => {
+>>>>>>> webstats
         readFile(__dirname + '/../static/index.html', 'utf8', (err, out) => {
             res.send(out);
         });

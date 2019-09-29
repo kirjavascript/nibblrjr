@@ -261,7 +261,7 @@ function createServerDBFactory(database) {
             return { get, set, all, clear };
         };
 
-        return { log, logFactory, storeFactory, eventFactory, eventFns };
+        return { db, log, logFactory, storeFactory, eventFactory, eventFns };
     };
 }
 

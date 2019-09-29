@@ -1,0 +1,26 @@
+.menu {
+    height: $nav-height;
+    display: flex;
+    width: 100%;
+    z-index: 2;
+    background-color: white;
+    justify-content: center;
+    border-bottom: 5px solid $brand;
+    a {
+        display: block;
+        font-size: 20px;
+        padding: 10px 40px;
+        &:focus {
+            outline: none;
+        }
+
+        @media only screen and (max-width: 650px) {
+            padding: 10px;
+        }
+
+        &.active {
+            background-color: $brand;
+            color: white;
+        }
+    }
+}

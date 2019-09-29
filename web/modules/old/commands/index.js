@@ -103,7 +103,7 @@ export class Commands extends Component {
                         return <div key={command.name}>
                             <a
                                 href="javascript:;"
-                                onClick={()  => {
+                                onClick={() => {
                                     this.setState({command: command.name});
                                 }}
                             >
@@ -120,18 +120,13 @@ export class Commands extends Component {
                     })}
                 </div>
                 <div className="fl w-70">
-                    { do {
-                        if (command) {
-                            <Editor
-                                key={command}
-                                command={command}
-                                delete={this.onDelete}
-                            />
-                        }
-                        else {
-                            false
-                        }
-                    }}
+                    {!!command && (
+                        <Editor
+                            key={command}
+                            command={command}
+                            delete={this.onDelete}
+                        />
+                    )}
                 </div>
             </div>
         );

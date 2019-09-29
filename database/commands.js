@@ -162,6 +162,7 @@ function createCommandDB() {
         set,
         new: _new,
         delete: deleteCommand,
+        count,
         list,
         setConfig,
         getCommandFns,

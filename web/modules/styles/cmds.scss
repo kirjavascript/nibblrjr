@@ -1,0 +1,121 @@
+.main-cmds {
+    overflow: hidden;
+    height: calc(100% - #{$nav-height});
+    display: flex;
+}
+
+.cmd-editor {
+    padding: 10px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+// on mobile: overflow hidden scroll no on cmd list
+
+.cmd-menu {
+    border-radius: 5px;
+    padding: 10px;
+    width: 30%;
+    max-width: 350px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cmd-filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cmd-toggle {
+    display: flex;
+    .star, .lock {
+        align-self: center;
+        margin: 0 5px;
+        display: block;
+    }
+}
+
+.cmd-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    height: 40px;
+}
+
+.cmd-name {
+    display: block;
+    font-weight: 700;
+    margin: 0 5px;
+    color: $red;
+}
+
+.cmd-list {
+    overflow-y: scroll;
+    align-self: stretch;
+    height: 100%;
+    position: relative;
+    a {
+        display: block;
+    }
+}
+
+.cmd-default {
+    margin: 10px;
+    input {
+        width: 120px;
+        position: absolute;
+        right: 10px;
+        bottom: 0;
+        &.admin {
+            color: $green;
+        }
+        &.error {
+            color: $red;
+        }
+    }
+}
+
+// huge
+
+@media only screen and (min-width: 1200px) {
+    .cmd-menu {
+        width: 350px;
+    }
+    .cmd-editor {
+        width: calc(100% - 350px);
+    }
+}
+
+// mobile
+
+@media only screen and (max-width: 750px) {
+    .cmd-menu {
+        height: initial;
+        width: 100%;
+        max-width: initial;
+    }
+    .cmd-list {
+        height: 80px;
+    }
+    .cmd-editor {
+        width: 100%;
+    }
+    .main-cmds {
+        flex-direction: column;
+        overflow-y: scroll;
+    }
+    .cmd-list a {
+        font-size: 18px;
+        line-height: 25px;
+    }
+    .cmd-options {
+        height: initial;
+    }
+    .CodeMirror {
+        height: initial;
+    }
+}

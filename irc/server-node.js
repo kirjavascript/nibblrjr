@@ -178,7 +178,7 @@ class ServerNode {
                     });
                 }
                 // normal commands
-                else {
+                else if (this.get('enableCommands', true)) {
                     const cmdData = parent.database.commands.get(command.path);
                     const canBroadcast = this.get('broadcastCommands', [])
                         .includes(command.root);

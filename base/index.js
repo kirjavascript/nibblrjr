@@ -25,5 +25,8 @@ new (class Nibblr {
         this.servers = this.servers.map(server => (
             new ServerNode(this, server)
         ));
+
+        // load web interface
+        this.web = initWeb(this);
     }
 });

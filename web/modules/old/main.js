@@ -1,4 +1,4 @@
-import './styles/root.scss';
+import './styles/main.scss';
 
 import React, { Component } from 'react';
 import { render } from 'react-dom';
@@ -8,15 +8,14 @@ import { env } from './store/index';
 import { Commands } from './commands';
 import { Auth } from './auth';
 
+
 @observer
-export class Root extends Component {
+export class Main extends Component {
 
     render() {
-        return do {
-            if (!env.connected) {
-                <span>Connecting...</span>
-            }
-            else {
+        return !env.connected
+            ? <span>Connecting...</span>
+            : (
                 <main>
                     <nav className="flex">
                         <div className="w-50">
@@ -32,9 +31,8 @@ export class Root extends Component {
                         src="/nibblr.gif"
                     />
                 </main>
-            }
-        }
+            );
     }
 }
 
-render(<Root/>, document.body.appendChild(document.createElement('div')));
+render(<Main/>, document.body.appendChild(document.createElement('div')));

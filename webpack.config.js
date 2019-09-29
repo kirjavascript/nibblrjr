@@ -1,13 +1,14 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = (env={}, args={}) => {
 
     const config = {
         entry : {
-            root: __dirname + '/web/modules/root.js',
+            main: path.join(__dirname, './web/modules/main.js'),
         },
         output: {
-            path: __dirname  + '/web/bundles',
+            path:     path.join(__dirname, 'web/bundles'),
             filename: '[name].js',
         },
         module: {
@@ -20,15 +21,19 @@ module.exports = (env={}, args={}) => {
                             loader: 'babel-loader',
                             options: {
                                 presets: [
-                                    'es2015',
-                                    'stage-0',
+                                    '@babel/preset-env',
+                                    '@babel/preset-react',
                                 ],
                                 plugins: [
-                                    'transform-react-jsx',
-                                    'transform-decorators-legacy',
-                                ],
-                            },
-                        },
+                                    ['@babel/plugin-proposal-decorators', {
+                                        legacy: true,
+                                    }],
+                                    ['@babel/plugin-proposal-class-properties', {
+                                        loose: true,
+                                    }],
+                                ]
+                            }
+                        }
                     ],
                 },
                 {
@@ -37,13 +42,11 @@ module.exports = (env={}, args={}) => {
                         { loader:'style-loader' },
                         { loader:'raw-loader' },
                         { loader:'sass-loader' },
-                        { loader:'import-glob-loader' },
                     ]
                 },
             ],
         },
-        plugins: [
-        ],
+        plugins: [ ],
         resolve: {
             extensions: ['.js', '.json', '.jsx'],
             alias: {

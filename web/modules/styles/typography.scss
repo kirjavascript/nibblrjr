@@ -1,0 +1,29 @@
+// ttf-hack https://github.com/source-foundry/Hack/blob/master/LICENSE.md
+
+@font-face {
+  font-family: 'Hack';
+  src: url('/hack-regular-subset.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('/hack-bold-subset.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('/hack-italic-subset.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Hack';
+  src: url('/hack-bolditalic-subset.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+}
