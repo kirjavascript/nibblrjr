@@ -23,15 +23,6 @@
     flex-direction: column;
 }
 
-@media only screen and (min-width: 1200px) {
-    .cmd-menu {
-        width: 350px;
-    }
-    .cmd-editor {
-        width: calc(100% - 350px);
-    }
-}
-
 .cmd-filter {
     display: flex;
     justify-content: space-between;
@@ -50,4 +41,39 @@
 .cmd-list {
     overflow-y: scroll;
     align-self: stretch;
+}
+
+@media only screen and (min-width: 1200px) {
+    .cmd-menu {
+        width: 350px;
+    }
+    .cmd-editor {
+        width: calc(100% - 350px);
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .cmd-menu {
+        height: initial;
+        width: 100%;
+        max-width: initial;
+    }
+    .cmd-list {
+        height: 80px;
+    }
+    .cmd-editor {
+        width: 100%;
+    }
+    .main-cmds {
+        flex-direction: column;
+        overflow-y: scroll;
+    }
+    .cmd-list a {
+        font-size: 18px;
+        line-height: 25px;
+    }
+
+    .CodeMirror {
+        height: initial;
+    }
 }
