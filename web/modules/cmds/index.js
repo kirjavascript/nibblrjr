@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react';
+import React, { useState, useEffect, useCallback }  from 'react';
 import { Route } from 'react-router-dom';
 import reserved from '../../../base/reserved';
 import Checkbox from '../checkbox';
@@ -16,12 +16,14 @@ function Cmds() {
     const [locked, setLocked] = useState(false);
     const [newName, setNewName] = useState('');
 
-    useEffect(() => {
+    const updateList = useCallback(() => {
         fetch('/api/command/list')
             .then(res => res.json())
             .then(setCommands)
             .catch(console.error);
     }, []);
+
+    useEffect(updateList, []);
 
     let rx;
     try { rx = new RegExp(search); }
@@ -72,14 +74,16 @@ function Cmds() {
 
                 <CmdList commands={commandSrch} />
             </div>
-            <Route path="/cmds/:name" component={EditorPane} />
+            <Route exact path="/cmds/:name" render={(props) => (
+                <EditorPane updateList={updateList} {...props} />
+            )} />
             <Route exact path="/cmds" component={Default} />
 
         </>
     );
 }
 
-function EditorPane({ match: { params } }) {
+function EditorPane({ updateList, match: { params } }) {
     const [cmd, setCmd] = useState({ command: '/* loading ... */' });
     const { fetchAPI, admin } = useFetch();
 
@@ -90,6 +94,23 @@ function EditorPane({ match: { params } }) {
             .then(setCmd)
             .catch(console.error);
     }, [params.name]);
+
+    const toggleOption = (type) => {
+        const init = { method: 'POST', body: { [type]: !cmd[type] } };
+        fetchAPI('command/set-config/' + params.name, init)
+            .then(obj => {
+                if (!obj.error) {
+                    setCmd({
+                        ...cmd,
+                        [type]: !cmd[type],
+                    });
+                    updateList();
+                } else {
+                    console.log(obj);
+                }
+            })
+            .catch(console.error);
+    };
 
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
     const { locked, starred } = cmd;
@@ -106,6 +127,7 @@ function EditorPane({ match: { params } }) {
                 setCmd(newCmd);
             }}
         >
+            {JSON.stringify(cmd)}
             <div className="cmd-options">
                 <span className="cmd-name">
                     {cmd.name}
@@ -122,10 +144,18 @@ function EditorPane({ match: { params } }) {
                                 </button>
                                 {isAdmin && (
                                     <>
-                                        <button type="button">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                toggleOption('locked');
+                                            }}>
                                             {locked ? 'unlock' : 'lock'}
                                         </button>
-                                        <button type="button">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                toggleOption('starred');
+                                            }}>
                                             {starred ? 'unstar' : 'star'}
                                         </button>
                                     </>
