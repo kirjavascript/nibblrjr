@@ -49,13 +49,15 @@
 .cmd-name {
     display: block;
     font-weight: 700;
-    margin-left: 5px;
+    margin: 0 5px;
     color: $red;
 }
 
 .cmd-list {
     overflow-y: scroll;
     align-self: stretch;
+    height: 100%;
+    position: relative;
     a {
         display: block;
         padding: 2px 0;
@@ -78,6 +80,8 @@
     }
 }
 
+// huge
+
 @media only screen and (min-width: 1200px) {
     .cmd-menu {
         width: 350px;
@@ -86,6 +90,8 @@
         width: calc(100% - 350px);
     }
 }
+
+// mobile
 
 @media only screen and (max-width: 750px) {
     .cmd-menu {
@@ -107,7 +113,9 @@
         font-size: 18px;
         line-height: 25px;
     }
-
+    .cmd-options {
+        height: initial;
+    }
     .CodeMirror {
         height: initial;
     }

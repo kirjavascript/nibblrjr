@@ -123,11 +123,9 @@ function EditorPane({ updateList, match: { params } }) {
             value={source}
             readOnly={readOnly}
             onChange={(code) => {
-                const newCmd = { ...cmd, command: code };
-                setCmd(newCmd);
+                setCmd({ ...cmd, command: code });
             }}
         >
-            {JSON.stringify(cmd)}
             <div className="cmd-options">
                 <span className="cmd-name">
                     {cmd.name}
