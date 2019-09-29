@@ -45,7 +45,7 @@ function Cmds() {
                         type="text"
                         placeholder="new command"
                         value={newName}
-                        onChange={(_e) => {}}
+                        onChange={(e) => setNewName(e.target.value)}
                     />
                     <input
                         type="text"
@@ -85,9 +85,8 @@ function Cmds() {
 
 function EditorPane({ updateList, match: { params } }) {
     const [cmd, setCmd] = useState({ command: '/* loading ... */' });
+    const [saveText, setSaveText] = useState('save');
     const { fetchAPI, admin } = useFetch();
-
-    // save n minutes ago
 
     useEffect(() => {
         fetchAPI('command/get/' + params.name)
@@ -105,8 +104,20 @@ function EditorPane({ updateList, match: { params } }) {
                         [type]: !cmd[type],
                     });
                     updateList();
+                }
+            })
+            .catch(console.error);
+    };
+
+    const save = () => {
+        setSaveText('saving');
+        const init = { method: 'POST', body: { command: cmd.command } };
+        fetchAPI('command/set/' + params.name, init)
+            .then(obj => {
+                if (!obj.error) {
+                    setSaveText('saved');
                 } else {
-                    console.log(obj);
+                    setSaveText(obj.error);
                 }
             })
             .catch(console.error);
@@ -137,8 +148,11 @@ function EditorPane({ updateList, match: { params } }) {
                     <div>
                         {!readOnly && (
                             <>
-                                <button type="button">
-                                    save
+                                <button
+                                    type="button"
+                                    onClick={save}
+                                >
+                                    {saveText}
                                 </button>
                                 {isAdmin && (
                                     <>

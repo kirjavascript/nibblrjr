@@ -6,8 +6,8 @@ import { useRef, useState, useEffect } from 'react';
 
 function CmdList({ commands }) {
     const ref = useRef();
-    const [{ height, width }, setBbox] = useState({});
-    const [scroll, setScroll] = useState();
+    const [{ height }, setBbox] = useState({});
+    const [scroll, setScroll] = useState(0);
 
     const { length: quantity } = commands;
     const boxHeight = 20;
@@ -27,8 +27,6 @@ function CmdList({ commands }) {
         };
     }, []);
 
-    let keyIndex = 0;
-
     return (
         <div className="cmd-list" ref={ref}>
             <div style={{ height: wrapperHeight }}>
@@ -44,6 +42,7 @@ function CmdList({ commands }) {
                                 position: 'absolute',
                                 height: boxHeight,
                                 top,
+                                width: '100%',
                             }}
                         >
                             <Link
@@ -58,25 +57,6 @@ function CmdList({ commands }) {
                     ) : false;
                 })}
             </div>
-        </div>
-    );
-}
-
-function _CmdList({ commands }) {
-    return (
-        <div className="cmd-list">
-            {commands.map((command) => {
-                return <div key={command.name}>
-                    <Link
-                        to={`/cmds/${encodeURIComponent(command.name)}`}
-                    >
-                        {command.name}
-                        {command.starred && <span className="star"> ★</span>}
-                        {' '}
-                        {command.locked && <Lock />}
-                    </Link>
-                </div>;
-            })}
         </div>
     );
 }

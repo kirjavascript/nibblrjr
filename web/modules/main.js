@@ -8,14 +8,8 @@ import Docs from './docs';
 
 import './styles/main.scss';
 
-// editor from website / paste
-// react router
 // stats main / server / channel as FILTER w/ URL / time period
-// remove tachyons
-// localstate duplex -> SAVE AUTH
-// push .vim update
 // check unsaved
-// virtualised command list
 
 const Nibblr = withRouter(({ location }) => {
     const currentPath = location.pathname.split('/')[1];
