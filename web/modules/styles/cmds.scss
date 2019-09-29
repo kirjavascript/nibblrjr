@@ -56,6 +56,10 @@
 .cmd-list {
     overflow-y: scroll;
     align-self: stretch;
+    a {
+        display: block;
+        padding: 2px 0;
+    }
 }
 
 .cmd-default {
@@ -65,6 +69,12 @@
         position: absolute;
         right: 10px;
         bottom: 0;
+        &.admin {
+            color: $green;
+        }
+        &.error {
+            color: $red;
+        }
     }
 }
 

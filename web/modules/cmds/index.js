@@ -7,6 +7,7 @@ import Lock from './lock';
 import Editor from './editor';
 import CmdList from './cmd-list';
 import Default from './default';
+import { useFetch } from './hooks';
 
 function Cmds() {
     const [commands, setCommands] = useState([]);
@@ -80,12 +81,12 @@ function Cmds() {
 
 function EditorPane({ match: { params } }) {
     const [cmd, setCmd] = useState({ command: '/* loading ... */' });
+    const { fetchAPI, admin } = useFetch();
 
     // save n minutes ago
 
     useEffect(() => {
-        fetch('/api/command/get/' + params.name)
-            .then(res => res.json())
+        fetchAPI('command/get/' + params.name)
             .then(setCmd)
             .catch(console.error);
     }, [params.name]);
@@ -93,7 +94,7 @@ function EditorPane({ match: { params } }) {
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
     const { locked, starred } = cmd;
 
-    const isAdmin = false;
+    const isAdmin = admin;
     const readOnly = cmd.locked && !isAdmin;
 
     return (
@@ -119,18 +120,18 @@ function EditorPane({ match: { params } }) {
                                 <button type="button">
                                     save
                                 </button>
+                                {isAdmin && (
+                                    <>
+                                        <button type="button">
+                                            {locked ? 'unlock' : 'lock'}
+                                        </button>
+                                        <button type="button">
+                                            {starred ? 'unstar' : 'star'}
+                                        </button>
+                                    </>
+                                )}
                                 <button type="button">
                                     delete
-                                </button>
-                            </>
-                        )}
-                        {isAdmin && (
-                            <>
-                                <button type="button">
-                                    {locked ? 'unlock' : 'lock'}
-                                </button>
-                                <button type="button">
-                                    {starred ? 'unstar' : 'star'}
                                 </button>
                             </>
                         )}

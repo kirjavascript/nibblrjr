@@ -11,10 +11,10 @@ function CmdList({ commands }) {
                         to={`/cmds/${encodeURIComponent(command.name)}`}
                     >
                         {command.name}
+                        {command.starred && <span className="star"> ★</span>}
+                        {' '}
+                        {command.locked && <Lock />}
                     </Link>
-                    {command.starred && <span className="star"> ★</span>}
-                    {' '}
-                    {command.locked && <Lock />}
                 </div>;
             })}
         </div>
