@@ -84,9 +84,10 @@ function Cmds() {
 }
 
 function EditorPane({ updateList, match: { params } }) {
+    const { fetchAPI, admin } = useFetch();
     const [cmd, setCmd] = useState({ command: '/* loading ... */' });
     const [saveText, setSaveText] = useState('save');
-    const { fetchAPI, admin } = useFetch();
+    const [deleteText, setDeleteText] = useState('delete');
 
     useEffect(() => {
         fetchAPI('command/get/' + params.name)
@@ -121,6 +122,22 @@ function EditorPane({ updateList, match: { params } }) {
                 }
             })
             .catch(console.error);
+    };
+
+    const _delete = () => {
+        if (deleteText !== 'confirm?') {
+            setDeleteText('confirm?');
+        } else {
+            fetchAPI('command/delete' + params.name)
+                .then(obj => {
+                    if (!obj.error) {
+                        console.log('deleted');
+                    } else {
+                        setDeleteText(obj.error);
+                    }
+                })
+                .catch(console.error);
+        }
     };
 
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
@@ -172,8 +189,11 @@ function EditorPane({ updateList, match: { params } }) {
                                         </button>
                                     </>
                                 )}
-                                <button type="button">
-                                    delete
+                                <button
+                                    type="button"
+                                    onClick={_delete}
+                                >
+                                    {deleteText}
                                 </button>
                             </>
                         )}
