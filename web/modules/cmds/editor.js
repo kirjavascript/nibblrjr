@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import CM from 'codemirror';
 import 'codemirror/mode/jsx/jsx';
 
-export default function Editor({ value = '', onChange, children }) {
+export default function Editor({ value = '', onChange, children, readOnly }) {
     const ref = useRef();
     const valueRef = useRef();
     const editorRef = useRef();
@@ -36,6 +36,10 @@ export default function Editor({ value = '', onChange, children }) {
             editorRef.current.off('changes', handler);
         };
     }, [onChange]);
+
+    useEffect(() => {
+        editorRef.current.setOption('readOnly', readOnly);
+    }, [readOnly]);
 
     useEffect(() => {
         if (valueRef.current !== value) {

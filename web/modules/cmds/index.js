@@ -6,6 +6,7 @@ import Lock from './lock';
 
 import Editor from './editor';
 import CmdList from './cmd-list';
+import Default from './default';
 
 function Cmds() {
     const [commands, setCommands] = useState([]);
@@ -53,7 +54,7 @@ function Cmds() {
                     />
                     <div className="cmd-filter">
                         <span> {commandSrch.length} / {commandFltr.length} </span>
-                        <div className="cmd-options">
+                        <div className="cmd-toggle">
                             <span className="star">★</span>
                             <Checkbox
                                 checked={starred}
@@ -71,6 +72,8 @@ function Cmds() {
                 <CmdList commands={commandSrch} />
             </div>
             <Route path="/cmds/:name" component={EditorPane} />
+            <Route exact path="/cmds" component={Default} />
+
         </>
     );
 }
@@ -88,24 +91,51 @@ function EditorPane({ match: { params } }) {
     }, [params.name]);
 
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
+    const { locked, starred } = cmd;
+
+    const isAdmin = false;
+    const readOnly = cmd.locked && !isAdmin;
 
     return (
         <Editor
             value={source}
+            readOnly={readOnly}
             onChange={(code) => {
                 const newCmd = { ...cmd, command: code };
                 setCmd(newCmd);
             }}
         >
-            <div>
-                <pre>
-                    {JSON.stringify(cmd, null, 4)}
-                </pre>
-                <button>save</button>
-                <button>lock</button>
-                <button>star</button>
-                <button>delete</button>
-                <button>vim^</button>
+            <div className="cmd-options">
+                <span className="cmd-name">
+                    {cmd.name}
+                    {cmd.starred && <span className="star"> ★</span>}
+                    {' '}
+                    {cmd.locked && <Lock />}
+                </span>
+                {!!cmd.name && (
+                    <div>
+                        {!readOnly && (
+                            <>
+                                <button type="button">
+                                    save
+                                </button>
+                                <button type="button">
+                                    delete
+                                </button>
+                            </>
+                        )}
+                        {isAdmin && (
+                            <>
+                                <button type="button">
+                                    {locked ? 'unlock' : 'lock'}
+                                </button>
+                                <button type="button">
+                                    {starred ? 'unstar' : 'star'}
+                                </button>
+                            </>
+                        )}
+                    </div>
+                )}
             </div>
         </Editor>
     );

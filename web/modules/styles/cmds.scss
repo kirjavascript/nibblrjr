@@ -29,7 +29,7 @@
     margin-bottom: 10px;
 }
 
-.cmd-options {
+.cmd-toggle {
     display: flex;
     .star, .lock {
         align-self: center;
@@ -38,9 +38,34 @@
     }
 }
 
+.cmd-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    height: 40px;
+}
+
+.cmd-name {
+    display: block;
+    font-weight: 700;
+    margin-left: 5px;
+    color: $red;
+}
+
 .cmd-list {
     overflow-y: scroll;
     align-self: stretch;
+}
+
+.cmd-default {
+    margin: 10px;
+    input {
+        width: 120px;
+        position: absolute;
+        right: 10px;
+        bottom: 0;
+    }
 }
 
 @media only screen and (min-width: 1200px) {
