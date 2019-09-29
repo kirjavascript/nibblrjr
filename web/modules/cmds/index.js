@@ -70,9 +70,7 @@ function Cmds() {
 
                 <CmdList commands={commandSrch} />
             </div>
-            <div className="cmd-editor">
-                <Route path="/cmds/:name" component={EditorPane} />
-            </div>
+            <Route path="/cmds/:name" component={EditorPane} />
         </>
     );
 }
@@ -92,21 +90,24 @@ function EditorPane({ match: { params } }) {
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
 
     return (
-        <>
-            <pre>
-                {JSON.stringify(cmd, null, 4)}
-            </pre>
-            <button>save</button>
-            <button>lock</button>
-            <button>star</button>
-            <button>delete</button>
-            <Editor
-                value={source}
-                onChange={(res) => {
-                    // console.log(res);
-                }}
-            />
-    </>
+        <Editor
+            value={source}
+            onChange={(code) => {
+                const newCmd = { ...cmd, command: code };
+                setCmd(newCmd);
+            }}
+        >
+            <div>
+                <pre>
+                    {JSON.stringify(cmd, null, 4)}
+                </pre>
+                <button>save</button>
+                <button>lock</button>
+                <button>star</button>
+                <button>delete</button>
+                <button>vim^</button>
+            </div>
+        </Editor>
     );
 }
 

@@ -28,9 +28,10 @@ h1 {
     top: 0px;
     left: 5px;
     font-size: 18px;
+    font-weight: 700;
     color: $green;
 
-    @media only screen and (max-width: 650px) {
+    @media only screen and (max-width: 750px) {
         display: none;
     }
     .heart {
@@ -48,6 +49,8 @@ button {
     padding: 10px;
     margin: 2px;
     color: white;
+    font-weight: 700;
+    min-width: 80px;
 }
 
 .star {
@@ -89,6 +92,8 @@ hr {
 ::placeholder {
     font-weight: 400;
     font-style: italic;
+    color: white;
+    opacity: 0.6;
 }
 
 .nibblr {
