@@ -11,8 +11,6 @@
     flex-direction: column;
 }
 
-// on mobile: overflow hidden scroll no on cmd list
-
 .cmd-menu {
     border-radius: 5px;
     padding: 10px;
@@ -21,6 +19,9 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    .invalid {
+        color: $red;
+    }
 }
 
 .cmd-filter {

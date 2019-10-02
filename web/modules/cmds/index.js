@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback }  from 'react';
 import { Route } from 'react-router-dom';
-import reserved from '../../../base/reserved';
 import Checkbox from '../checkbox';
 import Lock from './lock';
 
@@ -9,21 +8,26 @@ import CmdList from './cmd-list';
 import Default from './default';
 import { useFetch } from './hooks';
 
-function Cmds() {
+import reserved from '../../../base/reserved';
+import { parseCommand } from '../../../irc/evaluate/scripts/parse-command';
+
+function Cmds({ history }) {
     const [commands, setCommands] = useState([]);
     const [search, setSearch] = useState('');
     const [starred, setStarred] = useState(false);
     const [locked, setLocked] = useState(false);
     const [newName, setNewName] = useState('');
+    const { fetchAPI, admin } = useFetch();
 
     const updateList = useCallback(() => {
-        fetch('/api/command/list')
-            .then(res => res.json())
+        fetchAPI('command/list')
             .then(setCommands)
             .catch(console.error);
     }, []);
 
     useEffect(updateList, []);
+
+    // command filtering
 
     let rx;
     try { rx = new RegExp(search); }
@@ -37,6 +41,27 @@ function Cmds() {
     });
     const commandSrch = commandFltr.filter(d => !search || d.name.match(rx));
 
+    // is the new value valid
+
+    const exists = commands.some(d => d.name === newName);
+    const { root } = parseCommand({ text: newName });
+    const parent = commands.find(d => d.name === root);
+    const isLocked = parent && parent.locked;
+    const isReserved = reserved.includes(newName);
+    const isValid = !isReserved && !exists && (!isLocked || admin);
+
+    const handleNew = useCallback((e) => {
+        if (e.keyCode === 13 && isValid) {
+            const name = encodeURIComponent(newName);
+            fetchAPI(`command/new/${name}`, { method: 'POST' })
+                .then(() => {
+                    setNewName('');
+                    history.push(`/cmds/${name}`);
+                })
+                .catch(console.error);
+        }
+    }, [newName]);
+
     return (
         <>
             <div className="cmd-menu">
@@ -44,8 +69,10 @@ function Cmds() {
                     <input
                         type="text"
                         placeholder="new command"
+                        className={!isValid && newName ? 'invalid' : ''}
                         value={newName}
-                        onChange={(e) => setNewName(e.target.value)}
+                        onChange={(e) => setNewName(e.target.value.replace(/\s+/g, ''))}
+                        onKeyDown={handleNew}
                     />
                     <input
                         type="text"
@@ -78,7 +105,6 @@ function Cmds() {
                 <EditorPane updateList={updateList} {...props} />
             )} />
             <Route exact path="/cmds" component={Default} />
-
         </>
     );
 }
@@ -88,8 +114,6 @@ function EditorPane({ updateList, history, match: { params } }) {
     const [cmd, setCmd] = useState({ command: '/* loading ... */' });
     const [saveText, setSaveText] = useState('save');
     const [deleteText, setDeleteText] = useState('delete');
-
-    // new -> make isValid a derived value
 
     useEffect(() => {
         fetchAPI('command/get/' + params.name)
