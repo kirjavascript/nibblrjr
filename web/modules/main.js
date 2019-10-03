@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 
@@ -7,9 +7,6 @@ import Stats from './stats';
 import Docs from './docs';
 
 import './styles/main.scss';
-
-// stats main / server / channel as FILTER w/ URL / time period
-// check unsaved
 
 const Nibblr = withRouter(({ location }) => {
     const currentPath = location.pathname.split('/')[1];
@@ -20,7 +17,7 @@ const Nibblr = withRouter(({ location }) => {
                     nibblr<span className="jr">jr</span>
                     <span className="heart"> ♥</span>
                 </h1>
-                {['cmds', 'docs'].map(link => (
+                {['cmds', 'docs', 'stats'].map(link => (
                     <Link
                         className={
                             currentPath === link
