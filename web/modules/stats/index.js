@@ -10,12 +10,17 @@ function Stats() {
     const node = useRef();
 
     useEffect(() => {
+        const chart = new BarChart(node.current);
+
         fetch('/api/stats/activity', {credentials: 'include'})
             .then(res => res.json())
             .then(res => {
                 console.log(res);
 
-                const chart = new BarChart(node.current);
+
+                chart
+                    .data(res, d => d.name)
+                    .render();
             })
             .catch(console.error);
     });

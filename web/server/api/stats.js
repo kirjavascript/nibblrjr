@@ -54,6 +54,7 @@ module.exports = function({ parent, app }) {
             SELECT user, count(lower(user)) as count
             FROM log
             WHERE 1
+            AND lower(target)='#8bitvape'
             AND time BETWEEN date('now', '-1 month') AND date('now')
             GROUP BY lower(user)
             ORDER BY count DESC
