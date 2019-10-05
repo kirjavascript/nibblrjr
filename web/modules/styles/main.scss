@@ -32,7 +32,7 @@ h1 {
     font-weight: 700;
     color: $green;
 
-    @media only screen and (max-width: 750px) {
+    @media only screen and (max-width: 780px) {
         display: none;
     }
     .heart {

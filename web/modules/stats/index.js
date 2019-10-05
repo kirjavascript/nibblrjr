@@ -24,7 +24,7 @@ function Stats() {
         <div className="stats">
             <h3 style={{
                 margin: 10,
-            }}>linecount / month / #rubik</h3>
+            }}>(◕ᴗ◕✿)</h3>
             <div ref={node} />
         </div>
     );

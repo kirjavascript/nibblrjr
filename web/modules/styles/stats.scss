@@ -9,4 +9,12 @@
     text {
         font-family: Hack;
     }
+    .line {
+        fill: none;
+        stroke: $green;
+        stroke-width: 3;
+    }
+    .dot {
+        fill: $brand;
+    }
 }

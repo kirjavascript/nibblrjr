@@ -55,6 +55,7 @@ module.exports = function({ parent, app }) {
             FROM log
             WHERE 1
             AND lower(target)='#rubik'
+            AND time BETWEEN date('now', '-1 month') AND date('now')
             GROUP BY lower(user)
             ORDER BY count DESC
             LIMIT 10
@@ -63,7 +64,7 @@ module.exports = function({ parent, app }) {
 
     // todo: truncate nibblr messages to log
     // activity: do a multiline chart with hover over messages
-// updated hourly lastUpdate = new Date
+// updated hourly
 
 
     // databases.forEach(({ db }) => {
