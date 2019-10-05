@@ -4,12 +4,33 @@ const d3 = Object.assign({},
     require('d3-axis'),
 );
 
+
+function rect({ x, y, width, height, radius }) {
+    if (radius > height) {
+        radius = height;
+    }
+
+    if (width < radius * 2) {
+        radius = width /2;
+    }
+
+    return `
+        M${x},${y + height}
+        v${-height + radius}
+        a${radius},${radius} 0 0 1 ${radius},${-radius}
+        h${width - 2*radius}
+        a${radius},${radius} 0 0 1 ${radius},${radius}
+        v${height - radius}
+        z
+    `.replace(/\s\s+/g, ' ');
+}
+
 export default class BarChart {
     config = {
         margin: {
-            top: 40, right: 40, bottom: 40, left: 40,
+            top: 5, right: 20, bottom: 40, left: 60,
         },
-        height: 500,
+        height: 400,
         data: undefined,
         accessor: undefined,
     };
@@ -29,8 +50,13 @@ export default class BarChart {
     container;
     svg;
     main;
+    contents;
     xAxisG;
     yAxisG;
+    xAxis;
+    yAxis;
+    xScale;
+    yScale;
     outerWidth;
 
     constructor(node) {
@@ -39,6 +65,7 @@ export default class BarChart {
 
         this.svg = this.container.append('svg');
         this.main = this.svg.append('g');
+        this.contents = this.main.append('g');
 
         this.xAxisG = this.main
             .append('g')
@@ -73,6 +100,7 @@ export default class BarChart {
     render = () => {
         this.setWidth();
         const { width, height, top, right, bottom, left } = this.dimensions;
+
         // set margins / size
         this.svg
             .attr('width', width + left + right)
@@ -92,25 +120,24 @@ export default class BarChart {
             .rangeRound([0, width])
             .domain(this.config.data.map((d) => d.user));
         this.xAxis = d3.axisBottom(this.xScale)
-            .tickSize(5)
+            .tickSize(10)
             // force correct label
             // .tickFormat((d, i) => this.dataObj[i].name);
         this.xAxisG
             .attr('transform', `translate(0,${height})`)
             .call(this.xAxis)
             .selectAll('text')
-            .style('text-anchor', 'start')
-            .attr('dx', '.8em')
+            .style('text-anchor', 'end')
+            .attr('dx', '-.8em')
             .attr('dy', '.55em')
-            .attr('transform', 'rotate(14)' );
+            .attr('transform', 'rotate(-14)' );
         this.yAxis = d3.axisLeft(this.yScale)
-            .tickSize(5)
-            .ticks(5);
+            .tickSize(10)
+            .ticks(12);
         this.yAxisG
             .call(this.yAxis);
 
-
-        const barsSelect = this.main.selectAll('.bar')
+        const barsSelect = this.contents.selectAll('.bar')
             .data(this.config.data, this.config.accessor);
 
         barsSelect.exit().remove();
@@ -118,15 +145,22 @@ export default class BarChart {
         const barsEnter = barsSelect.enter();
 
         barsEnter
-            .append('rect')
+            .append('path')
             .classed('bar', 1)
             .merge(barsSelect)
-            .attr('x', (d) => this.xScale(d.user))
-            .attr('width', this.xScale.bandwidth())
-            .attr('height', (d) => (
-                Math.abs(this.yScale(d.count) - this.yScale(0))
-            ))
-            .attr('y', (d) => this.yScale(Math.max(0, d.count)));
+            .attr('d', d => rect({
+                x: this.xScale(d.user),
+                width: this.xScale.bandwidth(),
+                height: Math.abs(this.yScale(d.count) - this.yScale(0)),
+                y: this.yScale(Math.max(0, d.count)),
+                radius: 3,
+            }))
+            // .attr('x', (d) => this.xScale(d.user))
+            // .attr('width', this.xScale.bandwidth())
+            // .attr('height', (d) => (
+            //     Math.abs(this.yScale(d.count) - this.yScale(0))
+            // ))
+            // .attr('y', (d) => this.yScale(Math.max(0, d.count)));
 
     };
 

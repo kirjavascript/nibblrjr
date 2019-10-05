@@ -1,0 +1,12 @@
+.stats {
+    .bar {
+        fill: $green;
+    }
+    .axis path, .tick line {
+        stroke: $red;
+        stroke-width: 5px;
+    }
+    text {
+        font-family: Hack;
+    }
+}

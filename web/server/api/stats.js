@@ -54,8 +54,7 @@ module.exports = function({ parent, app }) {
             SELECT user, count(lower(user)) as count
             FROM log
             WHERE 1
-            AND lower(target)='#8bitvape'
-            AND time BETWEEN date('now', '-1 month') AND date('now')
+            AND lower(target)='#rubik'
             GROUP BY lower(user)
             ORDER BY count DESC
             LIMIT 10
@@ -64,7 +63,7 @@ module.exports = function({ parent, app }) {
 
     // todo: truncate nibblr messages to log
     // activity: do a multiline chart with hover over messages
-// updated hourly
+// updated hourly lastUpdate = new Date
 
 
     // databases.forEach(({ db }) => {
@@ -149,5 +148,11 @@ module.exports = function({ parent, app }) {
 // 21:33 <+IckleFinn> Kirjava: If you give me a csv with timestamp, user, message I might do some random machine learning on it
 // 10:56 <nibblrjr1> <Kirjava> track nick changes stats with nibblr (also maybe use it to work out nick groups (1 day ago)
 
-
+// 18:39 <&cr0sis> showed you graphically with stronger and more frequent lines who spoke to who
+// 18:40 <@cake^> oh nice
+// 18:40 <@Morteh> i found a video of monqui eating lunch https://i.imgur.com/rVisOYi.mp4
+// 18:40 <&cr0sis> if i knew a channel still parsing i'd link but idfk
+// 18:40 <@cake^> that's a cool idea
+// 18:40 <Monqui> haha Morteh
+// 18:40 <&cr0sis> also how about people who use the same words, and also people who use the same words that are also unique to those people
 };
