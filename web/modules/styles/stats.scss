@@ -20,17 +20,17 @@
 
     $filter-height: 48px;
     padding-top: $filter-height;
+}
 
-    .filter {
-        display: flex;
-        margin: 10px auto;
-        justify-content: center;
-        font-weight: 700;
-        position: fixed;
-        width: 100%;
-        top: $nav-height;
-        .select {
-            margin: 0 5px;
-        }
+.stats-filter {
+    display: flex;
+    margin: 10px auto;
+    justify-content: center;
+    font-weight: 700;
+    position: fixed;
+    width: 100%;
+    top: $nav-height;
+    .select {
+        margin: 0 5px;
     }
 }
