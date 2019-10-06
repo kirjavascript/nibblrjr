@@ -93,14 +93,14 @@
 
 // mobile
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 650px) {
     .cmd-menu {
         height: initial;
         width: 100%;
         max-width: initial;
     }
     .cmd-list {
-        height: 80px;
+        height: 400px;
     }
     .cmd-editor {
         width: 100%;

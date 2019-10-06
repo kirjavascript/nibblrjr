@@ -6,7 +6,7 @@
 @import './cmds';
 @import './stats';
 
-html, body, input, button {
+html, body, input, button, select {
     font-family: Hack, monospace;
     font-size: 14px;
     line-height: 1.15;
@@ -78,6 +78,32 @@ button {
     }
 }
 
+.select {
+    position: relative;
+    background-color: $brand;
+    border-radius: 2px;
+    border: 2px solid $brand;
+    width: 150px;
+    .arrow {
+        fill: white;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        pointer-events: none;
+    }
+    select {
+        padding: 2px;
+        width: 100%;
+        border: none;
+        background-color: $brand;
+        color: white;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        outline-color: $green;
+    }
+}
+
 input {
     background-color: $brand;
     color: white;
@@ -86,7 +112,6 @@ input {
     border-radius: 2px;
     width: 100%;
     margin-bottom: 10px;
-    font-weight: bold;
 }
 
 hr {

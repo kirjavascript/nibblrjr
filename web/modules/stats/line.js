@@ -32,10 +32,10 @@
 //             .attr("class", "line")
 //             .attr("d", line);
 
-//         this.contents.selectAll(".dot")
-//             .data(this.config.data)
-//             .enter().append("circle")
-//             .attr("class", "dot")
-//             .attr("cx", (d, i) => xScale(i))
-//             .attr("cy", (d) => yScale(d.count))
-//             .attr("r", 5)
+        // this.contents.selectAll(".dot")
+        //     .data(this.config.data.slice(1))
+        //     .enter().append("circle")
+        //     .attr("class", "dot")
+        //     .attr("cx", (d, i) => xScale(i + 1))
+        //     .attr("cy", (d) => yScale(d.count))
+        //     .attr("r", 5)

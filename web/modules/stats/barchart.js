@@ -111,31 +111,29 @@ export default class BarChart {
         // scales
 
         const domainMax = this.config.data.reduce((a, c) => Math.max(a, c.count), 0);
-        this.yScale = d3.scaleLinear()
+        const yScale = d3.scaleLinear()
             .domain([0, domainMax])
             .range([height, 0]);
-        this.xScale = d3.scaleBand()
+        const xScale = d3.scaleBand()
             .paddingInner(1 / 3)
             .paddingOuter(1 / 6)
             .rangeRound([0, width])
             .domain(this.config.data.map((d) => d.user));
-        this.xAxis = d3.axisBottom(this.xScale)
+        const xAxis = d3.axisBottom(xScale)
             .tickSize(10)
-            // force correct label
-            // .tickFormat((d, i) => this.dataObj[i].name);
         this.xAxisG
             .attr('transform', `translate(0,${height})`)
-            .call(this.xAxis)
+            .call(xAxis)
             .selectAll('text')
             .style('text-anchor', 'end')
             .attr('dx', '-.8em')
             .attr('dy', '.55em')
             .attr('transform', 'rotate(-14)' );
-        this.yAxis = d3.axisLeft(this.yScale)
+        const yAxis = d3.axisLeft(yScale)
             .tickSize(10)
             .ticks(12);
         this.yAxisG
-            .call(this.yAxis);
+            .call(yAxis);
 
         const barsSelect = this.contents.selectAll('.bar')
             .data(this.config.data, this.config.accessor);
@@ -149,10 +147,10 @@ export default class BarChart {
             .classed('bar', 1)
             .merge(barsSelect)
             .attr('d', d => rect({
-                x: this.xScale(d.user),
-                width: this.xScale.bandwidth(),
-                height: Math.abs(this.yScale(d.count) - this.yScale(0)),
-                y: this.yScale(Math.max(0, d.count)),
+                x: xScale(d.user),
+                width: xScale.bandwidth(),
+                height: Math.abs(yScale(d.count) - yScale(0)),
+                y: yScale(Math.max(0, d.count)),
                 radius: 3,
             }))
             // .attr('x', (d) => this.xScale(d.user))

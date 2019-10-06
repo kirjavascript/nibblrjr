@@ -19,24 +19,6 @@ module.exports = function({ parent, app }) {
             db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='log';`).get()
         ));
 
-    // api
-
-    const { commands } = parent.database;
-
-    app.get('/api/stats/base', (_req, res) => {
-        const serversOnline = parent.servers
-            .map(({ address, channels }) => ({
-                address,
-                channels: channels.map(channel => channel.name),
-            }));
-
-        res.json({
-            count: commands.count(),
-            serversOnline,
-            uptime: 0 | (new Date() - parent.epoch) / 36e5,
-        });
-    });
-
     function getStat(statement) {
         return databases.reduce((acc, { db, name }) => {
             acc.push(
@@ -48,6 +30,38 @@ module.exports = function({ parent, app }) {
             return acc;
         }, []);
     }
+
+    // api
+
+    const { commands } = parent.database;
+
+    app.get('/api/stats/base', (_req, res) => {
+        const serversOnline = parent.servers
+            .map(({ address, channels }) => ({
+                address,
+                channels: channels.map(channel => channel.name),
+            }));
+
+        const servers = databases.map(({ db, name }) => {
+            return {
+                server: name,
+                channels: db.prepare(`
+                    SELECT DISTINCT lower(target) as channel
+                    FROM log
+                    WHERE command='PRIVMSG'
+                    AND target LIKE '#%'
+                    AND time BETWEEN date('now', '-1 month') AND date('now')
+                `).all().map(d => d.channel),
+            };
+        });
+
+        res.json({
+            commands: commands.count(),
+            serversOnline,
+            servers,
+            uptime: 0 | (new Date() - parent.epoch) / 36e5,
+        });
+    });
 
     app.get('/api/stats/activity', (_req, res) => {
         res.json(getStat(`
