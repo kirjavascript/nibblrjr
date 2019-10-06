@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "clojure",
+    "command": "const out = require('@borkdude/sci').evalString(input, {\n    bindings: { \n        ...global,\n        ...IRC,\n    },\n});\n\nif (typeof out !== 'undefined') log(out);"
+}
