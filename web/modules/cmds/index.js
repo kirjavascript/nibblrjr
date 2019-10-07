@@ -6,7 +6,7 @@ import Lock from './lock';
 import Editor from './editor';
 import CmdList from './cmd-list';
 import Default from './default';
-import { useFetch } from './hooks';
+import { useFetch } from '../hooks';
 
 import reserved from '../../../base/reserved';
 import { parseCommand } from '../../../irc/evaluate/scripts/parse-command';

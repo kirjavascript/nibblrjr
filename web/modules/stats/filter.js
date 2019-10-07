@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Select from '../select';
 
-function Filter({ onMonth, base, history, location }) {
+import format from 'date-fns/format';
+import subMonths from 'date-fns/sub_months';
+
+function Filter({ onMonth, onChange, base, history, location }) {
     const path = useMemo(() => location.pathname.split('/'), []);
 
     const [server, setServer] = useState(path[2] || '');
@@ -29,9 +32,12 @@ function Filter({ onMonth, base, history, location }) {
                 month
             ].join('')
         );
+        onChange({ server, channel, month });
     }, [server, channel, month]);
 
-    useEffect(onMonth, []);
+    useEffect(() => {
+        onMonth({ server, channel, month });
+    }, [month]);
 
     return (
         <div className="stats-filter">
@@ -71,7 +77,16 @@ function Filter({ onMonth, base, history, location }) {
                 value={month}
                 items={[
                     {label: 'this month', value: ''},
-
+                    ...(
+                        Array.from({ length: 12 }, (_, i) => {
+                            const dtTo = subMonths(new Date(), i);
+                            const dtFrom = subMonths(dtTo, 1);
+                            return {
+                                label: format(dtFrom, 'MMMM YYYY').toLowerCase(),
+                                value: format(dtTo, 'YYYY-MM'),
+                            }
+                        })
+                    )
                 ]}
                 onChange={(e) => setMonth(e.target.value)}
             />

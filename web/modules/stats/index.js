@@ -1,19 +1,20 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BarChart from './barchart';
 import Filter from './filter';
+import { useFetch } from '../hooks';
 
-// stats main / server / channel as FILTER w/ URL / time period
+// TODO: change month, reset server and channel, add hash urls
 // open code in modal on mobil
 
 function Stats({ history, location }) {
-    const node = useRef();
+    const { fetchAPI } = useFetch();
     const [base, setBase] = useState({ servers: [] });
+    const node = useRef();
 
     useEffect(() => {
         const chart = new BarChart(node.current);
 
-        fetch('/api/stats/activity')
-            .then(res => res.json())
+        fetchAPI('stats/activity')
             .then(res => {
                 chart
                     .data(res.reverse(), d => d.name)
@@ -28,9 +29,14 @@ function Stats({ history, location }) {
                 history={history}
                 location={location}
                 base={base}
-                onMonth={() => {
-                    fetch('/api/stats/base')
-                        .then(res => res.json())
+                onChange={({ month }) => {
+
+                }}
+                onMonth={({ month }) => {
+                    fetchAPI('stats/base', {
+                        body: { month },
+                        method: 'POST',
+                    })
                         .then(setBase)
                         .catch(console.error);
                 }}

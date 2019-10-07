@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useFetch } from './hooks';
+import { useFetch } from '../hooks';
 
 export default function Default() {
     const { fetchAPI, password, setPassword, admin, setAdmin } = useFetch();

@@ -35,13 +35,10 @@ module.exports = function({ parent, app }) {
 
     const { commands } = parent.database;
 
-    app.get('/api/stats/base', (_req, res) => {
-        const serversOnline = parent.servers
-            .map(({ address, channels }) => ({
-                address,
-                channels: channels.map(channel => channel.name),
-            }));
-
+    app.post('/api/stats/base', (req, res) => {
+        const { month } = req.body;
+        const dateTo = month ? `${month}-00` : 'now'
+        console.log(dateTo);
         const servers = databases.map(({ db, name }) => {
             return {
                 server: name,
@@ -50,14 +47,13 @@ module.exports = function({ parent, app }) {
                     FROM log
                     WHERE command='PRIVMSG'
                     AND target LIKE '#%'
-                    AND time BETWEEN date('now', '-1 month') AND date('now')
-                `).all().map(d => d.channel),
+                    AND time BETWEEN date(?, '-1 month') AND date(?)
+                `).all(dateTo, dateTo).map(d => d.channel),
             };
         });
 
         res.json({
             commands: commands.count(),
-            serversOnline,
             servers,
             uptime: 0 | (new Date() - parent.epoch) / 36e5,
         });
