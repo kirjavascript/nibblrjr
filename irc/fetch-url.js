@@ -50,7 +50,7 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
                     fetchURL({ text: newURL, print, disableRedirect: true, showAll });
                 }
             } else if (String(res.statusCode)[0] === '2') {
-                if (+res.headers['content-length'] > 5.243e6) {
+                if (+res.headers['content-length'] > 5.243e6) { // 5mb
                     const filename = parsed.path.split('/').pop();
                     print.info(`{dc}${filename}{/} ${bytes(res.headers['content-length'])} {dgr}${res.headers['content-type']}{/}`);
                 } else {

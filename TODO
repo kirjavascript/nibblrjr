@@ -1,5 +1,5 @@
-reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
-rs|clojure|vlang
+sudo: reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
+repl: rs|clojure|vlang|cj
 
 version 4: data scoping & ORM
 make events more powerful, restrict how they're created -> current event API is bad

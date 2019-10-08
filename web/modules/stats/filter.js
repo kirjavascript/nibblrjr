@@ -12,15 +12,6 @@ function Filter({ onMonth, onChange, base, history, location }) {
     const [month, setMonth] = useState(path[4] || '');
 
     useEffect(() => {
-        // reset stats if clicking main URL
-        if ((server || channel || month) && location.pathname === '/stats') {
-            setServer('');
-            setChannel('');
-            setMonth('');
-        }
-    }, [location.pathname]);
-
-    useEffect(() => {
         history.replace(
             [
                 '/stats',
@@ -29,7 +20,7 @@ function Filter({ onMonth, onChange, base, history, location }) {
                 (channel || month) ? '/' : '',
                 encodeURIComponent(channel),
                 month ? '/' : '',
-                month
+                month,
             ].join('')
         );
         onChange({ server, channel, month });
@@ -39,15 +30,42 @@ function Filter({ onMonth, onChange, base, history, location }) {
         onMonth({ server, channel, month });
     }, [month]);
 
+    const servers = base.servers.map(({ server }) => (
+        { label: server, value: server }
+    ));
+
+    const channels = base.servers.reduce((a, c) => {
+        if (server === '' || c.server === server) {
+            a.push(...c.channels.map(channel => (
+                { label: channel, value: channel }
+            )));
+        }
+        return a;
+    }, []).filter((d, i, a) => a.findIndex(e => e.value == d.value) === i);
+
+    const months = Array.from({ length: 12 }, (_, i) => {
+        const dtTo = subMonths(new Date(), i);
+        const dtFrom = subMonths(dtTo, 1);
+        return {
+            label: format(dtFrom, 'MMMM YYYY').toLowerCase(),
+            value: format(dtTo, 'YYYY-MM'),
+        }
+    });
+
+    useEffect(() => {
+        // reset stats if clicking main URL
+        if ((server || channel || month) && location.pathname === '/stats') {
+            setServer(''); setChannel(''); setMonth('');
+        }
+    }, [location.pathname]);
+
     return (
         <div className="stats-filter">
             <Select
                 value={server}
                 items={[
                     {label: 'servers', value: ''},
-                    ...base.servers.map(({ server }) => (
-                        { label: server, value: server }
-                    ))
+                    ...servers
                 ]}
                 onChange={(e) => {
                     setServer(e.target.value)
@@ -60,16 +78,7 @@ function Filter({ onMonth, onChange, base, history, location }) {
                 value={channel}
                 items={[
                     {label: 'channels', value: ''},
-                    ...(
-                        base.servers.reduce((a, c) => {
-                            if (server === '' || c.server === server) {
-                                a.push(...c.channels.map(channel => (
-                                    { label: channel, value: channel }
-                                )));
-                            }
-                            return a;
-                        }, [])
-                    )
+                    ...channels
                 ]}
                 onChange={(e) => setChannel(e.target.value)}
             />
@@ -77,16 +86,7 @@ function Filter({ onMonth, onChange, base, history, location }) {
                 value={month}
                 items={[
                     {label: 'this month', value: ''},
-                    ...(
-                        Array.from({ length: 12 }, (_, i) => {
-                            const dtTo = subMonths(new Date(), i);
-                            const dtFrom = subMonths(dtTo, 1);
-                            return {
-                                label: format(dtFrom, 'MMMM YYYY').toLowerCase(),
-                                value: format(dtTo, 'YYYY-MM'),
-                            }
-                        })
-                    )
+                    ...months
                 ]}
                 onChange={(e) => setMonth(e.target.value)}
             />

@@ -19,10 +19,7 @@ const Nibblr = withRouter(({ location }) => {
                 </h1>
                 {['cmds', 'docs', 'stats'].map(link => (
                     <Link
-                        className={
-                            currentPath === link
-                            ? 'active' : ''
-                        }
+                        className={currentPath === link ? 'active' : ''}
                         key={link}
                         to={'/' + link}>
                         {link}

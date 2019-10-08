@@ -37,8 +37,7 @@ module.exports = function({ parent, app }) {
 
     app.post('/api/stats/base', (req, res) => {
         const { month } = req.body;
-        const dateTo = month ? `${month}-00` : 'now'
-        console.log(dateTo);
+        const dateTo = month ? `${month}-01` : 'now'
         const servers = databases.map(({ db, name }) => {
             return {
                 server: name,
@@ -59,7 +58,49 @@ module.exports = function({ parent, app }) {
         });
     });
 
-    app.get('/api/stats/activity', (_req, res) => {
+    class Query {
+        statement = '';
+        args = [];
+        constructor(statement) {
+            this.statement = statement;
+        }
+        addCondition = (condition, args) => {
+            this.statement += ` ${condition} `;
+            this.args.push(...args);
+            return this;
+        }
+        render = () => [this.statement, this.args];
+    }
+
+    app.post('/api/stats/all', (req, res) => {
+        const { server, channel, month } = req.body;
+        const dateTo = month ? `${month}-01` : 'now'
+        const dbList = databases.filter(({ name }) => !server || name === server);
+
+        function getStat(statement, args) {
+            return dbList.reduce((acc, { db }) => {
+                acc.push(...db.prepare(statement).all(...args))
+                return acc;
+            }, []);
+        }
+
+        const activity = getStat(`
+            FROM log
+            SELECT user, count(lower(user)) as count
+            GROUP BY lower(user)
+            ORDER BY count DESC
+            LIMIT 10
+            WHERE 1
+            AND lower(target)='#rubik'
+            AND time BETWEEN date(?, '-1 month') AND date(?)
+        `, dateTo, dateTo);
+
+        // TODO: middleware
+
+        res.json({ activity });
+    });
+
+    app.get('/api/stats/activity', (req, res) => {
         res.json(getStat(`
             SELECT user, count(lower(user)) as count
             FROM log
