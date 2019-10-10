@@ -51,13 +51,13 @@ function Stats({ history, location }) {
                         .catch(console.error);
                 }}
             />
-            <div ref={node} />
             <h4>commands</h4>
             <span>{base.commands}</span>
             <h4>uptime</h4>
             <span>{base.uptime}h</span>
             <h4>servers</h4>
             <span>{base.servers.length}</span>
+            <div ref={node} />
             <pre>
                 {JSON.stringify([base],0,4)}
             </pre>

@@ -19,18 +19,6 @@ module.exports = function({ parent, app }) {
             db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='log';`).get()
         ));
 
-    function getStat(statement) {
-        return databases.reduce((acc, { db, name }) => {
-            acc.push(
-                ...db.prepare(statement).all().map(obj => ({
-                    ...obj,
-                    server: name,
-                }))
-            )
-            return acc;
-        }, []);
-    }
-
     // api
 
     const { commands } = parent.database;
@@ -58,24 +46,13 @@ module.exports = function({ parent, app }) {
         });
     });
 
-    class Query {
-        statement = '';
-        args = [];
-        constructor(statement) {
-            this.statement = statement;
-        }
-        addCondition = (condition, args) => {
-            this.statement += ` ${condition} `;
-            this.args.push(...args);
-            return this;
-        }
-        render = () => [this.statement, this.args];
-    }
-
     app.post('/api/stats/all', (req, res) => {
         const { server, channel, month } = req.body;
         const dateTo = month ? `${month}-01` : 'now'
         const dbList = databases.filter(({ name }) => !server || name === server);
+        const [channelStr, channelArgs] = channel
+            ? ['AND lower(target)=?', [channel]]
+            : ['', []];
 
         function getStat(statement, args) {
             return dbList.reduce((acc, { db }) => {
@@ -85,32 +62,19 @@ module.exports = function({ parent, app }) {
         }
 
         const activity = getStat(`
-            FROM log
             SELECT user, count(lower(user)) as count
+            FROM log
+            WHERE 1
+            ${channelStr}
+            AND time BETWEEN date(?, '-1 month') AND date(?)
             GROUP BY lower(user)
             ORDER BY count DESC
             LIMIT 10
-            WHERE 1
-            AND lower(target)='#rubik'
-            AND time BETWEEN date(?, '-1 month') AND date(?)
-        `, dateTo, dateTo);
+        `, [...channelArgs, dateTo, dateTo]);
 
-        // TODO: middleware
+        // TODO: cache
 
         res.json({ activity });
-    });
-
-    app.get('/api/stats/activity', (req, res) => {
-        res.json(getStat(`
-            SELECT user, count(lower(user)) as count
-            FROM log
-            WHERE 1
-            AND lower(target)='#rubik'
-            AND time BETWEEN date('now', '-1 month') AND date('now')
-            GROUP BY lower(user)
-            ORDER BY count DESC
-            LIMIT 10
-        `));
     });
 
     // todo: truncate nibblr messages to log
