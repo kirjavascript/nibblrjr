@@ -11,19 +11,18 @@ import { useFetch } from '../hooks';
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
     const [base, setBase] = useState({ servers: [] });
+    const [stats, setStats] = useState({ activity: [] });
     const node = useRef();
+    const activity = useRef();
 
     useEffect(() => {
-        const chart = new BarChart(node.current);
-
-        fetchAPI('stats/activity')
-            .then(res => {
-                chart
-                    .data(res.reverse(), d => d.name)
-                    .render();
-            })
-            .catch(console.error);
-    }, []);
+        if (!activity.current) {
+            activity.current = new BarChart(node.current);
+        }
+        activity.current
+            .data(stats.activity.slice(0, 10).reverse(), d => d.name)
+            .render();
+    }, [stats.activity]);
 
     return (
         <div className="stats">
@@ -37,7 +36,8 @@ function Stats({ history, location }) {
                         method: 'POST',
                     })
                         .then(res => {
-                            console.log(res);
+                            res.activity.sort((a, b) => b.count - a.count);
+                            setStats(res);
                         })
                         .catch(console.error);
 
@@ -59,7 +59,7 @@ function Stats({ history, location }) {
             <span>{base.servers.length}</span>
             <div ref={node} />
             <pre>
-                {JSON.stringify([base],0,4)}
+                {JSON.stringify([base, stats],0,4)}
             </pre>
         </div>
     );
