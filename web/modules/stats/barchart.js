@@ -48,8 +48,9 @@ export default function BarChart({ items, accessor }) {
         chart.current
             .data(deduped.slice(0, 10).reverse(), accessor)
             .render(true);
-
     }, [items]);
+
+    useEffect(() => () => chart.current.destroy(), []);
 
     return (
         <div ref={node} />

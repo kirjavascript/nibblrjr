@@ -78,9 +78,10 @@ module.exports = function({ parent, app }) {
                 FROM log
                 WHERE time BETWEEN date(?, '-1 month') AND date(?)
                 ${channelStr}
-                AND command = "PRIVMSG"
+                AND command = 'PRIVMSG'
                 AND message LIKE '~%'
             )
+            WHERE command <> ''
             GROUP BY command
             ORDER BY count DESC
             LIMIT 10

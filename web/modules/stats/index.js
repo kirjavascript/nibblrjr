@@ -43,7 +43,6 @@ function Stats({ history, location }) {
             <span>{base.uptime}h</span>
             <h4>servers</h4>
             <span>{base.servers.length}</span>
-            <BarChart items={stats.activity} accessor={d => d.user} />
             <BarChart items={stats.commands} accessor={d => d.command} />
             <pre>
                 {JSON.stringify([stats, base],0,4)}
