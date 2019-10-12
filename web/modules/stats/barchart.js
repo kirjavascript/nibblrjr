@@ -6,7 +6,7 @@ const d3 = Object.assign({},
 );
 
 
-function rect({ x, y, width, height, radius }) {
+function rect({ x, y, width, height, radius = 3 }) {
     if (radius > height) {
         radius = height;
     }
@@ -139,13 +139,29 @@ export default class BarChart {
         const barsSelect = this.contents.selectAll('.bar')
             .data(this.config.data, this.config.accessor);
 
-        barsSelect.exit().remove();
+        barsSelect.exit()
+            .attr('opacity', 1)
+            .transition()
+            .attr('opacity', 0)
+            .attr('d', rect({
+                x: xScale.bandwidth(),
+                width: xScale.bandwidth(),
+                height: 0,
+                y: height,
+            }))
+            .remove();
 
         const barsEnter = barsSelect.enter();
 
         const updateSelect = barsEnter
             .append('path')
             .classed('bar', 1)
+            .attr('d', d => rect({
+                x: xScale(d.user),
+                width: xScale.bandwidth(),
+                height: 0,
+                y: height,
+            }))
             .merge(barsSelect);
 
         trans(updateSelect)
@@ -154,7 +170,6 @@ export default class BarChart {
                 width: xScale.bandwidth(),
                 height: Math.abs(yScale(d.count) - yScale(0)),
                 y: yScale(Math.max(0, d.count)),
-                radius: 3,
             }))
     };
 
