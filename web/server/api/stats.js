@@ -55,13 +55,13 @@ module.exports = function({ parent, app }) {
             : ['', []];
 
         function getStat(statement, args) {
-            return dbList.reduce((acc, { db }) => {
-                acc.push(...db.prepare(statement).all(...args))
+            return dbList.reduce((acc, server) => {
+                acc.push(...server.db.prepare(statement(server)).all(...args))
                 return acc;
             }, []);
         }
 
-        const activity = getStat(`
+        const activity = getStat(() => `
             SELECT user, count(lower(user)) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -71,7 +71,7 @@ module.exports = function({ parent, app }) {
             LIMIT 10
         `, [dateTo, dateTo, ...channelArgs]);
 
-        const commands = getStat(`
+        const commands = getStat(({ trigger }) => `
             SELECT command_trigger as command, count(command_trigger) as count
             FROM (
                 SELECT substr(message, 1, instr(message, ' ')-1) as command_trigger
@@ -79,7 +79,7 @@ module.exports = function({ parent, app }) {
                 WHERE time BETWEEN date(?, '-1 month') AND date(?)
                 ${channelStr}
                 AND command = 'PRIVMSG'
-                AND message LIKE '~%'
+                AND message LIKE '${trigger}%'
             )
             WHERE command <> ''
             GROUP BY command

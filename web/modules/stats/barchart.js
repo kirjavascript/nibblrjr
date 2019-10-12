@@ -27,7 +27,7 @@ function rect({ x, y, width, height, radius = 3 }) {
     `.replace(/\s\s+/g, ' ');
 }
 
-export default function BarChart({ items, accessor }) {
+export default function BarChart({ items, accessor, ...props }) {
     const node = useRef();
     const chart = useRef();
 
@@ -53,7 +53,7 @@ export default function BarChart({ items, accessor }) {
     useEffect(() => () => chart.current.destroy(), []);
 
     return (
-        <div ref={node} />
+        <div ref={node} {...props} />
     );
 }
 

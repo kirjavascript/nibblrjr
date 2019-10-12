@@ -37,17 +37,29 @@ function Stats({ history, location }) {
                         .catch(console.error);
                 }}
             />
-            <h4>commands</h4>
-            <span>{base.commands}</span>
-            <h4>uptime</h4>
-            <span>{base.uptime}h</span>
-            <h4>servers</h4>
-            <span>{base.servers.length}</span>
-            <BarChart items={stats.commands} accessor={d => d.command} />
-            <pre>
-                {JSON.stringify([stats, base],0,4)}
-            </pre>
+
+        <div className="row">
+            <div className="base">
+                <h4>total commands</h4>
+                <span>{base.commands}</span>
+                <h4>uptime</h4>
+                <span>{base.uptime}h</span>
+                <h4>servers</h4>
+                <span>{base.servers.length}</span>
+            </div>
+            <div className="command-chart">
+                <h3 className="title">most used commands</h3>
+                <BarChart
+
+                    items={stats.commands}
+                    accessor={d => d.command}
+                />
+            </div>
         </div>
+        <pre>
+            {JSON.stringify([stats, base],0,4)}
+        </pre>
+    </div>
     );
 }
 
