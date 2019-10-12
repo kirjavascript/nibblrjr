@@ -64,9 +64,8 @@ module.exports = function({ parent, app }) {
         const activity = getStat(`
             SELECT user, count(lower(user)) as count
             FROM log
-            WHERE 1
+            WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
-            AND time BETWEEN date(?, '-1 month') AND date(?)
             GROUP BY lower(user)
             ORDER BY count DESC
             LIMIT 10

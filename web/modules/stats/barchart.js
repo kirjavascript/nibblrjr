@@ -2,6 +2,7 @@ const d3 = Object.assign({},
     require('d3-selection'),
     require('d3-scale'),
     require('d3-axis'),
+    require('d3-transition'),
 );
 
 
@@ -53,10 +54,6 @@ export default class BarChart {
     contents;
     xAxisG;
     yAxisG;
-    xAxis;
-    yAxis;
-    xScale;
-    yScale;
     outerWidth;
 
     constructor(node) {
@@ -69,6 +66,7 @@ export default class BarChart {
 
         this.xAxisG = this.main
             .append('g')
+            .attr('transform', `translate(0, ${this.dimensions.height})`)
             .attr('class', 'axis x');
         this.yAxisG = this.main
             .append('g')
@@ -81,6 +79,7 @@ export default class BarChart {
 
     destroy = () => {
         window.removeEventListener('resize', this.resize);
+        this.container.selectAll('*').remove();
     };
 
     data = (data, accessor) => {
@@ -97,9 +96,11 @@ export default class BarChart {
         this.render();
     };
 
-    render = () => {
+    render = (update = false) => {
         this.setWidth();
         const { width, height, top, right, bottom, left } = this.dimensions;
+
+        const trans = selection => update ? selection.transition() : selection;
 
         // set margins / size
         this.svg
@@ -121,7 +122,7 @@ export default class BarChart {
             .domain(this.config.data.map((d) => d.user));
         const xAxis = d3.axisBottom(xScale)
             .tickSize(10)
-        this.xAxisG
+        trans(this.xAxisG)
             .attr('transform', `translate(0,${height})`)
             .call(xAxis)
             .selectAll('text')
@@ -132,7 +133,7 @@ export default class BarChart {
         const yAxis = d3.axisLeft(yScale)
             .tickSize(10)
             .ticks(12);
-        this.yAxisG
+        trans(this.yAxisG)
             .call(yAxis);
 
         const barsSelect = this.contents.selectAll('.bar')
@@ -142,10 +143,12 @@ export default class BarChart {
 
         const barsEnter = barsSelect.enter();
 
-        barsEnter
+        const updateSelect = barsEnter
             .append('path')
             .classed('bar', 1)
-            .merge(barsSelect)
+            .merge(barsSelect);
+
+        trans(updateSelect)
             .attr('d', d => rect({
                 x: xScale(d.user),
                 width: xScale.bandwidth(),
@@ -153,13 +156,6 @@ export default class BarChart {
                 y: yScale(Math.max(0, d.count)),
                 radius: 3,
             }))
-            // .attr('x', (d) => this.xScale(d.user))
-            // .attr('width', this.xScale.bandwidth())
-            // .attr('height', (d) => (
-            //     Math.abs(this.yScale(d.count) - this.yScale(0))
-            // ))
-            // .attr('y', (d) => this.yScale(Math.max(0, d.count)));
-
     };
 
 };

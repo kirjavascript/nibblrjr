@@ -3,15 +3,14 @@ import BarChart from './barchart';
 import Filter from './filter';
 import { useFetch } from '../hooks';
 
-// TODO: change month, reset server and channel, add hash urls
 // slider for month
 // open code in modal on mobil
-// ordering and additional limit on the frontend
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
     const [base, setBase] = useState({ servers: [] });
     const [stats, setStats] = useState({ activity: [] });
+
     const node = useRef();
     const activity = useRef();
 
@@ -19,9 +18,19 @@ function Stats({ history, location }) {
         if (!activity.current) {
             activity.current = new BarChart(node.current);
         }
+        const deduped = stats.activity.reduce((acc, cur) => {
+            const found = acc.find(d => d.user === cur.user);
+            if (found) {
+                found.count += cur.count;
+            } else {
+                acc.push(cur);
+            }
+            return acc;
+        }, []);
+        deduped.sort((a, b) => b.count - a.count);
         activity.current
-            .data(stats.activity.slice(0, 10).reverse(), d => d.name)
-            .render();
+            .data(deduped.slice(0, 10).reverse(), d => d.user)
+            .render(true);
     }, [stats.activity]);
 
     return (
@@ -35,12 +44,8 @@ function Stats({ history, location }) {
                         body: { month, server, channel },
                         method: 'POST',
                     })
-                        .then(res => {
-                            res.activity.sort((a, b) => b.count - a.count);
-                            setStats(res);
-                        })
+                        .then(setStats)
                         .catch(console.error);
-
                 }}
                 onMonth={({ month }) => {
                     fetchAPI('stats/base', {
@@ -59,7 +64,7 @@ function Stats({ history, location }) {
             <span>{base.servers.length}</span>
             <div ref={node} />
             <pre>
-                {JSON.stringify([base, stats],0,4)}
+                {JSON.stringify([stats, base],0,4)}
             </pre>
         </div>
     );
