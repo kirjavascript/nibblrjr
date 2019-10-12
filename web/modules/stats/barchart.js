@@ -1,10 +1,11 @@
+import React, { useRef, useEffect } from 'react';
+
 const d3 = Object.assign({},
     require('d3-selection'),
     require('d3-scale'),
     require('d3-axis'),
     require('d3-transition'),
 );
-
 
 function rect({ x, y, width, height, radius = 3 }) {
     if (radius > height) {
@@ -26,14 +27,43 @@ function rect({ x, y, width, height, radius = 3 }) {
     `.replace(/\s\s+/g, ' ');
 }
 
-export default class BarChart {
+export default function BarChart({ items, accessor }) {
+    const node = useRef();
+    const chart = useRef();
+
+    useEffect(() => {
+        if (!chart.current) {
+            chart.current = new BarChartObj(node.current);
+        }
+        const deduped = items.reduce((acc, cur) => {
+            const found = acc.find(d => accessor(d) === accessor(cur));
+            if (found) {
+                found.count += cur.count;
+            } else {
+                acc.push(cur);
+            }
+            return acc;
+        }, []);
+        deduped.sort((a, b) => b.count - a.count);
+        chart.current
+            .data(deduped.slice(0, 10).reverse(), accessor)
+            .render(true);
+
+    }, [items]);
+
+    return (
+        <div ref={node} />
+    );
+}
+
+class BarChartObj {
     config = {
         margin: {
             top: 5, right: 20, bottom: 40, left: 60,
         },
         height: 400,
         data: undefined,
-        accessor: undefined,
+        accessor: d => d.label,
     };
 
     get dimensions() {
@@ -119,7 +149,7 @@ export default class BarChart {
             .paddingInner(1 / 3)
             .paddingOuter(1 / 6)
             .rangeRound([0, width])
-            .domain(this.config.data.map((d) => d.user));
+            .domain(this.config.data.map(this.config.accessor));
         const xAxis = d3.axisBottom(xScale)
             .tickSize(10)
         trans(this.xAxisG)
@@ -157,7 +187,7 @@ export default class BarChart {
             .append('path')
             .classed('bar', 1)
             .attr('d', d => rect({
-                x: xScale(d.user),
+                x: xScale(this.config.accessor(d)),
                 width: xScale.bandwidth(),
                 height: 0,
                 y: height,
@@ -166,7 +196,7 @@ export default class BarChart {
 
         trans(updateSelect)
             .attr('d', d => rect({
-                x: xScale(d.user),
+                x: xScale(this.config.accessor(d)),
                 width: xScale.bandwidth(),
                 height: Math.abs(yScale(d.count) - yScale(0)),
                 y: yScale(Math.max(0, d.count)),

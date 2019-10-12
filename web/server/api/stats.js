@@ -69,11 +69,26 @@ module.exports = function({ parent, app }) {
             GROUP BY lower(user)
             ORDER BY count DESC
             LIMIT 10
-        `, [...channelArgs, dateTo, dateTo]);
+        `, [dateTo, dateTo, ...channelArgs]);
 
-        // TODO: cache
+        const commands = getStat(`
+            SELECT command_trigger as command, count(command_trigger) as count
+            FROM (
+                SELECT substr(message, 1, instr(message, ' ')-1) as command_trigger
+                FROM log
+                WHERE time BETWEEN date(?, '-1 month') AND date(?)
+                ${channelStr}
+                AND command = "PRIVMSG"
+                AND message LIKE '~%'
+            )
+            GROUP BY command
+            ORDER BY count DESC
+            LIMIT 10
+        `, [dateTo, dateTo, ...channelArgs]);
 
-        res.json({ activity });
+        // TODO: cache (on disk?)
+
+        res.json({ commands, activity });
     });
 
     // todo: truncate nibblr messages to log

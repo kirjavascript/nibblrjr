@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import BarChart from './barchart';
+import React, { useState } from 'react';
 import Filter from './filter';
 import { useFetch } from '../hooks';
+import BarChart from './barchart';
 
 // slider for month
 // open code in modal on mobil
@@ -9,29 +9,10 @@ import { useFetch } from '../hooks';
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
     const [base, setBase] = useState({ servers: [] });
-    const [stats, setStats] = useState({ activity: [] });
-
-    const node = useRef();
-    const activity = useRef();
-
-    useEffect(() => {
-        if (!activity.current) {
-            activity.current = new BarChart(node.current);
-        }
-        const deduped = stats.activity.reduce((acc, cur) => {
-            const found = acc.find(d => d.user === cur.user);
-            if (found) {
-                found.count += cur.count;
-            } else {
-                acc.push(cur);
-            }
-            return acc;
-        }, []);
-        deduped.sort((a, b) => b.count - a.count);
-        activity.current
-            .data(deduped.slice(0, 10).reverse(), d => d.user)
-            .render(true);
-    }, [stats.activity]);
+    const [stats, setStats] = useState({
+        activity: [],
+        commands: [],
+    });
 
     return (
         <div className="stats">
@@ -62,7 +43,8 @@ function Stats({ history, location }) {
             <span>{base.uptime}h</span>
             <h4>servers</h4>
             <span>{base.servers.length}</span>
-            <div ref={node} />
+            <BarChart items={stats.activity} accessor={d => d.user} />
+            <BarChart items={stats.commands} accessor={d => d.command} />
             <pre>
                 {JSON.stringify([stats, base],0,4)}
             </pre>
