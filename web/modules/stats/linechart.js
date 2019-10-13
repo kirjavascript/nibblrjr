@@ -28,7 +28,7 @@ function rect({ x, y, width, height, radius = 3 }) {
     `.replace(/\s\s+/g, ' ');
 }
 
-export default function BarChart({ items, accessor, ...props }) {
+export default function BarChart({ items = [], accessor, ...props }) {
     const node = useRef();
     const chart = useRef();
 
@@ -155,10 +155,9 @@ class BarChartObj {
             .attr('transform', `translate(0,${height})`)
             .call(xAxis)
             .selectAll('text')
-            .style('text-anchor', 'end')
-            .attr('dx', '-.8em')
-            .attr('dy', '.55em')
-            .attr('transform', 'rotate(-14)' );
+            // .style('text-anchor', 'end')
+            // .attr('dx', '.8em')
+            .attr('dy', '1em')
         const yAxis = d3.axisLeft(yScale)
             .tickSize(10)
             .ticks(12);
@@ -181,14 +180,6 @@ class BarChartObj {
 
         trans(updateSelect)
             .attr('d', line);
-
-        // this.contents.selectAll(".dot")
-        //     .data(this.config.data.slice(1))
-        //     .enter().append("circle")
-        //     .attr("class", "dot")
-        //     .attr("cx", (d, i) => xScale(i + 1))
-        //     .attr("cy", (d) => yScale(d.count))
-        //     .attr("r", 5)
 
     };
 

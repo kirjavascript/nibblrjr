@@ -77,19 +77,7 @@ module.exports = function({ parent, app }) {
             LIMIT 10
         `, [dateTo, dateTo, ...channelArgs]);
 
-        // TODO: cache (on disk?)
-
-        // const userActivity = getStat(() => `
-        //     SELECT user, count(lower(user)) as count
-        //     FROM log
-        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
-        //     ${channelStr}
-        //     GROUP BY lower(user)
-        //     ORDER BY count DESC
-        //     LIMIT 10
-        // `, [dateTo, dateTo, ...channelArgs]);
-
-        const activity = getStat(() => `
+        const activityHours = getStat(() => `
             SELECT strftime('%H', time) as hour, count(*) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -97,11 +85,23 @@ module.exports = function({ parent, app }) {
             GROUP BY hour
         `, [dateTo, dateTo, ...channelArgs]);
 
+        const activityDays = getStat(() => `
+            SELECT strftime('%d', time) as day, count(*) as count
+            FROM log
+            WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            ${channelStr}
+            GROUP BY day
+        `, [dateTo, dateTo, ...channelArgs]);
+
         res.json({
-            activity,
+            activityHours,
+            activityDays,
             commands,
         });
     });
+
+        // TODO: cache (on disk?)
+
 
     // todo: truncate nibblr messages to log
     // activity: do a multiline chart with hover over messages
@@ -116,6 +116,16 @@ module.exports = function({ parent, app }) {
     //     )
     // });
 
+
+        // const userActivity = getStat(() => `
+        //     SELECT user, count(lower(user)) as count
+        //     FROM log
+        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
+        //     ${channelStr}
+        //     GROUP BY lower(user)
+        //     ORDER BY count DESC
+        //     LIMIT 10
+        // `, [dateTo, dateTo, ...channelArgs]);
 
 `
     #server total lines

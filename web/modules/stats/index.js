@@ -15,10 +15,7 @@ import LineChart from './linechart';
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
     const [base, setBase] = useState({ servers: [] });
-    const [stats, setStats] = useState({
-        activity: [],
-        commands: [],
-    });
+    const [stats, setStats] = useState({});
 
     return (
         <div className="stats">
@@ -53,18 +50,30 @@ function Stats({ history, location }) {
                     <span>{base.servers.length}</span>
                 </div>
                 <div className="command-chart">
-                    <h3 className="title">activity</h3>
+                    <h3 className="title">most used commands</h3>
+                    <BarChart
+                        items={stats.commands}
+                        accessor={d => d.command}
+                    />
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="half">
+                    <h3 className="title">activity / days</h3>
                     <LineChart
-                        items={stats.activity}
+                        items={stats.activityDays}
+                        accessor={d => d.day}
+                    />
+                </div>
+                <div className="half">
+                    <h3 className="title">activity / hours</h3>
+                    <LineChart
+                        items={stats.activityHours}
                         accessor={d => d.hour}
                     />
                 </div>
             </div>
-                <h3 className="title">most used commands</h3>
-                <BarChart
-                    items={stats.commands}
-                    accessor={d => d.command}
-                />
             <pre>
                 {JSON.stringify([1],0,4)}
             </pre>

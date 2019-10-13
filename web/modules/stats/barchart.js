@@ -27,7 +27,7 @@ function rect({ x, y, width, height, radius = 3 }) {
     `.replace(/\s\s+/g, ' ');
 }
 
-export default function BarChart({ items, accessor, ...props }) {
+export default function BarChart({ items = [], accessor, ...props }) {
     const node = useRef();
     const chart = useRef();
 
