@@ -61,16 +61,6 @@ module.exports = function({ parent, app }) {
             }, []);
         }
 
-        const activity = getStat(() => `
-            SELECT user, count(lower(user)) as count
-            FROM log
-            WHERE time BETWEEN date(?, '-1 month') AND date(?)
-            ${channelStr}
-            GROUP BY lower(user)
-            ORDER BY count DESC
-            LIMIT 10
-        `, [dateTo, dateTo, ...channelArgs]);
-
         const commands = getStat(({ trigger }) => `
             SELECT command_trigger as command, count(command_trigger) as count
             FROM (
@@ -80,8 +70,8 @@ module.exports = function({ parent, app }) {
                 ${channelStr}
                 AND command = 'PRIVMSG'
                 AND message LIKE '${trigger}%'
+                AND message <> ''
             )
-            WHERE command <> ''
             GROUP BY command
             ORDER BY count DESC
             LIMIT 10
@@ -89,13 +79,34 @@ module.exports = function({ parent, app }) {
 
         // TODO: cache (on disk?)
 
-        res.json({ commands, activity });
+        // const userActivity = getStat(() => `
+        //     SELECT user, count(lower(user)) as count
+        //     FROM log
+        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
+        //     ${channelStr}
+        //     GROUP BY lower(user)
+        //     ORDER BY count DESC
+        //     LIMIT 10
+        // `, [dateTo, dateTo, ...channelArgs]);
+
+        const activity = getStat(() => `
+            SELECT strftime('%H', time) as hour, count(*) as count
+            FROM log
+            WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            ${channelStr}
+            GROUP BY hour
+        `, [dateTo, dateTo, ...channelArgs]);
+
+        res.json({
+            activity,
+            commands,
+        });
     });
 
     // todo: truncate nibblr messages to log
     // activity: do a multiline chart with hover over messages
 // updated hourly
-
+// Kirjava: you could also make some stats about who starts the games :p
 
     // databases.forEach(({ db }) => {
     //     console.log(
@@ -152,6 +163,9 @@ module.exports = function({ parent, app }) {
     //https://chanstat.net/stats/rizon/%23homescreen
     // hardcode cake^ -> Kirjava
 
+// kick / death ratio
+
+// user stats
     // number of commands served
     // most kicked
     // questions asked
@@ -161,6 +175,7 @@ module.exports = function({ parent, app }) {
     // activity time
     // I also want to see people who join the most compared to people who stay online
 // URL linkers
+// richest
 // 21:03 <+Kirjava> this is all great
 // 21:03 <eyeoh> what about pisg
 // 21:03 <eyeoh> http://pisg.sourceforge.net/examples
@@ -176,14 +191,8 @@ module.exports = function({ parent, app }) {
 // 21:08 <+Kirjava> the what
 // 21:08 <+IckleFinn> longest time online without message
 // 21:17 <+IckleFinn> Kirjava: You going to make a heatmap for activity based on time?
-// 21:33 <+IckleFinn> Kirjava: If you give me a csv with timestamp, user, message I might do some random machine learning on it
 // 10:56 <nibblrjr1> <Kirjava> track nick changes stats with nibblr (also maybe use it to work out nick groups (1 day ago)
 
 // 18:39 <&cr0sis> showed you graphically with stronger and more frequent lines who spoke to who
-// 18:40 <@cake^> oh nice
-// 18:40 <@Morteh> i found a video of monqui eating lunch https://i.imgur.com/rVisOYi.mp4
-// 18:40 <&cr0sis> if i knew a channel still parsing i'd link but idfk
-// 18:40 <@cake^> that's a cool idea
-// 18:40 <Monqui> haha Morteh
 // 18:40 <&cr0sis> also how about people who use the same words, and also people who use the same words that are also unique to those people
 };
