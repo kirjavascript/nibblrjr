@@ -1,5 +1,7 @@
 .stats {
     padding-top: 60px;
+    max-width: 800px;
+    margin: 0 auto;
 
     // svg stuff
     .bar {
@@ -30,8 +32,7 @@
 
     .row {
         display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
+        margin-bottom: 40px;
     }
 
     // layout
@@ -40,7 +41,7 @@
         width: 25%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         padding: 25px;
         h4 {
@@ -71,6 +72,8 @@
     position: fixed;
     width: 100%;
     top: $nav-height;
+    left: 0;
+    right: 0;
     .select {
         margin: 0 5px;
     }

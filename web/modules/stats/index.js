@@ -4,8 +4,13 @@ import { useFetch } from '../hooks';
 import BarChart from './barchart';
 import LineChart from './linechart';
 
+// homepage = readme?
 // slider for month
 // open code in modal on mobil
+
+// TODO: joins / parts / kick / etc = stacked area chart
+
+// pad hours
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
@@ -48,17 +53,18 @@ function Stats({ history, location }) {
                     <span>{base.servers.length}</span>
                 </div>
                 <div className="command-chart">
-                    <h3 className="title">most used commands</h3>
-                    <BarChart
-                        items={stats.commands}
-                        accessor={d => d.command}
+                    <h3 className="title">activity</h3>
+                    <LineChart
+                        items={stats.activity}
+                        accessor={d => d.hour}
                     />
                 </div>
             </div>
-            <LineChart
-                items={stats.activity}
-                accessor={d => d.hour}
-            />
+                <h3 className="title">most used commands</h3>
+                <BarChart
+                    items={stats.commands}
+                    accessor={d => d.command}
+                />
             <pre>
                 {JSON.stringify([1],0,4)}
             </pre>

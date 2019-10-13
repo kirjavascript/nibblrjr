@@ -46,7 +46,6 @@ export default function BarChart({ items, accessor, ...props }) {
             return acc;
         }, []);
         deduped.sort((a, b) => accessor(a) - accessor(b));
-        console.log(deduped);
         chart.current
             .data(deduped, accessor)
             .render(true);
@@ -167,13 +166,20 @@ class BarChartObj {
             .call(yAxis);
 
         const line = d3.line()
-            .x((d, i) => xScale(i))
+            .x((_d, i) => xScale(i))
             .y(d => yScale(d.count))
             // .curve(d3.curveMonotoneX);
 
-        this.contents.append('path')
-            .datum(this.config.data)
+        const lineSelect = this.contents.selectAll('.line')
+            .data([this.config.data]);
+
+        const updateSelect = lineSelect
+            .enter()
+            .append('path')
             .attr('class', 'line')
+            .merge(lineSelect);
+
+        trans(updateSelect)
             .attr('d', line);
 
         // this.contents.selectAll(".dot")
@@ -184,7 +190,6 @@ class BarChartObj {
         //     .attr("cy", (d) => yScale(d.count))
         //     .attr("r", 5)
 
-        // TODO: joins / parts / kick / etc
     };
 
 };

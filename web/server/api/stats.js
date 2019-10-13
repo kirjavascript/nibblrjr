@@ -70,8 +70,8 @@ module.exports = function({ parent, app }) {
                 ${channelStr}
                 AND command = 'PRIVMSG'
                 AND message LIKE '${trigger}%'
-                AND message <> ''
             )
+            WHERE command <> ''
             GROUP BY command
             ORDER BY count DESC
             LIMIT 10
