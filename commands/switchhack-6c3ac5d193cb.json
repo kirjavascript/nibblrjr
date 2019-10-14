@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "switchhack",
+    "command": "/*__TEXTCMD__*/print(`https://nh-server.github.io/switch-guide/`);"
+}
