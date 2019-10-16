@@ -28,13 +28,17 @@ function rect({ x, y, width, height, radius = 3 }) {
     `.replace(/\s\s+/g, ' ');
 }
 
-export default function BarChart({ items = [], accessor, ...props }) {
+export default function LineChart({
+    items = [],
+    accessor,
+    ...config
+}) {
     const node = useRef();
     const chart = useRef();
 
     useEffect(() => {
         if (!chart.current) {
-            chart.current = new BarChartObj(node.current);
+            chart.current = new LineChartObj(node.current, config);
         }
         const deduped = items.reduce((acc, cur) => {
             const found = acc.find(d => accessor(d) === accessor(cur));
@@ -54,11 +58,11 @@ export default function BarChart({ items = [], accessor, ...props }) {
     useEffect(() => () => chart.current.destroy(), []);
 
     return (
-        <div ref={node} {...props} />
+        <div ref={node} />
     );
 }
 
-class BarChartObj {
+class LineChartObj {
     config = {
         margin: {
             top: 5, right: 20, bottom: 40, left: 60,
@@ -66,6 +70,7 @@ class BarChartObj {
         height: 400,
         data: undefined,
         accessor: d => d.label,
+        tickFormatX: undefined,
     };
 
     get dimensions() {
@@ -88,9 +93,10 @@ class BarChartObj {
     yAxisG;
     outerWidth;
 
-    constructor(node) {
+    constructor(node, config = {}) {
         this.container = d3.select(node);
         this.container.selectAll('*').remove();
+        Object.assign(this.config, config);
 
         this.svg = this.container.append('svg');
         this.main = this.svg.append('g');
@@ -142,21 +148,21 @@ class BarChartObj {
             .attr('transform', `translate(${[left, top]})`);
 
         const domainMax = this.config.data.reduce((a, c) => Math.max(a, c.count), 0);
-        const xScale = d3.scaleLinear()
-            .domain([0, this.config.data.length - 1])
-            .range([0, width]);
+
         const yScale = d3.scaleLinear()
             .domain([0, domainMax])
             .range([height, 0]);
+        const xScale = d3.scalePoint()
+            .domain(this.config.data.map(this.config.accessor))
+            .rangeRound([0, width]);
         const xAxis = d3.axisBottom(xScale)
             .tickSize(10)
-            .ticks(24);
+            .tickFormat(this.config.tickFormatX)
+            // .ticks(24);
         trans(this.xAxisG)
             .attr('transform', `translate(0,${height})`)
             .call(xAxis)
             .selectAll('text')
-            // .style('text-anchor', 'end')
-            // .attr('dx', '.8em')
             .attr('dy', '1em')
         const yAxis = d3.axisLeft(yScale)
             .tickSize(10)
@@ -165,9 +171,8 @@ class BarChartObj {
             .call(yAxis);
 
         const line = d3.line()
-            .x((_d, i) => xScale(i))
-            .y(d => yScale(d.count))
-            // .curve(d3.curveMonotoneX);
+            .x(d => xScale(this.config.accessor(d)))
+            .y(d => yScale(d.count));
 
         const lineSelect = this.contents.selectAll('.line')
             .data([this.config.data]);

@@ -1,5 +1,5 @@
 sudo: reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
-repl: rs|clojure|vlang|cj
+repl: rs|clojure|vlang|cj|scheme
 
 version 4: data scoping & ORM
 make events more powerful, restrict how they're created -> current event API is bad
@@ -10,6 +10,7 @@ trigger commands when not even at start of message
 make repl-only a per channel config (4 hours ago)
 use a proxy for the config (!)
 bundle webpack assets statically
+combine action / notice / print lineLimit
 IRC.requestLines
 FormData URLSearchParams { form }
 arcsecond command parser

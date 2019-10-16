@@ -64,6 +64,7 @@ function Stats({ history, location }) {
                     <LineChart
                         items={stats.activityDays}
                         accessor={d => d.day}
+                        tickFormatX={d => d.slice(3)}
                     />
                 </div>
                 <div className="half">
@@ -75,7 +76,7 @@ function Stats({ history, location }) {
                 </div>
             </div>
             <pre>
-                {JSON.stringify([1],0,4)}
+                {JSON.stringify([stats.activityDays],0,4)}
             </pre>
         </div>
     );

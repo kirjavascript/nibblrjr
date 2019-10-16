@@ -106,8 +106,6 @@ class BarChartObj {
         window.addEventListener('resize', this.resize);
     }
 
-    // public
-
     destroy = () => {
         window.removeEventListener('resize', this.resize);
         this.container.selectAll('*').remove();
