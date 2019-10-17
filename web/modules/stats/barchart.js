@@ -117,16 +117,12 @@ class BarChartObj {
         return this;
     };
 
-    setWidth = () => {
-        this.outerWidth = this.container.node().getBoundingClientRect().width;
-    };
-
     resize = () => {
         this.render();
     };
 
     render = (update = false) => {
-        this.setWidth();
+        this.outerWidth = this.container.node().getBoundingClientRect().width;
         const { width, height, top, right, bottom, left } = this.dimensions;
 
         const trans = selection => update ? selection.transition() : selection;

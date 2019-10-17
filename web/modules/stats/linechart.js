@@ -8,26 +8,6 @@ const d3 = Object.assign({},
     require('d3-transition'),
 );
 
-function rect({ x, y, width, height, radius = 3 }) {
-    if (radius > height) {
-        radius = height;
-    }
-
-    if (width < radius * 2) {
-        radius = width /2;
-    }
-
-    return `
-        M${x},${y + height}
-        v${-height + radius}
-        a${radius},${radius} 0 0 1 ${radius},${-radius}
-        h${width - 2*radius}
-        a${radius},${radius} 0 0 1 ${radius},${radius}
-        v${height - radius}
-        z
-    `.replace(/\s\s+/g, ' ');
-}
-
 export default function LineChart({
     items = [],
     accessor,
@@ -126,16 +106,12 @@ class LineChartObj {
         return this;
     };
 
-    setWidth = () => {
-        this.outerWidth = this.container.node().getBoundingClientRect().width;
-    };
-
     resize = () => {
         this.render();
     };
 
     render = (update = false) => {
-        this.setWidth();
+        this.outerWidth = this.container.node().getBoundingClientRect().width;
         const { width, height, top, right, bottom, left } = this.dimensions;
 
         const trans = selection => update ? selection.transition() : selection;
@@ -157,8 +133,7 @@ class LineChartObj {
             .rangeRound([0, width]);
         const xAxis = d3.axisBottom(xScale)
             .tickSize(10)
-            .tickFormat(this.config.tickFormatX)
-            // .ticks(24);
+            .tickFormat(this.config.tickFormatX);
         trans(this.xAxisG)
             .attr('transform', `translate(0,${height})`)
             .call(xAxis)

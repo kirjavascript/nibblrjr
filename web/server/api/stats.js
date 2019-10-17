@@ -86,7 +86,7 @@ module.exports = function({ parent, app }) {
         `, [dateTo, dateTo, ...channelArgs]);
 
         const activityDays = getStat(() => `
-            SELECT strftime('%d', time) as day, count(*) as count
+            SELECT strftime('%m-%d', time) as day, count(*) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}

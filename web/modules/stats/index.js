@@ -3,6 +3,7 @@ import Filter from './filter';
 import { useFetch } from '../hooks';
 import BarChart from './barchart';
 import LineChart from './linechart';
+import ForceSim from './forcesim';
 
 // homepage = readme?
 // slider for month
@@ -40,6 +41,8 @@ function Stats({ history, location }) {
                         .catch(console.error);
                 }}
             />
+            <ForceSim />
+
             <div className="row">
                 <div className="base">
                     <h4>total commands</h4>
@@ -64,7 +67,7 @@ function Stats({ history, location }) {
                     <LineChart
                         items={stats.activityDays}
                         accessor={d => d.day}
-                        tickFormatX={d => d.slice(3)}
+                        tickFormatX={d => +d.slice(3)}
                     />
                 </div>
                 <div className="half">
