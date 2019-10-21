@@ -93,9 +93,57 @@ module.exports = function({ parent, app }) {
             GROUP BY day
         `, [dateTo, dateTo, ...channelArgs]);
 
+        const [{ db }] = dbList;
+
+        const users = db.prepare(`
+            SELECT DISTINCT user
+            FROM log
+            WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            ${channelStr}
+        `)
+            .all([dateTo, dateTo, ...channelArgs])
+            .map(d => d.user);
+
+        const wildUsers = users.map(d => `%${d}%`);
+
+        // const links = db.prepare(`
+        //     SELECT user, count(*) as count, ? as relation
+        //     FROM log
+        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
+        //     ${channelStr}
+        //     AND message LIKE ?
+        //     GROUP BY user
+        //     UNION
+        //     SELECT user, count(*) as count, ? as relation
+        //     FROM log
+        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
+        //     ${channelStr}
+        //     AND message LIKE ?
+        //     GROUP BY user
+        // `).all([
+        //     users[0], dateTo, dateTo, ...channelArgs, wildUsers[0],
+        //     users[1], dateTo, dateTo, ...channelArgs, wildUsers[1],
+        // ]);
+
+        const links = db.prepare(
+            users.map(() => `
+                SELECT user, count(*) as count, ? as relation
+                FROM log
+                WHERE time BETWEEN date(?, '-1 month') AND date(?)
+                ${channelStr}
+                AND message LIKE ?
+                GROUP BY user
+            `).join(' UNION ')
+        ).all(
+            users.flatMap((user, i) => [
+                user, dateTo, dateTo, ...channelArgs, wildUsers[i],
+            ])
+        );
+
         res.json({
             activityHours,
             activityDays,
+            links,
             commands,
         });
     });
@@ -167,9 +215,9 @@ module.exports = function({ parent, app }) {
     ORDER BY count DESC
 `;
 
-    // most run commands
-
+// https://i.imgur.com/n0rIWIO.png
 // http://buffy.myrealm.co.uk/afsmg/stats/
+//http://www.df7cb.de/irc/pisg/pisg-month.html
     //https://chanstat.net/stats/rizon/%23homescreen
     // hardcode cake^ -> Kirjava
 

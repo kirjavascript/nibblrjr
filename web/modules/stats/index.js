@@ -79,7 +79,7 @@ function Stats({ history, location }) {
                 </div>
             </div>
             <pre>
-                {JSON.stringify([stats.activityDays],0,4)}
+                {JSON.stringify([stats.links],0,4)}
             </pre>
         </div>
     );
