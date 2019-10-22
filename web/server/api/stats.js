@@ -51,7 +51,7 @@ module.exports = function({ parent, app }) {
         const dateTo = month ? `${month}-01` : 'now'
         const dbList = databases.filter(({ name }) => !server || name === server);
         const [channelStr, channelArgs] = channel
-            ? ['AND lower(target)=?', [channel]]
+            ? ['AND lower(target) = ?', [channel]]
             : ['', []];
 
         function getStat(statement, args) {
@@ -93,64 +93,36 @@ module.exports = function({ parent, app }) {
             GROUP BY day
         `, [dateTo, dateTo, ...channelArgs]);
 
-        const [{ db }] = dbList;
-
-        const users = db.prepare(`
-            SELECT user, count(lower(user)) as count
-            FROM log
-            WHERE time BETWEEN date(?, '-1 month') AND date(?)
-            ${channelStr}
-            GROUP BY lower(user)
-            ORDER BY count DESC
-            LIMIT 10
-        `)
-            .all([dateTo, dateTo, ...channelArgs])
-            .map(d => d.user);
-
-        // const links = db.prepare(`
-        //     SELECT user, count(*) as count, ? as relation
-        //     FROM log
-        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
-        //     ${channelStr}
-        //     AND message LIKE ?
-        //     GROUP BY user
-        //     UNION
-        //     SELECT user, count(*) as count, ? as relation
-        //     FROM log
-        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
-        //     ${channelStr}
-        //     AND message LIKE ?
-        //     GROUP BY user
-        // `).all([
-        //     users[0], dateTo, dateTo, ...channelArgs, wildUsers[0],
-        //     users[1], dateTo, dateTo, ...channelArgs, wildUsers[1],
-        // ]);
-
-        const links = db.prepare(
-            users.map(() => `
-                SELECT user, count(*) as count, ? as relation
+        const links = dbList.flatMap(({ db }) => {
+            const users = db.prepare(`
+                SELECT user, count(lower(user)) as count
                 FROM log
                 WHERE time BETWEEN date(?, '-1 month') AND date(?)
                 ${channelStr}
-                AND message LIKE ?
-                GROUP BY user
-            `).join(' UNION ')
-        ).all(
-            users.flatMap((user, i) => [
-                user, dateTo, dateTo, ...channelArgs, `%${user}%`,
-            ])
-        );
+                GROUP BY lower(user)
+                ORDER BY count DESC
+                LIMIT 10
+            `)
+                .all([dateTo, dateTo, ...channelArgs])
+                .map(d => d.user);
 
-        // const links = users.flatMap(user => (
-        //     db.prepare(`
-        //         SELECT user, count(*) as count, ? as relation
-        //         FROM log
-        //         WHERE time BETWEEN date(?, '-1 month') AND date(?)
-        //         ${channelStr}
-        //         AND message LIKE ?
-        //         GROUP BY user
-        //     `).all([user, dateTo, dateTo, ...channelArgs, `%${user}%`])
-        // ));
+            if (!users.length) return [];
+
+            return db.prepare(
+                users.map(() => `
+                    SELECT user, count(*) as count, ? as relation
+                    FROM log
+                    WHERE time BETWEEN date(?, '-1 month') AND date(?)
+                    ${channelStr}
+                    AND message LIKE ?
+                    GROUP BY user
+                `).join(' UNION ')
+            ).all(
+                users.flatMap((user) => [
+                    user, dateTo, dateTo, ...channelArgs, `%${user}%`,
+                ])
+            );
+        });
 
         res.json({
             activityHours,

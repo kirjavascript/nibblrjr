@@ -5,7 +5,7 @@ const { createCommandDB } = require('./commands');
 const { createServerDBFactory } = require('./server');
 
 class Database {
-    constructor(parent) {
+    constructor(_parent) {
 
         // commands //
 
@@ -18,7 +18,7 @@ class Database {
 
     createDB(name, schema) {
         const storageDir = __dirname + '/../storage';
-        if (!fs.existsSync(storageDir)){
+        if (!fs.existsSync(storageDir)) {
             fs.mkdirSync(storageDir);
         }
         const filename = `${storageDir}/${name}.db`;
