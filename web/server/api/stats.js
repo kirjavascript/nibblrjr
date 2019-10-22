@@ -110,12 +110,12 @@ module.exports = function({ parent, app }) {
 
             return db.prepare(
                 users.map(() => `
-                    SELECT user, count(*) as count, ? as relation
+                    SELECT user as source, count(*) as count, ? as target
                     FROM log
                     WHERE time BETWEEN date(?, '-1 month') AND date(?)
                     ${channelStr}
                     AND message LIKE ?
-                    GROUP BY user
+                    GROUP BY source
                 `).join(' UNION ')
             ).all(
                 users.flatMap((user) => [

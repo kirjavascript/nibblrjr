@@ -3,11 +3,17 @@ import React, { useRef, useEffect } from 'react';
 const d3 = Object.assign({},
     require('d3-selection'),
     require('d3-force'),
+    require('d3-drag'),
 );
 
+Object.defineProperty(d3, 'event', {
+    get: function () {
+        return require('d3-selection').event;
+    },
+});
+
 export default function ForceSim({
-    items = [],
-    accessor,
+    items: links = [],
     ...config
 }) {
     const node = useRef();
@@ -17,10 +23,14 @@ export default function ForceSim({
         if (!chart.current) {
             chart.current = new ForceSimObj(node.current, config);
         }
+        const nodes = links.map(d => d.source)
+            .concat(links.map(d => d.target))
+            .filter((d, i, a) => a.indexOf(d) === i);
+
         chart.current
-            // .data(deduped, accessor)
+            .data(links, nodes.map(node => ({ id: node })))
             .render(true);
-    }, [items]);
+    }, [links]);
 
     useEffect(() => () => chart.current.destroy(), []);
 
@@ -32,33 +42,7 @@ export default function ForceSim({
 class ForceSimObj {
     config = {
         height: 400,
-        data: {
-            "nodes": [
-                { "id": "0", "group": "1" },
-                { "id": "1", "group": "2" },
-                { "id": "2", "group": "2" },
-                { "id": "3", "group": "2" },
-                { "id": "4", "group": "2" },
-                { "id": "5", "group": "3" },
-                { "id": "6", "group": "3" },
-                { "id": "7", "group": "3" },
-                { "id": "8", "group": "3" }
-            ],
-            "links1": [
-                { "source": "0", "target": "1", "id": "0"},
-                { "source": "0", "target": "2", "id": "1"},
-                { "source": "0", "target": "3", "id": "2"},
-                { "source": "0", "target": "4", "id": "3"},
-                { "source": "1", "target": "5", "id": "4"},
-                { "source": "2", "target": "6", "id": "5"},
-                { "source": "3", "target": "7", "id": "6"},
-                { "source": "4", "target": "8", "id": "7"},
-                { "source": "1", "target": "8", "id": "8"},
-                { "source": "2", "target": "5", "id": "9"},
-                { "source": "3", "target": "6", "id": "10"},
-                { "source": "4", "target": "7", "id": "11"}
-            ]
-        },
+        data: { },
     };
 
     container;
@@ -81,19 +65,101 @@ class ForceSimObj {
         this.container.selectAll('*').remove();
     };
 
-    data = (data, accessor) => {
-        this.config.data = data;
-        this.config.accessor = accessor;
+    data = (links, nodes) => {
+        this.config.links = links;
+        this.config.nodes = nodes;
         return this;
     };
 
     resize = () => {
         this.render();
+        // TODO: free moving but resize canvas
     };
 
     render = (update = false) => {
         this.outerWidth = this.container.node().getBoundingClientRect().width;
 
+        const height = 800;
+        const width = 1200;
+
+        this.svg
+            .attr('width', width)
+            .attr('height', height);
+
+        const { links, nodes } = this.config;
+
+        var lines = this.svg.append('g')
+            .selectAll('line')
+            .data(links)
+            .enter()
+            .append('line')
+            .attr('stroke', 'steelblue')
+            .attr('stroke-width', 2);
+
+
+        const circles = this.svg.append('g')
+            .selectAll('circle')
+            .data(nodes)
+            .enter()
+            .append('circle')
+            .attr('r', 10)
+            .attr('fill', 'green')
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+        // TODO: arc with arrows
+        // TODO: lazy scroll load
+
+        const simulation = d3.forceSimulation()
+            .nodes(nodes)
+            .force('link', d3.forceLink(links)
+                .id(d => d.id)
+                // .distance(d => d.count * 10)
+                .strength(d => 1 / d.count)
+            )
+            .force('charge', d3.forceManyBody()
+                .strength(() => -1000)
+                // .distanceMax(500)
+            )
+            .force("box_force", box_force)
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .on('tick', () => {
+                lines
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y)
+                circles
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y)
+            });
+
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+const radius = 500;
+function box_force() {
+  for (var i = 0, n = nodes.length; i < n; ++i) {
+    const curr_node = nodes[i];
+    curr_node.x = Math.max(radius, Math.min(width - radius, curr_node.x));
+    curr_node.y = Math.max(radius, Math.min(height - radius, curr_node.y));
+  }
+}
     };
 
 };

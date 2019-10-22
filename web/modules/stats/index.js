@@ -8,10 +8,7 @@ import ForceSim from './forcesim';
 // homepage = readme?
 // slider for month
 // open code in modal on mobil
-
-// TODO: joins / parts / kick / etc = stacked area chart
-
-// pad hours
+// TABLES G/S/B kicks
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
@@ -41,8 +38,9 @@ function Stats({ history, location }) {
                         .catch(console.error);
                 }}
             />
-            <ForceSim />
-
+            <ForceSim
+                items={stats.links}
+            />
             <div className="row">
                 <div className="base">
                     <h4>total commands</h4>
@@ -78,9 +76,6 @@ function Stats({ history, location }) {
                     />
                 </div>
             </div>
-            <pre>
-                {JSON.stringify([stats.links],0,4)}
-            </pre>
         </div>
     );
 }
