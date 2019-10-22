@@ -1,3 +1,4 @@
+const fs = require('fs');
 const config = require('../config.json');
 const { ServerNode } = require('../irc/server-node');
 const { initWeb } = require('../web/server');
@@ -5,6 +6,13 @@ const { Database } = require('../database/index');
 
 process.env.TZ = config.timezone || 'Europe/London';
 process.on('uncaughtException', console.error); // pls dont crash
+
+// create cache dir
+
+const cacheDir = __dirname + '/../cache';
+if (!fs.existsSync(cacheDir)) {
+    fs.mkdirSync(cacheDir);
+}
 
 new (class Nibblr {
     constructor() {

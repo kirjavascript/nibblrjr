@@ -1,7 +1,8 @@
-storage/*
-node_modules
-web/bundles
-package-lock.json
-acquire_cache
 config.json
+cache/*
+storage/*
+web/bundles
+
+node_modules
+package-lock.json
 yarn-error.log

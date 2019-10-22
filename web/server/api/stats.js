@@ -96,15 +96,16 @@ module.exports = function({ parent, app }) {
         const [{ db }] = dbList;
 
         const users = db.prepare(`
-            SELECT DISTINCT user
+            SELECT user, count(lower(user)) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
+            GROUP BY lower(user)
+            ORDER BY count DESC
+            LIMIT 10
         `)
             .all([dateTo, dateTo, ...channelArgs])
             .map(d => d.user);
-
-        const wildUsers = users.map(d => `%${d}%`);
 
         // const links = db.prepare(`
         //     SELECT user, count(*) as count, ? as relation
@@ -136,9 +137,20 @@ module.exports = function({ parent, app }) {
             `).join(' UNION ')
         ).all(
             users.flatMap((user, i) => [
-                user, dateTo, dateTo, ...channelArgs, wildUsers[i],
+                user, dateTo, dateTo, ...channelArgs, `%${user}%`,
             ])
         );
+
+        // const links = users.flatMap(user => (
+        //     db.prepare(`
+        //         SELECT user, count(*) as count, ? as relation
+        //         FROM log
+        //         WHERE time BETWEEN date(?, '-1 month') AND date(?)
+        //         ${channelStr}
+        //         AND message LIKE ?
+        //         GROUP BY user
+        //     `).all([user, dateTo, dateTo, ...channelArgs, `%${user}%`])
+        // ));
 
         res.json({
             activityHours,
@@ -148,7 +160,7 @@ module.exports = function({ parent, app }) {
         });
     });
 
-        // TODO: cache (on disk?)
+        // TODO: cache (on disk?) (caching results....)
 
 
     // todo: truncate nibblr messages to log
