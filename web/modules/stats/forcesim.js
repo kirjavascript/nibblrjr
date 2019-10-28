@@ -72,7 +72,7 @@ class ForceSimObj {
     };
 
     resize = () => {
-        this.render();
+        // this.render();
         // TODO: free moving but resize canvas
     };
 
@@ -80,9 +80,10 @@ class ForceSimObj {
         this.outerWidth = this.container.node().getBoundingClientRect().width;
 
         const height = 800;
-        const width = 1200;
+        const width = 1000;
 
         this.svg
+            .style('border', '1px solid red')
             .attr('width', width)
             .attr('height', height);
 
@@ -94,6 +95,7 @@ class ForceSimObj {
             .enter()
             .append('line')
             .attr('stroke', 'steelblue')
+            .attr('opacity', '.1')
             .attr('stroke-width', 2);
 
 
@@ -109,8 +111,16 @@ class ForceSimObj {
           .on("drag", dragged)
           .on("end", dragended));
 
+        const names = this.svg.append('g')
+            .selectAll('text')
+            .data(nodes)
+            .enter()
+            .append('text')
+            .text(d => d.id)
+
         // TODO: arc with arrows
         // TODO: lazy scroll load
+        // TODO: group by server
 
         const simulation = d3.forceSimulation()
             .nodes(nodes)
@@ -120,7 +130,7 @@ class ForceSimObj {
                 .strength(d => 1 / d.count)
             )
             .force('charge', d3.forceManyBody()
-                .strength(() => -1000)
+                .strength(() => -900)
                 // .distanceMax(500)
             )
             .force("box_force", box_force)
@@ -134,6 +144,10 @@ class ForceSimObj {
                 circles
                     .attr('cx', d => d.x)
                     .attr('cy', d => d.y)
+
+                names
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y)
             });
 
 function dragstarted(d) {
@@ -152,7 +166,7 @@ function dragended(d) {
   d.fx = null;
   d.fy = null;
 }
-const radius = 500;
+const radius = 100;
 function box_force() {
   for (var i = 0, n = nodes.length; i < n; ++i) {
     const curr_node = nodes[i];
