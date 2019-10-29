@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "orange",
+    "command": "/*__TEXTCMD__*/print(`banana`);"
+}

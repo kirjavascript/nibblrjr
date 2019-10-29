@@ -440,7 +440,7 @@ async function evaluate({
                     const result = (0, eval)(${JSON.stringify(script)});
                     printRaw(
                         IRCinspect(result, {
-                            depth: depth || 1,
+                            depth: depth || 0,
                             truncate: truncate || 390,
                         })
                     );
