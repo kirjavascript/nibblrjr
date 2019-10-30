@@ -90,6 +90,7 @@ class ForceSimObj {
         // TODO: arc with arrows
         // TODO: lazy scroll load
         // TODO: simulation.stop() / cleanup
+        // TODO: nodesize =
 
         const render = () => {
             ctx.clearRect(0, 0, width, height);
@@ -99,14 +100,24 @@ class ForceSimObj {
                 ctx.moveTo(d.source.x, d.source.y);
                 ctx.lineTo(d.target.x, d.target.y);
             });
-            ctx.strokeStyle = 'rgba(0, 255, 255, 0.1)';
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.2)';
             ctx.stroke();
 
+            // highlighted links
             ctx.beginPath();
             links.forEach(d => {
-                if (d.focused) {
+                if (d.from) {
                     ctx.moveTo(d.source.x, d.source.y);
-                    ctx.lineTo(d.target.x, d.target.y);
+                    ctx.quadraticCurveTo(d.source.x - 100, d.target.y + 100, d.target.x, d.target.y);
+                }
+            });
+            ctx.strokeStyle = 'rgba(200, 0, 255, 1)';
+            ctx.stroke();
+            ctx.beginPath();
+            links.forEach(d => {
+                if (d.to) {
+                    ctx.moveTo(d.source.x, d.source.y);
+                    ctx.quadraticCurveTo(d.source.x + 100, d.target.y - 100, d.target.x, d.target.y);
                 }
             });
             ctx.strokeStyle = 'rgba(0, 255, 255, 1)';
@@ -126,7 +137,7 @@ class ForceSimObj {
             // names
             ctx.fillStyle = 'black';
             nodes.forEach(d => {
-                ctx.font = `900 ${d.focused ? 18 : 12}px Hack`;
+                ctx.font = `${d.focused ? 18 : 12}px Hack`;
                 ctx.fillText(d.id, d.x, d.y);
             });
         };
@@ -148,7 +159,6 @@ class ForceSimObj {
 
         // dragging
         this.canvas
-            .style('border', '1px solid red')
             .attr('width', width)
             .attr('height', height)
             .call(d3.drag()
@@ -170,7 +180,8 @@ class ForceSimObj {
                         node.focused = node.id === focused;
                     });
                     links.forEach(link => {
-                        link.focused = link.source.id === focused;
+                        link.from = link.source.id === focused;
+                        link.to = link.target.id === focused;
                     });
                     render();
                 }

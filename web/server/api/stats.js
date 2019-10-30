@@ -124,11 +124,37 @@ module.exports = function({ parent, app }) {
             );
         });
 
+        // const kicks = getStat(() => `
+        //     SELECT user, count(lower(user)) as count
+        //     FROM log
+        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
+        //     ${channelStr}
+        //     AND command = "KICK"
+        //     GROUP BY lower(user)
+        //     ORDER BY count DESC
+        //     LIMIT 10
+        // `, [dateTo, dateTo, ...channelArgs]);
+
+        // const kicked = getStat(() => `
+        //     SELECT kicked, count(kicked) as count
+        //     FROM (
+        //         SELECT substr(message, 1, instr(message, ' ')-1) as kicked
+        //         FROM log
+        //         WHERE time BETWEEN date(?, '-1 month') AND date(?)
+        //         ${channelStr}
+        //         AND command = "KICK"
+        //     )
+        //     GROUP BY kicked
+        //     ORDER BY count DESC
+        // `, [dateTo, dateTo, ...channelArgs]);
+
         res.json({
+            commands,
             activityHours,
             activityDays,
+            // kicks,
+            // kicked,
             links,
-            commands,
         });
     });
 
@@ -178,34 +204,16 @@ module.exports = function({ parent, app }) {
     GROUP BY lower(user)
     ORDER BY average DESC
     LIMIT 10
-
-    #user kicks
-    SELECT user, count(lower(user)) as count
-    FROM log
-    WHERE command = "KICK"
-    GROUP BY lower(user)
-    ORDER BY count DESC
-    LIMIT 10
-
-    #user kicked
-    SELECT kicked, count(kicked) as count
-    FROM (
-        SELECT substr(message, 1, instr(message, ' ')-1) as kicked
-        FROM log
-        WHERE command = "KICK"
-        AND lower(target)="#rubik"
-    )
-    GROUP BY kicked
-    ORDER BY count DESC
 `;
 
 // https://i.imgur.com/n0rIWIO.png
 // http://buffy.myrealm.co.uk/afsmg/stats/
 //http://www.df7cb.de/irc/pisg/pisg-month.html
     //https://chanstat.net/stats/rizon/%23homescreen
-    // hardcode cake^ -> Kirjava
 
 // kick / death ratio
+
+// join part vs activity
 
 // user stats
     // number of commands served
