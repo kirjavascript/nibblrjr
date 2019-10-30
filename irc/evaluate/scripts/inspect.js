@@ -112,11 +112,11 @@ function inspect_(obj, opts, depth, seen) {
         const name = nameOf(obj);
         const isAsync = nameOf(obj.constructor || {}) === 'AsyncFunction';
         const defn = `[${isAsync ? 'Async' : ''}Function${(name ? ': ' + name : '')}]`;
-        // if (!Object.keys(obj).length) {
+        if (+opts.depth === -1 && Object.keys(obj).length) {
+            return `{ ${defn} ${arrObjKeys(obj, inspect).join(', ')} }`;
+        } else {
             return color('dc', defn);
-        // } else {
-        //     return `{ ${defn} ${arrObjKeys(obj), inspect).join(', ')} }`;
-        // }
+        }
     }
     if (isSymbol(obj)) {
         var symString = Symbol.prototype.toString.call(obj);
