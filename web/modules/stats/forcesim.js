@@ -6,11 +6,7 @@ const d3 = Object.assign({},
     require('d3-drag'),
 );
 
-Object.defineProperty(d3, 'event', {
-    get: function () {
-        return require('d3-selection').event;
-    },
-});
+Object.defineProperty(d3, 'event', { get: () => require('d3-selection').event });
 
 export default function ForceSim({
     items: links = [],
@@ -40,20 +36,18 @@ export default function ForceSim({
 }
 
 class ForceSimObj {
-    config = {
-        height: 400,
-        data: { },
-    };
+    config = {/* links, nodes */};
 
     container;
-    svg;
+    canvas;
+    simulation;
 
     constructor(node, config = {}) {
         this.container = d3.select(node);
         this.container.selectAll('*').remove();
         Object.assign(this.config, config);
 
-        this.svg = this.container.append('canvas');
+        this.canvas = this.container.append('canvas');
 
         window.addEventListener('resize', this.resize);
     }
@@ -83,18 +77,7 @@ class ForceSimObj {
         const height = 800;
         const width = 1000;
 
-        const canvas = this.svg.node();
-
-        this.svg
-            .style('border', '1px solid red')
-            .attr('width', width)
-            .attr('height', height)
-            .call(d3.drag()
-                  .container(canvas)
-                  .subject(dragsubject)
-                  .on("start", dragstarted)
-                  .on("drag", dragged)
-                  .on("end", dragended));
+        const canvas = this.canvas.node();
 
 
         canvas.width = width;
@@ -104,113 +87,125 @@ class ForceSimObj {
 
         const { links, nodes } = this.config;
 
-        // var lines = this.svg.append('g')
-        //     .selectAll('line')
-        //     .data(links)
-        //     .enter()
-        //     .append('line')
-        //     .attr('stroke', 'steelblue')
-        //     .attr('opacity', '.1')
-        //     .attr('stroke-width', 2);
-
-
-        // const circles = this.svg.append('g')
-        //     .selectAll('circle')
-        //     .data(nodes)
-        //     .enter()
-        //     .append('circle')
-        //     .attr('r', 10)
-        //     .attr('fill', 'green')
-      // .call(d3.drag()
-        //   .on("start", dragstarted)
-        //   .on("drag", dragged)
-        //   .on("end", dragended));
-
-        // const names = this.svg.append('g')
-        //     .selectAll('text')
-        //     .data(nodes)
-        //     .enter()
-        //     .append('text')
-        //     .text(d => d.id)
-
         // TODO: arc with arrows
         // TODO: lazy scroll load
         // TODO: simulation.stop() / cleanup
+
+        const render = () => {
+            ctx.clearRect(0, 0, width, height);
+            // links
+            ctx.beginPath();
+            links.forEach(d => {
+                ctx.moveTo(d.source.x, d.source.y);
+                ctx.lineTo(d.target.x, d.target.y);
+            });
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.1)';
+            ctx.stroke();
+
+            ctx.beginPath();
+            links.forEach(d => {
+                if (d.focused) {
+                    ctx.moveTo(d.source.x, d.source.y);
+                    ctx.lineTo(d.target.x, d.target.y);
+                }
+            });
+            ctx.strokeStyle = 'rgba(0, 255, 255, 1)';
+            ctx.stroke();
+            // nodes
+            ctx.beginPath();
+            nodes.forEach(d => {
+                const r = d.focused ? 8 : 6;
+                ctx.moveTo(d.x + r, d.y);
+                ctx.arc(d.x, d.y, r, 0, 2 * Math.PI);
+            });
+            ctx.fillStyle = 'limegreen';
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.strokeWidth = 4;
+            ctx.stroke();
+            // names
+            ctx.fillStyle = 'black';
+            nodes.forEach(d => {
+                ctx.font = `900 ${d.focused ? 18 : 12}px Hack`;
+                ctx.fillText(d.id, d.x, d.y);
+            });
+        };
 
         const simulation = d3.forceSimulation()
             .nodes(nodes)
             .force('link', d3.forceLink(links)
                 .id(d => d.id)
-                .strength(d => 1 / d.count)
+                // .strength(d => 1 / d.count)
             )
             .force('charge', d3.forceManyBody()
-                .strength(() => -900)
+                .strength(() => -500)
             )
-            .force('box', boxForce)
+            // .force('box', boxForce)
+            .force('x', d3.forceX())
+            .force('y', d3.forceY())
             .force('center', d3.forceCenter(width / 2, height / 2))
-            .on('tick', () => {
-                ctx.clearRect(0, 0, width, height);
-                // links
-                ctx.beginPath();
-                links.forEach(d => {
-                    ctx.moveTo(d.source.x, d.source.y);
-                    ctx.lineTo(d.target.x, d.target.y);
-                });
-                ctx.strokeStyle = 'rgba(255, 0, 0, 0.1)';
-                ctx.stroke();
-                // nodes
-                ctx.beginPath();
-                nodes.forEach(d => {
-                    ctx.moveTo(d.x + 10, d.y);
-                    ctx.arc(d.x, d.y, 10, 0, 2 * Math.PI);
-                });
-                ctx.fillStyle = 'green';
-                ctx.fill();
-                ctx.strokeStyle = '#fff';
-                ctx.strokeWidth = 4;
-                ctx.stroke();
-                // lines
-                //     .attr('x1', d => d.source.x)
-                //     .attr('y1', d => d.source.y)
-                //     .attr('x2', d => d.target.x)
-                //     .attr('y2', d => d.target.y)
-                // circles
-                //     .attr('cx', d => d.x)
-                //     .attr('cy', d => d.y)
+            .on('tick', render);
 
-                // names
-                //     .attr('x', d => d.x)
-                //     .attr('y', d => d.y)
+        // dragging
+        this.canvas
+            .style('border', '1px solid red')
+            .attr('width', width)
+            .attr('height', height)
+            .call(d3.drag()
+                .container(canvas)
+                .subject(dragsubject)
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended));
+
+        // focused
+        let focused;
+        this.canvas
+            .on('mousemove', () => {
+                const [x, y] = d3.mouse(this.canvas.node());
+                const node = simulation.find(x, y);
+                if (node && focused !== node.id) {
+                    focused = node.id;
+                    nodes.forEach(node => {
+                        node.focused = node.id === focused;
+                    });
+                    links.forEach(link => {
+                        link.focused = link.source.id === focused;
+                    });
+                    render();
+                }
             });
+        // mouseleave
 
-function dragsubject() {
-    return simulation.find(d3.event.x, d3.event.y);
-}
 
-function dragstarted() {
-  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-  d3.event.subject.fx = d3.event.subject.x;
-  d3.event.subject.fy = d3.event.subject.y;
-}
+        function dragsubject() {
+            return simulation.find(d3.event.x, d3.event.y);
+        }
 
-function dragged() {
-  d3.event.subject.fx = d3.event.x;
-  d3.event.subject.fy = d3.event.y;
-}
+        function dragstarted() {
+            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            d3.event.subject.fx = d3.event.subject.x;
+            d3.event.subject.fy = d3.event.subject.y;
+        }
 
-function dragended() {
-  if (!d3.event.active) simulation.alphaTarget(0);
-  d3.event.subject.fx = null;
-  d3.event.subject.fy = null;
-}
-function boxForce() {
-    const radius = 100;
-    for (var i = 0, n = nodes.length; i < n; ++i) {
-        const curr_node = nodes[i];
-        curr_node.x = Math.max(radius, Math.min(width - radius, curr_node.x));
-        curr_node.y = Math.max(radius, Math.min(height - radius, curr_node.y));
-    }
-}
+        function dragged() {
+            d3.event.subject.fx = d3.event.x;
+            d3.event.subject.fy = d3.event.y;
+        }
+
+        function dragended() {
+            if (!d3.event.active) simulation.alphaTarget(0);
+            d3.event.subject.fx = null;
+            d3.event.subject.fy = null;
+        }
+        function boxForce() {
+            const radius = 100;
+            for (var i = 0, n = nodes.length; i < n; ++i) {
+                const curr_node = nodes[i];
+                curr_node.x = Math.max(radius, Math.min(width - radius, curr_node.x));
+                curr_node.y = Math.max(radius, Math.min(height - radius, curr_node.y));
+            }
+        }
     };
 
 };
