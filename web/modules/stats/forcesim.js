@@ -117,7 +117,7 @@ class ForceSimObj {
             links.forEach(d => {
                 if (d.to) {
                     ctx.moveTo(d.source.x, d.source.y);
-                    ctx.quadraticCurveTo(d.source.x + 100, d.target.y - 100, d.target.x, d.target.y);
+                    ctx.bezierCurveTo(d.target.x - 100, d.target.y - 100, 200, 100, d.target.x, d.target.y);
                 }
             });
             ctx.strokeStyle = 'rgba(0, 255, 255, 1)';
