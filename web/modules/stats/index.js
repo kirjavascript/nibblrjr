@@ -38,9 +38,6 @@ function Stats({ history, location }) {
                         .catch(console.error);
                 }}
             />
-            <ForceSim
-                items={stats.links}
-            />
             <div className="row">
                 <div className="base">
                     <h4>total commands</h4>
@@ -76,6 +73,10 @@ function Stats({ history, location }) {
                     />
                 </div>
             </div>
+
+            <ForceSim
+                items={stats.links}
+            />
         </div>
     );
 }

@@ -115,6 +115,7 @@ module.exports = function({ parent, app }) {
                     WHERE time BETWEEN date(?, '-1 month') AND date(?)
                     ${channelStr}
                     AND message LIKE ?
+                    AND command = "PRIVMSG"
                     GROUP BY source
                 `).join(' UNION ')
             ).all(
@@ -220,9 +221,7 @@ module.exports = function({ parent, app }) {
     // most kicked
     // questions asked
     // yelling
-    // most mentioned person
     // semtiment analysis
-    // activity time
     // I also want to see people who join the most compared to people who stay online
 // URL linkers
 // richest
