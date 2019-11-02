@@ -93,7 +93,7 @@ module.exports = function({ parent, app }) {
             GROUP BY day
         `, [dateTo, dateTo, ...channelArgs]);
 
-        const links = dbList.flatMap(({ db }) => {
+        const links = dbList.flatMap(({ db, name }) => {
             const users = db.prepare(`
                 SELECT user, count(lower(user)) as count
                 FROM log
@@ -110,7 +110,7 @@ module.exports = function({ parent, app }) {
 
             return db.prepare(
                 users.map(() => `
-                    SELECT user as source, count(*) as count, ? as target
+                    SELECT user as source, count(*) as count, ? as server, ? as target
                     FROM log
                     WHERE time BETWEEN date(?, '-1 month') AND date(?)
                     ${channelStr}
@@ -120,7 +120,7 @@ module.exports = function({ parent, app }) {
                 `).join(' UNION ')
             ).all(
                 users.flatMap((user) => [
-                    user, dateTo, dateTo, ...channelArgs, `%${user}%`,
+                    name, user, dateTo, dateTo, ...channelArgs, `%${user}%`,
                 ])
             );
         });

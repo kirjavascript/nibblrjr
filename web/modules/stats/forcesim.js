@@ -19,12 +19,20 @@ export default function ForceSim({
         if (!chart.current) {
             chart.current = new ForceSimObj(node.current, config);
         }
-        const nodes = links.map(d => d.source)
-            .concat(links.map(d => d.target))
-            .filter((d, i, a) => a.indexOf(d) === i);
+        // calculate nodes and ids
+        const nodes = links.map(d => [d.source, d.server])
+            .concat(links.map(d => [d.target, d.server]))
+            .map(([name, server]) => [`${name}-${server}`, name, server])
+            .filter((d, i, a) => a.findIndex(node => node[0] === d[0]) === i)
+            .map(([id, name, server]) => ({ id, name, server }));
 
-        chart.current
-            .data(links, nodes.map(node => ({ id: node })));
+        // adjust source/target to match id
+        links.forEach(link => {
+            link.source = link.source + '-' + link.server;
+            link.target = link.target + '-' + link.server;
+        });
+
+        chart.current.data(links, nodes);
     }, [links]);
 
     useEffect(() => () => chart.current.destroy(), []);
@@ -44,21 +52,16 @@ class ForceSimObj {
         this.canvas = this.container.append('canvas');
         window.addEventListener('resize', this.resize);
 
-        this.width = this.container.node().getBoundingClientRect().width;
-        this.height = 800;
-        const { width, height } = this;
-        Object.assign(this.canvas.node(), { width, height });
-
         this.ctx = this.canvas.node().getContext('2d');
 
         this.simulation = d3.forceSimulation()
-            .force('charge', d3.forceManyBody()
-                .strength(() => -500)
-            )
             .force('x', d3.forceX())
             .force('y', d3.forceY())
-            .force('center', d3.forceCenter(width / 2, height / 2))
             .on('tick', this.render);
+
+        this.setSize();
+
+        const { width, height } = this;
 
         // dragging
         this.canvas
@@ -123,19 +126,20 @@ class ForceSimObj {
         return this;
     };
 
-    resize = () => {
-        // this.render();
-        // TODO: free moving but resize canvas
-        // zoom etc
+    setSize = () => {
         this.width = this.container.node().getBoundingClientRect().width;
+        this.height = 800;
         const { width, height } = this;
         Object.assign(this.canvas.node(), { width, height });
         this.simulation
             .force('center', d3.forceCenter(width / 2, height / 2))
             .force('charge', d3.forceManyBody()
                 .strength(() => -(width / 2.5))
-            )
-        ;
+            );
+    };
+
+    resize = () => {
+        this.setSize();
         this.simulation.alphaTarget(0.1).restart();
         this.render();
     };
@@ -183,14 +187,11 @@ class ForceSimObj {
         });
         ctx.fillStyle = 'limegreen';
         ctx.fill();
-        // ctx.strokeStyle = 'black';
-        // ctx.strokeWidth = 4;
-        // ctx.stroke();
         // names
         ctx.fillStyle = 'black';
         nodes.forEach(d => {
             ctx.font = `${d.focused ? 18 : 12}px Hack`;
-            ctx.fillText(d.id, d.x, d.y);
+            ctx.fillText(d.name, d.x, d.y);
         });
 
     };
