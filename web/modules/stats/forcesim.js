@@ -103,6 +103,18 @@ class ForceSimObj {
         this.container.selectAll('*').remove();
     };
 
+    setSize = () => {
+        this.width = this.container.node().getBoundingClientRect().width;
+        this.height = 800;
+        const { width, height } = this;
+        Object.assign(this.canvas.node(), { width, height });
+        this.simulation
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('charge', d3.forceManyBody()
+                .strength(() => -Math.min(width / 2.5, 400))
+            );
+    };
+
     data = (links, nodes) => {
         Object.assign(this.config, { links, nodes });
         this.simulation
@@ -139,18 +151,6 @@ class ForceSimObj {
             });
         // mouseleave
         return this;
-    };
-
-    setSize = () => {
-        this.width = this.container.node().getBoundingClientRect().width;
-        this.height = 800;
-        const { width, height } = this;
-        Object.assign(this.canvas.node(), { width, height });
-        this.simulation
-            .force('center', d3.forceCenter(width / 2, height / 2))
-            .force('charge', d3.forceManyBody()
-                .strength(() => -Math.min(width / 2.5, 400))
-            );
     };
 
     resize = () => {

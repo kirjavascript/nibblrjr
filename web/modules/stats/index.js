@@ -14,13 +14,10 @@ function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
     const [base, setBase] = useState({ servers: [] });
     const [stats, setStats] = useState({});
+    console.log(stats);
 
     return (
         <>
-
-            <div style={{borderTop: '5px solid rgba(235, 51, 110)'}}>
-                <ForceSim items={stats.links} />
-            </div>
             <div className="stats">
                 <Filter
                     history={history}
@@ -49,8 +46,6 @@ function Stats({ history, location }) {
                         <span>{base.commands}</span>
                         <h4>uptime</h4>
                         <span>{base.uptime}h</span>
-                        <h4>servers</h4>
-                        <span>{base.servers.length}</span>
                     </div>
                     <div className="command-chart">
                         <h3 className="title">most used commands</h3>
@@ -78,6 +73,9 @@ function Stats({ history, location }) {
                         />
                     </div>
                 </div>
+            </div>
+            <div style={{borderTop: '5px solid rgba(235, 51, 110)'}}>
+                <ForceSim items={stats.links} />
             </div>
         </>
     );

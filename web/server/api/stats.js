@@ -125,6 +125,30 @@ module.exports = function({ parent, app }) {
             );
         });
 
+        // short stats
+
+        const avgLineLengthHigh = getStat(() => `
+            SELECT user, avg(length(message)) as average
+            FROM log
+            WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            ${channelStr}
+            AND message <> ''
+            GROUP BY lower(user)
+            ORDER BY average DESC
+            LIMIT 1
+        `, [dateTo, dateTo, ...channelArgs]);
+
+        const avgLineLengthLow = getStat(() => `
+            SELECT user, avg(length(message)) as average
+            FROM log
+            WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            ${channelStr}
+            AND message <> ''
+            GROUP BY lower(user)
+            ORDER BY average ASC
+            LIMIT 1
+        `, [dateTo, dateTo, ...channelArgs]);
+
         // const kicks = getStat(() => `
         //     SELECT user, count(lower(user)) as count
         //     FROM log
@@ -153,9 +177,12 @@ module.exports = function({ parent, app }) {
             commands,
             activityHours,
             activityDays,
+            links,
+
+            avgLineLengthHigh,
+            avgLineLengthLow,
             // kicks,
             // kicked,
-            links,
         });
     });
 
@@ -197,13 +224,6 @@ module.exports = function({ parent, app }) {
     AND time BETWEEN date('now', '-1 year') AND date('now')
     GROUP BY lower(user)
     ORDER BY count DESC
-    LIMIT 10
-
-    #user avg line length
-    SELECT user, avg(length(message)) as average
-    FROM log
-    GROUP BY lower(user)
-    ORDER BY average DESC
     LIMIT 10
 `;
 
