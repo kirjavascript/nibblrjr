@@ -6,6 +6,7 @@ import LineChart from './linechart';
 import ForceSim from './forcesim';
 
 // homepage = readme?
+// update readme link to doc / add stats
 // slider for month
 // open code in modal on mobil
 // TABLES G/S/B kicks
