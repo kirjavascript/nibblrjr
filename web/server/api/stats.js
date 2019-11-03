@@ -64,7 +64,7 @@ module.exports = function({ parent, app }) {
         const commands = getStat(({ trigger }) => `
             SELECT command_trigger as command, count(command_trigger) as count
             FROM (
-                SELECT case when instr(message, ' ') <> 0 then substr(message, 1, instr(message, ' ')-1) else message end as command_trigger
+                SELECT CASE WHEN instr(message, ' ') <> 0 THEN substr(message, 1, instr(message, ' ')-1) ELSE message END as command_trigger
                 FROM log
                 WHERE time BETWEEN date(?, '-1 month') AND date(?)
                 ${channelStr}
@@ -150,14 +150,15 @@ module.exports = function({ parent, app }) {
         `, [dateTo, dateTo, ...channelArgs]);
 
         const shouting = getStat(() => `
-            SELECT user, avg(length(message)) as average
-            FROM log
+            SELECT user, count(message)
+            FROM LOG
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
-            AND message <> ''
+            AND message = upper(message)
+            AND ( ${Array.from({length: 26}, (_, i) => `message LIKE '%${String.fromCharCode(i+65)}%'`).join(' OR ')} )
+            AND length(message) > 10
             GROUP BY lower(user)
-            ORDER BY average DESC
-            LIMIT 10
+            LIMIT 1
         `, [dateTo, dateTo, ...channelArgs]);
 
         // const kicks = getStat(() => `

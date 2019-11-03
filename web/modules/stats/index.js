@@ -75,6 +75,8 @@ function Stats({ history, location }) {
                     </div>
                 </div>
             </div>
+            <h4> network graph </h4>
+            <span>tracking who talks to popular users</span>
             <div style={{borderTop: '5px solid rgba(235, 51, 110)'}}>
                 <ForceSim items={stats.links} />
             </div>
