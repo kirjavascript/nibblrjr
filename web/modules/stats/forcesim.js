@@ -55,8 +55,8 @@ class ForceSimObj {
         this.ctx = this.canvas.node().getContext('2d');
 
         this.simulation = d3.forceSimulation()
-            .force('x', d3.forceX())
-            .force('y', d3.forceY())
+            .force('x', d3.forceX().strength(0.2))
+            .force('y', d3.forceY().strength(0.2))
             .on('tick', this.render);
 
         this.setSize();
@@ -84,6 +84,15 @@ class ForceSimObj {
                     d3.event.subject.fx = null;
                     d3.event.subject.fy = null;
                 }));
+
+        // popup
+        this.container
+            .style('position', 'relative');
+        this.popup = this.container
+            .append('div')
+            .style('position', 'absolute')
+            .style('cursor', 'default')
+            .style('pointer-events', 'none')
     }
 
     // public
@@ -121,6 +130,12 @@ class ForceSimObj {
                     });
                     this.render();
                 }
+                if (node) {
+                    this.popup
+                        .style('left', `${node.x}px`)
+                        .style('top', `${node.y}px`)
+                        .html(node.id);
+                }
             });
         // mouseleave
         return this;
@@ -134,7 +149,7 @@ class ForceSimObj {
         this.simulation
             .force('center', d3.forceCenter(width / 2, height / 2))
             .force('charge', d3.forceManyBody()
-                .strength(() => -(width / 2.5))
+                .strength(() => -Math.min(width / 2.5, 400))
             );
     };
 
