@@ -115,7 +115,7 @@ module.exports = function({ parent, app }) {
                     WHERE time BETWEEN date(?, '-1 month') AND date(?)
                     ${channelStr}
                     AND message LIKE ?
-                    AND command = "PRIVMSG"
+                    AND command = 'PRIVMSG'
                     GROUP BY source
                 `).join(' UNION ')
             ).all(
@@ -133,6 +133,7 @@ module.exports = function({ parent, app }) {
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
             AND message <> ''
+            AND command = 'PRIVMSG'
             GROUP BY lower(user)
             ORDER BY average DESC
             LIMIT 1
@@ -144,6 +145,7 @@ module.exports = function({ parent, app }) {
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
             AND message <> ''
+            AND command = 'PRIVMSG'
             GROUP BY lower(user)
             ORDER BY average ASC
             LIMIT 1
@@ -157,6 +159,18 @@ module.exports = function({ parent, app }) {
             AND message = upper(message)
             AND ( ${Array.from({length: 26}, (_, i) => `message LIKE '%${String.fromCharCode(i+65)}%'`).join(' OR ')} )
             AND length(message) > 10
+            AND command = 'PRIVMSG'
+            GROUP BY lower(user)
+            LIMIT 1
+        `, [dateTo, dateTo, ...channelArgs]);
+
+        const questions = getStat(() => `
+            SELECT user, count(message)
+            FROM LOG
+            WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            ${channelStr}
+            AND message LIKE '%?%' AND message NOT LIKE '%http%'
+            AND command = 'PRIVMSG'
             GROUP BY lower(user)
             LIMIT 1
         `, [dateTo, dateTo, ...channelArgs]);
@@ -194,6 +208,7 @@ module.exports = function({ parent, app }) {
             avgLineLengthHigh,
             avgLineLengthLow,
             shouting,
+            questions,
             // kicks,
             // kicked,
         });
