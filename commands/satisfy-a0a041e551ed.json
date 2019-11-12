@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "satisfy",
+    "command": "print(\"R U' D' R2 U D R2 U' D' R2 U D R\");"
+}
