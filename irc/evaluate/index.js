@@ -414,7 +414,6 @@ async function evaluate({
 
             delete global.config;
             delete global.scripts;
-            delete global.console;
 
             /\s*/.test(''); // patch RegExp.$_
 
