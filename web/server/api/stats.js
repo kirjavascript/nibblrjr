@@ -175,6 +175,7 @@ module.exports = function({ parent, app }) {
             LIMIT 1
         `, [dateTo, dateTo, ...channelArgs]);
 
+
         // const kicks = getStat(() => `
         //     SELECT user, count(lower(user)) as count
         //     FROM log

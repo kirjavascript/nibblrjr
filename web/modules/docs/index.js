@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import marked from 'marked';
 
 function Docs() {
     const [md, setMd] = useState('');
-    const ref = useRef();
 
     useEffect(() => {
         fetch('/api/docs')
@@ -12,18 +11,15 @@ function Docs() {
                 setMd(marked(res.split('(__docs__)').pop()));
                 // jump to anchor
                 if (window.location.hash.length) {
-                    location.replace(window.location.hash);
+                    window.location.replace(window.location.hash);
                 }
             })
-            .catch(err => {
-                console.error(err);
-            });
+            .catch(console.error);
     }, []);
 
     return (
         <div
-            className="docs"
-            ref={ref}
+            className="document"
             dangerouslySetInnerHTML={{__html: md}}
         />
     );

@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 
+import Home from './home';
 import Cmds from './cmds';
 import Stats from './stats';
 import Docs from './docs';
@@ -34,6 +35,7 @@ const Nibblr = withRouter(({ location }) => {
                 </a>
             </div>
             <main className={`main-${currentPath}`}>
+                <Route exact path="/" component={Home} />
                 <Route path="/cmds" component={Cmds} />
                 <Route path="/stats" component={Stats} />
                 <Route exact path="/docs" component={Docs} />

@@ -6,11 +6,12 @@ make events more powerful, restrict how they're created -> current event API is 
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
 fork node-irc
-print streams
+print streams | built in pipe
 
 // TODO //
 command.deprecated
 bundling...
+character limit
 make repl-only a per channel config (4 hours ago)
 use a proxy for the config (!)
 bundle webpack assets statically

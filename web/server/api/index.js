@@ -18,6 +18,13 @@ function initAPI({ parent, app }) {
         });
     });
 
+    app.get('/api/readme', (_req, res) => {
+        const docs = path.join(__dirname, '../../../README.md');
+        fs.readFile(docs, 'utf8', (_err, src) => {
+            res.send(src || 'missing README');
+        });
+    });
+
     statsAPI({ parent, app });
 
     // auth

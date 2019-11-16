@@ -1,8 +1,9 @@
 nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 
 * multiple servers/channels
-* web CRUD command UI
 * rich IRC command API
+* web CRUD command UI
+* statistics visualisation
 * easy colour parsing DSL
 * human datetime parsing
 * database functions
@@ -17,9 +18,10 @@ nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 * 1000+ commands
 * various API integrations
 * texas hold em, roulette, blackjack, roll7, slots
+* [vim command editor](https://www.github.com/kirjavascript/nibblrjr.vim)
+
+[//]: # (__repo__)
 
 [read the documentation](DOCUMENTATION.md)
 
 or see the [example config](config.json.example) and then type `~help`
-
-as well as the web UI, you can manipulate commands with a [vim plugin](https://www.github.com/kirjavascript/nibblrjr.vim)
