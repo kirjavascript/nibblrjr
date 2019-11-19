@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "test",
-    "command": "//ADD STUFF TO 'define'\n\n/*\ntry {\n    const obj = fetchSync('http://api.urbandictionary.com/v0/define?term=' + encodeURIComponent(input), {type: 'json'});\n    print('{bo}' + obj.list[IRC.command.params[0] || 0].definition.trim().replace(/[\\[\\]]/g, ''));\n} catch(e) {\n    print('{r}no data for '+input)\n}\n*/\n\ntry {\n    const obj = fetchSync.json('https://km.uncyclopedia.info/api.php?action=query&format=json&prop=description&titles=' + encodeURIComponent(input));//, {type: 'json'});\n    print(obj);\n    print('{bo}' + obj.list[IRC.command.params[0] || 0].definition.trim().replace(/[\\[\\]]/g, ''));\n} catch(e) {\n    print('{r}no data for '+input);\n    print(`${e}`);\n    print('');\n    print(`${obj}`);\n}"
+    "command": "module.exports = function checkPath(obj, pathName) {\n    var path = pathName.split('.');\n    var p = obj;\n    for (var i = 0; i < path.length; i++) {\n        var partial = path[i];\n        if (!(partial in p)) {\n            return false;\n        }\n        p = p[partial]\n    }\n    return true;\n};"
 }
