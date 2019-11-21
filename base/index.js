@@ -9,12 +9,15 @@ const { Database } = require('../database/index');
 process.env.TZ = config.timezone || 'Europe/London';
 process.on('uncaughtException', console.error); // pls dont crash
 
-// create cache dir
+// create storage dirs
 
-const cacheDir = __dirname + '/../cache';
-if (!fs.existsSync(cacheDir)) {
-    fs.mkdirSync(cacheDir);
-}
+['cache', 'storage']
+    .forEach(dir => {
+        const path = __dirname + '/../' + dir;
+        if (!fs.existsSync(path)) {
+            fs.mkdirSync(path);
+        }
+    });
 
 // init
 

@@ -17,11 +17,10 @@ const stubbed = require('module').builtinModules;
 
 // load npm
 let npmInstall, npmView;
-npm.load({loglevel: 'silent', lock: false}, (err, success) => {
+npm.load({loglevel: 'silent', lock: false}, (err) => {
     if (err) {
         console.error(err);
-    }
-    else {
+    } else {
         npmInstall = promisify(npm.commands.install);
         npmView = promisify(npm.commands.view);
         // disable an attack vector
@@ -29,7 +28,7 @@ npm.load({loglevel: 'silent', lock: false}, (err, success) => {
     }
 });
 
-function acquire(input) {
+function acquire(input, installHook = () => {}) {
     if (!input.length || input.startsWith('.') || input.startsWith('_') || /[~\(\)'!\*]/.test(input) || input.includes('..')) {
         throw new Error('Invalid package name');
     }
@@ -98,6 +97,8 @@ function acquire(input) {
                     );
                 }
             }
+
+            installHook(moduleRaw);
 
             // install a freshy
             const result = await npmInstall(moduleDir, [moduleRaw]);

@@ -1,13 +1,21 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 const Database = require('better-sqlite3');
 
-module.exports = function({ parent, app }) {
+const storagePath = path.join(__dirname, '../../../storage');
+const cachePath = path.join(__dirname, '../../../cache/stats');
+
+module.exports = async ({ parent, app }) => {
+
+    const exists = async (dir) => !!await fs.stat(dir).catch(err => false);
+
+    if (!await exists(cachePath)) {
+        await fs.mkdir(cachePath);
+    }
 
     // load databases
 
-    const storagePath = path.join(__dirname, '../../../storage');
-    const databases = fs.readdirSync(storagePath)
+    const databases = (await fs.readdir(storagePath))
         .map(file => {
             const db = new Database(path.join(storagePath, file), { readonly: true });
             const name = path.parse(file).name;
@@ -45,6 +53,24 @@ module.exports = function({ parent, app }) {
             uptime: 0 | (new Date() - parent.epoch) / 36e5,
         });
     });
+
+    // cache middleware
+
+    app.post('/api/stats/all', async (req, res, next) => {
+        const { server = '', channel = '', month = '' } = req.body;
+        const statsPath = path.join(cachePath, `${server}-${channel}-${month}`);
+        if (await exists(statsPath)) {
+            res.type('application/json')
+                .send(await fs.readFile(statsPath, 'utf8'));
+        } else {
+            const { json } = res;
+            res.json = function (obj) {
+                json.call(this, obj);
+                fs.writeFile(statsPath, JSON.stringify(obj), 'utf8');
+            };
+            next();
+        }
+    })
 
     app.post('/api/stats/all', (req, res) => {
         const { server, channel, month } = req.body;
@@ -216,6 +242,10 @@ module.exports = function({ parent, app }) {
     });
 
         // TODO: cache (on disk?) (caching results....)
+
+    // popup on force
+    // activity user ranking (*)
+    //
 
 
     // todo: truncate nibblr messages to log

@@ -85,7 +85,7 @@ async function evaluate({
                 return false;
             }
         }));
-        jail.setSync('_whois', new ivm.Reference((text, callback) => (
+        jail.setSync('_whois', new ivm.Reference((text) => (
             text && new Promise((resolve, reject) => {
                 node.client.whois(text, (data) => {
                     try {

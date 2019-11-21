@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import marked from 'marked';
 
 function Home() {
     const [readme, setReadme] = useState('');
+    const ref = useRef();
 
     useEffect(() => {
         fetch('/api/readme')
@@ -12,8 +13,15 @@ function Home() {
             })
             .catch(console.error);
     }, []);
+
+    useEffect(() => {
+        [...ref.current.querySelectorAll('a')]
+            .forEach(node => node.setAttribute('target', '_blank'));
+    }, [readme]);
+
     return (
         <div
+            ref={ref}
             className="document"
             dangerouslySetInnerHTML={{__html: readme}}
         />
