@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "whendoigettoweston",
+    "command": "var arrival = new Date(); arrival.setHours(23); arrival.setMinutes(46); var departure = new Date(Date.now()); var diff = (arrival.getTime() - departure.getTime())/(1000*60*60); print(`Arrival in Weston in ${Math.floor(diff)} hours and ${Math.floor((diff - Math.floor(diff))*60)} minutes`);"
+}
