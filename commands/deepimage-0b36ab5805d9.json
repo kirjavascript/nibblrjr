@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "deepimage",
+    "command": "print(fetchSync.json('https://api.deepai.org/api/text2img', { method: 'POST', form: { text: input }, headers: { 'api-key' : 'a9b38b68-8fb3-46c2-84d6-99675a5177b4' } }).output_url)"
+}
