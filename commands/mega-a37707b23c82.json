@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "mega",
+    "command": "const scramble = (new (require('scrambo'))()).type('minx').get();\nprint(`Megaminx scramble #${IRC.require('module.count').next()}: ${scramble}`)"
+}

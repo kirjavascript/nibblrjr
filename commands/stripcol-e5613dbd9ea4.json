@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "stripcol",
+    "command": "print(input.replace(/{.*?}/g, ''))"
+}

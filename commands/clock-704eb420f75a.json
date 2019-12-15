@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "clock",
+    "command": "const scramble = (new (require('scrambo'))()).type('clock').get();\nprint(`Clock scramble #${IRC.require('module.count').next()}: ${scramble}`)"
+}

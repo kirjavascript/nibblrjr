@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "nodonk.event",
+    "command": "if (!IRC.event) {\r\n    throw new Error('you cannot call this command manually')\r\n}\r\n\r\nconst { type, message, user, target, init, timestamp } = IRC.event;\r\nprint(`no more donk ${target}`);"
+}

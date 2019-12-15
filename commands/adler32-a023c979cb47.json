@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "adler32",
+    "command": "log((r=>{var n=1,o=0;for(i=0;i<r.length;i++)o=(o+(n=(n+r.charCodeAt(i))%65521))%65521;return(o<<16|n)%101})(input))"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "test",
+    "command": "module.exports = function checkPath(obj, pathName) {\n    var path = pathName.split('.');\n    var p = obj;\n    for (var i = 0; i < path.length; i++) {\n        var partial = path[i];\n        if (!(partial in p)) {\n            return false;\n        }\n        p = p[partial]\n    }\n    return true;\n};"
+}

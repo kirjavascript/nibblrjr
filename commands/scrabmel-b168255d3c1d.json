@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "scrabmel",
+    "command": "print([...Array(25)].map(_=>'RFUBLD'[0|Math.random()*6]+\" '2\"[0|Math.random()*3]).join` `)"
+}

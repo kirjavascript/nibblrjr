@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "skewb",
+    "command": "const scramble = (new (require('scrambo'))()).type('skewb').get();\nprint(`Skewb scramble #${IRC.require('module.count').next()}: ${scramble}`)"
+}

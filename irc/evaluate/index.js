@@ -1,6 +1,7 @@
 const fs = require('fs');
 const ivm = require('isolated-vm');
 const fetch = require('node-fetch');
+const { URLSearchParams } = require('url');
 const _ = require('lodash');
 const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
@@ -118,6 +119,14 @@ async function evaluate({
         )));
         jail.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
             new Promise((resolve, reject) => {
+                if (config.form) {
+                    const params = new URLSearchParams();
+                    Object.entries(config.form)
+                        .forEach(([k, v]) => {
+                            params.append(k, v);
+                        });
+                    config.body = params;
+                }
                 fetch(url, config)
                     .then((res) => res[type || 'text']())
                     .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
@@ -440,7 +449,7 @@ async function evaluate({
                     const result = (0, eval)(${JSON.stringify(script)});
                     printRaw(
                         IRCinspect(result, {
-                            depth: depth || 1,
+                            depth: depth || 0,
                             truncate: truncate || 390,
                         })
                     );

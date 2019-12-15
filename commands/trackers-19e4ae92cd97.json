@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "trackers",
+    "command": "/*__TEXTCMD__*/print(`https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt`);"
+}

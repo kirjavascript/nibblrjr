@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "kawaii",
+    "command": "const faces = [ '(◕ᴗ◕✿)', '(◕◡◕✿)', '(◔◡◔✿)', '(｡◕‿◕｡✿)', '(◡‿◡✿)', '(◠‿◠✿)', '(◕ܫ◕✿)', '(◕▿◕✿)', '(◕ ワ ◕✿)' ];\nprint(`${faces[0|Math.random()*faces.length]} ${input}`)"
+}

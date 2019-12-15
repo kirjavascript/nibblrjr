@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "pyra",
+    "command": "const scramble = (new (require('scrambo'))()).type('pyram').get();\nprint(`Pyraminx scramble #${IRC.require('module.count').next()}: ${scramble}`)"
+}

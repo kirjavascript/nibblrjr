@@ -1,6 +1,6 @@
 {
     "name": "hello",
-    "command": "/*__TEXTCMD__*/print(`hello world`);",
+    "command": "/*__TEXTCMD__*/print(`https://i.imgur.com/v3n1Go5.jpg`);",
     "locked": false,
     "starred": false
 }

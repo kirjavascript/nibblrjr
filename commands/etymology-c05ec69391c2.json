@@ -1,6 +1,6 @@
 {
     "name": "etymology",
-    "command": "getDOM('http://www.etymonline.com/word/'+encodeURIComponent(input)).then(dom => print(dom.qs('p').textContent)).catch(print.error)",
+    "command": "const { document, window } = fetchSync.dom('http://www.etymonline.com/search?q='+encodeURIComponent(input));\nconst node = document.querySelector('object').parentNode;\nprint(node.textContent);",
     "locked": false,
     "starred": false
 }

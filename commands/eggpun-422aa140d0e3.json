@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "eggpun",
+    "command": "const puns = [...fetchSync.dom('https://punpedia.org/egg-puns/').document.querySelectorAll('span')].map(d => d.textContent).slice(3)\nprint(puns[0|Math.random()*puns.length])"
+}

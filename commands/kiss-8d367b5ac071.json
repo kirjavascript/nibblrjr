@@ -1,6 +1,6 @@
 {
     "name": "kiss",
-    "command": "print.raw('(-。-)');",
+    "command": "print(`(っ˘з(˘⌣˘ ) {r}♡{/} ${input}`)",
     "locked": false,
     "starred": false
 }

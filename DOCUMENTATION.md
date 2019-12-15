@@ -78,12 +78,8 @@ prints text with [IRC.colors.success](#IRC-colors-success)
 works the same as [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) but is synchronous. options are the same as [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) with the addition;
 
 * `type` - _string_ &emsp; can be `text`, `json` or `dom`
+* `form` - _object_ &emsp; set the body and content type to URL encoded form
 
-the `dom` option is useful for scraping websites or RSS feeds
-
-```javascript
-const { window, document } = fetchSync('http://google.com', {type: 'dom'});
-```
 [fetchSync](#fetchsync) blocks, but each command is run concurrently in a separate vm - so other features continue to be responsive
 
 <a name="fetchsync-json" href="#fetchsync-json">#</a> fetchSync.<b>json</b>(<i>url</i>{, <i>options</i>}) -> <i>object</i>
@@ -93,6 +89,12 @@ same as [fetchSync](#fetchsync), except parses the response as JSON and returns 
 <a name="fetchsync-dom" href="#fetchsync-dom">#</a> fetchSync.<b>dom</b>(<i>url</i>{, <i>options</i>}) -> <i>DOM</i>
 
 same as [fetchSync](#fetchsync), except parses the response as HTML and returns a window object
+
+useful for scraping websites or RSS feeds
+
+```javascript
+const { window, document } = fetchSync.dom('http://google.com');
+```
 
 the following functions are deprecated
 

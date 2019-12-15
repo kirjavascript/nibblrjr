@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "vlang",
+    "command": "const { token } = fetchSync.json(\"https://vlang.api.judge0.com/submissions?base64_encoded=true&wait=false\", {\n    \"headers\": {\n        \"User-Agent\": \"Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0\",\n        \"Accept\": \"*/*\",\n        \"Accept-Language\": \"en-GB,en;q=0.5\",\n        \"Content-Type\": \"application/json\"\n    },\n    \"referrer\": \"https://vlang.ide.judge0.com/\",\n    \"body\": JSON.stringify({\n        source_code: require('btoa')(input),\n        language_id: 10,\n        stdin: '',\n    }),\n    \"method\": \"POST\",\n});\nlet json;\ndo {\n    json = fetchSync.json(\"https://vlang.api.judge0.com/submissions/\"+token+\"?base64_encoded=true\", {\n        \"headers\": {\n            \"User-Agent\": \"Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0\",\n            \"Accept\": \"*/*\",\n            \"Accept-Language\": \"en-GB,en;q=0.5\"\n        },\n        \"referrer\": \"https://vlang.ide.judge0.com/\",\n        \"method\": \"GET\",\n    });\n} while(!json.stdout && !json.compile_output);\nprint(json.compile_output ? require('atob')(json.compile_output).replace(/\\s+/g,' ') : require('atob')(json.stdout));"
+}
