@@ -1,25 +1,33 @@
-sudo: reboot|git|update|join|part|mode|topic|kick|nick|redirect|ignore
+sudo: reboot|update|join|part|mode|topic|kick|nick|redirect|ignore|setlinelimit
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
 version 4: data scoping & ORM
+fork node-irc
+print streams | built in pipe | IRC.runCommand()
+unix style params
+
+// events//
+add extra input for events to subscribe to event: "message.channel"
+collect all events and run them in a single vm
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
-fork node-irc
-print streams | built in pipe | IRC.runCommand()
+
 
 // TODO //
-command.deprecated
 character limit
+command.deprecated
 make repl-only a per channel config (4 hours ago)
 use a proxy for the config (!)
 bundle webpack assets statically
 combine action / notice / print lineLimit
 uno
+command rate limiting
 IRC.requestLines
 FormData URLSearchParams { form }
 arcsecond command parser
 require('jsdom|lodash|date-fns') + 'Downloading from npm'
+<kingchris> pls to make stock trading game. everybody starts with a budget of £1000 and choose stonks to invest into. use real stonk data for scoring. limit buying and selling to weekly idk? ok thank cool, good talk (2 hours ago)
 koth game (you have HP to share around? - damnit bobby)
 make reserved/silent configurable
 /* IRC.ops() */
@@ -79,12 +87,7 @@ test parse command
 // track nick list
 
 // UI
-react router
 // subcommands / tree
 only web ui can kick/part/join
 // db web backup zip
 database explorer
-
-// EDITOR
-edited
-testing

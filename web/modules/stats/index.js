@@ -10,6 +10,7 @@ function Stats({ history, location }) {
     const [base, setBase] = useState({ servers: [] });
     const [stats, setStats] = useState({});
     console.log(stats);
+    // add sudo commands to docs, talk about modules
 
     return (
         <>
