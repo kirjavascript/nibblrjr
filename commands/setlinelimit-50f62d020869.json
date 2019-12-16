@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "setlinelimit",
+    "command": "const { node } = IRC.sudo();\nconst index = node.channels.get().findIndex(channel => channel.name == IRC.message.target);\nnode.channels[index].lineLimit.set(+input);"
+}
