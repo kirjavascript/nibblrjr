@@ -4,13 +4,15 @@ import { useFetch } from '../hooks';
 import BarChart from './barchart';
 import LineChart from './linechart';
 import ForceSim from './forcesim';
+import Factoids from './factoids';
+// add sudo commands to docs, talk about modules
+// topics
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
     const [base, setBase] = useState({ servers: [] });
     const [stats, setStats] = useState({});
     console.log(stats);
-    // add sudo commands to docs, talk about modules
 
     return (
         <>
@@ -51,7 +53,6 @@ function Stats({ history, location }) {
                         />
                     </div>
                 </div>
-
                 <div className="row">
                     <div className="half">
                         <h3 className="title">activity / days</h3>
@@ -69,6 +70,7 @@ function Stats({ history, location }) {
                         />
                     </div>
                 </div>
+                <Factoids stats={stats} />
             </div>
             <h4> network graph </h4>
             <span>tracking who talks to popular users</span>

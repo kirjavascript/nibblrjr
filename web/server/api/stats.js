@@ -178,7 +178,7 @@ module.exports = async ({ parent, app }) => {
         `, [dateTo, dateTo, ...channelArgs]);
 
         const shouting = getStat(() => `
-            SELECT user, count(message)
+            SELECT user, count(message) as count
             FROM LOG
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
@@ -191,7 +191,7 @@ module.exports = async ({ parent, app }) => {
         `, [dateTo, dateTo, ...channelArgs]);
 
         const questions = getStat(() => `
-            SELECT user, count(message)
+            SELECT user, count(message) as count
             FROM LOG
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
