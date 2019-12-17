@@ -1,7 +1,7 @@
 {
     "version": "3.5.2",
-    "engines" : {
-        "node" : ">=11"
+    "engines": {
+        "node": ">=11"
     },
     "scripts": {
         "start-pm2": "pm2 start --name \"nibblrjr\" index.js",
@@ -13,6 +13,7 @@
         "body-parser": "^1.19.0",
         "codemirror": "^5.49.0",
         "d3": "^5.12.0",
+        "d3-scale-chromatic": "^1.5.0",
         "date-fns": "^1.29.0",
         "express": "^4.16.2",
         "global-npm": "^0.3.0",

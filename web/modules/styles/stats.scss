@@ -69,6 +69,21 @@
         }
     }
 
+    // factoids
+
+    .factoids {
+        text-align: center;
+        font-size: 22px;
+    }
+
+    .name {
+        font-weight: 700;
+    }
+
+    .fact-type {
+        color: $red;
+        font-weight: 900;
+    }
 }
 
 .stats-filter {
