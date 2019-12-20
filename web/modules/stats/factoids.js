@@ -4,11 +4,6 @@ import { interpolateRainbow } from 'd3-scale-chromatic';
 // color name from app
 // animations?1
 
-function getBest(items = [], accessor = 'count') {
-    const max = items.reduce((acc, cur) => Math.max(acc, cur[accessor]), 0);
-    return items.filter(d => d[accessor] === max);
-}
-
 function quantity(n) {
     return n == 1 ? 'once' : n == 2 ? 'twice' : `${n} times`;
 }
@@ -32,6 +27,12 @@ function adler32(str) {
     return (b << 0x10) | a;
 }
 
+function getBest(items = [], accessor = 'count', type = 'max') {
+    const cmp = type == 'max' ? 0 : Infinity;
+    const max = items.reduce((acc, cur) => Math[type](acc, cur[accessor]), cmp);
+    return items.filter(d => d[accessor] === max);
+}
+
 function UserList({ items }) {
     return items
         .map(d => (
@@ -45,7 +46,8 @@ function UserList({ items }) {
         ))
         .reduce((acc, cur, i, arr) => [
             acc,
-            i == arr.length - 1 ? ' and ' : ', ',
+            // oxford comma disambiguates multiple lists
+            i == arr.length - 1 ? (i-1?',':'') + ' and ' : ', ',
             cur,
         ]);
 }
@@ -55,6 +57,8 @@ function Factoids({ stats }) {
     const questioners = getBest(stats.questions);
     const kickers = getBest(stats.kicks);
     const kickees = getBest(stats.kicked);
+    const avgLowPpl = getBest(stats.avgLineLengthLow, 'average', 'min');
+    const avgHighPpl = getBest(stats.avgLineLengthHigh, 'average');
 
     return (
         <div className="factoids">
@@ -94,7 +98,19 @@ function Factoids({ stats }) {
                     {quantity(kickees[0].count)}
                 </p>
             )}
-            <pre>{JSON.stringify(getBest(stats.questions))}</pre>
+
+            {!!avgHighPpl.length && (
+                <p className="factoid">
+                    {'for '}
+                    <span className="fact-type">
+                        {' average line length '}
+                    </span>
+                    <UserList items={avgHighPpl} />
+                    {' had ' + (0 | avgHighPpl[0].average) + ' and '}
+                    <UserList items={avgLowPpl} />
+                    {' had ' + (0 | avgLowPpl[0].average)}
+                </p>
+            )}
         </div>
     );
 }
