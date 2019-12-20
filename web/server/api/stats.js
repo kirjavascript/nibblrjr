@@ -201,30 +201,29 @@ module.exports = async ({ parent, app }) => {
             LIMIT 1
         `, [dateTo, dateTo, ...channelArgs]);
 
+        const kicks = getStat(() => `
+            SELECT user, count(lower(user)) as count
+            FROM log
+            WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            ${channelStr}
+            AND command = "KICK"
+            GROUP BY lower(user)
+            ORDER BY count DESC
+            LIMIT 10
+        `, [dateTo, dateTo, ...channelArgs]);
 
-        // const kicks = getStat(() => `
-        //     SELECT user, count(lower(user)) as count
-        //     FROM log
-        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
-        //     ${channelStr}
-        //     AND command = "KICK"
-        //     GROUP BY lower(user)
-        //     ORDER BY count DESC
-        //     LIMIT 10
-        // `, [dateTo, dateTo, ...channelArgs]);
-
-        // const kicked = getStat(() => `
-        //     SELECT kicked, count(kicked) as count
-        //     FROM (
-        //         SELECT substr(message, 1, instr(message, ' ')-1) as kicked
-        //         FROM log
-        //         WHERE time BETWEEN date(?, '-1 month') AND date(?)
-        //         ${channelStr}
-        //         AND command = "KICK"
-        //     )
-        //     GROUP BY kicked
-        //     ORDER BY count DESC
-        // `, [dateTo, dateTo, ...channelArgs]);
+        const kicked = getStat(() => `
+            SELECT user, count(user) as count
+            FROM (
+                SELECT substr(message, 1, instr(message, ' ')-1) as user
+                FROM log
+                WHERE time BETWEEN date(?, '-1 month') AND date(?)
+                ${channelStr}
+                AND command = "KICK"
+            )
+            GROUP BY user
+            ORDER BY count DESC
+        `, [dateTo, dateTo, ...channelArgs]);
 
         res.json({
             commands,
@@ -236,8 +235,8 @@ module.exports = async ({ parent, app }) => {
             avgLineLengthLow,
             shouting,
             questions,
-            // kicks,
-            // kicked,
+            kicks,
+            kicked,
         });
     });
 
@@ -320,6 +319,7 @@ module.exports = async ({ parent, app }) => {
 // 21:08 <+IckleFinn> longest time online without message
 // 21:17 <+IckleFinn> Kirjava: You going to make a heatmap for activity based on time?
 // 10:56 <nibblrjr1> <Kirjava> track nick changes stats with nibblr (also maybe use it to work out nick groups (1 day ago)
+// swears
 
 // 18:39 <&cr0sis> showed you graphically with stronger and more frequent lines who spoke to who
 // 18:40 <&cr0sis> also how about people who use the same words, and also people who use the same words that are also unique to those people

@@ -52,7 +52,9 @@ function UserList({ items }) {
 
 function Factoids({ stats }) {
     const shouters = getBest(stats.shouting);
-    const quizzical = getBest(stats.questions);
+    const questioners = getBest(stats.questions);
+    const kickers = getBest(stats.kicks);
+    const kickees = getBest(stats.kicked);
 
     return (
         <div className="factoids">
@@ -64,13 +66,32 @@ function Factoids({ stats }) {
                     {' ' + quantity(shouters[0].count)}
                 </p>
             )}
-            {!!quizzical.length && (
+            {!!questioners.length && (
                 <p className="factoid">
-                    <UserList items={quizzical} />
-                    {' asked a total of ' + quizzical[0].count + ' '}
+                    <UserList items={questioners} />
+                    {' asked a total of ' + questioners[0].count + ' '}
                     <span className="fact-type">
-                        {plural('question', quizzical[0].count)}
+                        {plural('question', questioners[0].count)}
                     </span>
+                </p>
+            )}
+            {!!kickers.length && (
+                <p className="factoid">
+                    <UserList items={kickers} />
+                    <span className="fact-type">
+                        {' kicked '}
+                    </span>
+                    {kickers[0].count + ' '}
+                    {kickers[0].count > 1 ? ' people' : ' person'}
+                </p>
+            )}
+            {!!kickees.length && (
+                <p className="factoid">
+                    <UserList items={kickees} />
+                    <span className="fact-type">
+                        {' got kicked '}
+                    </span>
+                    {quantity(kickees[0].count)}
                 </p>
             )}
             <pre>{JSON.stringify(getBest(stats.questions))}</pre>
