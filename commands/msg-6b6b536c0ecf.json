@@ -1,6 +1,6 @@
 {
     "name": "msg",
-    "command": "print(\"https://www.youtube.com/watch?v=M48Mucp_2jo\");",
-    "locked": false,
-    "starred": false
+    "command": "const { node } = IRC.sudo();\nnode.client.say.call(IRC.command.params[0], input)",
+    "locked": true,
+    "starred": true
 }

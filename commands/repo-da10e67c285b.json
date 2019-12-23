@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "repo",
+    "command": "input = input.trim() || IRC.message.from;\nconst repo = store.get(input.toLowerCase());\nprint(repo ? IRC.colors.link(repo) : `no repo saved for ${IRC.colors.nick(input)} add one with ${IRC.colors.cmd('repo.set', 'URL', input == IRC.message.from ? undefined : input)}`)"
+}

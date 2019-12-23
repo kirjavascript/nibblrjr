@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "giphy",
+    "command": "print(IRC.colors.link(fetchSync.json(`https://api.giphy.com/v1/gifs/search?q=${encodeURIComponent(input)}&api_key=dc6zaTOxFJmzC&limit=1`).data[0].embed_url))"
+}
