@@ -1,10 +1,11 @@
-sudo: reboot|update|join|part|mode|topic|kick|nick|redirect|ignore|setlinelimit
+sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
 version 4: data scoping & ORM
 fork node-irc
 print streams | built in pipe | IRC.runCommand()
 unix style params
+PYTHON=$(which python2)
 
 // events//
 add extra input for events to subscribe to event: "message.channel"
@@ -13,8 +14,8 @@ make events more powerful, restrict how they're created -> current event API is 
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
 
-
 // TODO //
+~quit message
 character limit
 command.deprecated
 IRC.lang.{color,plural,quantity}

@@ -24,7 +24,7 @@ export function useFetch() {
         const init = {
             ...options,
             headers: {
-                'Authorization': `Basic ${btoa(`web:${password}`)}`,
+                'X-Authorization': `Basic ${btoa(`web:${password}`)}`,
                 'Content-Type': 'application/json',
             },
             body: options.body && JSON.stringify(options.body),

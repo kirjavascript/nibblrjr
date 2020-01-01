@@ -31,7 +31,8 @@ function initAPI({ parent, app }) {
 
     const basicAuth = /^\s*basic\s+(.+)$/i
     app.use('/api/*', (req, _res, next) => {
-        const { authorization } = req.headers;
+        const Xauth = req.headers['x-authorization'];
+        const authorization = Xauth || req.headers.authorization;
         if (authorization && basicAuth.test(authorization)) {
             const [, creds] = authorization.match(basicAuth);
             const credsString = Buffer.from(creds, 'base64').toString();

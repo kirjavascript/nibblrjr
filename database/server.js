@@ -4,7 +4,7 @@ function createServerDBFactory(database) {
         const name = node.address.replace(/[^a-zA-Z0-9.]/g, '');
         const db = database.createDB(name, `
             CREATE TABLE IF NOT EXISTS log (
-                idx INTEGER PRIMARY KEY AUTOINCREMENT,
+                idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                 time DATETIME DEFAULT ((DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME'))),
                 user VARCHAR (100),
                 command VARCHAR (10),
