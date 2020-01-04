@@ -8,6 +8,7 @@ unix style params
 PYTHON=$(which python2)
 
 // events//
+message regex
 add extra input for events to subscribe to event: "message.channel"
 collect all events and run them in a single vm
 make events more powerful, restrict how they're created -> current event API is bad

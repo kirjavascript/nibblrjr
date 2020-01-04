@@ -1,9 +1,6 @@
 import React from 'react';
 import { interpolateRainbow } from 'd3-scale-chromatic';
 
-// color name from app
-// animations?1
-
 function quantity(n) {
     return n == 1 ? 'once' : n == 2 ? 'twice' : `${n} times`;
 }

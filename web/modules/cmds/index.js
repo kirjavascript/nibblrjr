@@ -145,6 +145,9 @@ function EditorPane({ updateList, history, match: { params } }) {
             .then(obj => {
                 if (!obj.error) {
                     setSaveText('saved');
+                    setTimeout(() => {
+                        setSaveText('save');
+                    }, 1000)
                 } else {
                     setSaveText(obj.error);
                 }

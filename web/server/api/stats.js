@@ -250,7 +250,6 @@ module.exports = async ({ parent, app }) => {
     // todo: truncate nibblr messages to log
     // activity: do a multiline chart with hover over messages
 // updated hourly
-// Kirjava: you could also make some stats about who starts the games :p
 
     // databases.forEach(({ db }) => {
     //     console.log(
@@ -295,12 +294,6 @@ module.exports = async ({ parent, app }) => {
 // join part vs activity
 
 // user stats
-    // number of commands served
-    // most kicked
-    // questions asked
-    // yelling
-    // semtiment analysis
-    // I also want to see people who join the most compared to people who stay online
 // URL linkers
 // richest
 // 21:03 <+Kirjava> this is all great
