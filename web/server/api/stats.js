@@ -251,14 +251,6 @@ module.exports = async ({ parent, app }) => {
     // activity: do a multiline chart with hover over messages
 // updated hourly
 
-    // databases.forEach(({ db }) => {
-    //     console.log(
-    //         db.prepare(`
-    //         `)
-    //         .all()
-    //     )
-    // });
-
 
         // const userActivity = getStat(() => `
         //     SELECT user, count(lower(user)) as count
@@ -287,7 +279,7 @@ module.exports = async ({ parent, app }) => {
 // https://i.imgur.com/n0rIWIO.png
 // http://buffy.myrealm.co.uk/afsmg/stats/
 //http://www.df7cb.de/irc/pisg/pisg-month.html
-    //https://chanstat.net/stats/rizon/%23homescreen
+//https://chanstat.net/stats/rizon/%23homescreen
 
 // kick / death ratio
 

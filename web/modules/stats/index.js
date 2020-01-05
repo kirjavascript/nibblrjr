@@ -6,8 +6,8 @@ import LineChart from './linechart';
 import ForceSim from './forcesim';
 import Factoids from './factoids';
 // add sudo commands to docs, talk about modules
+// fix cache
 // topics
-// update vulnerable deps
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
