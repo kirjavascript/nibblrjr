@@ -56,10 +56,30 @@ module.exports = async ({ parent, app }) => {
 
     // cache middleware
 
+    const checkRecentCache = (() => {
+        const lookup = {};
+        return (server, channel) => {
+            const now = new Date();
+            const key = `${server}-${channel}`;
+            if (lookup[key]) {
+                if (now - lookup[key] > 10000) {
+                    lookup[key] = now
+                    return true;
+                }
+                return false;
+            } else {
+                lookup[key] = now;
+                return true;
+            }
+        };
+    })();
+
     app.post('/api/stats/all', async (req, res, next) => {
         const { server = '', channel = '', month = '' } = req.body;
-        const statsPath = path.join(cachePath, `${server}-${channel}-${month}`);
-        if (await exists(statsPath)) {
+        const ident = `${server}-${channel}-${month}`.replace(/[^a-z#.]|\.\./g, '');
+        const statsPath = path.join(cachePath, ident);
+        const staleRecent = !month && checkRecentCache(server, channel);
+        if (staleRecent || await exists(statsPath)) {
             res.type('application/json')
                 .send(await fs.readFile(statsPath, 'utf8'));
         } else {
@@ -240,72 +260,4 @@ module.exports = async ({ parent, app }) => {
         });
     });
 
-        // TODO: cache (on disk?) (caching results....)
-
-    // popup on force
-    // activity user ranking (*)
-    //
-
-
-    // todo: truncate nibblr messages to log
-    // activity: do a multiline chart with hover over messages
-// updated hourly
-
-
-        // const userActivity = getStat(() => `
-        //     SELECT user, count(lower(user)) as count
-        //     FROM log
-        //     WHERE time BETWEEN date(?, '-1 month') AND date(?)
-        //     ${channelStr}
-        //     GROUP BY lower(user)
-        //     ORDER BY count DESC
-        //     LIMIT 10
-        // `, [dateTo, dateTo, ...channelArgs]);
-
-`
-    #server total lines
-    SELECT COALESCE(MAX(idx)+1, 0) FROM log
-
-    #user activity
-    SELECT user, count(lower(user)) as count
-    FROM log
-    WHERE lower(target)="#code"
-    AND time BETWEEN date('now', '-1 year') AND date('now')
-    GROUP BY lower(user)
-    ORDER BY count DESC
-    LIMIT 10
-`;
-
-// https://i.imgur.com/n0rIWIO.png
-// http://buffy.myrealm.co.uk/afsmg/stats/
-//http://www.df7cb.de/irc/pisg/pisg-month.html
-//https://chanstat.net/stats/rizon/%23homescreen
-
-// kick / death ratio
-
-// join part vs activity
-
-// user stats
-// URL linkers
-// richest
-// 21:03 <+Kirjava> this is all great
-// 21:03 <eyeoh> what about pisg
-// 21:03 <eyeoh> http://pisg.sourceforge.net/examples
-// 21:04 <+nibblrjr> >> pisg - Perl IRC Statistics Generator :: Examples
-// 21:04 <mordini> swear i thought you typoed pigs
-// 21:05 <mordini> http://aurora.bot.free.fr/Stats/eloosmotus-FR.html
-// 21:05 <+nibblrjr> >> #EloosMotus @ R�seau Europnet - stats par Zephir
-// 21:05 <mordini> haven't seen a page like that in a while
-// 21:05 <+IckleFinn> I hope you are writing this down then
-// 21:06 <+IckleFinn> Would love a count of swearwords as well
-// 21:06 <+IckleFinn> Most swearing person
-// 21:08 <+IckleFinn> You are going to do the lurker club?
-// 21:08 <+Kirjava> the what
-// 21:08 <+IckleFinn> longest time online without message
-// 21:17 <+IckleFinn> Kirjava: You going to make a heatmap for activity based on time?
-// 10:56 <nibblrjr1> <Kirjava> track nick changes stats with nibblr (also maybe use it to work out nick groups (1 day ago)
-// swears
-
-// 18:39 <&cr0sis> showed you graphically with stronger and more frequent lines who spoke to who
-// 18:40 <&cr0sis> also how about people who use the same words, and also people who use the same words that are also unique to those people
 };

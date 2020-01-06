@@ -66,6 +66,42 @@ strip only starred commands for github ?
 provide a toQueryString / URLSearchParams
 truncate log messages (or also how nibblr saves itself to log)
 
+
+// stats //
+https://i.imgur.com/n0rIWIO.png
+http://buffy.myrealm.co.uk/afsmg/stats/
+http://www.df7cb.de/irc/pisg/pisg-month.html
+https://chanstat.net/stats/rizon/%23homescreen
+kick / death ratio
+
+join part vs activity
+
+activity: do a multiline chart with hover over messages
+
+user stats
+URL linkers
+richest
+21:03 <+Kirjava> this is all great
+21:03 <eyeoh> what about pisg
+21:03 <eyeoh> http://pisg.sourceforge.net/examples
+21:04 <+nibblrjr> >> pisg - Perl IRC Statistics Generator :: Examples
+21:04 <mordini> swear i thought you typoed pigs
+21:05 <mordini> http://aurora.bot.free.fr/Stats/eloosmotus-FR.html
+21:05 <+nibblrjr> >> #EloosMotus @ R�seau Europnet - stats par Zephir
+21:05 <mordini> haven't seen a page like that in a while
+21:05 <+IckleFinn> I hope you are writing this down then
+21:06 <+IckleFinn> Would love a count of swearwords as well
+21:06 <+IckleFinn> Most swearing person
+21:08 <+IckleFinn> You are going to do the lurker club?
+21:08 <+Kirjava> the what
+21:08 <+IckleFinn> longest time online without message
+21:17 <+IckleFinn> Kirjava: You going to make a heatmap for activity based on time?
+10:56 <nibblrjr1> <Kirjava> track nick changes stats with nibblr (also maybe use it to work out nick groups (1 day ago)
+swears
+
+18:39 <&cr0sis> showed you graphically with stronger and more frequent lines who spoke to who
+18:40 <&cr0sis> also how about people who use the same words, and also people who use the same words that are also unique to those people
+
 ====
 
 ~pipe e hello | rainbow

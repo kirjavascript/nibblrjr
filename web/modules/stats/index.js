@@ -6,14 +6,16 @@ import LineChart from './linechart';
 import ForceSim from './forcesim';
 import Factoids from './factoids';
 // add sudo commands to docs, talk about modules
-// fix cache
 // topics
+// popup on force
+// activity user ranking (*)
+// todo: truncate nibblr messages to log
+// updated hourly
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
     const [base, setBase] = useState({ servers: [] });
     const [stats, setStats] = useState({});
-    console.log(stats);
 
     return (
         <>
