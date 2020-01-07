@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "selfie",
+    "command": "IRC.require('thing')();"
+}

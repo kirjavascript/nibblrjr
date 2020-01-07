@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "vhost",
-    "command": "print(IRC.whois(input).host)"
+    "command": "print(IRC.whois(input.trim() || IRC.message.from).host)"
 }

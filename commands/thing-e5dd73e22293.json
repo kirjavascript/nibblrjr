@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "thing",
+    "command": "const loadUser = (user) => {\n    return IRC.require('module.loadObject')(user, []);\n}\nfunction thingDB() {\n    const [type, param1, param2] = input.split(/\\s+/);\n    \n\n    const user = IRC.message.from;\n    const action = {\n        '-a': ([list, setList]) => {\n            list.push(param1);\n            setList(list);\n        },\n        '-d': ([list, setList]) => {\n            if (!list[+param1]) {\n                throw 'no such index';\n            } \n            list.splice(+param1, 1)\n            setList(list);\n        },\n        '-r': ([list, setList]) => {\n            if (!list[+param1]) {\n                throw 'no such index';\n            } \n            list[param1] = param2;\n            setList(list);\n        },\n        'help': () => {\n            print(`ask ${IRC.breakHighlight('dysfigured')}`)\n        },\n    }[type];\n\n    if (action) {\n        action(loadUser(IRC.message.from));\n        print('ok')\n    } else {\n        const [list] = loadUser(type || IRC.message.from);\n        print(list.map((d, i) => `${IRC.colors.nick(''+i, false)}: ${d}`).join` `)\n    }\n}\n\nif (!module.required) {\n    thingDB();\n}\n\nmodule.exports = thingDB;"
+}

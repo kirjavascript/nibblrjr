@@ -1,5 +1,5 @@
 {
-    "locked": false,
+    "locked": true,
     "starred": false,
     "name": "color",
     "command": "const colorList = [\n    '#E81C4F',\n    '#FF691F',\n    '#7FDBB6',\n    '#91D2FA',\n    '#17CF86',\n    '#1C95E0',\n    '#F58EA8',\n    '#981BEB',\n].map(color => color.slice(1).match(/../g).map((d) => parseInt(d, 16)));\n\nfunction lerp(start, end, i) {\n    return start + (end - start) * i;\n}\n\nfunction adler32(str) {\n    const [a, b] = [...str].reduce(([a, b], cur) => {\n        const next = (a + cur.charCodeAt()) % 0xFFF1;\n        return [next, (b + next) % 0xFFF1];\n    }, [1, 0]);\n    return (b << 0x10) | a;\n}\n\nfunction hash(str, base) {\n    return [...str]\n        .map(d => d.charCodeAt())\n        .reduce((a,b) => a+b) % base;\n}\n\nfunction color(str) {\n    const [from, to] = colorList.slice(hash(str, colorList.length - 1));\n    const diff = (adler32(str) & 0xFF) / 0xFF;\n    return '#' + from\n        .map((col, i) => (\n            (0 | lerp(col, to[i], diff)).toString(16).padStart(2, '0')\n        ))\n        .join('');\n}\n\nif (input.trim() == 'egg') {\n    print('eggshell colour');\n} else {\n    print(color(input.trim()));\n}"
