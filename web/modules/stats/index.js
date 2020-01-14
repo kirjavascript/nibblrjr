@@ -11,6 +11,12 @@ import Factoids from './factoids';
 // activity user ranking (*)
 // todo: truncate nibblr messages to log
 // updated hourly
+//
+// FIX: feb/code showing as 03 in URL
+// FIX: current month days
+
+// size for nodes with activity qty
+// toggle orbiters
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();

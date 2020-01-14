@@ -34,6 +34,7 @@ module.exports = async ({ parent, app }) => {
     app.post('/api/stats/base', (req, res) => {
         const { month } = req.body;
         const dateTo = month ? `${month}-01` : 'now'
+        // flip
         const servers = databases.map(({ db, name }) => {
             return {
                 server: name,
@@ -76,7 +77,8 @@ module.exports = async ({ parent, app }) => {
 
     app.post('/api/stats/all', async (req, res, next) => {
         const { server = '', channel = '', month = '' } = req.body;
-        const ident = `${server}-${channel}-${month}`.replace(/[^a-z#.]|\.\./g, '');
+        // sanitize user input to limit what can be read!
+        const ident = `${server}-${channel}-${month}`.replace(/[^a-z#%.-]|\.\./gi, '');
         const statsPath = path.join(cachePath, ident);
         const staleRecent = !month && checkRecentCache(server, channel);
         if (staleRecent || await exists(statsPath)) {
