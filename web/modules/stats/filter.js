@@ -44,11 +44,10 @@ function Filter({ onMonth, onChange, base, history, location }) {
     }, []).filter((d, i, a) => a.findIndex(e => e.value == d.value) === i);
 
     const months = Array.from({ length: 12 }, (_, i) => {
-        const dtTo = subMonths(new Date(), i);
-        const dtFrom = subMonths(dtTo, 1);
+        const dt = subMonths(new Date(), i + 1);
         return {
-            label: format(dtFrom, 'MMMM YYYY').toLowerCase(),
-            value: format(dtTo, 'YYYY-MM'),
+            label: format(dt, 'MMMM YYYY').toLowerCase(),
+            value: format(dt, 'YYYY-MM'),
         }
     });
 

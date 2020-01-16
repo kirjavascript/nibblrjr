@@ -63,7 +63,7 @@ module.exports = async ({ parent, app }) => {
             const now = new Date();
             const key = `${server}-${channel}`;
             if (lookup[key]) {
-                if (now - lookup[key] > 10000) {
+                if (now - lookup[key] > 36e5) {
                     lookup[key] = now
                     return true;
                 }
@@ -77,11 +77,14 @@ module.exports = async ({ parent, app }) => {
 
     app.post('/api/stats/all', async (req, res, next) => {
         const { server = '', channel = '', month = '' } = req.body;
-        // sanitize user input to limit what can be read!
-        const ident = `${server}-${channel}-${month}`.replace(/[^a-z#%.-]|\.\./gi, '');
+        const ident = `${server}-${channel}-${month}`;
+        // check user input to limit what can be read!
+        if (!/^[a-z.]*-[#%a-z]*-(\d{4}-\d{2}|)$/i.test(ident)) {
+            return res.send('{}');
+        }
         const statsPath = path.join(cachePath, ident);
         const staleRecent = !month && checkRecentCache(server, channel);
-        if (staleRecent || await exists(statsPath)) {
+        if (!staleRecent && await exists(statsPath)) {
             res.type('application/json')
                 .send(await fs.readFile(statsPath, 'utf8'));
         } else {
@@ -94,9 +97,15 @@ module.exports = async ({ parent, app }) => {
         }
     })
 
+    const addMonth = (month) => {
+        return month.replace(/(.+)-(.+)/, (_, y, m) => (
+            m === '12' ? `${y+1}-01` : `${y}-${String(+m+1).padStart(2, '0')}`
+        ));
+    };
+
     app.post('/api/stats/all', (req, res) => {
         const { server, channel, month } = req.body;
-        const dateTo = month ? `${month}-01` : 'now'
+        const dateTo = month ? `${addMonth(month)}-01` : 'now';
         const dbList = databases.filter(({ name }) => !server || name === server);
         const [channelStr, channelArgs] = channel
             ? ['AND lower(target) = ?', [channel]]
