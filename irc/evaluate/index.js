@@ -266,7 +266,7 @@ async function evaluate({
             global.require = (str) => (
                 new Function(`
                     const self = {};
-                    ${ref.require.applySyncPromise(undefined, [str])}
+                    ${ref.require.applySyncPromise(undefined, [String(str)])}
                     return self.__acquire__;
                 `)()
             );

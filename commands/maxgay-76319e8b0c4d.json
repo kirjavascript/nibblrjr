@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "max_gay",
+    "command": "var n=1, gayness=0, max_gayness = 0, gay_char = 0;\r\nvar str=\"\"; \r\nfor (j = 0; j < 65536; j++){\r\n    for(k=0; k < 65536; k++){\r\n        for(l=0; l<65536;l++){\r\n            str+=String.fromCharCode(j); \r\n            str+=String.fromCharCode(k); \r\n            str+=String.fromCharCode(l); \r\n\r\n            for (i = 0; i < 2; i++) {\r\n                gayness = (gayness +((((n=(n+str.charCodeAt(i))%65521))%65521))<<16|n)%101; \r\n                \r\n                if (gayness == 100) {\r\n                    max_gayness = gayness; \r\n                    gay_char = i;\r\n                    print(`${str}`)\r\n                }\r\n            } \r\n\r\n            str=\"\";\r\n\r\n        }\r\n    }\r\n} \r\n\r\nprint(`Max gayness is for one character is ${max_gayness} at char: ${String.fromCharCode(gay_char)}`);"
+}

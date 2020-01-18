@@ -1,6 +1,6 @@
 {
     "name": "conniptions",
-    "command": "https://youtu.be/YdFbRsD-JHI?t=40",
+    "command": "print.raw(\"https://youtu.be/YdFbRsD-JHI?t=40\");",
     "locked": false,
     "starred": false
 }

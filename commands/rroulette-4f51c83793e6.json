@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "rroulette",
+    "command": "print(Math.floor(Math.random() * 6 + 1) === 1 ? \"bang!\" : \"click!\")"
+}
