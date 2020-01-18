@@ -70,7 +70,7 @@ function Factoids({ stats }) {
             {!!questioners.length && (
                 <p className="factoid">
                     <UserList items={questioners} />
-                    {' asked a total of ' + questioners[0].count + ' '}
+                    {' asked ' + questioners[0].count + ' '}
                     <span className="fact-type">
                         {plural('question', questioners[0].count)}
                     </span>

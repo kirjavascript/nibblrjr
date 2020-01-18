@@ -35,18 +35,8 @@ export default function BarChart({ items = [], accessor, ...props }) {
         if (!chart.current) {
             chart.current = new BarChartObj(node.current);
         }
-        const deduped = items.reduce((acc, cur) => {
-            const found = acc.find(d => accessor(d) === accessor(cur));
-            if (found) {
-                found.count += cur.count;
-            } else {
-                acc.push(cur);
-            }
-            return acc;
-        }, []);
-        deduped.sort((a, b) => b.count - a.count);
         chart.current
-            .data(deduped.slice(0, 10).reverse(), accessor)
+            .data(items, accessor)
             .render(true);
     }, [items]);
 

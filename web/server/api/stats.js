@@ -29,8 +29,6 @@ module.exports = async ({ parent, app }) => {
 
     // api
 
-    const { commands } = parent.database;
-
     app.post('/api/stats/base', (req, res) => {
         const { month } = req.body;
         const dateTo = month ? `${month}-01` : 'now'
@@ -49,7 +47,6 @@ module.exports = async ({ parent, app }) => {
         });
 
         res.json({
-            commands: commands.count(),
             servers,
             uptime: 0 | (new Date() - parent.epoch) / 36e5,
         });
@@ -57,50 +54,62 @@ module.exports = async ({ parent, app }) => {
 
     // cache middleware
 
-    const checkRecentCache = (() => {
-        const lookup = {};
-        return (server, channel) => {
-            const now = new Date();
-            const key = `${server}-${channel}`;
-            if (lookup[key]) {
-                if (now - lookup[key] > 36e5) {
-                    lookup[key] = now
-                    return true;
-                }
-                return false;
-            } else {
-                lookup[key] = now;
-                return true;
-            }
-        };
-    })();
+    // const checkRecentCache = (() => {
+    //     const lookup = {};
+    //     return (server, channel) => {
+    //         const now = new Date();
+    //         const key = `${server}-${channel}`;
+    //         if (lookup[key]) {
+    //             if (now - lookup[key] > 36e5) {
+    //                 lookup[key] = now
+    //                 return true;
+    //             }
+    //             return false;
+    //         } else {
+    //             lookup[key] = now;
+    //             return true;
+    //         }
+    //     };
+    // })();
 
-    app.post('/api/stats/all', async (req, res, next) => {
-        const { server = '', channel = '', month = '' } = req.body;
-        const ident = `${server}-${channel}-${month}`;
-        // check user input to limit what can be read!
-        if (!/^[a-z.]*-[#%a-z]*-(\d{4}-\d{2}|)$/i.test(ident)) {
-            return res.send('{}');
-        }
-        const statsPath = path.join(cachePath, ident);
-        const staleRecent = !month && checkRecentCache(server, channel);
-        if (!staleRecent && await exists(statsPath)) {
-            res.type('application/json')
-                .send(await fs.readFile(statsPath, 'utf8'));
-        } else {
-            const { json } = res;
-            res.json = function (obj) {
-                json.call(this, obj);
-                fs.writeFile(statsPath, JSON.stringify(obj), 'utf8');
-            };
-            next();
-        }
-    })
+    // app.post('/api/stats/all', async (req, res, next) => {
+    //     const { server = '', channel = '', month = '' } = req.body;
+    //     const ident = `${server}-${channel}-${month}`;
+    //     // check user input to limit what can be read!
+    //     if (!/^[a-z.]*-[#%a-z]*-(\d{4}-\d{2}|)$/i.test(ident)) {
+    //         return res.send('{}');
+    //     }
+    //     const statsPath = path.join(cachePath, ident);
+    //     const staleRecent = !month && checkRecentCache(server, channel);
+    //     if (!staleRecent && await exists(statsPath)) {
+    //         res.type('application/json')
+    //             .send(await fs.readFile(statsPath, 'utf8'));
+    //     } else {
+    //         const { json } = res;
+    //         res.json = function (obj) {
+    //             json.call(this, obj);
+    //             fs.writeFile(statsPath, JSON.stringify(obj), 'utf8');
+    //         };
+    //         next();
+    //     }
+    // })
 
     const addMonth = (month) => {
         return month.replace(/(.+)-(.+)/, (_, y, m) => (
             m === '12' ? `${y+1}-01` : `${y}-${String(+m+1).padStart(2, '0')}`
         ));
+    };
+
+    const dedupe = (items, accessor = 'count', sortBy = (a, b) => a[accessor] - b[accessor]) => {
+        return items.reduce((acc, cur) => {
+            const found = acc.find(d => d[accessor] === cur[accessor]);
+            if (found) {
+                found.count += cur.count;
+            } else {
+                acc.push(cur);
+            }
+            return acc;
+        }, []).sort(sortBy);
     };
 
     app.post('/api/stats/all', (req, res) => {
@@ -118,7 +127,7 @@ module.exports = async ({ parent, app }) => {
             }, []);
         }
 
-        const commands = getStat(({ trigger }) => `
+        const commands = dedupe(getStat(({ trigger }) => `
             SELECT command_trigger as command, count(command_trigger) as count
             FROM (
                 SELECT CASE WHEN instr(message, ' ') <> 0 THEN substr(message, 1, instr(message, ' ')-1) ELSE message END as command_trigger
@@ -132,23 +141,24 @@ module.exports = async ({ parent, app }) => {
             GROUP BY command
             ORDER BY count DESC
             LIMIT 10
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]), 'command', (a, b) => b.count - a.count)
+            .slice(0, 10).reverse();
 
-        const activityHours = getStat(() => `
+        const activityHours = dedupe(getStat(() => `
             SELECT strftime('%H', time) as hour, count(*) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
             GROUP BY hour
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]), 'hour');
 
-        const activityDays = getStat(() => `
-            SELECT strftime('%m-%d', time) as day, count(*) as count
+        const activityDays = dedupe(getStat(() => `
+            SELECT strftime('%Y-%m-%d', time) as day, count(*) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
             GROUP BY day
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]), 'day');
 
         const links = dbList.flatMap(({ db, name }) => {
             const users = db.prepare(`

@@ -7,16 +7,17 @@ import ForceSim from './forcesim';
 import Factoids from './factoids';
 // add sudo commands to docs, talk about modules
 // topics
-// popup on force
-// activity user ranking (*)
 // todo: truncate nibblr messages to log
 // updated hourly
 //
-// FIX: feb/code showing as 03 in URL
-// FIX: current month days
+//// december bug
+// loading animation / opacity / fade page
+//
 
 // size for nodes with activity qty
 // toggle orbiters
+// popup on force
+// activity user ranking (*)
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
@@ -49,8 +50,7 @@ function Stats({ history, location }) {
                 />
                 <div className="row">
                     <div className="base">
-                        <h4>total commands</h4>
-                        <span>{base.commands}</span>
+                        <span>updated hourly</span>
                         <h4>uptime</h4>
                         <span>{base.uptime}h</span>
                     </div>
@@ -68,7 +68,7 @@ function Stats({ history, location }) {
                         <LineChart
                             items={stats.activityDays}
                             accessor={d => d.day}
-                            tickFormatX={d => +d.slice(3)}
+                            tickFormatX={d => d.slice(8)}
                         />
                     </div>
                     <div className="half">

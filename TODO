@@ -15,10 +15,11 @@ use a whole vm for events?
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
+IRC.resetEvents
 
 // TODO //
 ~quit message
-character limit
+character limit / convert to pastebin if certain size
 command.deprecated
 IRC.lang.{color,plural,quantity}
 make repl-only a per channel config (4 hours ago)

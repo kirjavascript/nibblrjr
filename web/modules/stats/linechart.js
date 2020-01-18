@@ -20,18 +20,8 @@ export default function LineChart({
         if (!chart.current) {
             chart.current = new LineChartObj(node.current, config);
         }
-        const deduped = items.reduce((acc, cur) => {
-            const found = acc.find(d => accessor(d) === accessor(cur));
-            if (found) {
-                found.count += cur.count;
-            } else {
-                acc.push(cur);
-            }
-            return acc;
-        }, []);
-        deduped.sort((a, b) => accessor(a) - accessor(b));
         chart.current
-            .data(deduped, accessor)
+            .data(items, accessor)
             .render(true);
     }, [items]);
 
@@ -138,12 +128,13 @@ class LineChartObj {
             .attr('transform', `translate(0,${height})`)
             .call(xAxis)
             .selectAll('text')
-            .attr('dy', '1em')
+            .attr('dy', '1em');
         const yAxis = d3.axisLeft(yScale)
             .tickSize(10)
             .ticks(12);
         trans(this.yAxisG)
             .call(yAxis);
+
 
         const line = d3.line()
             .x(d => xScale(this.config.accessor(d)))
