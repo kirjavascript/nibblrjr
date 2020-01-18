@@ -24,12 +24,6 @@ function adler32(str) {
     return (b << 0x10) | a;
 }
 
-function getBest(items = [], accessor = 'count', type = 'max') {
-    const cmp = type == 'max' ? 0 : Infinity;
-    const max = items.reduce((acc, cur) => Math[type](acc, cur[accessor]), cmp);
-    return items.filter(d => d[accessor] === max);
-}
-
 function UserList({ items }) {
     return items
         .map(d => (
@@ -50,62 +44,64 @@ function UserList({ items }) {
 }
 
 function Factoids({ stats }) {
-    const shouters = getBest(stats.shouting);
-    const questioners = getBest(stats.questions);
-    const kickers = getBest(stats.kicks);
-    const kickees = getBest(stats.kicked);
-    const avgLowPpl = getBest(stats.avgLineLengthLow, 'average', 'min');
-    const avgHighPpl = getBest(stats.avgLineLengthHigh, 'average');
+    const {
+        shouting = [],
+        questions = [],
+        kicks = [],
+        kicked = [],
+        avgLineLengthLow = [],
+        avgLineLengthHigh = [],
+    } = stats;
 
     return (
         <div className="factoids">
-            {!!shouters.length && (
+            {!!shouting.length && (
                 <p className="factoid">
-                    <UserList items={shouters} />
+                    <UserList items={shouting} />
                     {' shouted in '}
                     <span className="fact-type">ALL CAPS</span>
-                    {' ' + quantity(shouters[0].count)}
+                    {' ' + quantity(shouting[0].count)}
                 </p>
             )}
-            {!!questioners.length && (
+            {!!questions.length && (
                 <p className="factoid">
-                    <UserList items={questioners} />
-                    {' asked ' + questioners[0].count + ' '}
+                    <UserList items={questions} />
+                    {' asked ' + questions[0].count + ' '}
                     <span className="fact-type">
-                        {plural('question', questioners[0].count)}
+                        {plural('question', questions[0].count)}
                     </span>
                 </p>
             )}
-            {!!kickers.length && (
+            {!!kicks.length && (
                 <p className="factoid">
-                    <UserList items={kickers} />
+                    <UserList items={kicks} />
                     <span className="fact-type">
                         {' kicked '}
                     </span>
-                    {kickers[0].count + ' '}
-                    {kickers[0].count > 1 ? ' people' : ' person'}
+                    {kicks[0].count + ' '}
+                    {kicks[0].count > 1 ? ' people' : ' person'}
                 </p>
             )}
-            {!!kickees.length && (
+            {!!kicked.length && (
                 <p className="factoid">
-                    <UserList items={kickees} />
+                    <UserList items={kicked} />
                     <span className="fact-type">
                         {' got kicked '}
                     </span>
-                    {quantity(kickees[0].count)}
+                    {quantity(kicked[0].count)}
                 </p>
             )}
 
-            {!!avgHighPpl.length && (
+            {!!avgLineLengthHigh.length && (
                 <p className="factoid">
                     {'for '}
                     <span className="fact-type">
                         {' average line length '}
                     </span>
-                    <UserList items={avgHighPpl} />
-                    {' had ' + (0 | avgHighPpl[0].average) + ' and '}
-                    <UserList items={avgLowPpl} />
-                    {' had ' + (0 | avgLowPpl[0].average)}
+                    <UserList items={avgLineLengthHigh} />
+                    {' had ' + (0 | avgLineLengthHigh[0].average) + ' and '}
+                    <UserList items={avgLineLengthLow} />
+                    {' had ' + (0 | avgLineLengthLow[0].average)}
                 </p>
             )}
         </div>

@@ -48,8 +48,11 @@
         justify-content: flex-start;
         align-items: center;
         padding: 25px;
-        h4 {
-            margin-top: none;
+        .uptime {
+            margin-top: 8px;
+            h4 {
+                display: inline;
+            }
         }
     }
 

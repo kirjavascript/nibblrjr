@@ -112,6 +112,12 @@ module.exports = async ({ parent, app }) => {
         }, []).sort(sortBy);
     };
 
+    function getBest(items = [], accessor = 'count', type = 'max') {
+        const cmp = type == 'max' ? 0 : Infinity;
+        const max = items.reduce((acc, cur) => Math[type](acc, cur[accessor]), cmp);
+        return items.filter(d => d[accessor] === max);
+    }
+
     app.post('/api/stats/all', (req, res) => {
         const { server, channel, month } = req.body;
         const dateTo = month ? `${addMonth(month)}-01` : 'now';
@@ -194,7 +200,7 @@ module.exports = async ({ parent, app }) => {
 
         // short stats
 
-        const avgLineLengthHigh = getStat(() => `
+        const avgLineLengthHigh = getBest(getStat(() => `
             SELECT user, avg(length(message)) as average
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -204,9 +210,9 @@ module.exports = async ({ parent, app }) => {
             GROUP BY lower(user)
             ORDER BY average DESC
             LIMIT 1
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]), 'average');
 
-        const avgLineLengthLow = getStat(() => `
+        const avgLineLengthLow = getBest(getStat(() => `
             SELECT user, avg(length(message)) as average
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -216,9 +222,9 @@ module.exports = async ({ parent, app }) => {
             GROUP BY lower(user)
             ORDER BY average ASC
             LIMIT 1
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]), 'average', 'min');
 
-        const shouting = getStat(() => `
+        const shouting = getBest(getStat(() => `
             SELECT user, count(message) as count
             FROM LOG
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -229,9 +235,9 @@ module.exports = async ({ parent, app }) => {
             AND command = 'PRIVMSG'
             GROUP BY lower(user)
             LIMIT 1
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]));
 
-        const questions = getStat(() => `
+        const questions = getBest(getStat(() => `
             SELECT user, count(message) as count
             FROM LOG
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -240,9 +246,9 @@ module.exports = async ({ parent, app }) => {
             AND command = 'PRIVMSG'
             GROUP BY lower(user)
             LIMIT 1
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]));
 
-        const kicks = getStat(() => `
+        const kicks = getBest(getStat(() => `
             SELECT user, count(lower(user)) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -251,9 +257,9 @@ module.exports = async ({ parent, app }) => {
             GROUP BY lower(user)
             ORDER BY count DESC
             LIMIT 10
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]));
 
-        const kicked = getStat(() => `
+        const kicked = getBest(getStat(() => `
             SELECT user, count(user) as count
             FROM (
                 SELECT substr(message, 1, instr(message, ' ')-1) as user
@@ -264,7 +270,7 @@ module.exports = async ({ parent, app }) => {
             )
             GROUP BY user
             ORDER BY count DESC
-        `, [dateTo, dateTo, ...channelArgs]);
+        `, [dateTo, dateTo, ...channelArgs]));
 
         res.json({
             commands,

@@ -8,11 +8,9 @@ import Factoids from './factoids';
 // add sudo commands to docs, talk about modules
 // topics
 // todo: truncate nibblr messages to log
-// updated hourly
 //
 //// december bug
 // loading animation / opacity / fade page
-//
 
 // size for nodes with activity qty
 // toggle orbiters
@@ -51,8 +49,10 @@ function Stats({ history, location }) {
                 <div className="row">
                     <div className="base">
                         <span>updated hourly</span>
-                        <h4>uptime</h4>
-                        <span>{base.uptime}h</span>
+                        <div className="uptime">
+                            <h4>uptime{' '}</h4>
+                            <span>{base.uptime || '0'}h</span>
+                        </div>
                     </div>
                     <div className="command-chart">
                         <h3 className="title">most used commands</h3>
