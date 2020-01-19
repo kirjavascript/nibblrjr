@@ -9,7 +9,7 @@ const d3 = Object.assign({},
 Object.defineProperty(d3, 'event', { get: () => require('d3-selection').event });
 
 export default function ForceSim({
-    items: links = [],
+    items = [],
     ...config
 }) {
     const node = useRef();
@@ -19,21 +19,30 @@ export default function ForceSim({
         if (!chart.current) {
             chart.current = new ForceSimObj(node.current, config);
         }
+        const links = [];
+        items.forEach(([server, data]) => {
+            Object
+                .entries(data)
+                .forEach(([source, targets]) => {
+                    Object.entries(targets)
+                        .forEach(([target, count]) => {
+                            links.push({ source, target, count, server });
+                        });
+                })
+        })
         // calculate nodes and ids
         const nodes = links.map(d => [d.source, d.server])
             .concat(links.map(d => [d.target, d.server]))
             .map(([name, server]) => [`${name}-${server}`, name, server])
             .filter((d, i, a) => a.findIndex(node => node[0] === d[0]) === i)
             .map(([id, name, server]) => ({ id, name, server }));
-
         // adjust source/target to match id
         links.forEach(link => {
             link.source = link.source + '-' + link.server;
             link.target = link.target + '-' + link.server;
         });
-
         chart.current.data(links, nodes);
-    }, [links]);
+    }, [items]);
 
     useEffect(() => () => chart.current.destroy(), []);
 

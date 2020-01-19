@@ -54,6 +54,8 @@ module.exports = async ({ parent, app }) => {
 
     // cache middleware
 
+    // add migrations to the cached data when changing the format
+
     const checkRecentCache = (() => {
         const lookup = {};
         return (server, channel) => {
@@ -173,7 +175,7 @@ module.exports = async ({ parent, app }) => {
             GROUP BY day
         `, [dateTo, dateTo, ...channelArgs]), 'day');
 
-        const links = dbList.flatMap(({ db, name }) => {
+        const linkItems = dbList.map(({ db, name }) => {
             const users = db.prepare(`
                 SELECT user, count(lower(user)) as count
                 FROM log
@@ -188,9 +190,9 @@ module.exports = async ({ parent, app }) => {
 
             if (!users.length) return [];
 
-            return db.prepare(
+            return [name, db.prepare(
                 users.map(() => `
-                    SELECT user as source, count(*) as count, ? as server, ? as target
+                    SELECT user as source, count(*) as count, ? as target
                     FROM log
                     WHERE time BETWEEN date(?, '-1 month') AND date(?)
                     ${channelStr}
@@ -200,9 +202,21 @@ module.exports = async ({ parent, app }) => {
                 `).join(' UNION ')
             ).all(
                 users.flatMap((user) => [
-                    name, user, dateTo, dateTo, ...channelArgs, `%${user}%`,
+                    user, dateTo, dateTo, ...channelArgs, `%${user}%`,
                 ])
-            );
+            )];
+        });
+
+        // crush up the data for storage / interchange
+        const links = linkItems.map(([name, links]) => {
+            const data = {};
+            for ({ source, count, target } of links) {
+                if (!data[source]) {
+                    data[source] = {};
+                }
+                data[source][target] = count;
+            }
+            return [name, data];
         });
 
         // short stats
