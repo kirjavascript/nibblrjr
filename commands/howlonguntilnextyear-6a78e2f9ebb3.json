@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "howlonguntilnextyear",
+    "command": "if ((new Date()).getTime() > IRC.parseTime('2020 1st 00:00 jan').getTime()) {\n    print('it is next year! 🎉🎉🎉 {rb}HAPPY NEW YEAR');\n} else {\n    print(dateFns.distanceInWords(new Date(), IRC.parseTime('2020 1st 00:00 jan')));\n}"
+}

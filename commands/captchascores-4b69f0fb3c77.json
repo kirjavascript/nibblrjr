@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "captcha.scores",
+    "command": "const [game, setGame] = IRC.require('captcha')();\n\nconst scores = Object.entries(game.scores).map(([name, score]) => {\n    return { name, score };\n});\nprint(IRC.require('module.leaderboard')({ \n    scores,\n    limit: 5,\n    title: 'Most Captchas Solved',\n}));\n"
+}

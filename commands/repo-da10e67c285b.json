@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "repo",
+    "command": "input = input.trim() || IRC.message.from;\nconst self = input == IRC.message.from;\nconst repo = store.get(input.toLowerCase());\nconst [path] = IRC.command.params;\nconst pathStr = path ? IRC.colors.link('/' + path) : '';\nprint(repo ? repo.split` `.map(d => IRC.colors.link(d + pathStr)).join` ` : `no repo saved for ${IRC.colors.nick(input)} - get them to add one with ${IRC.colors.cmd('repo.set', 'URL')}`)"
+}

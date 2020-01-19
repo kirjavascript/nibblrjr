@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "addNewDB",
+    "command": "const name = input.trim();\nconst obj = IRC.commandFns.get(name);\n\nif (!name || !input) {\n    print.error(`usage: ${IRC.colors.cmd('addNewDB', 'name')}`)\n}\nelse if (obj && obj.locked) {\n    print.error(`${name} is locked`)\n}\nelse if (obj) {\n    print.error(`${name} already exists - use {p}${IRC.trigger}command.edit{/}`)\n}\nelse {\n    const status = IRC.commandFns.setSafe(name, 'IRC.require(\\'thing\\')()');\n    if (status) {\n        print(`${IRC.colors.cmd(name)} added`)\n    }\n    else {\n        print(`error adding {p}${IRC.trigger}${name}{/} - parent command may be locked`)\n    }\n}"
+}

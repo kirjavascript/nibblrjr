@@ -1,6 +1,6 @@
 {
     "name": "zalgo",
-    "command": "(async() => { print((await acquire('to-zalgo'))(input)); })()",
+    "command": "print(require('to-zalgo')(input))",
     "locked": true,
     "starred": true
 }

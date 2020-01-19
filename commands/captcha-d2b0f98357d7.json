@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "captcha",
+    "command": "const useGame = () => IRC.require('module.loadObject')('game', {\n    captcha: false,\n    scores: {},\n});\n\ninput = input.trim().toLowerCase();\n\n// leaderboard, most captchas solved\n\nif (!module.required) {\n    const [game, setGame] = useGame();\n    function solved(user) {\n        if (user in game.scores) {\n            game.scores[user] += 1;\n        } else {\n            game.scores[user] = 1;\n        }\n        return game.scores[user];\n    }\n    if (!game.captcha) {\n        const { q, a } = fetchSync.json('http://api.textcaptcha.com/nibblrjr.json');\n        game.captcha = { q, a };\n    }\n\n    if (!input) {\n        print('★  ' + game.captcha.q);\n    } else {\n        if (game.captcha.a.includes(require('md5')(input))) {\n            const { from } = IRC.message;\n            print.success(`correct - ${IRC.colors.nick(from)} has solved {dc}${solved(from)} captcha`);\n            delete game.captcha;\n        } else {\n            print.error(`incorrect - ${game.captcha.q}`)\n        }\n    }\n\n\n    setGame(game);\n}\n\nmodule.exports = useGame;"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "interpolateSinebow",
+    "command": "const { interpolateRainbow } = require('d3-scale-chromatic');\n\nfunction adler32(str) {\n    const [a, b] = [...str].reduce(([a, b], cur) => {\n        const next = (a + cur.charCodeAt()) % 0xFFF1;\n        return [next, (b + next) % 0xFFF1];\n    }, [1, 0]);\n    return (b << 0x10) | a;\n}\n\nprint(interpolateRainbow(adler32(input.trim()) / 32640))"
+}

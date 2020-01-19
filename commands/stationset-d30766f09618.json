@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "station.set",
+    "command": "store.set(IRC.message.from, input);\nprint('ok')"
+}

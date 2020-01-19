@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "station",
+    "command": "input = input.trim() || IRC.message.from;\nconst self = input == IRC.message.from;\nconst station = store.get(input.toLowerCase());\nprint(station ? IRC.colors.link(station) : `no station saved for ${IRC.colors.nick(input)} `  + (self ? `add one with ${IRC.colors.cmd('station.set', 'URL')}` : ''))"
+}

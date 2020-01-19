@@ -1,6 +1,6 @@
 {
     "name": "f",
-    "command": "print.raw(( // legacy command wrapper\n   ﻿(x,y,z,a=\"ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ０１２３４５６７８９ \".split(\"\"),b=\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 \".split(\"\"))=>x.split(\"\").map(d => a[b.indexOf(d)]).join(\"\")\n)(input, input.split(' '), IRC.message));",
+    "command": "other = \"ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ０１２３４５６７８９ \"\nnormal = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 \"\nprint([...input].map(ch => other[normal.indexOf(ch)] || ch).join``)",
     "locked": true,
     "starred": false
 }
