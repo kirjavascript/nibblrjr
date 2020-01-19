@@ -6,6 +6,7 @@ const d3 = Object.assign({},
     require('d3-axis'),
     require('d3-shape'),
     require('d3-transition'),
+    require('d3-interpolate-path'),
 );
 
 export default function LineChart({
@@ -149,8 +150,16 @@ class LineChartObj {
             .attr('class', 'line')
             .merge(lineSelect);
 
-        trans(updateSelect)
-            .attr('d', line);
+        if (update) {
+            updateSelect
+                .transition()
+                .attrTween('d', function (d) {
+                    const previous = d3.select(this).attr('d');
+                    return d3.interpolatePath(previous, line(d));
+                })
+        } else {
+            updateSelect.attr('d', line);
+        }
 
     };
 

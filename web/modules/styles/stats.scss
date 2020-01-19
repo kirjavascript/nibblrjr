@@ -1,4 +1,14 @@
+.stats-container {
+    &.loading {
+        pointer-events: none;
+        opacity: 0.8;
+        filter: grayscale(100%);
+    }
+    transition: filter 0.3s, opacity 0.3s;
+}
+
 .stats {
+
     padding-top: 60px;
     max-width: 1000px;
     margin: 0 auto;
@@ -48,6 +58,7 @@
         justify-content: flex-start;
         align-items: center;
         padding: 25px;
+        padding-top: 0;
         .uptime {
             margin-top: 8px;
             h4 {
@@ -104,4 +115,8 @@
     .select {
         margin: 0 5px;
     }
+}
+
+.stats-forcesim {
+    border-top: 5px solid $red;
 }

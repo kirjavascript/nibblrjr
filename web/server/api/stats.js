@@ -54,49 +54,51 @@ module.exports = async ({ parent, app }) => {
 
     // cache middleware
 
-    // const checkRecentCache = (() => {
-    //     const lookup = {};
-    //     return (server, channel) => {
-    //         const now = new Date();
-    //         const key = `${server}-${channel}`;
-    //         if (lookup[key]) {
-    //             if (now - lookup[key] > 36e5) {
-    //                 lookup[key] = now
-    //                 return true;
-    //             }
-    //             return false;
-    //         } else {
-    //             lookup[key] = now;
-    //             return true;
-    //         }
-    //     };
-    // })();
+    const checkRecentCache = (() => {
+        const lookup = {};
+        return (server, channel) => {
+            const now = new Date();
+            const key = `${server}-${channel}`;
+            if (lookup[key]) {
+                if (now - lookup[key] > 36e5) {
+                    lookup[key] = now
+                    return true;
+                }
+                return false;
+            } else {
+                lookup[key] = now;
+                return true;
+            }
+        };
+    })();
 
-    // app.post('/api/stats/all', async (req, res, next) => {
-    //     const { server = '', channel = '', month = '' } = req.body;
-    //     const ident = `${server}-${channel}-${month}`;
-    //     // check user input to limit what can be read!
-    //     if (!/^[a-z.]*-[#%a-z]*-(\d{4}-\d{2}|)$/i.test(ident)) {
-    //         return res.send('{}');
-    //     }
-    //     const statsPath = path.join(cachePath, ident);
-    //     const staleRecent = !month && checkRecentCache(server, channel);
-    //     if (!staleRecent && await exists(statsPath)) {
-    //         res.type('application/json')
-    //             .send(await fs.readFile(statsPath, 'utf8'));
-    //     } else {
-    //         const { json } = res;
-    //         res.json = function (obj) {
-    //             json.call(this, obj);
-    //             fs.writeFile(statsPath, JSON.stringify(obj), 'utf8');
-    //         };
-    //         next();
-    //     }
-    // })
+    app.post('/api/stats/all', async (req, res, next) => {
+        const { server = '', channel = '', month = '' } = req.body;
+        const filename = `${server}-${channel}-${month}.json`;
+        // check user input to limit what can be read!
+        if (!/^[a-z.]*-[#%a-z]*-(\d{4}-\d{2}|)\.json$/i.test(filename)) {
+            return res.send('{}');
+        }
+        const statsPath = path.join(cachePath, filename);
+        const staleRecent = !month && checkRecentCache(server, channel);
+        const ALWAYS_WRITE = false;
+        console.log('always write')
+        if (ALWAYS_WRITE && !staleRecent && await exists(statsPath)) {
+            res.type('application/json')
+                .send(await fs.readFile(statsPath, 'utf8'));
+        } else {
+            const { json } = res;
+            res.json = function (obj) {
+                json.call(this, obj);
+                fs.writeFile(statsPath, JSON.stringify(obj), 'utf8');
+            };
+            next();
+        }
+    })
 
     const addMonth = (month) => {
         return month.replace(/(.+)-(.+)/, (_, y, m) => (
-            m === '12' ? `${y+1}-01` : `${y}-${String(+m+1).padStart(2, '0')}`
+            m === '12' ? `${+y+1}-01` : `${y}-${String(+m+1).padStart(2, '0')}`
         ));
     };
 
