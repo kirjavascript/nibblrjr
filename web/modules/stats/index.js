@@ -27,14 +27,16 @@ function Stats({ history, location }) {
                 base={base}
                 ready={ready}
                 onChange={({ month, server, channel }) => {
-                    setReady(false);
+                    const timeout = setTimeout(() => setReady(false), 150);
                     fetchAPI('stats/all', {
                         body: { month, server, channel },
                         method: 'POST',
                     })
                         .then(stats => {
                             setStats(stats);
+                            clearTimeout(timeout);
                             setReady(true);
+                            // values
                         })
                         .catch(console.error);
                 }}

@@ -90,7 +90,10 @@ module.exports = async ({ parent, app }) => {
             const { json } = res;
             res.json = function (obj) {
                 json.call(this, obj);
-                fs.writeFile(statsPath, JSON.stringify(obj), 'utf8');
+                // save to cache if there are any values
+                if (Object.values(obj).some(item => item.length !== 0)) {
+                    fs.writeFile(statsPath, JSON.stringify(obj), 'utf8');
+                }
             };
             next();
         }
@@ -156,6 +159,7 @@ module.exports = async ({ parent, app }) => {
             SELECT strftime('%H', time) as hour, count(*) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            AND command = 'PRIVMSG'
             ${channelStr}
             GROUP BY hour
         `, [dateTo, dateTo, ...channelArgs]), 'hour');
@@ -164,6 +168,7 @@ module.exports = async ({ parent, app }) => {
             SELECT strftime('%Y-%m-%d', time) as day, count(*) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
+            AND command = 'PRIVMSG'
             ${channelStr}
             GROUP BY day
         `, [dateTo, dateTo, ...channelArgs]), 'day');

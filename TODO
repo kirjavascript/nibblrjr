@@ -19,7 +19,7 @@ IRC.resetEvents
 
 // TODO //
 ~quit message
-character limit / convert to pastebin if certain size
+character limit / convert to pastebin if over one line
 command.deprecated
 IRC.lang.{color,plural,quantity}
 make repl-only a per channel config (4 hours ago)
