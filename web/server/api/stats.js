@@ -176,7 +176,7 @@ module.exports = async ({ parent, app }) => {
         `, [dateTo, dateTo, ...channelArgs]), 'day');
 
         const linkItems = dbList.map(({ db, name }) => {
-            const users = db.prepare(`
+            const activity = db.prepare(`
                 SELECT user, count(lower(user)) as count
                 FROM log
                 WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -186,11 +186,12 @@ module.exports = async ({ parent, app }) => {
                 LIMIT 10
             `)
                 .all([dateTo, dateTo, ...channelArgs])
-                .map(d => d.user);
+
+            const users = activity.map(d => d.user);
 
             if (!users.length) return [];
 
-            return [name, db.prepare(
+            return [name, activity, db.prepare(
                 users.map(() => `
                     SELECT user as source, count(*) as count, ? as target
                     FROM log
@@ -208,7 +209,7 @@ module.exports = async ({ parent, app }) => {
         });
 
         // crush up the data for storage / interchange
-        const links = linkItems.map(([name, links]) => {
+        const links = linkItems.map(([name, activity, links]) => {
             const data = {};
             for ({ source, count, target } of links) {
                 if (!data[source]) {
@@ -216,7 +217,7 @@ module.exports = async ({ parent, app }) => {
                 }
                 data[source][target] = count;
             }
-            return [name, data];
+            return [name, activity, data];
         });
 
         // short stats

@@ -20,16 +20,18 @@ export default function ForceSim({
             chart.current = new ForceSimObj(node.current, config);
         }
         const links = [];
-        items.forEach(([server, data]) => {
+        items.forEach(([server, _activity, linkData]) => {
             Object
-                .entries(data)
+                .entries(linkData)
                 .forEach(([source, targets]) => {
                     Object.entries(targets)
                         .forEach(([target, count]) => {
                             links.push({ source, target, count, server });
                         });
                 })
-        })
+        });
+        // TODO: activity
+
         // calculate nodes and ids
         const nodes = links.map(d => [d.source, d.server])
             .concat(links.map(d => [d.target, d.server]))

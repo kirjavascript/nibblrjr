@@ -8,10 +8,10 @@ import Factoids from './factoids';
 // add sudo commands to docs, talk about modules
 // todo: truncate nibblr messages to log
 
-// size for nodes with activity qty
-// toggle orbiters
-// popup on force
 // activity user ranking (*)
+// toggle orbiters
+// size for nodes with activity qty
+// popup on force
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
