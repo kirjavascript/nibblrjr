@@ -20,6 +20,7 @@ export default function ForceSim({
             chart.current = new ForceSimObj(node.current, config);
         }
         const links = [];
+        // unpack data
         items.forEach(([server, _activity, linkData]) => {
             Object
                 .entries(linkData)

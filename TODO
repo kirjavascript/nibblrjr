@@ -7,6 +7,8 @@ print streams | built in pipe | IRC.runCommand()
 unix style params
 PYTHON=$(which python2)
 
+wasm
+
 // events//
 message regex
 add extra input for events to subscribe to event: "message.channel"
