@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "img",
+    "command": "//let url = 'https://i.imgur.com/unQLJIb.jpg'\nlet url = 'https://api.imagga.com/v2/tags?image_url='+input\n\nconst json = fetchSync( url, {\n    headers: { Authorization: \"Basic YWNjX2FhNzBhZmY2YTQ1MjZiOTo3MTkxNGQ4ZGViNjZjYmE2OTExNzFmNzRmNzdmNjlkMg==\" }\n})\n\nconst obj = JSON.parse( json)\nlet tags = obj.result.tags.filter( tag => tag.confidence >= 50)\n\nif( tags.length) {\n    print( `I'm pretty sure that image contains some the following: ${tags.map(tag=>`{g}${tag.tag.en}{/}`).join(', ')}`)\n} else {\n    print( `I don't recognize anything in that picture. That's probably for the best.`)\n}\n\n/*\n\ncurl \t\n-u \"acc_aa70aff6a4526b9:71914d8deb66cba691171f74f77f69d2\"\n\"https://api.imagga.com/v2/tags?image_url=https://imagga.com/s\nhttps://i.imgur.com/unQLJIb.jpg\n\nconst body = { a: 1 };\n \nfetch('https://httpbin.org/post', {\n        method: 'post',\n        body:    JSON.stringify(body),\n        headers: { 'Content-Type': 'application/json' },\n    })\n    .then(res => res.json())\n    .then(json => console.log(json));\n*/\n"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "ocr",
+    "command": "input = input.trim();\nif (input == '') {\n    const data = IRC.log.regex('(\\\\b(https?):\\\\/\\\\/[-A-Za-z0-9+&@#\\\\/%?=~_|!:,.;]*[-A-Za-z0-9+&@#\\\\/%=~_|])', 1, 0);\n    if (data.length) {\n        const text = data[0].message;\n        const url = text.match(/(\\b(https?):\\/\\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/ig);\n        if (url && url[0]) {\n            input = url[0]\n        }\n    }\n}\n\nconst obj = fetchSync.json(`https://api.ocr.space/parse/imageurl?apikey=ed046d76f288957&url=${input}`);\nif (obj.ParsedResults && obj.ParsedResults.length) {\n    print(IRC.colors.link(IRC.require('module.paste')(obj.ParsedResults[0].ParsedText)));\n} else {\n    log(obj);\n}"
+}
