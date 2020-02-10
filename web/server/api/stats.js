@@ -7,7 +7,7 @@ const cachePath = path.join(__dirname, '../../../cache/stats');
 
 module.exports = async ({ parent, app }) => {
 
-    const exists = async (dir) => !!await fs.stat(dir).catch(err => false);
+    const exists = async (dir) => !!await fs.stat(dir).catch(_err => false);
 
     if (!await exists(cachePath)) {
         await fs.mkdir(cachePath);
@@ -189,7 +189,7 @@ module.exports = async ({ parent, app }) => {
 
             const users = activity.map(d => d.user);
 
-            if (!users.length) return [];
+            if (!users.length) return [name, activity, []];
 
             return [name, activity, db.prepare(
                 users.map(() => `

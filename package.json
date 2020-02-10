@@ -9,7 +9,7 @@
         "dev": "node index.js --dev"
     },
     "dependencies": {
-        "better-sqlite3": "^5.4.0",
+        "better-sqlite3": "^5.4.3",
         "body-parser": "^1.19.0",
         "codemirror": "^5.49.0",
         "d3": "^5.12.0",

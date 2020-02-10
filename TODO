@@ -7,7 +7,6 @@ print streams | built in pipe | IRC.runCommand()
 unix style params
 PYTHON=$(which python2)
 
-wasm
 
 // events//
 message regex
@@ -18,15 +17,23 @@ make events more powerful, restrict how they're created -> current event API is 
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
 IRC.resetEvents
+~img
+check with buck what different things we can do, s//
+new store for events
+19:00 <@nibblrjr> <Kirjava> add joins/parts to events spec (2 hours ago)
+19:00 <@nibblrjr> <Kirjava> duck hunt (1 hour ago) quack / fire
+19:00 <@nibblrjr> <Kirjava> add web API system for pushing events (7 hours ago)
 
 // TODO //
 ~quit message
+~help ${IRC.nick} is a wild ... that anyone can edit
 character limit / convert to pastebin if over one line
 command.deprecated
 IRC.lang.{color,plural,quantity}
 make repl-only a per channel config (4 hours ago)
 use a proxy for the config (!)
 bundle webpack assets statically
+https://8bv.jow.moe/i/9b175ef1c68e4d82049ad4dd4c909690.png
 combine action / notice / print lineLimit
 uno
 command rate limiting
