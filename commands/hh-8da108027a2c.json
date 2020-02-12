@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "hh",
+    "command": "if (IRC.command.params[0] === 'auth' || !IRC.setNick('HulkHogan')) {\r\n    const str = input.replace(/[^a-zA-Z0-9]+/g, '');\r\n    const sudo = IRC.sudo();\r\n    sudo.node.client.send.call('NICK', str);\r\n    // reauth in case we got deauthed for whatever reason\r\n    if (str.toLowerCase() == sudo.node.nickname.get().toLowerCase()) {\r\n        sudo.node.client.say.call('nickserv', `identify ${sudo.node.password.get()}`);\r\n    }\r\n}\r\nprint.raw(`What Ya GONNA DO BROTHER\r\nWHEN THE HULKSTER AND HIS 24-INCH PYTHONS\r\nRUN WILD ON YOU, BROTHER!!`);"
+}
