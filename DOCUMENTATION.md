@@ -146,8 +146,6 @@ download a package from npm and bundle it with webpack. npm scripts are ignored 
 
 *packagename* can include the version and a path, like - `require('react-dom/server@16.8.6').renderToString( ... )`
 
-package namespaces are currently broken
-
 not everything works, compatibility fares better the closer you get to ECMAScript
 
 the following command is deprecated
