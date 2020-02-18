@@ -1,5 +1,5 @@
 import React from 'react';
-import { interpolateRainbow } from 'd3-scale-chromatic';
+import color from './color';
 
 function quantity(n) {
     return n == 1 ? 'once' : n == 2 ? 'twice' : `${n} times`;
@@ -7,21 +7,6 @@ function quantity(n) {
 
 function plural(str, n) {
     return str + (n > 1 ? 's' : '');
-}
-
-function color(str) {
-    return interpolateRainbow(adler32(str) / 32640);
-}
-
-function adler32(str) {
-    const [a, b] = [...str].reduce(
-        ([a, b], cur) => {
-            const next = (a + cur.charCodeAt()) % 0xfff1;
-            return [next, (b + next) % 0xfff1];
-        },
-        [1, 0],
-    );
-    return (b << 0x10) | a;
 }
 
 function UserList({ items }) {

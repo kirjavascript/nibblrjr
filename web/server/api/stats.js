@@ -83,9 +83,7 @@ module.exports = async ({ parent, app }) => {
         }
         const statsPath = path.join(cachePath, filename);
         const staleRecent = !month && checkRecentCache(server, channel);
-        const ALWAYS_WRITE = false;
-        console.log('always write')
-        if (ALWAYS_WRITE && !staleRecent && await exists(statsPath)) {
+        if (!staleRecent && await exists(statsPath)) {
             res.type('application/json')
                 .send(await fs.readFile(statsPath, 'utf8'));
         } else {

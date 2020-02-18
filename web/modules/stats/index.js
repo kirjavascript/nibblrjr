@@ -9,9 +9,9 @@ import Factoids from './factoids';
 // todo: truncate nibblr messages to log
 
 // activity user ranking (*)
-// toggle orbiters
+// toggle orbiters show explanation in grey
 // size for nodes with activity qty
-// popup on force
+// popup / big on force
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
@@ -36,7 +36,6 @@ function Stats({ history, location }) {
                             setStats(stats);
                             clearTimeout(timeout);
                             setReady(true);
-                            // values
                         })
                         .catch(console.error);
                 }}
@@ -86,10 +85,12 @@ function Stats({ history, location }) {
                     </div>
                     <Factoids stats={stats} />
                 </div>
-                <h4> network graph </h4>
-                <span>tracking who talks to popular users</span>
                 <div className="stats-forcesim">
-                    <ForceSim items={stats.links} />
+                    <h4> network graph </h4>
+                    <span>tracking who talks to popular users</span>
+                    <div className="sim">
+                        <ForceSim items={stats.links} />
+                    </div>
                 </div>
             </div>
         </>

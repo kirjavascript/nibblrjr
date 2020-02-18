@@ -1,4 +1,6 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import color from './color';
+import Checkbox from '../checkbox';
 
 const d3 = Object.assign({},
     require('d3-selection'),
@@ -10,35 +12,49 @@ Object.defineProperty(d3, 'event', { get: () => require('d3-selection').event })
 
 export default function ForceSim({
     items = [],
-    ...config
 }) {
     const node = useRef();
     const chart = useRef();
+    const [orbit, setOrbit] = useState(false);
 
     useEffect(() => {
         if (!chart.current) {
-            chart.current = new ForceSimObj(node.current, config);
+            chart.current = new ForceSimObj(node.current);
         }
+
+        // unpack activity
+        const activity = items.reduce((acc, [_, activity] = []) => {
+            activity.forEach(({ user, count }, index) => {
+                acc[user] = { count, index };
+            });
+            return acc;
+        }, {});
+
+        // unpack links
         const links = [];
-        // unpack data
         items.forEach(([server, _activity, linkData]) => {
             Object
                 .entries(linkData)
                 .forEach(([source, targets]) => {
                     Object.entries(targets)
                         .forEach(([target, count]) => {
-                            links.push({ source, target, count, server });
+                            links.push({
+                                source, target, count, server,
+                                activity: activity[source],
+                            });
                         });
                 })
         });
-        // TODO: activity
 
         // calculate nodes and ids
         const nodes = links.map(d => [d.source, d.server])
             .concat(links.map(d => [d.target, d.server]))
             .map(([name, server]) => [`${name}-${server}`, name, server])
             .filter((d, i, a) => a.findIndex(node => node[0] === d[0]) === i)
-            .map(([id, name, server]) => ({ id, name, server }));
+            .map(([id, name, server]) => ({
+                id, name, server,
+                activity: activity[name],
+            }));
         // adjust source/target to match id
         links.forEach(link => {
             link.source = link.source + '-' + link.server;
@@ -47,20 +63,36 @@ export default function ForceSim({
         chart.current.data(links, nodes);
     }, [items]);
 
+    useEffect(() => {
+        chart.current.orbit(orbit);
+        chart.current.render();
+    }, [orbit]);
+
     useEffect(() => () => chart.current.destroy(), []);
 
     return (
-        <div ref={node} />
+        <>
+            <div className="canvas" ref={node} />
+            <div className="hud">
+                orbiters
+                <Checkbox
+                    checked={orbit}
+                    onChange={() => setOrbit(!orbit)}
+                />
+            </div>
+        </>
     );
 }
 
 class ForceSimObj {
-    config = {/* links, nodes */};
+    config = {
+        /* links, nodes */
+        orbit: false,
+    };
 
-    constructor(node, config = {}) {
+    constructor(node) {
         this.container = d3.select(node);
         this.container.selectAll('*').remove();
-        Object.assign(this.config, config);
         this.canvas = this.container.append('canvas');
         window.addEventListener('resize', this.resize);
 
@@ -104,6 +136,7 @@ class ForceSimObj {
             .append('div')
             .style('position', 'absolute')
             .style('cursor', 'default')
+            .classed('popup', true)
             .style('pointer-events', 'none')
     }
 
@@ -121,11 +154,18 @@ class ForceSimObj {
         const { width, height } = this;
         Object.assign(this.canvas.node(), { width, height });
         this.simulation
-            .force('center', d3.forceCenter(width / 2, height / 2))
-            .force('charge', d3.forceManyBody()
-                .strength(() => -Math.min(width / 2.5, 400))
-            );
+            .force('center', d3.forceCenter(width / 2, height / 2));
     };
+
+    orbit = (orbit) => {
+        this.config.orbit = orbit;
+        this.simulation
+            .force('charge', d3.forceManyBody()
+                .strength(() => -Math.min(this.width / 2.5, orbit ? 800 : 200))
+            )
+            .alphaTarget(0.1)
+            .restart();
+    }
 
     data = (links, nodes) => {
         Object.assign(this.config, { links, nodes });
@@ -173,7 +213,11 @@ class ForceSimObj {
 
     render = () => {
         const { width, height, ctx } = this;
-        const { links = [], nodes = [] } = this.config;
+        const { links: linkList = [], nodes: nodeList = [], orbit } = this.config;
+
+        const nodes = orbit ? nodeList : nodeList.filter(({ activity }) => !!activity);
+        const links = orbit ? linkList : linkList.filter(({ activity }) => !!activity);
+
         ctx.clearRect(0, 0, width, height);
         // links
         ctx.beginPath();
