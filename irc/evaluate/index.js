@@ -1,7 +1,7 @@
 const fs = require('fs');
 const ivm = require('isolated-vm');
 const fetch = require('node-fetch');
-const { URLSearchParams } = require('url');
+const FormData = require('form-data');
 const _ = require('lodash');
 const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
@@ -120,12 +120,13 @@ async function evaluate({
         jail.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
             new Promise((resolve, reject) => {
                 if (config.form) {
-                    const params = new URLSearchParams();
+                    const form = new FormData();
                     Object.entries(config.form)
-                        .forEach(([k, v]) => {
-                            params.append(k, v);
-                        });
-                    config.body = params;
+                        .forEach(([k, v]) => form.append(k, v));
+                    config.body = form;
+                    if (!('method' in config)) {
+                        config.method = 'POST';
+                    }
                 }
                 fetch(url, config)
                     .then((res) => res[type || 'text']())

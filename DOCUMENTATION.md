@@ -78,7 +78,7 @@ prints text with [IRC.colors.success](#IRC-colors-success)
 works the same as [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) but is synchronous. options are the same as [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) with the addition;
 
 * `type` - _string_ &emsp; can be `text`, `json` or `dom`
-* `form` - _object_ &emsp; set the body and content type to URL encoded form
+* `form` - _object_ &emsp; send multipart/form-data `fetchSync('https://example.com', { form: { key: 'value' } })`
 
 [fetchSync](#fetchsync) blocks, but each command is run concurrently in a separate vm - so other features continue to be responsive
 

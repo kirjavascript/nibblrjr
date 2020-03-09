@@ -183,15 +183,13 @@ class ServerNode {
                     const canBroadcast = this.get('broadcastCommands', [])
                         .includes(command.root);
 
-                    if (cmdData) {
-                        mod.evaluate({
-                            script: cmdData.command,
-                            msgData,
-                            node: this,
-                            canBroadcast,
-                            command,
-                        });
-                    }
+                    cmdData && mod.evaluate({
+                        script: cmdData.command,
+                        msgData,
+                        node: this,
+                        canBroadcast,
+                        command,
+                    });
                 }
             }
             // handle IBIP (https://git.teknik.io/Teknikode/IBIP)
