@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "repo.random",
+    "command": "const { key, value } = store.all().sort(() => Math.random()-.5).pop();\nprint(IRC.colors.nick(IRC.breakHighlight(key)) + ' ' + value.split` `.map(IRC.colors.link).join` `)"
+}

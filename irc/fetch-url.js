@@ -19,7 +19,7 @@ function bytes(input, places = 2) {
 }
 
 function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
-    const url = text.match(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+    const url = text.match(/(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;()]*[-A-Z0-9+&@#\/%=~_|()])/ig);
 
     if (url && url[0] && text.indexOf('##') == -1) {
 
