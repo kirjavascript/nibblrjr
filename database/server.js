@@ -139,7 +139,7 @@ function createServerDBFactory(database) {
         const speakElapsedQuery = db.prepare(`
             SELECT * FROM events
             WHERE timestamp < ?
-            AND type = "speak"
+            AND type = 'speak'
             AND UPPER(target) = UPPER(?)
         `);
         eventFns.speakElapsed = (target) => {
@@ -149,7 +149,7 @@ function createServerDBFactory(database) {
         const tickElapsedQuery = db.prepare(`
             SELECT * FROM events
             WHERE timestamp < ?
-            AND type = "tick"
+            AND type = 'tick'
         `);
         eventFns.tickElapsed = () => {
             const obj = tickElapsedQuery.all((new Date()).toISOString());

@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const Database = require('better-sqlite3');
+const { inspect } = require('util');
 
 const storagePath = path.join(__dirname, '../../../storage');
 const cachePath = path.join(__dirname, '../../../cache/stats');
@@ -146,7 +147,7 @@ module.exports = async ({ parent, app }) => {
                 WHERE time BETWEEN date(?, '-1 month') AND date(?)
                 ${channelStr}
                 AND command = 'PRIVMSG'
-                AND message LIKE ${JSON.stringify(trigger + '%')}
+                AND message LIKE ${inspect(trigger + '%')}
             )
             WHERE command <> ''
             GROUP BY command

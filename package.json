@@ -17,6 +17,7 @@
         "d3-scale-chromatic": "^1.5.0",
         "date-fns": "^1.29.0",
         "express": "^4.16.2",
+        "form-data": "^3.0.0",
         "global-npm": "^0.3.0",
         "html-entities": "^1.2.1",
         "irc": "^0.5.2",
