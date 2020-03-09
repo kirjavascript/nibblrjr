@@ -18,10 +18,6 @@ export default function ForceSim({
     const [orbit, setOrbit] = useState(false);
 
     useEffect(() => {
-        if (!chart.current) {
-            chart.current = new ForceSimObj(node.current);
-        }
-
         // unpack activity
         const activity = items.reduce((acc, [_, activity] = []) => {
             activity.forEach(({ user, count }, index) => {
@@ -60,6 +56,10 @@ export default function ForceSim({
             link.source = link.source + '-' + link.server;
             link.target = link.target + '-' + link.server;
         });
+
+        if (!chart.current) {
+            chart.current = new ForceSimObj(node.current);
+        }
         chart.current.data(links, nodes);
     }, [items]);
 

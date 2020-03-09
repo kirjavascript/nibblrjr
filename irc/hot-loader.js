@@ -1,5 +1,3 @@
-const pick = require('lodash/pick');
-
 const mod = { };
 
 const clearCache = () => {
@@ -10,22 +8,10 @@ const clearCache = () => {
 
 const loadMod = () => {
     Object.assign(mod, {
-        ...pick(
-            require('./evaluate'),
-            ['evaluate']
-        ),
-        ...pick(
-            require('./fetch-url'),
-            ['fetchURL']
-        ),
-        ...pick(
-            require('./evaluate/scripts/parse-command'),
-            ['parseCommand']
-        ),
-        ...pick(
-            require('./evaluate/scripts/print'),
-            ['createNodeSend']
-        ),
+        ...require('./evaluate'),
+        ...require('./evaluate/scripts/parse-command'),
+        ...require('./evaluate/scripts/print'),
+        ...require('./fetch-url'),
     });
 };
 

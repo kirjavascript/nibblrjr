@@ -13,6 +13,7 @@ message regex
 add extra input for events to subscribe to event: "message.channel"
 collect all events and run them in a single vm
 use a whole vm for events?
+limiting: print queue / clear queue
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
@@ -23,6 +24,7 @@ new store for events
 19:00 <@nibblrjr> <Kirjava> add joins/parts to events spec (2 hours ago)
 19:00 <@nibblrjr> <Kirjava> duck hunt (1 hour ago) quack / fire
 19:00 <@nibblrjr> <Kirjava> add web API system for pushing events (7 hours ago)
+19:00 <+nibblrjr> <Kirjava> add 'push event' exmaple for finn to events todo list (3 hours ago)
 
 // TODO //
 ~quit message
