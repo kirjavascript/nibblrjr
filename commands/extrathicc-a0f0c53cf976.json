@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "extrathicc",
+    "command": "normal=\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789()\"\nother=\"卂乃匚ᗪ乇千Ꮆ卄丨ﾌҜㄥ爪几ㄖ卩Ɋ尺丂ㄒㄩᐯ山乂ㄚ乙卂乃匚ᗪ乇千Ꮆ卄丨ﾌҜㄥ爪几ㄖ卩Ɋ尺丂ㄒㄩᐯ山乂ㄚ乙０１２３４５６７８９（）\"\nprint([...input].map(ch => other[normal.indexOf(ch)] || ch).join``)"
+}

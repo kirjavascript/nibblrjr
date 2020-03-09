@@ -1,6 +1,6 @@
 {
     "name": "cute",
-    "command": "const faces = [\n    '(っ⌒‿⌒)っ~',\n    '(✿◠‿◠)っ~',\n    '( ＾◡＾)っ~',\n    '( ´・‿-) ~',\n    '(Ɔ ˘⌣˘) ~',\n    '(◕‿◕)♡',\n];\nprint(`${faces[0|Math.random()*faces.length]} {r}♥{/}  ${input}`)",
+    "command": "const faces = [\n    '(っ⌒‿⌒)っ~',\n    '(✿◠‿◠)っ~',\n    '( ＾◡＾)っ~',\n    '( ´・‿-) ~',\n    '(Ɔ ˘⌣˘) ~',\n    '(◕‿◕)～{p}♡{/}',\n];\nprint(`${faces[0|Math.random()*faces.length]} {r}♥{/}  ${input}`)",
     "locked": true,
     "starred": true
 }
