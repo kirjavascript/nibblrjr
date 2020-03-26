@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "corona",
+    "command": "const { window, document } = fetchSync.dom(`https://corona.help`);\n\nconst countries = [\n    ...document.querySelectorAll('#countries-nav tbody tr')\n].map(node => [\n    node.children[0].querySelector('div').textContent,\n    ...[...node.children].slice(1).map(d => d.textContent)\n]);\n\nconst global = [...document.querySelectorAll('div.card-body')]\nconst stats = global.slice(1, 6)\n    .map(d => d.textContent.replace(/\\s+/g, ' ').trim())\n    .map(d => ([a,...b]=d.split` `,b.join` ` + ' {o}' + a + '{/}'))\n\nconst clean = input.trim().toLowerCase();\n\nif (input) {\n    const found = countries.find(([name]) => {\n        return name.toLowerCase().includes(clean)\n    });\n    if (found) {\n        // log(found);\n        const [name, infected, deaths, recovered, active] = found;\n        print(`${name}  --  infected {o}${infected}{/}  deaths {r}${deaths}{/}  recovered {g}${recovered}{/}  active {o}${active}`);\n    } else {\n        print.error(`${input} not found`);\n    }\n} else {\n    print(stats.join`  `)\n}"
+}

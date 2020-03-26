@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "nyoom.add",
+    "command": "if (!input.trim()) {\n    throw new Error(`{p}${IRC.trigger}nyoom.add{/} thing`);\n}\n\nstore.set(new Date().getTime(), input)\nprint(`{y}${input}{/} added to {p}${IRC.trigger}nyoom{/}`)"
+}
