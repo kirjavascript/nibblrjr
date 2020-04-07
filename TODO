@@ -2,7 +2,7 @@ sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlineli
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
 version 4: data scoping & ORM
-fork node-irc
+fork node-irc  / https://github.com/Throne3d/node-irc
 print streams | built in pipe | IRC.runCommand()
 unix style params
 PYTHON=$(which python2)
@@ -14,6 +14,7 @@ add extra input for events to subscribe to event: "message.channel"
 collect all events and run them in a single vm
 use a whole vm for events?
 limiting: print queue / clear queue
+## = ignore everything
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
@@ -25,6 +26,7 @@ new store for events
 19:00 <@nibblrjr> <Kirjava> duck hunt (1 hour ago) quack / fire
 19:00 <@nibblrjr> <Kirjava> add web API system for pushing events (7 hours ago)
 19:00 <+nibblrjr> <Kirjava> add 'push event' exmaple for finn to events todo list (3 hours ago)
+11:00 <+IckleFinn> The two use cases I have is: Send a Photo to TeleNibblr -> post the photo here and Send a standard nibblr command to TeleNibblr -> get back the response
 
 // TODO //
 ~quit message

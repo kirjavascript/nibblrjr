@@ -274,7 +274,7 @@ module.exports = async ({ parent, app }) => {
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
             ${channelStr}
-            AND command = "KICK"
+            AND command = 'KICK'
             GROUP BY lower(user)
             ORDER BY count DESC
             LIMIT 10
@@ -287,7 +287,7 @@ module.exports = async ({ parent, app }) => {
                 FROM log
                 WHERE time BETWEEN date(?, '-1 month') AND date(?)
                 ${channelStr}
-                AND command = "KICK"
+                AND command = 'KICK'
             )
             GROUP BY user
             ORDER BY count DESC

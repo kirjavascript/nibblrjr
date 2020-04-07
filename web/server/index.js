@@ -16,7 +16,7 @@ function initWeb(parent) {
     app.use(bodyParser.json());
 
     const server = app.listen(web.port, () => {
-        console.log(`Server running on http://localhost:${web.port}/`)
+        console.log(`Web running on port ${web.port}`);
     });
 
     web.wss = initSocket({parent, server});
