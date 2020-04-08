@@ -47,6 +47,8 @@ function messageFactory(type, {
         }
         // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
         text = text.replace(/\r/g, '\n');
+        // strip out \01, fixes; print('\01VERSION\01')
+        text = text.replace(/\u0001/, '');
 
         text.split('\n')
             .map(line => line.match(/.{1,400}/g))

@@ -1,6 +1,6 @@
 {
     "name": "scribtest",
-    "command": "",
+    "command": "var i = 10;\nwhile (i > 0)\n{\n    print(i + \" bottles of beer on the wall\")\n    i -= 1;\n}",
     "locked": false,
     "starred": false
 }
