@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "comps.cancelled",
+    "command": "//const cancelled = fetchSync(\"https://www.worldcubeassociation.org/posts/cancelled-competitions\",{type:\"dom\"})\n//const list = cancelled.document.querySelectorAll(\".panel-body > ul > li > a\")\n//const comps = Array.from(list).map( x => x.innerHTML)\n//const comps_per_line = Math.ceil(comps.length / 10)\n//for(let i = 0; i < comps.length; i += comps_per_line){\n//    print(comps.slice(i,i+comps_per_line).join(\"|\"))\n//}\nprint(\"All Competitions till at least April 15th have been cancelled\");"
+}

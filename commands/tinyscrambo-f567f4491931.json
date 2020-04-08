@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "tinyscrambo",
+    "command": "for(l=s=\"\";!s[79];r=6*Math.random(),n=0|r,l!=(l=n%3)?s+=\"RFULBD\"[n]+\"​'2\"[0|3*(r-n)]+' ':0);print(s)"
+}

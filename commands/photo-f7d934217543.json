@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "photo",
+    "command": "const args = input.split(\" \")\nif (from != \"PhotoDeliveryBot\"){\n    print(\"Bot only command\")\n}\nelse{\n    print(`${args[0]}: ${args[1]}`, { target : \"#rubik\"})\n}"
+}

@@ -1,6 +1,6 @@
 {
     "name": "nyoom",
-    "command": "print(\"https://www.youtube.com/watch?v=UXL7nmxaIps\");",
+    "command": "print(_.shuffle(store.all())[0].value)\n\n//print(\"https://www.youtube.com/watch?v=UXL7nmxaIps https://youtu.be/RNxf4PMEfHg\");",
     "locked": false,
     "starred": false
 }
