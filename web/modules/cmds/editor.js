@@ -2,7 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import CM from 'codemirror';
 import 'codemirror/mode/jsx/jsx';
 
-export default function Editor({ value = '', onChange, children, readOnly }) {
+export default function Editor({
+    value = '',
+    onChange,
+    onSave,
+    children,
+    readOnly
+}) {
     const ref = useRef();
     const valueRef = useRef();
     const editorRef = useRef();
@@ -36,6 +42,12 @@ export default function Editor({ value = '', onChange, children, readOnly }) {
             editorRef.current.off('changes', handler);
         };
     }, [onChange]);
+
+    useEffect(() => {
+        editorRef.current.setOption('extraKeys', {
+            'Ctrl-S': onSave
+        });
+    }, [onSave]);
 
     useEffect(() => {
         editorRef.current.setOption('readOnly', readOnly);

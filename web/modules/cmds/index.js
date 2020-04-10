@@ -181,6 +181,7 @@ function EditorPane({ updateList, history, match: { params } }) {
         <Editor
             value={source}
             readOnly={readOnly}
+            onSave={save}
             onChange={(code) => {
                 setCmd({ ...cmd, command: code });
             }}
