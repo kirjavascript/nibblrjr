@@ -115,6 +115,7 @@ function EditorPane({ updateList, history, match: { params } }) {
     const { fetchAPI, admin } = useFetch();
     const [cmd, setCmd] = useState({ command: loadMsg });
     const [cmdTextCopy, setCmdTextCopy] = useState(loadMsg);
+    const [saving, setSaving] = useState(false);
     const [deleteText, setDeleteText] = useState('delete');
 
     useEffect(() => {
@@ -143,6 +144,7 @@ function EditorPane({ updateList, history, match: { params } }) {
     };
 
     const save = () => {
+        setSaving(true);
         const init = { method: 'POST', body: { command: cmd.command } };
         fetchAPI('command/set/' + params.name, init)
             .then(obj => {
@@ -151,6 +153,7 @@ function EditorPane({ updateList, history, match: { params } }) {
                 } else {
                     alert(obj.error);
                 }
+                setSaving(false);
             })
             .catch(console.error);
     };
@@ -173,7 +176,7 @@ function EditorPane({ updateList, history, match: { params } }) {
 
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
     const { locked, starred } = cmd;
-    const saveText = cmd.command === cmdTextCopy ? 'saved' : 'save';
+    const saveText = saving ? 'saving' : cmd.command === cmdTextCopy ? 'saved' : 'save';
 
     const isAdmin = admin;
     const readOnly = cmd.locked && !isAdmin;

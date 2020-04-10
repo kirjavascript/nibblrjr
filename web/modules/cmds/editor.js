@@ -44,9 +44,7 @@ export default function Editor({
     }, [onChange]);
 
     useEffect(() => {
-        editorRef.current.setOption('extraKeys', {
-            'Ctrl-S': onSave
-        });
+        editorRef.current.setOption('extraKeys', { 'Ctrl-S': onSave });
     }, [onSave]);
 
     useEffect(() => {
