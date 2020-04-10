@@ -109,17 +109,21 @@ function Cmds({ history }) {
     );
 }
 
+const loadMsg = '/* loading ... */';
+
 function EditorPane({ updateList, history, match: { params } }) {
     const { fetchAPI, admin } = useFetch();
-    const [cmd, setCmd] = useState({ command: '/* loading ... */' });
-    const [saveText, setSaveText] = useState('save');
+    const [cmd, setCmd] = useState({ command: loadMsg });
+    const [cmdTextCopy, setCmdTextCopy] = useState(loadMsg);
     const [deleteText, setDeleteText] = useState('delete');
 
     useEffect(() => {
         fetchAPI('command/get/' + params.name)
-            .then(setCmd)
+            .then(cmd => {
+                setCmd(cmd);
+                setCmdTextCopy(cmd.command);
+            })
             .catch(console.error);
-        setSaveText('save');
         setDeleteText('delete');
     }, [params.name]);
 
@@ -139,17 +143,13 @@ function EditorPane({ updateList, history, match: { params } }) {
     };
 
     const save = () => {
-        setSaveText('saving');
         const init = { method: 'POST', body: { command: cmd.command } };
         fetchAPI('command/set/' + params.name, init)
             .then(obj => {
                 if (!obj.error) {
-                    setSaveText('saved');
-                    setTimeout(() => {
-                        setSaveText('save');
-                    }, 1000)
+                    setCmdTextCopy(cmd.command);
                 } else {
-                    setSaveText(obj.error);
+                    alert(obj.error);
                 }
             })
             .catch(console.error);
@@ -173,6 +173,7 @@ function EditorPane({ updateList, history, match: { params } }) {
 
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
     const { locked, starred } = cmd;
+    const saveText = cmd.command === cmdTextCopy ? 'saved' : 'save';
 
     const isAdmin = admin;
     const readOnly = cmd.locked && !isAdmin;
