@@ -6,7 +6,6 @@ import LineChart from './linechart';
 import ForceSim from './forcesim';
 import Factoids from './factoids';
 // add sudo commands to docs, talk about modules
-// ctrls save
 
 // activity user ranking (*)
 // toggle orbiters show explanation in grey
