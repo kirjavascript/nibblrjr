@@ -142,10 +142,7 @@ class ForceSimObj {
             .style('position', 'relative');
         this.popup = this.container
             .append('div')
-            .style('position', 'absolute')
-            .style('cursor', 'default')
-            .classed('popup', true)
-            .style('pointer-events', 'none')
+            .classed('popup', true);
     }
 
     // public
@@ -185,8 +182,8 @@ class ForceSimObj {
             .alphaTarget(0.1)
             .restart();
 
-        // focused
         let focused;
+        this.focusedNode = undefined;
         this.canvas
             .on('mousemove', () => {
                 const [x, y] = d3.mouse(this.canvas.node());
@@ -201,24 +198,11 @@ class ForceSimObj {
                         link.from = link.source.id === focused;
                         link.to = link.target.id === focused;
                     });
-                    this.render();
+                    this.focusedNode = node;
                 }
-                // TODO: move to render
-                if (node && node.activity) {
-                    this.popup
-                        .style('left', `${node.x}px`)
-                        .style('top', `${node.y}px`)
-                        .html(`
-                        <pre>
-                            messages: ${node.activity.count}
-                            index: ${node.activity.index}
-                            direct messages sent: ${node.activity.to}
-                            direct messages received: ${node.activity.from}
-                        </pre>
-                        `);
-                }
+                this.render();
             });
-        // TODO: mouseleave
+
         return this;
     };
 
@@ -234,6 +218,26 @@ class ForceSimObj {
 
         const nodes = orbit ? nodeList : nodeList.filter(({ activity }) => !!activity);
         const links = orbit ? linkList : linkList.filter(({ activity }) => !!activity);
+
+        if (this.focusedNode && this.focusedNode.activity) {
+            const node = this.focusedNode;
+            this.popup
+                .classed('visible', true)
+                .style('left', `${node.x+5}px`)
+                .style('top', `${node.y-15}px`)
+                .html(`
+                    <span class="name">${node.name}</span>
+                    <pre>
+server: ${node.server}
+messages: ${node.activity.count}
+index: ${node.activity.index}
+direct messages sent (red): ${node.activity.to}
+direct messages received (blue): ${node.activity.from}
+                    </pre>
+                `);
+        } else {
+            this.popup.classed('visible', false);
+        }
 
         ctx.clearRect(0, 0, width, height);
         // links
@@ -275,9 +279,11 @@ class ForceSimObj {
         ctx.fill();
         // names
         ctx.fillStyle = 'black';
+        ctx.font = `12px Hack`;
         nodes.forEach(d => {
-            ctx.font = `${d.focused ? 18 : 12}px Hack`;
-            ctx.fillText(d.name, d.x, d.y);
+            if(!d.focused) {
+                ctx.fillText(d.name, d.x, d.y);
+            }
         });
 
     };

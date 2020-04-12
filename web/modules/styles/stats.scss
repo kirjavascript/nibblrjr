@@ -135,9 +135,31 @@
     .hud {
         position: absolute;
         top: 25px;
-        left: 27px;
+        right: 27px;
+        display: flex;
+        flex-direction: row;
+        .checkbox {
+            margin-left: 10px;
+        }
     }
     .canvas {
         overflow: hidden;
+    }
+    .popup {
+        position: absolute;
+        cursor: default;
+        pointer-events: none;
+        background-color: rgba($brand, 0.7);
+        // color: white;
+        padding: 5px;
+        display: none;
+        &.visible {
+            display: block;
+        }
+        .name {
+            font-size: 18px;
+            display: block;
+            padding: 2px 5px;
+        }
     }
 }

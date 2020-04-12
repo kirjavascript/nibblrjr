@@ -16,7 +16,6 @@ const Nibblr = withRouter(({ location }) => {
             <div className="menu">
                 <h1>
                     nibblr<span className="jr">jr</span>
-                    <span className="heart"> ♥</span>
                 </h1>
                 {['cmds', 'docs', 'stats'].map(link => (
                     <Link
