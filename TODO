@@ -29,6 +29,7 @@ new store for events
 11:00 <+IckleFinn> The two use cases I have is: Send a Photo to TeleNibblr -> post the photo here and Send a standard nibblr command to TeleNibblr -> get back the response
 
 // TODO //
+add sudo commands to docs, talk about modules
 ~quit message
 ~help ${IRC.nick} is a wild ... that anyone can edit
 character limit / convert to pastebin if over one line

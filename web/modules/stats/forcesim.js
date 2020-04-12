@@ -56,6 +56,14 @@ export default function ForceSim({
             link.source = link.source + '-' + link.server;
             link.target = link.target + '-' + link.server;
         });
+        // attach to/from data to nodes
+        nodes.forEach(node => {
+            const get = (key) => links.filter(link => link[key] === node.id).length;
+            if (node.activity) {
+                node.activity.from = get('target');
+                node.activity.to = get('source');
+            }
+        });
 
         if (!chart.current) {
             chart.current = new ForceSimObj(node.current);
@@ -183,6 +191,7 @@ class ForceSimObj {
             .on('mousemove', () => {
                 const [x, y] = d3.mouse(this.canvas.node());
                 const node = this.simulation.find(x, y);
+                // TODO: unfocus when far away, or leave
                 if (node && focused !== node.id) {
                     focused = node.id;
                     nodes.forEach(node => {
@@ -194,14 +203,22 @@ class ForceSimObj {
                     });
                     this.render();
                 }
-                if (node) {
+                // TODO: move to render
+                if (node && node.activity) {
                     this.popup
                         .style('left', `${node.x}px`)
                         .style('top', `${node.y}px`)
-                        .html(node.id);
+                        .html(`
+                        <pre>
+                            messages: ${node.activity.count}
+                            index: ${node.activity.index}
+                            direct messages sent: ${node.activity.to}
+                            direct messages received: ${node.activity.from}
+                        </pre>
+                        `);
                 }
             });
-        // mouseleave
+        // TODO: mouseleave
         return this;
     };
 
@@ -238,17 +255,15 @@ class ForceSimObj {
             }
         });
         ctx.stroke();
-        // ctx.beginPath();
-        // ctx.strokeStyle = 'rgba(0, 255, 255, 1)';
-        // links.forEach(d => {
-        //     if (d.to) {
-        //         ctx.moveTo(d.source.x, d.source.y);
-        //         ctx.quadraticCurveTo(d.target.x + 10, d.source.y - 10, d.target.x, d.target.y);
-
-        //         // ctx.bezierCurveTo(d.target.x - 100, d.target.y - 100, 200, 100, d.target.x, d.target.y);
-        //     }
-        // });
-        // ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(0, 255, 255, 1)';
+        links.forEach(d => {
+            if (d.to) {
+                ctx.moveTo(d.source.x, d.source.y);
+                ctx.quadraticCurveTo(d.target.x + 10, d.source.y - 10, d.target.x, d.target.y);
+            }
+        });
+        ctx.stroke();
         // nodes
         ctx.beginPath();
         nodes.forEach(d => {
