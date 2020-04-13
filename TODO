@@ -19,6 +19,7 @@ make events more powerful, restrict how they're created -> current event API is 
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
 IRC.resetEvents
+poker: call check bet raise (show odds)
 ~img
 check with buck what different things we can do, s//
 new store for events
@@ -29,6 +30,7 @@ new store for events
 11:00 <+IckleFinn> The two use cases I have is: Send a Photo to TeleNibblr -> post the photo here and Send a standard nibblr command to TeleNibblr -> get back the response
 
 // TODO //
+pastebin multiline output
 add sudo commands to docs, talk about modules
 ~quit message
 ~help ${IRC.nick} is a wild ... that anyone can edit
