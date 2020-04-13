@@ -107,8 +107,6 @@ class ForceSimObj {
         this.ctx = this.canvas.node().getContext('2d');
 
         this.simulation = d3.forceSimulation()
-            .force('x', d3.forceX().strength(0.2))
-            .force('y', d3.forceY().strength(0.2))
             .on('tick', this.render);
 
         this.setSize();
@@ -145,8 +143,6 @@ class ForceSimObj {
             .classed('popup', true);
     }
 
-    // public
-
     destroy = () => {
         this.simulation.stop();
         window.removeEventListener('resize', this.resize);
@@ -158,16 +154,25 @@ class ForceSimObj {
         this.height = 800;
         const { width, height } = this;
         Object.assign(this.canvas.node(), { width, height });
+        this.setOrbitCharge();
         this.simulation
             .force('center', d3.forceCenter(width / 2, height / 2));
     };
 
+    setOrbitCharge = () => {
+        const small = this.width < 650;
+        this.simulation
+            .force('x', d3.forceX().strength(small ? 0.2 : 0.1))
+            .force('y', d3.forceY().strength(small ? 0.1 : 0.2))
+            .force('charge', d3.forceManyBody()
+                .strength(() => -(this.width / (this.config.orbit ? 3 : 7)))
+            );
+    };
+
     orbit = (orbit) => {
         this.config.orbit = orbit;
+        this.setOrbitCharge();
         this.simulation
-            .force('charge', d3.forceManyBody()
-                .strength(() => -Math.min(this.width / 2.5, orbit ? 800 : 200))
-            )
             .alphaTarget(0.1)
             .restart();
     }
@@ -188,7 +193,6 @@ class ForceSimObj {
             .on('mousemove', () => {
                 const [x, y] = d3.mouse(this.canvas.node());
                 const node = this.simulation.find(x, y);
-                // TODO: unfocus when far away, or leave
                 if (node && focused !== node.id) {
                     focused = node.id;
                     nodes.forEach(node => {
@@ -227,14 +231,13 @@ class ForceSimObj {
                 .style('top', `${node.y-15}px`)
                 .html(`
                     <span class="name">${node.name}</span>
-                    <pre>
-server: ${node.server}
+                    <pre> server: ${node.server}
 messages: ${node.activity.count}
 index: ${node.activity.index}
 direct messages sent (red): ${node.activity.to}
-direct messages received (blue): ${node.activity.from}
-                    </pre>
+direct messages received (blue): ${node.activity.from} </pre>
                 `);
+            // TODO: fix resize bug
         } else {
             this.popup.classed('visible', false);
         }
@@ -243,8 +246,10 @@ direct messages received (blue): ${node.activity.from}
         // links
         ctx.beginPath();
         links.forEach(d => {
-            ctx.moveTo(d.source.x, d.source.y);
-            ctx.lineTo(d.target.x, d.target.y);
+            if (!d.to && !d.from) {
+                ctx.moveTo(d.source.x, d.source.y);
+                ctx.lineTo(d.target.x, d.target.y);
+            }
         });
         ctx.strokeStyle = 'rgba(0, 255, 255, 0.2)';
         ctx.stroke();
@@ -281,11 +286,9 @@ direct messages received (blue): ${node.activity.from}
         ctx.fillStyle = 'black';
         ctx.font = `12px Hack`;
         nodes.forEach(d => {
-            if(!d.focused) {
+            if (!d.focused || !d.activity) {
                 ctx.fillText(d.name, d.x, d.y);
             }
         });
-
     };
-
 };

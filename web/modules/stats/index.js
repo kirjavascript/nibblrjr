@@ -5,12 +5,6 @@ import BarChart from './barchart';
 import LineChart from './linechart';
 import ForceSim from './forcesim';
 import Factoids from './factoids';
-// nginx: static, htaccess
-
-// activity user ranking (*)
-// toggle orbiters show explanation in grey
-// size for nodes with activity qty
-// popup / big on force
 
 function Stats({ history, location }) {
     const { fetchAPI } = useFetch();
