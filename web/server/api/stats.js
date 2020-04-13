@@ -79,10 +79,11 @@ module.exports = async ({ parent, app }) => {
         const { server = '', channel = '', month = '' } = req.body;
         const filename = `${server}-${channel}-${month}.json`;
         // check user input to limit what can be read!
-        if (!/^[a-z.]*-[#%a-z]*-(\d{4}-\d{2}|)\.json$/i.test(filename)) {
+        if (!/^[a-z.]*-[#%&a-z0-9\/]*-(\d{4}-\d{2}|)\.json$/i.test(filename)) {
             return res.send('{}');
         }
-        const statsPath = path.join(cachePath, filename);
+        // space and comma are disallowed in channel names
+        const statsPath = path.join(cachePath, filename.replace(/\//g, ' '));
         const staleRecent = !month && checkRecentCache(server, channel);
         if (!staleRecent && await exists(statsPath)) {
             res.type('application/json')
