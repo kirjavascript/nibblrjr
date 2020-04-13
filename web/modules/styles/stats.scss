@@ -157,9 +157,31 @@
             display: block;
         }
         .name {
-            font-size: 18px;
-            display: block;
             padding: 2px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            span:first-child {
+                font-size: 18px;
+                padding-right: 10px;
+            }
+        }
+        .stat {
+            padding: 2px 5px;
+            display: inline-block;
+            span:last-child {
+                font-weight: bold;
+                margin-left: 10px;
+            }
+        }
+        .rank span:last-child {
+            color: $yellow;
+        }
+        .sent span:last-child {
+            color: rgba(235, 51, 110, 0.8);
+        }
+        .recv span:last-child {
+            color: rgba(0, 255, 255, 1);
         }
     }
 }

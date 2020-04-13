@@ -224,20 +224,26 @@ class ForceSimObj {
         const links = orbit ? linkList : linkList.filter(({ activity }) => !!activity);
 
         if (this.focusedNode && this.focusedNode.activity) {
-            const node = this.focusedNode;
+            const { x, y, name, server, activity: { count, index, to, from } } = this.focusedNode;
             this.popup
                 .classed('visible', true)
-                .style('left', `${node.x+5}px`)
-                .style('top', `${node.y-15}px`)
-                .html(`
-                    <span class="name">${node.name}</span>
-                    <pre> server: ${node.server}
-messages: ${node.activity.count}
-index: ${node.activity.index}
-direct messages sent (red): ${node.activity.to}
-direct messages received (blue): ${node.activity.from} </pre>
-                `);
-            // TODO: fix resize bug
+                .style('left', `${x+5}px`)
+                .style('top', `${y-18}px`)
+                .selectAll('div')
+                .data([
+                    ['name', [name, server]],
+                    ['stat rank', ['rank', index + 1]],
+                    ['stat msgs', ['msgs', count]],
+                    ['stat sent', ['sent', to]],
+                    ['stat recv', ['recv', from]],
+                ])
+                .join('div')
+                .attr('class', ([name]) => name)
+                .selectAll('span')
+                .data(([_, d]) => d)
+                .join('span')
+                .text(d => d);
+
         } else {
             this.popup.classed('visible', false);
         }

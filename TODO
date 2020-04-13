@@ -1,7 +1,7 @@
 sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
-version 4: data scoping & ORM
+version 4: SQL / events
 fork node-irc  / https://github.com/Throne3d/node-irc
 print streams | built in pipe | IRC.runCommand()
 unix style params
@@ -134,7 +134,6 @@ mdn
 memo.pending
 ciu
 https://stackoverflow.com/questions/29478751/how-to-cancel-an-emcascript6-vanilla-javascript-promise-chain
-clearInterval
 
 // WEB API
 test command
