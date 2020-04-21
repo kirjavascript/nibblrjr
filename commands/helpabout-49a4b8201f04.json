@@ -1,6 +1,6 @@
 {
     "name": "help.about",
-    "command": "print(`{c}nibblr{/}{dc}jr{/} {dgr}v${IRC.version}{/} {bo}★{/}  web frontend: ${IRC.colors.link(IRC.webAddress)} docs: ${IRC.colors.link('https://github.com/kirjavascript/nibblrjr/blob/master/DOCUMENTATION.md')}`)",
+    "command": "print(`{c}nibblr{/}{dc}jr{/} {dgr}v${IRC.version}{/} {bo}★{/}  web frontend: ${IRC.colors.link(IRC.webAddress)} docs: ${IRC.colors.link(IRC.webAddress + '/docs')}`)",
     "locked": false,
     "starred": false
 }
