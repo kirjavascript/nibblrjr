@@ -1,6 +1,6 @@
 {
     "name": "ping",
-    "command": "IRC.ping(input).then(out => print(out.replace(/\\n/g, ' > '))).catch(print.error);",
+    "command": "print(IRC.ping(input).replace(/\\n/g, ' > '))",
     "locked": true,
     "starred": true
 }
