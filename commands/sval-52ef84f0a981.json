@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "sval",
+    "command": "const Sval = require('sval');\n\nconst options = {\n  ecmaVer: 10,\n  sandBox: true,\n}\nconst interpreter = new Sval(options)\ninterpreter.run(`\n  exports.output = eval(${JSON.stringify(input)})\n`)\nlog(interpreter.exports.output) // Get 'Hello World'"
+}

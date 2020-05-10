@@ -97,11 +97,7 @@ async function evaluate({
                 });
             })
         )));
-        jail.setSync('_ping', new ivm.Reference((str, resolve, reject) => {
-            ping(str)
-                .then((...args) => { resolve.applySync(undefined, args) })
-                .catch((...args) => { reject.applySync(undefined, args) });
-        }));
+        jail.setSync('_ping', new ivm.Reference(ping));
         jail.setSync('_wordList', new ivm.Reference(() => (
             new Promise((resolve, reject) => {
                 const path = '/usr/share/dict/words';
@@ -321,13 +317,9 @@ async function evaluate({
                 return ref.whois.applySyncPromise(undefined, [text]);
             };
 
-            IRC.ping = (str) => new Promise((res, rej) => {
-                ref.ping.applySync(undefined, [
-                    str,
-                    new ref.ivm.Reference(res),
-                    new ref.ivm.Reference(rej),
-                ]);
-            });
+            IRC.ping = (str) => ref.ping.applySyncPromise(undefined, [
+                str,
+            ]);
 
             Object.defineProperty(IRC, 'wordList', {
                 get: () => ref.wordList.applySyncPromise().trim().split(/\n|\r\n/),
