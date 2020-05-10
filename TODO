@@ -9,11 +9,12 @@ PYTHON=$(which python2)
 
 
 // events//
+root event script - run once on vm boot, (reboot vm when edited) register all callbacks
 message regex
-add extra input for events to subscribe to event: "message.channel"
 collect all events and run them in a single vm
 use a whole vm for events?
 limiting: print queue / clear queue
+
 ## = ignore everything
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
@@ -28,10 +29,12 @@ new store for events
 19:00 <@nibblrjr> <Kirjava> add web API system for pushing events (7 hours ago)
 19:00 <+nibblrjr> <Kirjava> add 'push event' exmaple for finn to events todo list (3 hours ago)
 11:00 <+IckleFinn> The two use cases I have is: Send a Photo to TeleNibblr -> post the photo here and Send a standard nibblr command to TeleNibblr -> get back the response
+https://www.youtube.com/get_video_info?video_id=dQw4w9WgXcQ
 
 // TODO //
-pastebin multiline output
+force chart spread based on number of nodes
 add sudo commands to docs, talk about modules
+pastebin multiline output
 ~quit message
 ~help ${IRC.nick} is a wild ... that anyone can edit
 character limit / convert to pastebin if over one line
