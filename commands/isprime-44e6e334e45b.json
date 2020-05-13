@@ -1,6 +1,6 @@
 {
     "name": "isprime",
-    "command": "print.raw(( // legacy command wrapper\n   x => !/^.?$|^(..+?)\\1+$/.test('1'.repeat(x))\n)(input, input.split(' '), IRC.message));",
+    "command": "print([]+(t=>{for(let n=2,r=Math.sqrt(t);n<=r;n++)if(t%n==0)return!1;return t>1})(+input))",
     "locked": false,
     "starred": false
 }
