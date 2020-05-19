@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "php",
+    "command": "IRC.require('eval')('php', input);"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "node",
+    "command": "IRC.require('eval')('node', input);"
+}

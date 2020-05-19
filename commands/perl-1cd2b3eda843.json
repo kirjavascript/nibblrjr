@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "perl",
+    "command": "IRC.require('eval')('perl', input);"
+}

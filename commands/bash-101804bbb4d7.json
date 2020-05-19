@@ -1,6 +1,6 @@
 {
     "name": "bash",
-    "command": "getDOM(\"http://www.bash.org/?\" + (IRC.command.params[0] || 'random1'))\n    .then(dom => {\n        print(_.shuffle(dom.qsa('.qt'))[0].textContent)\n    })\n    .catch(print.error)",
+    "command": "IRC.require('eval')('bash', input);",
     "locked": true,
     "starred": true
 }
