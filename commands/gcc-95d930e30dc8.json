@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "gcc",
+    "command": "IRC.require('eval')('gcc', input);"
+}
