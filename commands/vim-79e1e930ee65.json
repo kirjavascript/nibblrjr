@@ -1,6 +1,6 @@
 {
     "name": "vim",
-    "command": "/*__TEXTCMD__*/print(`:smile`);",
-    "locked": false,
+    "command": "IRC.require('eval')('vim', input);",
+    "locked": true,
     "starred": false
 }

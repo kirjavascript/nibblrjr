@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "quickjs",
+    "command": "IRC.require('eval')('quickjs', input);"
+}

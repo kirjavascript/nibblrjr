@@ -2,5 +2,5 @@
     "name": "bash",
     "command": "IRC.require('eval')('bash', input);",
     "locked": true,
-    "starred": true
+    "starred": false
 }

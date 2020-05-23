@@ -1,6 +1,6 @@
 {
     "locked": true,
-    "starred": true,
+    "starred": false,
     "name": "haskell",
     "command": "IRC.require('eval')('haskell', input);"
 }

@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "elixir",
+    "command": "IRC.require('eval')('elixir', input);"
+}
