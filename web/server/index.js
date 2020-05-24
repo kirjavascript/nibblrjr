@@ -35,20 +35,14 @@ function initWeb(parent) {
                     web.wss.sendAll('RELOAD');
                 },
             }));
-        } else {
-            const webpackConfig = require('../../webpack.config.js')();
-            webpackConfig.mode = 'production'
-            const compiler = webpack(webpackConfig);
-            compiler.run(() => {
-                console.log('Compiled web assets');
-            });
         }
     }
 
     // assign static asset folders
 
+    parent.dev &&
+        app.use('/', express.static(__dirname + '/../bundles'));
     app.use('/', express.static(__dirname + '/../static'))
-        .use('/', express.static(__dirname + '/../bundles'));
 
     // wildcard defaulting
 

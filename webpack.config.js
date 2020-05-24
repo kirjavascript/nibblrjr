@@ -8,7 +8,7 @@ module.exports = (env={}, args={}) => {
             main: path.join(__dirname, './web/modules/main.js'),
         },
         output: {
-            path:     path.join(__dirname, 'web/bundles'),
+            path:     path.join(__dirname, env.dev ? 'web/bundles' : 'web/static'),
             filename: '[name].js',
         },
         module: {

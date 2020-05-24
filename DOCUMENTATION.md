@@ -566,6 +566,4 @@ which correspond to the options from [IRC.inspect](#IRC-inspect)
 
 ## Flags
 
-`--no-webpack` will disable rebuilding the frontend assets when run
-
 `--dev` will enable development mode

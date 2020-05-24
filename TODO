@@ -10,10 +10,13 @@ PYTHON=$(which python2)
 
 // events//
 root event script - run once on vm boot, (reboot vm when edited) register all callbacks
+only run an event command if locked
 message regex
 collect all events and run them in a single vm
 use a whole vm for events?
 limiting: print queue / clear queue
+timeout abstraction for responding cutely to messages
+SQL scoped to command, not server
 
 ## = ignore everything
 make events more powerful, restrict how they're created -> current event API is bad
@@ -31,7 +34,10 @@ new store for events
 11:00 <+IckleFinn> The two use cases I have is: Send a Photo to TeleNibblr -> post the photo here and Send a standard nibblr command to TeleNibblr -> get back the response
 https://www.youtube.com/get_video_info?video_id=dQw4w9WgXcQ
 
+~7s - ~7 is a card
+
 // TODO //
+secretly log pms
 force chart spread based on number of nodes
 add sudo commands to docs, talk about modules
 pastebin multiline output
@@ -42,7 +48,6 @@ command.deprecated
 IRC.lang.{color,plural,quantity}
 make repl-only a per channel config (4 hours ago)
 use a proxy for the config (!)
-bundle webpack assets statically
 https://8bv.jow.moe/i/9b175ef1c68e4d82049ad4dd4c909690.png
 combine action / notice / print lineLimit
 uno

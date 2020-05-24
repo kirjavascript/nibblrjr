@@ -3387,10 +3387,10 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
-isolated-vm@^3.1.5:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/isolated-vm/-/isolated-vm-3.1.5.tgz#480318554c1d7922821b373702a658f41a6dd3ea"
-  integrity sha512-Qe/2n7W8TloTV33LiPv8cvDKGw7788i8OY+5kONTWZGWjrzUxcsXdMW1eXAFl11PgVzZwMKDueLLxJvpGBkI6Q==
+isolated-vm@3.3.3:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/isolated-vm/-/isolated-vm-3.3.3.tgz#5f046271dd52a6d65c6756b84f294a11c0a0c531"
+  integrity sha512-VGAgB7NEV6a1cf4RjI8kRfSv8uVkL7HBIC8xQ7DArnbBbenfA7eaMu5PXRPQg7Xcv7Y+GjYMVaXNwd+4IfmkjA==
 
 isstream@~0.1.2:
   version "0.1.2"
