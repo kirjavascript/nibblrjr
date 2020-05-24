@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "isprime.regex",
+    "command": "print(!/^.?$|^(..+?)\\1+$/.test('1'.repeat(input)))"
+}

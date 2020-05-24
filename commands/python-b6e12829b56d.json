@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "python",
+    "command": "IRC.require('eval')('python', input);"
+}

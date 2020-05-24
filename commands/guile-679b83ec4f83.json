@@ -1,6 +1,6 @@
 {
     "locked": true,
     "starred": false,
-    "name": "scheme",
+    "name": "guile",
     "command": "IRC.require('eval')('guile', input);"
 }

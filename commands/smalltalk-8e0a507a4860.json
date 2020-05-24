@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "smalltalk",
+    "command": "IRC.require('eval')('smalltalk', input);"
+}

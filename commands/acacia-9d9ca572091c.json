@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "acacia",
+    "command": "const { document } = fetchSync.dom('https://acacia.press');\nconst { href, textContent } = document.body.querySelector('.post-item a');\nprint(`{p}${textContent}{/} ${IRC.colors.link(`https://acacia.press${href}`)}`);"
+}

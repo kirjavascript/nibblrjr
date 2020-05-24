@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "lua",
+    "command": "IRC.require('eval')('lua', input);"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "ruby",
+    "command": "IRC.require('eval')('ruby', input);"
+}

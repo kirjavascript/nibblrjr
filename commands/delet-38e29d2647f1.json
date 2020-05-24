@@ -1,6 +1,6 @@
 {
     "name": "delet",
-    "command": "print(`https://i.imgur.com/X7kHF7g.png`)",
+    "command": "print(`https://i.imgur.com/X7kHF7g.png | https://www.youtube.com/watch?v=xI9Bm1D6Vz4`)",
     "locked": false,
     "starred": false
 }
