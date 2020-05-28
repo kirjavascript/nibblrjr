@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "kingchrisleaked",
+    "command": "// link / text\ngetJSON(`https://www.reddit.com/r/birdswitharms/random/.json`)\n    .then(obj => {\n        if (obj.error) {\n            print.log(obj.error)\n        }\n        else if (obj[0].data.children.length) {\n            const post = obj[0].data.children[0].data;\n            print(`{b}{u}${post.url}`)\n        }\n    })\n    .catch(d => {\n        print('{r}generator broked'())\n    })"
+}
