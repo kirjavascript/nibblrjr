@@ -4,8 +4,6 @@ const { ServerNode } = require('../irc/server-node');
 const { initWeb } = require('../web/server');
 const { Database } = require('../database/index');
 
-const cfg = require('./config');
-
 // setup env
 
 process.env.TZ = config.timezone || 'Europe/London';
