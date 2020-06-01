@@ -35,13 +35,13 @@ function initWeb(parent) {
                     web.wss.sendAll('RELOAD');
                 },
             }));
+
+            app.use('/', express.static(__dirname + '/../bundles'));
         }
     }
 
-    // assign static asset folders
+    // assign static asset folder
 
-    parent.dev &&
-        app.use('/', express.static(__dirname + '/../bundles'));
     app.use('/', express.static(__dirname + '/../static'))
 
     // wildcard defaulting
