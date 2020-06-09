@@ -1,6 +1,6 @@
 {
     "name": "randomcolour",
-    "command": "print(`{rand}${input}`) ",
-    "locked": false,
+    "command": "// print(`{rand}${input}`) \n\ninput = input.trim();\nif (input == 'blue') {\n    print(`{${_.shuffle(['r', 'p', 'dp', 'o', 'dr', 'y', 'gr']).pop()}}` + input);\n} else {\n    print(`{${_.shuffle(['db','b','c','dc']).pop()}}${input}`)\n}",
+    "locked": true,
     "starred": false
 }
