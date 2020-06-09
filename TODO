@@ -7,8 +7,10 @@ print streams | built in pipe | IRC.runCommand()
 unix style params
 PYTHON=$(which python2)
 
+// reloadable config
 
 // events//
+first: rewrite evaluate ->isolate and have the events isolate running
 root event script - run once on vm boot, (reboot vm when edited) register all callbacks
 only run an event command if locked
 message regex
@@ -17,6 +19,7 @@ use a whole vm for events?
 limiting: print queue / clear queue
 timeout abstraction for responding cutely to messages
 SQL scoped to command, not server
+poker2
 
 ## = ignore everything
 make events more powerful, restrict how they're created -> current event API is bad
