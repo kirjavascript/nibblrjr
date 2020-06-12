@@ -109,7 +109,7 @@ function parseTime(str) {
         const [match, y, m, d] = iso;
         out = setYear(out, y);
         out = setMonth(out, m-1);
-        out = setDay(out, d);
+        out = setDate(out, d);
     }
     // HH:MM
     const time = clean.match(/(\d{2}):(\d{2})/);
