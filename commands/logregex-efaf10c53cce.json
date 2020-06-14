@@ -1,6 +1,6 @@
 {
     "name": "log.regex",
-    "command": "// ~log.regex(1) (\\b(https?):\\/\\/[-A-Za-z0-9+&@#\\/%?=~_|!:,.;]*[-A-Za-z0-9+&@#\\/%=~_|])\nconst data = IRC.log.regex(input, IRC.command.params[0] || 3, IRC.command.params[1] || 0);\n\n(data.map(({time, user, command, target, message}) => (\n    IRC.colors(`({dc}{u}${time}{/}) {bo}<{/}${IRC.colors.hash(user)}${user}${command=='PRIVMSG'?'':':' + command.toLowerCase()}{/}{bo}>{/}`)\n    + ` ${message.replace(/\\n/g, ' ')}`\n)).forEach(d => print(d, { log: false })));",
+    "command": "// ~log.regex(1) (\\b(https?):\\/\\/[-A-Za-z0-9+&@#\\/%?=~_|!:,.;]*[-A-Za-z0-9+&@#\\/%=~_|])\nconst data = IRC.log.regex(input, IRC.command.params[0] || 3, IRC.command.params[1] || 0);\n\n(data.map(({time, user, command, target, message}) => (\n    IRC.colors(`({dc}{u}${time}{/}) {bo}<{/}${IRC.colors.hash(user)}${IRC.breakHighlight(user)}${command=='PRIVMSG'?'':':' + command.toLowerCase()}{/}{bo}>{/}`)\n    + ` ${message.replace(/\\n/g, ' ')}`\n)).forEach(d => print(d, { log: false })));",
     "locked": false,
     "starred": false
 }
