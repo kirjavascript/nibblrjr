@@ -341,6 +341,7 @@ async function evaluate({
             }
 
             IRC.log = unwrapFns('log');
+            IRC.log.getGlobal = IRC.log.get;
             IRC.commandFns = unwrapFns('commandFns');
             IRC.eventFns = unwrapFns('eventFns');
             if (IRC.event) {
