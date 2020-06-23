@@ -20,6 +20,7 @@ limiting: print queue / clear queue
 timeout abstraction for responding cutely to messages
 SQL scoped to command, not server
 poker2
+botcoin
 
 ## = ignore everything
 make events more powerful, restrict how they're created -> current event API is bad
