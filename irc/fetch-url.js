@@ -31,7 +31,6 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
 
         const options = {
             headers: {
-                // 'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Accept-Language': 'en-GB,en;q=0.5',
                 'Content-Language': 'en-GB,en;q=0.5',
