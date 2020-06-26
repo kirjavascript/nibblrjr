@@ -31,6 +31,7 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
 
         const options = {
             headers: {
+                // 'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Accept-Language': 'en-GB,en;q=0.5',
                 'Content-Language': 'en-GB,en;q=0.5',
@@ -62,10 +63,12 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
                         }
                         output += chunk;
                     }).on('end', () => {
-                        const titlerx = /<title[^>]*>([\S\s]+?)<\/title>/ig.exec(output);
+                        const [, metaTitle] = output.match(/<meta\s+name="title"\s+content="(.+?)"/) || ['', ''];
+                        const [, tagTitle] = output.match(/<title[^>]*>([\S\s]+?)<\/title>/i) || ['', ''];
+                        const baseTitle = metaTitle || tagTitle;
 
-                        if (titlerx && titlerx[1]) {
-                            const title = entities.decode(titlerx[1]).replace(/\s+/g, ' ').trim();
+                        if (baseTitle) {
+                            const title = entities.decode(baseTitle).replace(/\s+/g, ' ').trim();
                             const isFresh = title.split(' ')
                                 .filter(word => (
                                     /^[.a-zA-Z0-9\u00c0-\u017e"']+$/.test(word)
