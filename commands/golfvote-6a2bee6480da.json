@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "golf.vote",
+    "command": "const save = (key, data) => store.set(key, JSON.stringify(data));\nconst load = (key) => {\n    const data = store.get(key);\n    return typeof data === 'undefined' ? {} : JSON.parse(data);\n};\nconst data = load('votes');\nIRC.auth();\nconst tasks = Object.keys(IRC.require('golf.tasks'));\ninput = input.trim();\nif (input === 'show') {\n \treturn log(data); \n}\nif (!input) {\n throw ('vote for tasks to make public! you can vote for multiple tasks but once for each'); \n}\nif (tasks.includes(input)) {\n  if (!data[input]) {\n   \tdata[input] = [];\n  }\n  if (!data[input].includes(IRC.message.from))  {\n    data[input].push(IRC.message.from);\n    print.success(`voted for ${IRC.colors.nick(input, false)}`);\n  } else {\n  \tprint.success('thank you for voting!');\n  }\n  save('votes', data);\n} else {\n\tthrow 'no such task';\n}"
+}
