@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "dayssincegithubruinedtheui",
+    "command": "n=dateFns.differenceInDays(new Date(), new Date('2020-06-23T19:04:15.522Z')); print(`${n} day${n==1?'':'s'}`)"
+}

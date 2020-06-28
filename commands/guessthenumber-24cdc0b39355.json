@@ -1,5 +1,5 @@
 {
-    "locked": false,
+    "locked": true,
     "starred": false,
     "name": "guessthenumber",
     "command": "n=0|Math.random()*1e5;\ninput=eval(input);\nif (n==input) { print.success('correct!'); }\nelse if (input==7) { print.error(`{g}correct, yes!{/} well done! {dgr}actually just joking, it's not 7`) }\nelse { print.error(`nope, the number was ${n} you were just {g}${Math.abs(n-input)}{/} away!`); }"
