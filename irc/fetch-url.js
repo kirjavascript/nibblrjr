@@ -62,7 +62,7 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
                         }
                         output += chunk;
                     }).on('end', () => {
-                        const [, metaTitle] = output.match(/<meta\s+name="title"\s+content="(.+?)"/) || ['', ''];
+                        const [, metaTitle] = output.match(/<meta\s+name="title"\s+content="(.+?)"/i) || ['', ''];
                         const [, tagTitle] = output.match(/<title[^>]*>([\S\s]+?)<\/title>/i) || ['', ''];
                         const baseTitle = metaTitle || tagTitle;
 
