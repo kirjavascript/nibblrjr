@@ -7,7 +7,7 @@ const _ = require('lodash');
 const Entities = require('html-entities').AllHtmlEntities;
 const entities = new Entities();
 
-const filterWords = /forbidden|not found|access denied|error|update your browser|a robot/i;
+const filterWords = /forbidden|not found|access denied|update your browser|a robot/i;
 
 function bytes(input, places = 2) {
     const sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
@@ -31,7 +31,6 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
 
         const options = {
             headers: {
-                // 'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Accept-Language': 'en-GB,en;q=0.5',
                 'Content-Language': 'en-GB,en;q=0.5',
@@ -66,6 +65,7 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
                         const [, metaTitle] = output.match(/<meta\s+name="title"\s+content="(.+?)"/) || ['', ''];
                         const [, tagTitle] = output.match(/<title[^>]*>([\S\s]+?)<\/title>/i) || ['', ''];
                         const baseTitle = metaTitle || tagTitle;
+
 
                         if (baseTitle) {
                             const title = entities.decode(baseTitle).replace(/\s+/g, ' ').trim();

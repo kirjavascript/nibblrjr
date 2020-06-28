@@ -289,7 +289,9 @@ async function evaluate({
 
             global.module = { required: false };
 
+            const requireCache = {};
             IRC.require = (str) => {
+                if (requireCache[str]) return requireCache[str];
                 const obj = IRC.commandFns.get(str);
                 if (obj) {
                     const module = new Function(`
@@ -297,6 +299,7 @@ async function evaluate({
                         ${obj.command}
                         return module;
                     `)();
+                    requireCache[str] = module.exports;
                     return module.exports;
                 } else {
                     const error = new Error(str + ' not found');
