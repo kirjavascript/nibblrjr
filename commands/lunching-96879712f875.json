@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "lunching",
+    "command": "print.raw(['Lunch allowed today pal','No lunch allowed.'][(Math.random()*2)|0]);"
+}

@@ -1,6 +1,6 @@
 {
     "name": "safe",
-    "command": "print(\"http://i0.kym-cdn.com/entries/icons/original/000/022/138/reece.JPG\");",
+    "command": "print('https://imgur.com/W3dsdWA.png')",
     "locked": false,
     "starred": false
 }
