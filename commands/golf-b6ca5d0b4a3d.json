@@ -1,6 +1,6 @@
 {
     "name": "golf",
-    "command": "const { cmd } = IRC.colors;\nprint('⛳ {y}JS{g}Golf{/} - ' + [\n    cmd('golf.tasks'),\n    cmd('golf.task', 'taskname'),\n    cmd('golf.submit', ['taskname', 'solution']),\n    cmd('golf.scores', 'taskname or username'),\n    cmd('golf.solution', 'taskname'),\n].join`, `);",
+    "command": "const { cmd } = IRC.colors;\nprint('⛳ {y}JS{g}Golf{/} - ' + [\n    cmd('golf.tasks'),\n    cmd('golf.task', 'taskname'),\n    cmd('golf.submit', ['taskname', 'solution']),\n    cmd('golf.scores', 'taskname or username'),\n    cmd('golf.solution', ['taskname', 'user']),\n].join`, `);",
     "locked": true,
     "starred": true
 }

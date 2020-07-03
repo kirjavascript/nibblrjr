@@ -1,6 +1,6 @@
 {
     "name": "golf.solution",
-    "command": "IRC.auth();\nconst [task, flags] = input.trim().split` `\nconst scores = IRC.require('module.loadObject')(`scores-${task}`)[0];\nconst found = scores[IRC.message.from];\nif (found) {\n    if (IRC.message.to == '##jsgolf' && flags !== '--force') {\n        throw new Error('cannot send to channel (use --force to force)')\n    } \n    print.raw(`${found.solution} `+ IRC.colors(`({dc}${found.bytes}{/})`));\n} else {\n    throw new Error('task/solution not found');\n}",
+    "command": "const { getScores, setScores } = IRC.require('golf.store');\nconst { getTask } = IRC.require('golf.tasks');\n\nconst [taskName, flags] = input.trim().split` `\nconst task = getTask(taskName);\nconst scores = getScores(taskName);\n\nif (task.public) {\n    const name = flags || '##jsgolf';\n    const found = scores[name];\n    if (!found) {\n        throw `no solution for ${taskName} by ${name}`;\n    } else {\n        print.raw(`${found.solution} `+ IRC.colors(`({dc}${found.bytes}{/})`));\n    }\n} else {\n    IRC.auth();\n    if (flags !==  undefined && flags !== '--force') {\n        throw `task is not public`;\n    }\n    const found = scores[IRC.message.from];\n    if (found) {\n        if (IRC.message.to == '##jsgolf' && flags !== '--force') {\n            throw 'cannot send to channel (use --force to force)';\n        } \n        print.raw(`${found.solution} `+ IRC.colors(`({dc}${found.bytes}{/})`));\n    } else {\n        throw `no solution for ${taskName}`;\n    }\n}\n",
     "locked": false,
     "starred": false
 }

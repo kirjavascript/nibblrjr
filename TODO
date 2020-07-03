@@ -20,6 +20,7 @@ limiting: print queue / clear queue
 timeout abstraction for responding cutely to messages
 SQL scoped to command, not server
 poker2
+botcoin
 
 ## = ignore everything
 make events more powerful, restrict how they're created -> current event API is bad
@@ -40,6 +41,7 @@ https://www.youtube.com/get_video_info?video_id=dQw4w9WgXcQ
 ~7s - ~7 is a card
 
 // TODO //
+poker2: monthly reset
 secretly log pms
 force chart spread based on number of nodes
 add sudo commands to docs, talk about modules
