@@ -1,6 +1,0 @@
-{
-    "name": "sh",
-    "command": "print(`use {p}${IRC.trigger}eval(bash){/} instead`)",
-    "locked": true,
-    "starred": false
-}

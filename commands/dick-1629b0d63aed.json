@@ -1,6 +1,6 @@
 {
     "name": "dick",
-    "command": "print(`8===D`)",
+    "command": "print(`8${'='.repeat([...input.trim()].reduce((a,c)=>a+c.charCodeAt(),0)%56)}D`)",
     "locked": false,
     "starred": false
 }
