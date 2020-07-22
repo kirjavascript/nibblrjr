@@ -1,6 +1,6 @@
 {
     "name": "egg",
-    "command": "if (IRC.message.target != '#eggchan') {\n    const word = _.shuffle(IRC.wordList.filter(d => d.toLowerCase().includes('egg')))[0].toLowerCase();\n    print(word.replace(/egg/g, 'EGG'));\n    // throw new Error('please see #eggchan for eggs');\n} else {\n    if (input) {\n        IRC.eventFns.addEvent('speak', { callback: 'egg.event', time:  new Date(), message: `egg`, target: input.trim() })\n        print('ok')\n\n    } else {\n        print([...Array(250)].map((_, i) => Math.sin(i / 5) *10 | 0).slice(0|Math.random()*10).map(d=>`${' '.repeat(Math.abs(d))}egg`).join``);\n    }\n}\n\n\n",
+    "command": "if (IRC.message.target != '#eggchan') {\n  if (IRC.message.from === 'kori') {\n   \tprint('jackie chan'); \n  }else {\n    const word = _.shuffle(IRC.wordList.filter(d => d.toLowerCase().includes('egg')))[0].toLowerCase();\n    print(word.replace(/egg/g, 'EGG'));\n  }\n} else {\n    if (input) {\n        IRC.eventFns.addEvent('speak', { callback: 'egg.event', time:  new Date(), message: `egg`, target: input.trim() })\n        print('ok')\n\n    } else {\n        print([...Array(250)].map((_, i) => Math.sin(i / 5) *10 | 0).slice(0|Math.random()*10).map(d=>`${' '.repeat(Math.abs(d))}egg`).join``);\n    }\n}\n\n\n",
     "locked": true,
     "starred": false
 }
