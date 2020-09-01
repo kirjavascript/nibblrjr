@@ -114,6 +114,14 @@ a simple key-value store. the value can be either *string*, or *undefined|null* 
 
 retrieve the stored value
 
+<a name="save" href="#save">#</a> store.<b>save</b>(<i>key</i>, <i>value</i>) 
+
+a convenience function that JSON stringifies the value sent to the store
+
+<a name="load" href="#load">#</a> store.<b>load</b>(<i>key</i>{, <i>default value</i>}) -> <i>value</i>
+
+a convenience function that JSON parses the value retrieved from the store
+
 <a name="all" href="#all">#</a> store.<b>all</b>() -> <i>array</i>
 
 returns an array of objects have have the properties *key* and *value* corresponding to the data in the store

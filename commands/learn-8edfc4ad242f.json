@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "learn",
+    "command": "print(\"Helpful materials\");\nprint(store.load('materials', []).join(\" | \"))"
+}

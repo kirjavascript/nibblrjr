@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "learn.add",
+    "command": "let materials = store.load('materials', [])\nmaterials.push(input);\n\nstore.save('materials', materials);\n\nprint(`added ${input}`)"
+}

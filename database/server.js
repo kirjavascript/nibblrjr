@@ -250,6 +250,12 @@ function createServerDBFactory(database) {
                     setUpdateQuery.run(String(value), namespace, key);
                 }
             };
+            // load / save
+            const save = (key, data) => set(key, JSON.stringify(data));
+            const load = (key, init = {}) => {
+                const data = get(key);
+                return typeof data === 'undefined' ? init : JSON.parse(data);
+            };
             // all //
             const all = () => {
                 const obj = allQuery.all(namespace);
@@ -258,7 +264,7 @@ function createServerDBFactory(database) {
             const clear = () => {
                 clearQuery.run(namespace);
             };
-            return { get, set, all, clear };
+            return { get, set, load, save, all, clear };
         };
 
         return { db, log, logFactory, storeFactory, eventFactory, eventFns };
