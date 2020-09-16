@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "learn.replace",
+    "command": "let [pattern, replacement] = IRC.command.params\nlet materials = store.load('materials', [])\n\nprint(`${pattern} -> ${replacement}`);\n\nprint(materials.map(item => item.replace(pattern, replacement)).join(\" | \"))"
+}
