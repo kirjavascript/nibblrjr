@@ -1,6 +1,6 @@
 {
     "name": "buh",
-    "command": "print.raw(\"ヘ（。□°）ヘ\");",
+    "command": "print.raw(\"ヘ（。□°）ヘ \" + input);",
     "locked": false,
     "starred": false
 }

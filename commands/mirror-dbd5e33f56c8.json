@@ -1,6 +1,6 @@
 {
     "name": "mirror",
-    "command": "let mirrored_chars = \"zγxwvυɈƨɿpqonmlʞįiʜϱʇǝbɔdɒ ⸮.:!ZYWVUTƧЯϘꟼOИM⅃ꓘႱIHӘꟻƎꓷƆꓭA\";\r\nlet chars = \"zyxwvutsrqponmlkjihgfedcba ?.:!ZYWVUTSRQPONMLKJIHGFEDCBA\";\r\nlet mirrored_input = \"\";\r\n\r\nfor (let i = 0; i < input.length; i++) {\r\n\tif (chars.indexOf(input[i]) > -1) {\r\n\t\tmirrored_input = mirrored_chars[chars.indexOf(input[i])] + mirrored_input;\r\n\t}\t\r\n}\r\nprint(mirrored_input);",
+    "command": "n=\"'zγxwvυɈƨɿpqonmlʞįiʜϱʇǝbɔdɒ ⸮.:!ZYWVUTƧЯϘꟼOИM⅃ꓘႱIHӘꟻƎꓷƆꓭA\"\no=\"'zyxwvutsrqponmlkjihgfedcba ?.:!ZYWVUTSRQPONMLKJIHGFEDCBA\"\nprint([...input].map(ch => o[nl.indexOf(ch)] || ch).join``)",
     "locked": false,
     "starred": false
 }

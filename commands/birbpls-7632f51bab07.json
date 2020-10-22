@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "birbpls",
+    "command": "print('http://random.birb.pw/img/'+fetchSync.json('http://random.birb.pw/tweet.json').file)"
+}

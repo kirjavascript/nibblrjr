@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "yomomma",
+    "command": "getJSON(`https://api.yomomma.info/`)\n\t.then(lol => {\n      if (input) {\n        let joke = lol.joke.replace('Yo', input + `'s`)\n        print(joke)\n      } else {\n        print(lol.joke);\n      }\n\t})\n.catch(print.error)"
+}
