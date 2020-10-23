@@ -421,7 +421,36 @@ async function evaluate({
             delete global.config;
             delete global.scripts;
 
-            /\s*/.test(''); // patch RegExp.$_
+            // patches for DoS attacks
+            const { from } = Array;
+            Array.from = (...args) => {
+                if (args?.[0]?.length > 20000000) {
+                    throw new Error('dont be evil');
+                }
+                return from(...args);
+            };
+            Object.defineProperty(Array.prototype, 'fill', {
+                value: function (t) {
+                    if (null == this) throw new TypeError('this is null or not defined');
+                    for (
+                        var n = Object(this),
+                            r = n.length >>> 0,
+                            e = arguments[1],
+                            i = e >> 0,
+                            o = i < 0 ? Math.max(r + i, 0) : Math.min(i, r),
+                            a = arguments[2],
+                            h = void 0 === a ? r : a >> 0,
+                            l = h < 0 ? Math.max(r + h, 0) : Math.min(h, r);
+                        o < l;
+
+                    )
+                        (n[o] = t), o++;
+                    return n;
+                },
+            });
+
+            // patch RegExp.$_
+            /\s*/.test('');
 
             ['global', 'acquire', 'module', 'getText', 'getDOM', 'getJSON']
                 .forEach(key => {
