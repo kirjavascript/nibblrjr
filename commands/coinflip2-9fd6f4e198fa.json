@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": true,
+    "name": "coinflip2",
+    "command": "input = input.trim();\nconst { from } = IRC.message;\nconst user = store.load(from, { score: 0, multiply: 1, last: undefined });\nconst firstRun = user.last === undefined;\n// new Date%2\n\nif (!['heads','tails', 'h', 't'].includes(input)) {\n    throw `say {o}heads{/} or {o}tails{/}`;\n}\n\nconst answer = ['heads', 'tails'][0|Math.random()*2];\n\nconst renderScore = () => {\n    const multi = user.multiply > 1 ? ` ({y}${user.multiply}x multi{/})` : '';\n    return `${from} has {${user.score>-1?'g':'r'}}${user.score}{/} ${multi}`\n}\n\nconst updateScore = (last) => {\n    const diff = (last * 2) - 1;\n    if (last === user.last) {\n        user.multiply++;\n    } else {\n        user.multiply = 1\n    }\n    user.score += user.multiply * diff;\n    user.last = last;\n};\n\n\nif (answer[0] == input[0]) {\n    updateScore(true);\n    print(`{g}${answer}!{/} ${renderScore(user.score)}`)\n} else {\n    updateScore(false);\n    print(`{r}${answer}!{/} wrong${user.multiply > 1?' again':''}! - ${renderScore(user.score)}`)\n}\n\n\nstore.save(from, user);"
+}

@@ -425,7 +425,7 @@ async function evaluate({
             const { from } = Array;
             Array.from = (...args) => {
                 if (args?.[0]?.length > 20000000) {
-                    throw new Error('dont be evil');
+                    throw new Error('memory error');
                 }
                 return from(...args);
             };
