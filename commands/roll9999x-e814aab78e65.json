@@ -1,6 +1,6 @@
 {
     "name": "roll9999x",
-    "command": "let sevens = 0;\nconst qty = IRC.command.params[0] || 1;\nlet i = 0;\nwhile(++i<=qty) {\n    if (\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0\n    ) {\n        sevens += 1;\n    }\n}\nprint(`{o}${sevens}`);\n",
+    "command": "let sevens = 0;\nconst qty = eval(input) || 1;\nlet i = 0;\nwhile(++i<=qty) {\n    if (\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0 &&\n        (0|Math.random()*9998) === 0\n    ) {\n        sevens += 1;\n    }\n}\nprint(`{o}${sevens}`);\n",
     "locked": false,
     "starred": false
 }

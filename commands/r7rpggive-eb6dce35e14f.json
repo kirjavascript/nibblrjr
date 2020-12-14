@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "r7rpg.give",
+    "command": "const { from } = IRC.message\nconst { getPlayer, savePlayer, savePlayerAs } = IRC.require('r7rpg.game')\nplayer = getPlayer(from)\n\nreceiver_name = IRC.command.params[0]\nreceiver = store.load(receiver_name)\nitem = input.trim()\n\nif (receiver.status === undefined || !item || receiver_name === from) {\n  throw new Error(`Use {y}~r7rpg.give(player) item{/}`)\n}\n\nif (!player.items.includes(item)) {\n  throw new Error(`You don't have ${item}`)\n} else {\n  IRC.require('r7rpg.game').incrementInfo('items_given')\n  IRC.require('r7rpg.player').removeItem(item)\n  receiver.items.push(item)\n  savePlayerAs(receiver_name, receiver)\n  print(`{dc}${from}{/} gave {g}${receiver_name}{/} {p}${item}{/}`)\n}"
+}
