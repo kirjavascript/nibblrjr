@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "r7rpg.discard",
-    "command": "const { from } = IRC.message\nconst { getPlayer, savePlayer } = IRC.require('r7rpg.game')\nplayer = getPlayer(from)\n\nif (player.items.includes(input)) {\n  IRC.require('r7rpg.items').removeItem(input)\n  IRC.require('r7rpg.game').incrementInfo('items_discarded')\n} else {\n  throw new Error(`{dc}${from}{/} doesn't have ${input}`)\n}"
+    "command": "const { from } = IRC.message\nconst { getPlayer, savePlayer } = IRC.require('r7rpg.game')\nplayer = getPlayer(from)\n\nif (player.items.includes(input)) {\n  IRC.require('r7rpg.player').removeItem(input, true)\n  IRC.require('r7rpg.game').incrementInfo('items_discarded')\n} else {\n  throw new Error(`{dc}${from}{/} doesn't have ${input}`)\n}"
 }

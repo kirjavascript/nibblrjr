@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "2021?",
+    "command": "const offsets = [\n    ['america', -6],\n    ['greenland', -3],\n    ['UTC', 0],\n    ['europe', +2],\n    ['asia', +7],\n    ['oceania', +9],\n];\nconst { addHours, getDay } = dateFns\nprint(offsets.map(([name, offset])=>`{y}${name}{/}: `+ (addHours(new Date, offset).getFullYear()=='2021'?'{y}yes!{/} (*⌒∇⌒*) //// 🎉 {rb}ｈａｐｐｙ ｎｅｗ ｙｅａｒ':'not yet')).join` `)\n"
+}

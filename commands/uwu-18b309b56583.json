@@ -1,5 +1,5 @@
 {
-    "locked": false,
+    "locked": true,
     "starred": false,
     "name": "uwu",
     "command": "print(require('uwufy')(input))"

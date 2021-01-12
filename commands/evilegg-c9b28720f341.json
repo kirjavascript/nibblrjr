@@ -1,5 +1,5 @@
 {
-    "locked": false,
+    "locked": true,
     "starred": false,
     "name": "evilegg",
     "command": "e='èéêëēĕėęěȅȇȩḙḛẹẻẽℯⅇ⒠ｅ'\ng='ĝğġģǧǵḡℊ⒢ｇ'\nget=s=>s[0|Math.random()*s.length-1]\nprint(get(e) + get(g) + get(g))"

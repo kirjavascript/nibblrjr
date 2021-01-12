@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "isit2021yet",
+    "command": "print((new Date).getFullYear()>2020?'{y}yes!{/} (*⌒∇⌒*) //// 🎉 {rb}ｈａｐｐｙ ｎｅｗ ｙｅａｒ':'not yet')"
+}
