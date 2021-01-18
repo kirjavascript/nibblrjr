@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "toot",
+    "command": "print(`{y}🎷 ${input.trim()} {/}♪♫`)"
+}

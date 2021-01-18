@@ -23,6 +23,7 @@ poker2
 botcoin
 
 ## = ignore everything
+Promise { resolved: result }
 make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message

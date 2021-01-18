@@ -23,11 +23,16 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module.exports = (obj, opts = {}) => {
-    const output = inspect_(obj, opts);
-    const { truncate = 390 } = opts;
-    return output.length > truncate && truncate > 0
+    const result = opts.promise || obj;
+    const output = inspect_(result, opts);
+    let { truncate = 390 } = opts;
+    if (opts.promise) {
+        truncate -= 12;
+    }
+    const trimmed = output.length > truncate && truncate > 0
         ? output.slice(0, truncate) + '\u000f ...'
         : output;
+    return opts.promise ? `Promise { ${trimmed} }` : trimmed;
 };
 
 const codes = { r: '04', dr: '05', w: '00', bl: '01', c: '11', dc: '10', b: '12', db: '02', g: '09', dg: '03', p: '13', dp: '06', o: '07', y: '08', gr: '15', dgr: '14' };

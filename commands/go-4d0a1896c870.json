@@ -1,6 +1,0 @@
-{
-    "locked": true,
-    "starred": false,
-    "name": "go",
-    "command": "IRC.require('eval')('go', input);"
-}

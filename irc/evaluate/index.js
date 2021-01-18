@@ -467,16 +467,19 @@ async function evaluate({
 
         const code = await isolate.compileScript(printResult
             ? `
-                (function () {
+                (async function () {
                     // take references to functions so they cannot be deleted
                     const [printRaw, IRCinspect] = [print.raw, IRC.inspect];
                     const [depth, truncate] = IRC.command.params;
                     // run in global scope
                     const result = (0, eval)(${JSON.stringify(script)});
+                    const promise = result == Promise.resolve(result) && await result;
+
                     printRaw(
                         IRCinspect(result, {
                             depth: depth || 0,
                             truncate: truncate || 390,
+                            promise,
                         })
                     );
                 })();

@@ -1,6 +1,6 @@
 {
-    "locked": true,
+    "locked": false,
     "starred": false,
     "name": "python",
-    "command": "IRC.require('eval')('python', input);"
+    "command": "IRC.require('eval')('python', `\nv = eval(${JSON.stringify(input)})\nif v is not None: print(v)\n`);\n"
 }
