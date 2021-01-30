@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "ciu",
+    "command": "const terms = fetchSync.json(`https://caniuse.com/process/query.php?search=${input.trim()}`);\n\nif (!terms.length) throw 'no results';\n\nconst results = fetchSync.json(`https://caniuse.com/process/get_feat_data.php?type=support-data&feat=${terms}`);\n\nif (!results.length) throw 'no data';\n\nconst [result] = results;\n\nconst browsers = ['firefox', 'ie', 'edge', 'chrome', 'safari'];\n\nfunction getVersion(browser) {\n    const first =  Math.min(...Object.entries(result.stats[browser])\n        .filter(([, is]) => is.includes('y'))\n        .map(([version]) => version)\n        .filter(d => !isNaN(d)));\n\n    return `${browser}: ${first == Infinity ? '{r}X' : '{g}' + first}{/}`\n}\n\nprint(`{dc}${result.keywords||''}{/} ${browsers.map(getVersion).join(' ')}`);\n"
+}
