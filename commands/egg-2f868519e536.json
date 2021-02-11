@@ -1,6 +1,6 @@
 {
     "name": "egg?",
-    "command": "if (IRC.message.from.toLowerCase() === 'lambdacomplex') {\n\t// please don't disable, he deserves this\n\tprint(\"I'm sorry, Adam. I'm afraid I can't do that. Perhaps ~egg will work?\")\n} else {\n\ts=_.shuffle(\"egg\").join``; print(s=='egg'?'egg! 🥚':s)\n}",
+    "command": "s=_.shuffle(\"egg\").join``; print(s=='egg'?'egg! 🥚':s)",
     "locked": true,
     "starred": false
 }

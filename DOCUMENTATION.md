@@ -17,7 +17,7 @@
     * [authentication](#authentication)
     * [modules](#modules)
 * [Configuration](#configuration)
-* [REPL](#REPL)
+* [REPL](#repl)
 * [Flags](#Flags)
 
 ## API Reference

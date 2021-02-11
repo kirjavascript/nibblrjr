@@ -1,6 +1,6 @@
 {
     "name": "traa",
-    "command": "input='traaaaaaannnnnnnnnns'; IRC.require('reddit');",
+    "command": "IRC.require('reddit')('traaaaaaannnnnnnnnns');\n\n",
     "locked": false,
     "starred": false
 }
