@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "sappho",
+    "command": "IRC.require('reddit')('sapphoandherfriend');"
+}

@@ -1,5 +1,5 @@
 {
-    "locked": false,
+    "locked": true,
     "starred": false,
     "name": "mozjs",
     "command": "IRC.require('eval')('mozjs', input);"

@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "spec",
-    "command": "const terms = fetchSync.json(`https://caniuse.com/process/query.php?search=${input.trim()}`);\nif (!terms.length) throw 'no results';\nconst results = fetchSync.json(`https://caniuse.com/process/get_feat_data.php?type=support-data&feat=${terms}`);\nif (!results.length) throw 'no data';\nresults[0].spec && print(results[0].spec);"
+    "command": "const terms = fetchSync.json(`https://caniuse.com/process/query.php?search=${input.trim()}`);\nif (!terms.featureIds.length) throw 'no results';\nconst results = fetchSync.json(`https://caniuse.com/process/get_feat_data.php?type=support-data&feat=${terms.featureIds[0]}`);\nif (!results.length) throw 'no data';\nresults[0].spec && print(results[0].spec);"
 }
