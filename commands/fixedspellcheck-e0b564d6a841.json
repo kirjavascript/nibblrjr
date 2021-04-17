@@ -1,6 +1,0 @@
-{
-    "name": "fixed.spellcheck",
-    "command": "const responses = ['maybe you meant', 'no it is', 'perhaps','have you considered','try this one instead','how about', 'no idiot, it\\'s probably', 'r u dum, it\\'s'];\r\ngetText(`http://dict.ickler.cloud:4242/word/${input.toLowerCase()}`)\r\n    .then(obj => {\r\n        if (obj[0] === \"[\" && obj[1] == \"]\"){\r\n            print('{r}no data for '+input.toLowerCase().split` `.shift())\r\n        }\r\n        else if (obj.split(\"\\\"\")[1] !== input.toLowerCase()) {\r\n            print(`{o}${responses[0|Math.random()*responses.length]}: {/}${obj.split(\"\\\"\")[1]}`);\r\n        }\r\n        else {\r\n            print('{g}Seems OK!');\r\n        }\r\n    })\r\n    .catch(d => {\r\n        print('{r}no data for '+input.split` `.shift())\r\n    })",
-    "locked": false,
-    "starred": false
-}

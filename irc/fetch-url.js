@@ -34,11 +34,13 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Accept-Language': 'en-GB,en;q=0.5',
                 'Content-Language': 'en-GB,en;q=0.5',
-                'User-Agent': 'Googlebot',
             },
             hostname: parsed.hostname,
             path: parsed.path,
         };
+        if (/youtu\.?be|google/.test(parsed.hostname)) {
+            options['User-Agent'] = 'Googlebot';
+        }
 
         request.get(options, res => {
             if (!disableRedirect && isRedirect(res.statusCode)) {
