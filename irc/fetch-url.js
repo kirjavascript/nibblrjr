@@ -38,8 +38,8 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
             hostname: parsed.hostname,
             path: parsed.path,
         };
-        if (/youtu\.?be|google/.test(parsed.hostname)) {
-            options['User-Agent'] = 'Googlebot';
+        if (!/youtu\.?be|google/.test(parsed.hostname)) {
+            options.headers['User-Agent'] = 'Googlebot';
         }
 
         request.get(options, res => {
