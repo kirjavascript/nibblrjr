@@ -38,7 +38,7 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
             hostname: parsed.hostname,
             path: parsed.path,
         };
-        if (!/youtu\.?be|google/.test(parsed.hostname)) {
+        if (!/youtu\.?be|google|reddit/.test(parsed.hostname)) {
             options.headers['User-Agent'] = 'Googlebot';
         }
 
@@ -69,13 +69,11 @@ function fetchURL({ text, print, disableRedirect = false, showAll = false }) {
                         const [, tagTitle] = output.match(/<title[^>]*>([\S\s]+?)<\/title>/i) || ['', ''];
                         const baseTitle = metaTitle || tagTitle;
 
-
                         if (baseTitle) {
                             const title = entities.decode(baseTitle).replace(/\s+/g, ' ').trim();
                             const isFresh = title.split(' ')
                                 .filter(word => (
-                                    /^[.a-zA-Z0-9\u00c0-\u017e"']+$/.test(word)
-                                        && !(new RegExp(word, 'i')).test(url[0])
+                                    !(new RegExp(word.replace(/[^.a-zA-Z0-9\u00c0-\u017e]+/g, ''), 'i')).test(url[0])
                                 )).length >= 1;
 
                             if (title.length < 400 &&
