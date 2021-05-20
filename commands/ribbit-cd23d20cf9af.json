@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "ribbit",
+    "command": "// link / text\nfunction ribbit(subreddit) {\n  \tsubreddit=subreddit.trim()\n  \tlet obj = fetchSync.json(`https://www.reddit.com/r/${subreddit}/random/.json`)\n    obj = Array.isArray(obj) ? obj[0] : obj;\n    if (obj.error || !obj.data) {\n      throw `no data found for ${subreddit}`;\n    } else if (obj.data.children.length) {\n      const post = _.shuffle(obj.data.children)[0].data;\n      const permalink = `https://redd.it/${post.permalink.match(/\\/comments\\/([^/]+)/)[1]}/`\n      print(`{dc}r/${post.subreddit}{/} - {bo}${post.title}{/} ${post.is_self? (\n        `{b}{u}${permalink}`\n      ) : (`- {b}{u}${post.url}{/}{/} - {b}{u}${permalink}`)}`)\n\t}\n}\n\nif (!module.required) {\n \tribbit(input); \n} else {\n  \tmodule.exports = ribbit;\n}"
+}

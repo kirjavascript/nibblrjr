@@ -1,6 +1,6 @@
 {
     "name": "egg_irl",
-    "command": "IRC.require('reddit')('egg_irl');",
+    "command": "IRC.require('ribbit')('egg_irl');",
     "locked": false,
     "starred": false
 }

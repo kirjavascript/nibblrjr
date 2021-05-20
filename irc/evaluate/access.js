@@ -1,5 +1,5 @@
 function checkAccess({ from, node, callback }) {
-    const name = node.address.includes('freenode')
+    const name = /freenode|libera/.test(node.address)
         ? 'ACC'
         : 'STATUS';
 
