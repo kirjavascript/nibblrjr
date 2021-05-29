@@ -210,7 +210,7 @@ function isNumber (obj) { return toStr(obj) === '[object Number]'; }
 function isBigInt (obj) { return toStr(obj) === '[object BigInt]'; }
 function isBoolean (obj) { return toStr(obj) === '[object Boolean]'; }
 function isPromise (obj) { return toStr(obj) === '[object Promise]'; }
-function isIterator (obj) { return obj != null && typeof obj[Symbol.iterator] === 'function'; }
+function isIterator (obj) { return obj != null && typeof obj.next === 'function'; }
 
 var hasOwn = Object.prototype.hasOwnProperty || function (key) { return key in this; };
 function has (obj, key) {

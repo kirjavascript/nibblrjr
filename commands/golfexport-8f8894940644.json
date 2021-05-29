@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "golfexport",
+    "command": "const { taskList } = IRC.require('golf.tasks');\nconst { getScores } = IRC.require('golf.store');\nconst paste = IRC.require('module.paste');\n\nconst scoreByTask = taskList.reduce((result, task) => ({\n    [task]: getScores(task),\n    ...result\n}), {});\n\nconst result = paste(JSON.stringify(scoreByTask));\n\nprint(result);"
+}

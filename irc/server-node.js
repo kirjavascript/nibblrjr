@@ -196,7 +196,7 @@ class ServerNode {
             else if (this.get('enableIBIP', true) && text == '.bots') {
                 print(`Reporting in! [JavaScript] use ${trigger}help`);
             }
-            // parse URLs
+                // parse URLS
             else if (this.get('fetchURL', true)) {
                 const showAll = this.getChannelConfig(msgData.to).fetchURLAll;
                 mod.fetchURL({ text, print, showAll });
