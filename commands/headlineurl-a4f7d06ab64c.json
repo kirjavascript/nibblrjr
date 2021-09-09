@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "headline.url",
+    "command": "const url = store.load('last')\nprint(url)"
+}

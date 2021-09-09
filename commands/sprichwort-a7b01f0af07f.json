@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "sprichwort",
+    "command": "idioms = fetchSync.dom('https://de.wiktionary.org/wiki/Verzeichnis:Deutsch/Sprichw%C3%B6rter').document.querySelectorAll('.mw-parser-output li')\n\nprint(idioms[Math.floor(Math.random()*idioms.length)].textContent)"
+}

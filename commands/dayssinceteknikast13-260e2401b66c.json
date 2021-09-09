@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "dayssinceteknikast13",
+    "command": "n=dateFns.differenceInDays(new Date(), new Date('2016-12-23T00:00:00.000Z')); print(`${n} day${n==1?'':'s'}`)"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "idiom",
+    "command": "print(fetchSync.dom('https://randomword.com/idiom').document.querySelector('#random_word').textContent)"
+}

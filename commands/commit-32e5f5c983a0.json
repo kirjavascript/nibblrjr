@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "commit",
+    "command": "print(fetchSync.dom('http://whatthecommit.com').document.querySelector('p').textContent)"
+}

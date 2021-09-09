@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "disney",
+    "command": "IRC.require('ribbit')('disneyvacation');"
+}

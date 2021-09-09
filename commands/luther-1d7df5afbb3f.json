@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "luther",
+    "command": "print(fetchSync.dom('https://ergofabulous.org/luther/?').document.querySelector('main').textContent.replace(/\\s+/g, ' ').trim())"
+}

@@ -1,6 +1,6 @@
 {
     "name": "etymology",
-    "command": "const { document, window } = fetchSync.dom('http://www.etymonline.com/search?q='+encodeURIComponent(input));\nconst node = document.querySelector('object').parentNode;\nprint(node.textContent);",
+    "command": "const { document, window } = fetchSync.dom('http://www.etymonline.com/search?q='+encodeURIComponent(input));\nconst node = document.querySelector('section');\nprint(node.textContent);",
     "locked": false,
     "starred": false
 }

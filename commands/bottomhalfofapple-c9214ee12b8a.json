@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "bottomhalfofapple",
+    "command": "\napple = `{r}         ´█████████████████████▄▄       \n{p}          ▐█████████████████████        \n           ╙███████████████████         \n{b}             ▀███████████████▀          \n              ‾▀▀▀‾    ‾‾▀▀‾    `\n\nprint( apple)"
+}
