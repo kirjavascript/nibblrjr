@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "r7rpg.updatexp",
+    "command": "const { from } = IRC.message\nconst { getPlayer, savePlayer } = IRC.require('r7rpg.game')\nplayer = getPlayer()\n\nif (input != \"confirm\") {\n  throw new Error(`{dc}${from}{/}: This command might fuck you. Use {y}~r7rpg.updatexp confirm{/} to continue..`)\n}\n\nif (from != 'barf') {\n  throw new Error(`what bit of dont run it yet dont u understand`)\n}\n\nprint(`{dc}${from}{/}: Resetting level`)\n\nconst oldLvl = player.stats.level\n\nplayer.stats.level = 0\nplayer.stats.next_level = 300\n\nsavePlayer(player)\n\nsleep(1000)\n\nprint(`{dc}${from}{/}: Resetting stats`)\n\nconst removeHP = oldLvl * -10\nIRC.require('r7rpg.player').addHealth(removeHP)\n\nconst removeStrength = oldLvl * -5\nIRC.require('r7rpg.player').addStrength(removeStrength)\n\nconst removeDefense = oldLvl * -10\nIRC.require('r7rpg.player').addDefense(removeStrength)\n\nconst removeAgility = oldLvl * -10\nIRC.require('r7rpg.player').addAgility(removeAgility)\n\nconst removeIntelligence = oldLvl * -10\nIRC.require('r7rpg.player').addIntelligence(removeIntelligence)\n\nsleep(1000)\n\nprint(`{dc}${from}{/}: Leveling..`)\n\nIRC.require('r7rpg.player').addXp(1, true)"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "ramind",
+    "command": "if (!IRC.command.params[0] || !input.trim()) {\n    throw `wrong`\n}\n\nprint(`${IRC.colors.nick(IRC.command.params[0], true)} {/}${input.trim()} ({dc}${IRC.command.params[1].trim()} ago{/})`)"
+}

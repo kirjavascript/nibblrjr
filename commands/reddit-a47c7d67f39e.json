@@ -1,6 +1,6 @@
 {
     "name": "reddit",
-    "command": "// link / text\ngetJSON(`https://www.reddit.com/r/${input}/random/.json`)\n    .then(obj => {\n        if (obj.error) {\n            print.log(obj.error)\n        }\n        else if (obj[0].data.children.length) {\n            const post = obj[0].data.children[0].data;\n            print(`{dc}r/${post.subreddit}{/} - {bo}${post.title}{/} ${post.is_self? (\n                `\\n${post.selftext}`\n            ) : (`- {b}{u}${post.url}`)}`)\n        }\n    })\n    .catch(d => {\n        print('{r}no data for '+input.split` `.shift())\n    })",
+    "command": "// link / text\nfunction reddit(subreddit) {\n  \tsubreddit=subreddit.trim()\n  \tlet obj = fetchSync.json(`https://www.reddit.com/r/${subreddit}/random/.json`)\n    obj = Array.isArray(obj) ? obj[0] : obj;\n    if (obj.error || !obj.data) {\n      throw `no data found for ${subreddit}`;\n    } else if (obj.data.children.length) {\n  \tconst post = _.shuffle(obj.data.children)[0].data;\n  \t\tprint(`{dc}r/${post.subreddit}{/} - {bo}${post.title}{/} ${post.is_self? (\n    \t\t`\\n${post.selftext}`\n  \t\t) : (`- {b}{u}${post.url}`)}`)\n\t}\n}\n\nif (!module.required) {\n \treddit(input); \n} else {\n  \tmodule.exports = reddit; \n}",
     "locked": true,
     "starred": true
 }

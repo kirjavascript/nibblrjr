@@ -1,6 +1,6 @@
 {
     "name": "mdn",
-    "command": "IRC.require('module.google')(`site:developer.mozilla.org ${encodeURIComponent(input.trim())}`)\n    .slice(0, IRC.command.params[0] || 1)\n    .forEach(({ title, url }) => {\n        print(`{bo}${title}{/} ${IRC.colors.link(url)}`);\n    });",
+    "command": "IRC.require('module.google')(`developer.mozilla.org ${encodeURIComponent(input.trim())}`)\n    .slice(0, IRC.command.params[0] || 1)\n    .forEach(({ title, url }) => {\n        print(`{bo}${title}{/} ${IRC.colors.link(url)}`);\n    });",
     "locked": true,
     "starred": true
 }

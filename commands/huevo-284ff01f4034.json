@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "huevo?",
+    "command": "s=_.shuffle(\"egg\").join``; print(s=='egg'?'¡huevo! 🥚':s)"
+}

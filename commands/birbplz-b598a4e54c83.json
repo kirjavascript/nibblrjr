@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "birbplz",
+    "command": "getJSON(`https://some-random-api.ml/img/birb`)\n\t.then(img => {\n\t\tprint(`${img.link}`);\n\t\tgetJSON(`https://some-random-api.ml/facts/bird`)\n    \t.then(fact => {\n\t\t\tprint(`${fact.fact}`);\n  \t\t})\n    .catch(print.error)\n\t})\n.catch(print.error)"
+}

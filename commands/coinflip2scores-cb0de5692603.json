@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "coinflip2.scores",
+    "command": "const scores = store.all().map(({key, value}) => {\n    const v = JSON.parse(value);\n    v.name = key;\n    return v;\n})\n\nprint(IRC.require('module.leaderboard')({ \n    scores,\n    limit: 5,\n    title: 'coinflip2',\n    fmtNum: n => '{' + (+n > -1 ? 'g' : 'r') + '}' + n + '{/}',\n    reverse: input.trim() === 'reverse'\n}));"
+}

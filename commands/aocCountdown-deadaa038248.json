@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "aocCountdown",
+    "command": "const page = fetchSync('https://adventofcode.com/');\nconst server_eta = +page.match(/var server_eta = (\\d+)/)[1]\nvar key = \"2020-2-\"+server_eta;\nvar now = Math.floor(new Date().getTime()/1000);\nvar target = server_eta + now;\nvar remaining = Math.ceil(target - new Date().getTime()/1000);\nvar hours = Math.floor(remaining/60/60);\nremaining -= hours * 60 * 60;\nvar minutes = Math.floor(remaining/60);\nremaining -= minutes * 60;\nvar seconds = remaining;\nconst countdown = (hours < 10 ? \"0\" : \"\") + hours + \":\" + (minutes < 10 ? \"0\" : \"\") + minutes + \":\" + (seconds < 10 ? \"0\" : \"\") + seconds;\nconst day = +page.match(/calendar-day\"> (\\d+)<\\/span/g).pop().match(/\\d+/).shift()\nprint(`{dc}${countdown}{/} until day {y}${day}`);"
+}

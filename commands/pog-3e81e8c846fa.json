@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "pog?",
+    "command": "s=_.shuffle(\"pog\").join``; print(s=='pog'?'PogChamp':s)"
+}

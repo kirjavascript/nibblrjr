@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "coffeescript",
+    "command": "log(eval(require('coffeescript').compile(input, {bare:true})))"
+}

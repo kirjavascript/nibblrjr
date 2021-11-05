@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "pog",
+    "command": "const word = _.shuffle(\n\tIRC.wordList.filter((d) => d.toLowerCase().includes('pog')),\n)[0].toLowerCase();\nprint(word.replace(/pog/g, 'POG'));"
+}

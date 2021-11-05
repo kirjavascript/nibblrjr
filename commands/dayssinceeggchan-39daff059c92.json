@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "dayssinceeggchan",
+    "command": "n=dateFns.differenceInDays(new Date(), new Date('2018-10-17T01:10:00.000Z')); print(`${n} day${n==1?'':'s'}`)"
+}

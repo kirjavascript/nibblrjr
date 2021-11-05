@@ -1,6 +1,0 @@
-{
-    "name": "search",
-    "command": "print('http://dagrev.is/msks/freenode/~~jsgolf?search&text=' + encodeURIComponent(input));",
-    "locked": false,
-    "starred": false
-}

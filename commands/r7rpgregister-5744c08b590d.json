@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "r7rpg.register",
+    "command": "let player = {\n  status: {\n    type: 'idle',\n    last_death: null,\n    training: null,\n    training_start: null,\n    holding: null\n  },\n  stats: {\n    xp: 0,\n    level: 1,\n    next_level: 300,\n    max_health: 100,\n    current_health: 100,\n    strength: 70,\n    defense: 30,\n    agility: 40,\n    intelligence: 40,\n    money: 5000\n  },\n  clothing: {\n    head: {\n      name: null,\n      level: 0,\n      multiplier: 0\n    },\n    torso: {\n      name: null,\n      level: 0,\n      multiplier: 0\n    },\n    hands: {\n      name: null,\n      level: 0,\n      multiplier: 0\n    },\n    legs: {\n      name: null,\n      level: 0,\n      multiplier: 0\n    },\n    feet: {\n      name: null,\n      level: 0,\n      multiplier: 0,\n    }\n  },\n  items: [],\n}\n\nconst { from } = IRC.message\n\nstore.save(from, player)\n\nprint(`{dc}${from}{/} has registered`)"
+}

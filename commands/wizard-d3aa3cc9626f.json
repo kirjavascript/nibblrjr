@@ -1,6 +1,6 @@
 {
     "name": "wizard",
-    "command": "print(\"(∩｀-´)⊃━{y}☆ﾟ.*･｡ﾟ\")",
+    "command": "print(\"(∩｀-´)⊃━{y}☆ﾟ.*･｡ﾟ{/} \" + input)",
     "locked": true,
     "starred": false
 }

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "isit",
+    "command": "print(( // legacy command wrapper\n   function isit(a){return '{r}' + [\n\"It is\",\n\"Just isn't\"][\n(Math.random()*2)|0\n]}\n)(input, input.split(' '), IRC.message));"
+}

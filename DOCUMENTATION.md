@@ -17,7 +17,7 @@
     * [authentication](#authentication)
     * [modules](#modules)
 * [Configuration](#configuration)
-* [REPL](#REPL)
+* [REPL](#repl)
 * [Flags](#Flags)
 
 ## API Reference
@@ -113,6 +113,14 @@ a simple key-value store. the value can be either *string*, or *undefined|null* 
 <a name="get" href="#get">#</a> store.<b>get</b>(<i>key</i>) -> <i>string|undefined</i>
 
 retrieve the stored value
+
+<a name="save" href="#save">#</a> store.<b>save</b>(<i>key</i>, <i>value</i>) 
+
+a convenience function that JSON stringifies the value sent to the store
+
+<a name="load" href="#load">#</a> store.<b>load</b>(<i>key</i>{, <i>default value</i>}) -> <i>value</i>
+
+a convenience function that JSON parses the value retrieved from the store
 
 <a name="all" href="#all">#</a> store.<b>all</b>() -> <i>array</i>
 

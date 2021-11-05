@@ -1,5 +1,5 @@
 {
-    "locked": false,
+    "locked": true,
     "starred": false,
     "name": "cutegg",
     "command": "const faces = [\n    '(っ⌒‿⌒)っ~',\n    '(✿◠‿◠)っ~',\n    '( ＾◡＾)っ~',\n    '( ´・‿-) ~',\n    '(Ɔ ˘⌣˘) ~',\n    '(◕‿◕)♡',\n];\nprint(`${faces[0|Math.random()*faces.length]} 🥚  ${input}`)"

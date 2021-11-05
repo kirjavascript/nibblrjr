@@ -1,6 +1,6 @@
 {
     "name": "kirjava",
-    "command": "print.raw('<Kirjava> this is going tio be another one of those times tha my carpet goes browener and I go \"£ yes maybe reevgalusate mayble?');",
+    "command": "print('http://i.imgur.com/KXERHbP.png');",
     "locked": false,
     "starred": false
 }

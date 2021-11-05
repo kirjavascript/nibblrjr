@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "r7rpg.donate",
+    "command": "const { from } = IRC.message\nconst { getPlayer, savePlayer, savePlayerAs } = IRC.require('r7rpg.game')\nplayer = getPlayer(from)\n\nreceiver_name = IRC.command.params[0]\nreceiver = getPlayer(receiver_name)\namount = input.trim()\n\n\nif (!receiver || !amount) {\n  throw new Error(`Use {y}~r7rpg.donate(player) amount{/}`)\n}\n\nif(isNaN(amount) || amount < 0){\n  throw new Error(`Use {y}~r7rpg.donate(player) amount{/}`)\n} else { \n  if (player.stats.money > amount) {\n    IRC.require('r7rpg.game').incrementInfo('donated', amount)\n    player.stats.money = parseInt(player.stats.money) - parseInt(amount)\n    receiver.stats.money = parseInt(receiver.stats.money) + parseInt(amount)\n    savePlayer(player)\n    savePlayerAs(receiver_name, receiver)\n    print(`{dc}${from}{/} gave {g}${receiver_name}{/} {y}$${amount}{/}`)\n  } else {\n    throw new Error(`You don't have that much`)\n  }\n}"
+}

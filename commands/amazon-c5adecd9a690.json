@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "amazon",
+    "command": "var query = input\nvar link = \"https://uk.camelcamelcamel.com/search?sq=\" + input\nconst { window, document } = fetchSync.dom(link, { headers: {'User-Agent': 'Googlebot'} });\nvar result_camel = document.querySelectorAll(\"a\")\n//const { window_2, document_2 } = fetchSync.dom(result_camel, {});\n//result_camel = document.querySelector(\".button.buy\").href\nlog([...result_camel])"
+}

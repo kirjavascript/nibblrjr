@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "cro.s",
+    "command": "print(\"Monday: No stream\");\nprint(\"Tuesday: No stream\");\nprint(\"Wednesday: No stream\");\nprint(\"Thursday: No stream\");\nprint(\"Friday: No stream\");\nprint(\"Saturday: No stream\");\nprint(\"Sunday: No stream\");"
+}

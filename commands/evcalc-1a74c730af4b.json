@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "evcalc",
+    "command": "let lastId = parseInt( store.get('lastId') || 0)\nreturn\nif( IRC.event) {\n  let msgs = IRC.log.get(\"\", 5)\n  \n  for(let msg of msgs) {\n    if( msg.idx > lastId) {\n      lastId = msg.idx\n      \n      if( msg.user !== IRC.nick && msg.message[0] !== IRC.trigger) {\n        print( eval( msg.message))\n      }\n    }\n  }\n  \n  store.set( 'lastId', lastId)\n} else {\n  now = new Date()\n\n  for(let count=0; count<3600; count++) {\n    \n    now.setSeconds( now.getSeconds()+1)\n\n    IRC.eventFns.addEvent( 'tick', {\n      callback: 'evcalc',\n      time: new Date(now),\n      message: 'herp',\n      target: 'Buck'\n    })\n  }\n}\n\n"
+}

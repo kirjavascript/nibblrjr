@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "mozjs",
+    "command": "IRC.require('eval')('mozjs', `console.log(eval(JSON.stringify(${input})))`);"
+}

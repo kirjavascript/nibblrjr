@@ -1,6 +1,0 @@
-{
-    "name": "proxy",
-    "command": "print.raw(( // legacy command wrapper\n   x => `http://proxy.kirjava.xyz/${x}`\n)(input, input.split(' '), IRC.message));",
-    "locked": false,
-    "starred": false
-}

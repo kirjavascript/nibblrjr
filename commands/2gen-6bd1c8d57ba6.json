@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "2gen",
+    "command": "for(l=s=\"\";!s[79];r=2*Math.random(),n=0|r,l!=(l=n%3)?s+=\"RU\"[n]+\"​'2\"[0|3*(r-n)]+' ':0);print(s)"
+}

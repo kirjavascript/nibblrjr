@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "friday?",
+    "command": "const offsets = [\n    ['america', -6],\n    ['greenland', -3],\n    ['UTC', 0],\n    ['europe', +2],\n    ['asia', +7],\n    ['oceania', +9],\n];\nconst { addHours, getDay } = dateFns\nprint(offsets.map(([name, offset])=>`{y}${name}{/}: `+([,,,,'soon™','Yes! 🎉','its saturday tho'][getDay(addHours(new Date, offset))]||'no :(')).join` `)"
+}

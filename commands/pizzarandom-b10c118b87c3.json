@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "pizza_random",
+    "command": "const [{ user, message }] = IRC.log.get('pizza', 1, 0|Math.random()*200);\nprint(`${IRC.colors.nick(user, true)} ${message}`)"
+}

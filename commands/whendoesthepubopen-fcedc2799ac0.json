@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "whendoesthepubopen",
+    "command": "print(dateFns.distanceInWords(new Date(), \"May 17, 2021 00:00:00\"))"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "hats",
+    "command": "print.raw(['Hats allowed tonight pal','Not hats allowed.'][(Math.random()*2)|0]);"
+}

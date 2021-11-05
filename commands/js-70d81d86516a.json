@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "js",
+    "command": "throw `usage: ${IRC.colors.cmd('[engine]', 'code')} valid engines are: ${IRC.require('eval').JS_REPLS}`;"
+}
