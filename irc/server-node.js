@@ -1,4 +1,4 @@
-const { Client } = require('irc');
+const { Client } = require('irc-upd');
 const reserved = require('../base/reserved');
 
 const { mod, updateLoader } = require('./hot-loader');

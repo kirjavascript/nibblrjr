@@ -1631,6 +1631,11 @@ chalk@^1.1.1:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
+chardet@^1.2.1:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/chardet/-/chardet-1.4.0.tgz#278748f260219990fb2167dbfb1b253ca26b41ea"
+  integrity sha512-NpwMDdSIprbYx1CLnfbxEIarI0Z+s9MssEgggMNheGM+WD68yOhV7IEA/3r6tr0yTRgQD0HuZJDw32s99i6L+A==
+
 chokidar@^2.0.2:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"
@@ -3139,12 +3144,12 @@ iconv-lite@0.4, iconv-lite@0.4.24:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-iconv@~2.2.1:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/iconv/-/iconv-2.2.3.tgz#e084d60eeb7d73da7f0a9c096e4c8abe090bfaed"
-  integrity sha1-4ITWDut9c9p/CpwJbkyKvgkL+u0=
+iconv-lite@^0.6.2:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.3.tgz#a52f80bf38da1952eb5c681790719871a1a72501"
+  integrity sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==
   dependencies:
-    nan "^2.3.5"
+    safer-buffer ">= 2.1.2 < 3.0.0"
 
 ieee754@^1.1.4:
   version "1.1.13"
@@ -3249,20 +3254,20 @@ ipaddr.js@1.9.1:
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
   integrity sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
 
-irc-colors@^1.1.0:
+irc-colors@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/irc-colors/-/irc-colors-1.5.0.tgz#08834c01ead88b0fd88386a5f2af8f2b0bb963fb"
   integrity sha512-HtszKchBQTcqw1DC09uD7i7vvMayHGM1OCo6AHt5pkgZEyo99ClhHTMJdf+Ezc9ovuNNxcH89QfyclGthjZJOw==
 
-irc@^0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/irc/-/irc-0.5.2.tgz#3714f4768365a96d0b2f776bc91166beb2464bbc"
-  integrity sha1-NxT0doNlqW0LL3dryRFmvrJGS7w=
+irc-upd@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/irc-upd/-/irc-upd-0.11.0.tgz#a1842b9b09962d1040a998baded491e366470027"
+  integrity sha512-A1hV5cUkl5HZsKWRYcszD2Usfz33hB8igSSox8dEmrMyfy8/Ra6T/o4jwzs7jYMZ7ljLquSIWzcvSZHZ/bEAZA==
   dependencies:
-    irc-colors "^1.1.0"
+    irc-colors "^1.5.0"
   optionalDependencies:
-    iconv "~2.2.1"
-    node-icu-charset-detector "~0.2.0"
+    chardet "^1.2.1"
+    iconv-lite "^0.6.2"
 
 is-accessor-descriptor@^0.1.6:
   version "0.1.6"
@@ -3453,10 +3458,10 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
-isolated-vm@3.3.3:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/isolated-vm/-/isolated-vm-3.3.3.tgz#5f046271dd52a6d65c6756b84f294a11c0a0c531"
-  integrity sha512-VGAgB7NEV6a1cf4RjI8kRfSv8uVkL7HBIC8xQ7DArnbBbenfA7eaMu5PXRPQg7Xcv7Y+GjYMVaXNwd+4IfmkjA==
+isolated-vm@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/isolated-vm/-/isolated-vm-4.3.5.tgz#e6a6521461acff8a77288167b3ca323d89608de1"
+  integrity sha512-wGiZ1JUmuldZKnitygwReAnJhqWC9RFjbNqV1AkjUVO5TI+ProPGTjwVA4++oY+1wC7LSSorJRS7ki5LMJyYJQ==
 
 isstream@~0.1.2:
   version "0.1.2"
@@ -3954,7 +3959,7 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-nan@^2.12.1, nan@^2.13.2, nan@^2.3.3, nan@^2.3.5:
+nan@^2.12.1, nan@^2.13.2:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
@@ -4025,13 +4030,6 @@ node-gyp@^3.8.0:
     semver "~5.3.0"
     tar "^2.0.0"
     which "1"
-
-node-icu-charset-detector@~0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/node-icu-charset-detector/-/node-icu-charset-detector-0.2.0.tgz#c2320da374ddcb671fc54cb4a0e041e156ffd639"
-  integrity sha1-wjINo3Tdy2cfxUy0oOBB4Vb/1jk=
-  dependencies:
-    nan "^2.3.3"
 
 node-libs-browser@^2.2.1:
   version "2.2.1"
@@ -4987,7 +4985,7 @@ safe-regex@^1.1.0:
   dependencies:
     ret "~0.1.10"
 
-"safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
+"safer-buffer@>= 2.1.2 < 3", "safer-buffer@>= 2.1.2 < 3.0.0", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==

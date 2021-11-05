@@ -1,6 +1,19 @@
 sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
+esbuild
+dart-sass
+fetchURL
+just have the flag set to turn into an event
+
+IRC.message(() => {
+
+});
+
+IRC.listen('connect', () => {
+
+});
+
 version 4: SQL / events
 fork node-irc  / https://github.com/Throne3d/node-irc
 print streams | built in pipe | IRC.runCommand()

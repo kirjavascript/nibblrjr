@@ -17,7 +17,7 @@ const stubbed = require('module').builtinModules;
 
 // load npm
 let npmInstall, npmView;
-npm.load({loglevel: 'silent', lock: false}, (err) => {
+npm.load((err) => {
     if (err) {
         console.error(err);
     } else {
