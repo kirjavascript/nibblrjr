@@ -64,7 +64,7 @@ async function acquire(input) {
     await esbuild.build({
         entryPoints: [script],
         bundle: true,
-        platform: 'neutral',
+        platform: 'node',
         format: 'cjs',
         outfile: bundlePath,
         minify: true,
