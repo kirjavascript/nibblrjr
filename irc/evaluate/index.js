@@ -496,7 +496,6 @@ async function evaluate({
             e.message = `script timeout: ${nick(msgData.from, true)} ${_.truncate(msgData.text)}`;
         }
         createNodeSend(node, msgData).print.error(e);
-        console.error(e);
     }
     dispose();
 }

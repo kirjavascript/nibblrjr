@@ -1,5 +1,5 @@
 {
-    "version": "3.5.10",
+    "version": "3.6.0",
     "engines": {
         "node": ">=11"
     },

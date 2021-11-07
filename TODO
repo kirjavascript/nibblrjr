@@ -1,7 +1,17 @@
 sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
-esbuild
+    // jsdom
+    // ~jsx
+    // ~babel
+    // ~terser await minify
+    // ~regexgen
+
+        // e.message = e.message
+        //     .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
+        //     .replace(/(\n|\r).*/g, '');
+
+esbuild frontend
 dart-sass
 fetchURL
 just have the flag set to turn into an event
