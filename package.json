@@ -17,6 +17,7 @@
         "d3-interpolate-path": "^2.1.1",
         "d3-scale-chromatic": "^1.5.0",
         "date-fns": "^1.29.0",
+        "esbuild": "^0.13.12",
         "express": "^4.16.2",
         "form-data": "^3.0.0",
         "global-npm": "^0.3.0",
@@ -26,11 +27,11 @@
         "lodash": "^4.17.13",
         "marked": "^0.7.0",
         "node-fetch": "^2.2.0",
+        "parse-package-name": "^0.1.0",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-router": "^5.0.1",
         "react-router-dom": "^5.0.1",
-        "semver": "^5.5.1",
         "ws": "^5.0.0"
     },
     "devDependencies": {

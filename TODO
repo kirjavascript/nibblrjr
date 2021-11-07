@@ -15,7 +15,6 @@ IRC.listen('connect', () => {
 });
 
 version 4: SQL / events
-fork node-irc  / https://github.com/Throne3d/node-irc
 print streams | built in pipe | IRC.runCommand()
 unix style params
 PYTHON=$(which python2)

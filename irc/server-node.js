@@ -45,7 +45,7 @@ class ServerNode {
             realName: this.get('realName', 'nibblrjr IRC framework'),
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
-            autoRejoin: this.get('autoRejoin', true),
+            autoRejoin: this.get('autoRejoin', false),
             debug: this.get('debug', false),
         });
 
