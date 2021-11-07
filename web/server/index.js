@@ -27,13 +27,14 @@ function initWeb(parent) {
         esbuild
             .build({
                 entryPoints: [path.resolve(__dirname, '../modules/main.js')],
+                outfile: path.resolve(__dirname, '../static/main.js'),
                 bundle: true,
+                minify: true,
                 platform: 'browser',
                 format: 'cjs',
-                watch: true,
-                outfile: path.resolve(__dirname, '../static/main.js'),
-                minify: true,
-                jsx: 'transform',
+                watch: {
+                    onRebuild() { console.log('esrebuilt') },
+                },
                 plugins: [
                     {
                         name: 'web',
@@ -49,7 +50,7 @@ function initWeb(parent) {
                     '.js': 'jsx',
                 },
             })
-            .then(console.info)
+            .then(() => console.log('esbuilt'))
             .catch(console.error);
     }
 
