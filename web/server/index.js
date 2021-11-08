@@ -40,7 +40,7 @@ function initWeb(parent) {
                         name: 'web',
                         setup(build) {
                             build.onResolve({ filter: /\.woff2$/ }, (args) => {
-                                return { external: true };
+                                return { };
                             });
                         },
                     },
@@ -48,6 +48,7 @@ function initWeb(parent) {
                 ],
                 loader: {
                     '.js': 'jsx',
+                    '.woff2': 'file',
                 },
             })
             .then(() => console.log('esbuilt'))
