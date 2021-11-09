@@ -26,14 +26,14 @@ async function evaluate({
     command,
     event,
 }) {
-    const isolate = new ivm.Isolate({ memoryLimit: 128 });
-    const context = await isolate.createContext();
-    const dispose = () => {
-        if (!isolate.isDisposed) {
-            isolate.dispose();
-            context.release();
-        }
-    };
+    // const isolate = new ivm.Isolate({ memoryLimit: 128 });
+    // const context = await isolate.createContext();
+    // const dispose = () => {
+    //     if (!isolate.isDisposed) {
+    //         isolate.dispose();
+    //         context.release();
+    //     }
+    // };
 
     try {
         const channels = Object.entries(_.cloneDeep(node.client.chans))
@@ -70,12 +70,12 @@ async function evaluate({
             config.IRC.secret = secret;
         }
 
-        const jail = context.global;
+        // const jail = context.global;
 
-        jail.setSync('global', jail.derefInto());
-        jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
-        jail.setSync('_ivm', ivm);
-        jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
+        // jail.setSync('global', jail.derefInto());
+        // jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
+        // jail.setSync('_ivm', ivm);
+        // jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
         jail.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
         jail.setSync('_setNick', new ivm.Reference((str) => {
             if (node.getChannelConfig(msgData.to).setNick) {
@@ -86,62 +86,62 @@ async function evaluate({
                 return false;
             }
         }));
-        jail.setSync('_whois', new ivm.Reference((text) => (
-            text && new Promise((resolve, reject) => {
-                node.client.whois(text, (data) => {
-                    try {
-                        resolve(new ivm.ExternalCopy(data).copyInto());
-                    } catch(e) {
-                        reject(new Error(e.message));
-                    }
-                });
-            })
-        )));
-        jail.setSync('_ping', new ivm.Reference(ping));
-        jail.setSync('_wordList', new ivm.Reference(() => (
-            new Promise((resolve, reject) => {
-                const path = '/usr/share/dict/words';
-                fs.exists(path, (exists) => {
-                    if (exists) {
-                        fs.readFile(path, 'utf8', (err, data) => {
-                            if (err) reject(err);
-                            else resolve(new ivm.ExternalCopy(data).copyInto());
-                        });
-                    } else {
-                        reject(new Error(`no such file: ${path}`));
-                    }
-                });
-            })
-        )));
-        jail.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
-            new Promise((resolve, reject) => {
-                if (config.form) {
-                    const form = new FormData();
-                    Object.entries(config.form)
-                        .forEach(([k, v]) => form.append(k, v));
-                    config.body = form;
-                    if (!('method' in config)) {
-                        config.method = 'POST';
-                    }
-                }
-                fetch(url, config)
-                    .then((res) => res[type || 'text']())
-                    .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
-                    .catch(reject);
-            })
-        )));
-        jail.setSync('_require', new ivm.Reference((str) => (
-            new Promise((resolve, reject) => {
-                acquire(str)
-                    .then(obj => { resolve(obj.toString()) })
-                    .catch(reject);
-            })
-        )));
-        jail.setSync('_sleep', new ivm.Reference((ms) => (
-            new Promise((resolve) => {
-                setTimeout(resolve, Math.min(ms, maxTimeout));
-            })
-        )));
+        // jail.setSync('_whois', new ivm.Reference((text) => (
+        //     text && new Promise((resolve, reject) => {
+        //         node.client.whois(text, (data) => {
+        //             try {
+        //                 resolve(new ivm.ExternalCopy(data).copyInto());
+        //             } catch(e) {
+        //                 reject(new Error(e.message));
+        //             }
+        //         });
+        //     })
+        // )));
+        // jail.setSync('_ping', new ivm.Reference(ping));
+        // jail.setSync('_wordList', new ivm.Reference(() => (
+        //     new Promise((resolve, reject) => {
+        //         const path = '/usr/share/dict/words';
+        //         fs.exists(path, (exists) => {
+        //             if (exists) {
+        //                 fs.readFile(path, 'utf8', (err, data) => {
+        //                     if (err) reject(err);
+        //                     else resolve(new ivm.ExternalCopy(data).copyInto());
+        //                 });
+        //             } else {
+        //                 reject(new Error(`no such file: ${path}`));
+        //             }
+        //         });
+        //     })
+        // )));
+        // jail.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
+        //     new Promise((resolve, reject) => {
+        //         if (config.form) {
+        //             const form = new FormData();
+        //             Object.entries(config.form)
+        //                 .forEach(([k, v]) => form.append(k, v));
+        //             config.body = form;
+        //             if (!('method' in config)) {
+        //                 config.method = 'POST';
+        //             }
+        //         }
+        //         fetch(url, config)
+        //             .then((res) => res[type || 'text']())
+        //             .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
+        //             .catch(reject);
+        //     })
+        // )));
+        // jail.setSync('_require', new ivm.Reference((str) => (
+        //     new Promise((resolve, reject) => {
+        //         acquire(str)
+        //             .then(obj => { resolve(obj.toString()) })
+        //             .catch(reject);
+        //     })
+        // )));
+        // jail.setSync('_sleep', new ivm.Reference((ms) => (
+        //     new Promise((resolve) => {
+        //         setTimeout(resolve, Math.min(ms, maxTimeout));
+        //     })
+        // )));
         jail.setSync('_logDB', new ivm.Reference((obj) => {
             obj.nick = config.IRC.nick;
             node.database.log(node, obj);
@@ -492,6 +492,7 @@ async function evaluate({
         await code.run(context, {timeout});
 
     } catch (e) {
+        // TODO: how else could this check be done?
         if (/script execution timed out/i.test(e.message)) {
             e.message = `script timeout: ${nick(msgData.from, true)} ${_.truncate(msgData.text)}`;
         }

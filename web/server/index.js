@@ -21,9 +21,9 @@ function initWeb(parent) {
     web.wss = initSocket({ parent, server });
     initAPI({ parent, app });
 
-    // load webpack middleware
+    // load esbuild middleware
 
-    if (!parent.noWebpack && parent.dev) {
+    if (parent.dev) {
         esbuild
             .build({
                 entryPoints: [path.resolve(__dirname, '../modules/main.js')],
@@ -33,19 +33,11 @@ function initWeb(parent) {
                 platform: 'browser',
                 format: 'cjs',
                 watch: {
-                    onRebuild() { console.log('esrebuilt') },
-                },
-                plugins: [
-                    {
-                        name: 'web',
-                        setup(build) {
-                            build.onResolve({ filter: /\.woff2$/ }, (args) => {
-                                return { };
-                            });
-                        },
+                    onRebuild() {
+                        console.log('esrebuilt');
                     },
-                    sassPlugin(),
-                ],
+                },
+                plugins: [sassPlugin()],
                 loader: {
                     '.js': 'jsx',
                     '.woff2': 'file',
