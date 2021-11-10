@@ -146,39 +146,39 @@ async function evaluate({
             obj.nick = config.IRC.nick;
             node.database.log(node, obj);
         }));
-        jail.setSync('_auth', new ivm.Reference((from, isSudo) => (
-            new Promise((resolve, reject) => {
-                (isSudo ? sudo : auth)({
-                    node,
-                    from,
-                    callback: (err) => err ? reject(err) : resolve(),
-                });
-            })
-        )));
-        jail.setSync('_sudoProxy', new ivm.Reference((config) => {
-            if (config == 'exit') {
-                process.kill(process.pid, 'SIGINT');
-            }
-            const { key, value, path } = config;
-            const leaf = path.pop();
-            const parent = path.reduce((a, c) => {
-                if (!a[c]) {
-                    a[c] = {};
-                }
-                return a[c];
-            }, node);
-            if (key == 'get') {
-                return new ivm.ExternalCopy(parent[leaf]).copyInto()
-            } else if (key == 'set') {
-                parent[leaf] = value[0];
-            } else if (key == 'call') {
-                if (typeof parent[leaf] == 'function') {
-                    return parent[leaf](...value);
-                } else {
-                    throw new Error('not a function');
-                }
-            }
-        }));
+        // jail.setSync('_auth', new ivm.Reference((from, isSudo) => (
+        //     new Promise((resolve, reject) => {
+        //         (isSudo ? sudo : auth)({
+        //             node,
+        //             from,
+        //             callback: (err) => err ? reject(err) : resolve(),
+        //         });
+        //     })
+        // )));
+        // jail.setSync('_sudoProxy', new ivm.Reference((config) => {
+        //     if (config == 'exit') {
+        //         process.kill(process.pid, 'SIGINT');
+        //     }
+        //     const { key, value, path } = config;
+        //     const leaf = path.pop();
+        //     const parent = path.reduce((a, c) => {
+        //         if (!a[c]) {
+        //             a[c] = {};
+        //         }
+        //         return a[c];
+        //     }, node);
+        //     if (key == 'get') {
+        //         return new ivm.ExternalCopy(parent[leaf]).copyInto()
+        //     } else if (key == 'set') {
+        //         parent[leaf] = value[0];
+        //     } else if (key == 'call') {
+        //         if (typeof parent[leaf] == 'function') {
+        //             return parent[leaf](...value);
+        //         } else {
+        //             throw new Error('not a function');
+        //         }
+        //     }
+        // }));
         jail.setSync('_loadLazy', new ivm.Reference((filename) => {
             return new Promise((resolve, reject) => {
                 loadLazy(filename, (err, success) => {
@@ -206,29 +206,29 @@ async function evaluate({
         wrapFns(node.parent.database.commands.getCommandFns(), 'commandFns');
         wrapFns(node.database.eventFactory(msgData), 'eventFns');
 
-        await (await isolate.compileScript(`
-            global.scripts = {};
-            ${scripts.map(([name, script]) => `
-                (function() {
-                    const exports = {};
-                    const module = { exports: {} };
-                    ${script};
-                    global.scripts[${JSON.stringify(name)}] = module.exports;
-                })();
-            `).join('')}
-         `)).run(context);
+        // await (await isolate.compileScript(`
+        //     global.scripts = {};
+        //     ${scripts.map(([name, script]) => `
+        //         (function() {
+        //             const exports = {};
+        //             const module = { exports: {} };
+        //             ${script};
+        //             global.scripts[${JSON.stringify(name)}] = module.exports;
+        //         })();
+        //     `).join('')}
+        //  `)).run(context);
 
         const bootstrap = await isolate.compileScript('new '+ function() {
 
             // collect underscored objects
 
-            const ref = Object.keys(global)
-                .filter(key => key.startsWith('_'))
-                .reduce((a, c) => {
-                    a[c.slice(1)] = global[c];
-                    delete global[c];
-                    return a;
-                }, {});
+            // const ref = Object.keys(global)
+            //     .filter(key => key.startsWith('_'))
+            //     .reduce((a, c) => {
+            //         a[c.slice(1)] = global[c];
+            //         delete global[c];
+            //         return a;
+            //     }, {});
 
             const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
 
@@ -255,76 +255,76 @@ async function evaluate({
 
             // fetch stuff
 
-            Object.assign(global, scripts.fetch.global);
-            global.fetchSync = scripts.fetch.createFetchSync(ref);
+            // Object.assign(global, scripts.fetch.global);
+            // global.fetchSync = scripts.fetch.createFetchSync(ref);
 
             // npm-require
 
-            global.require = (str) => (
-                new Function(`
-                    const exports = {};
-                    const module = { exports };
-                    const process = { env: {} };
-                    ${ref.require.applySyncPromise(undefined, [String(str)])}
-                    return module.exports;
-                `)()
-            );
+            // global.require = (str) => (
+            //     new Function(`
+            //         const exports = {};
+            //         const module = { exports };
+            //         const process = { env: {} };
+            //         ${ref.require.applySyncPromise(undefined, [String(str)])}
+            //         return module.exports;
+            //     `)()
+            // );
 
             // acquire (legacy)
 
-            global.acquire = async (str) => require(str);
+            // global.acquire = async (str) => require(str);
 
             // timeouts
 
-            global.sleep = (ms) => ref.sleep.applySyncPromise(undefined, [ms]);
+            // global.sleep = (ms) => ref.sleep.applySyncPromise(undefined, [ms]);
 
             // create IRC object
 
-            global.IRC = {
+            // global.IRC = {
                 ...config.IRC,
-                colors,
-                inspect: scripts.inspect,
-                breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
-                parseCommand: scripts['parse-command'].parseCommand,
-                parseTime: scripts['parse-time'].parseTime,
-            };
+                // colors,
+                // inspect: scripts.inspect,
+                // breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
+                // parseCommand: scripts['parse-command'].parseCommand,
+                // parseTime: scripts['parse-time'].parseTime,
+            // };
 
-            global.module = { required: false };
+            // global.module = { required: false };
 
-            const requireCache = {};
-            IRC.require = (str) => {
-                if (requireCache[str]) return requireCache[str];
-                const obj = IRC.commandFns.get(str);
-                if (obj) {
-                    const module = new Function(`
-                        const module = { required: true };
-                        ${obj.command}
-                        return module;
-                    `)();
-                    requireCache[str] = module.exports;
-                    return module.exports;
-                } else {
-                    const error = new Error(str + ' not found');
-                    error.name = 'RequireError';
-                    throw error;
-                }
-            };
+            // const requireCache = {};
+            // IRC.require = (str) => {
+            //     if (requireCache[str]) return requireCache[str];
+            //     const obj = IRC.commandFns.get(str);
+            //     if (obj) {
+            //         const module = new Function(`
+            //             const module = { required: true };
+            //             ${obj.command}
+            //             return module;
+            //         `)();
+            //         requireCache[str] = module.exports;
+            //         return module.exports;
+            //     } else {
+            //         const error = new Error(str + ' not found');
+            //         error.name = 'RequireError';
+            //         throw error;
+            //     }
+            // };
 
             IRC.setNick = (str) => {
                 return ref.setNick.applySync(undefined, [str]);
             };
 
-            IRC.resetBuffer = () => {
-                ref.resetBuffer.applySync();
-            };
+            // IRC.resetBuffer = () => {
+            //     ref.resetBuffer.applySync();
+            // };
 
-            IRC.whois = (text) => {
-                return ref.whois.applySyncPromise(undefined, [text]);
-            };
+            // IRC.whois = (text) => {
+            //     return ref.whois.applySyncPromise(undefined, [text]);
+            // };
 
-            IRC.ping = (str) => ref.ping.applySyncPromise(undefined, [
-                str,
-            ]);
+            // IRC.ping = (str) => ref.ping.applySyncPromise(undefined, [
+            //     str,
+            // ]);
 
             Object.defineProperty(IRC, 'wordList', {
                 get: () => ref.wordList.applySyncPromise().trim().split(/\n|\r\n/),
@@ -355,35 +355,35 @@ async function evaluate({
                 };
             }
 
-            IRC.auth = () => {
-                ref.auth.applySyncPromise(undefined, [IRC.message.from]);
-            };
+            // IRC.auth = () => {
+            //     ref.auth.applySyncPromise(undefined, [IRC.message.from]);
+            // };
 
-            IRC.sudo = () => {
-                ref.auth.applySyncPromise(undefined, [IRC.message.from, true]);
-                function node(path = []) {
-                    return new Proxy({}, {
-                        get(target, key) {
-                            if (['get', 'set', 'call'].includes(key)) {
-                                return (...args) => ref.sudoProxy.applySync(
-                                    undefined,
-                                    [new ref.ivm.ExternalCopy({
-                                        key,
-                                        path,
-                                        value: args,
-                                    }).copyInto()],
-                                );
-                            } else {
-                                return node([...path, key]);
-                            }
-                        }
-                    });
-                }
-                return {
-                    node: node(),
-                    exit: () => ref.sudoProxy.applySync(undefined, ['exit']),
-                };
-            };
+            // IRC.sudo = () => {
+            //     ref.auth.applySyncPromise(undefined, [IRC.message.from, true]);
+            //     function node(path = []) {
+            //         return new Proxy({}, {
+            //             get(target, key) {
+            //                 if (['get', 'set', 'call'].includes(key)) {
+            //                     return (...args) => ref.sudoProxy.applySync(
+            //                         undefined,
+            //                         [new ref.ivm.ExternalCopy({
+            //                             key,
+            //                             path,
+            //                             value: args,
+            //                         }).copyInto()],
+            //                     );
+            //                 } else {
+            //                     return node([...path, key]);
+            //                 }
+            //             }
+            //         });
+            //     }
+            //     return {
+            //         node: node(),
+            //         exit: () => ref.sudoProxy.applySync(undefined, ['exit']),
+            //     };
+            // };
 
             // set limits on command functions
 
@@ -420,46 +420,46 @@ async function evaluate({
 
             // cleanup env
 
-            delete global.config;
-            delete global.scripts;
+            // delete global.config;
+            // delete global.scripts;
 
             // patches for DoS attacks
-            const { from } = Array;
-            Array.from = (...args) => {
-                if (args?.[0]?.length > 20000000) {
-                    throw new Error('memory error');
-                }
-                return from(...args);
-            };
-            Object.defineProperty(Array.prototype, 'fill', {
-                value: function (t) {
-                    if (null == this) throw new TypeError('this is null or not defined');
-                    for (
-                        var n = Object(this),
-                            r = n.length >>> 0,
-                            e = arguments[1],
-                            i = e >> 0,
-                            o = i < 0 ? Math.max(r + i, 0) : Math.min(i, r),
-                            a = arguments[2],
-                            h = void 0 === a ? r : a >> 0,
-                            l = h < 0 ? Math.max(r + h, 0) : Math.min(h, r);
-                        o < l;
+            // const { from } = Array;
+            // Array.from = (...args) => {
+            //     if (args?.[0]?.length > 20000000) {
+            //         throw new Error('memory error');
+            //     }
+            //     return from(...args);
+            // };
+            // Object.defineProperty(Array.prototype, 'fill', {
+            //     value: function (t) {
+            //         if (null == this) throw new TypeError('this is null or not defined');
+            //         for (
+            //             var n = Object(this),
+            //                 r = n.length >>> 0,
+            //                 e = arguments[1],
+            //                 i = e >> 0,
+            //                 o = i < 0 ? Math.max(r + i, 0) : Math.min(i, r),
+            //                 a = arguments[2],
+            //                 h = void 0 === a ? r : a >> 0,
+            //                 l = h < 0 ? Math.max(r + h, 0) : Math.min(h, r);
+            //             o < l;
 
-                    )
-                        (n[o] = t), o++;
-                    return n;
-                },
-            });
+            //         )
+            //             (n[o] = t), o++;
+            //         return n;
+            //     },
+            // });
 
-            // patch RegExp.$_
-            /\s*/.test('');
+            // // patch RegExp.$_
+            // /\s*/.test('');
 
-            ['global', 'acquire', 'module', 'getText', 'getDOM', 'getJSON']
-                .forEach(key => {
-                    Object.defineProperty(global, key, { enumerable: false });
-                });
-        });
-        await bootstrap.run(context);
+            // ['global', 'acquire', 'module', 'getText', 'getDOM', 'getJSON']
+            //     .forEach(key => {
+            //         Object.defineProperty(global, key, { enumerable: false });
+            //     });
+        // });
+        // await bootstrap.run(context);
 
         // dispose stuff incase sleep/require/fetchSync are still running
 
