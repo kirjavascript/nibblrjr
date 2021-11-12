@@ -20,6 +20,7 @@ function createSend(config) {
     };
 }
 
+// TODO: take event callbacks, have line limit
 function messageFactory(type, {
     hasColors,
     canBroadcast = false,

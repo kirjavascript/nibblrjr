@@ -14,6 +14,13 @@ const { version } = require('../../package.json');
 const timeout = 30000;
 const maxTimeout = 60000 * 5;
 
+const vm = require('./vm');
+
+(async () => {
+    const q = vm({node:{}, config:{}});
+})();
+
+
 // grab scripts to inject into the isolate
 const scripts = loadScripts();
 
@@ -281,8 +288,10 @@ async function evaluate({
             // create IRC object
 
             // global.IRC = {
+            q={
                 ...config.IRC,
-                // colors,
+                colors,
+            }
                 // inspect: scripts.inspect,
                 // breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
                 // parseCommand: scripts['parse-command'].parseCommand,
@@ -458,38 +467,38 @@ async function evaluate({
             //     .forEach(key => {
             //         Object.defineProperty(global, key, { enumerable: false });
             //     });
-        // });
+        });
         // await bootstrap.run(context);
 
         // dispose stuff incase sleep/require/fetchSync are still running
 
-        setTimeout(dispose, maxTimeout);
+        // setTimeout(dispose, maxTimeout);
 
         // run script
 
-        const code = await isolate.compileScript(printResult
-            ? `
-                (async function () {
-                    // take references to functions so they cannot be deleted
-                    const [printRaw, IRCinspect] = [print.raw, IRC.inspect];
-                    const [depth, truncate] = IRC.command.params;
-                    // run in global scope
-                    const result = (0, eval)(${JSON.stringify(script)});
-                    const promise = result == Promise.resolve(result) && await result;
+        // const code = await isolate.compileScript(printResult
+        //     ? `
+        //         (async function () {
+        //             // take references to functions so they cannot be deleted
+        //             const [printRaw, IRCinspect] = [print.raw, IRC.inspect];
+        //             const [depth, truncate] = IRC.command.params;
+        //             // run in global scope
+        //             const result = (0, eval)(${JSON.stringify(script)});
+        //             const promise = result == Promise.resolve(result) && await result;
 
-                    printRaw(
-                        IRCinspect(result, {
-                            depth: depth || 0,
-                            truncate: truncate || 390,
-                            promise,
-                        })
-                    );
-                })();
-            `
-            : `(async () => { \n${script}\n })();`
-        );
+        //             printRaw(
+        //                 IRCinspect(result, {
+        //                     depth: depth || 0,
+        //                     truncate: truncate || 390,
+        //                     promise,
+        //                 })
+        //             );
+        //         })();
+        //     `
+        //     : `(async () => { \n${script}\n })();`
+        // );
 
-        await code.run(context, {timeout});
+        // await code.run(context, {timeout});
 
     } catch (e) {
         // TODO: how else could this check be done?

@@ -11,13 +11,15 @@ const { createNodeSend } = require('./scripts/print');
 const { loadScripts, loadLazy }  = require('./load-scripts');
 const { version } = require('../../package.json');
 
+const maxTimeout = 60000 * 5;
+
 const scripts = loadScripts();
 
 // vm.js
 // events.js
 // events should last for 5 min
 
-function vm({ node, config }) {
+async function vm({ node, config }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();
     const ctx = context.global;
@@ -32,10 +34,7 @@ function vm({ node, config }) {
     ctx.setSync('global', ctx.derefInto());
 
     ctx.setSync('_ivm', ivm);
-    ctx.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
-
     ctx.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
-
     ctx.setSync('_whois', new ivm.Reference((text) => (
         text && new Promise((resolve, reject) => {
             node.client.whois(text, (data) => {
@@ -130,17 +129,22 @@ function vm({ node, config }) {
         }
     }));
 
-    await (await isolate.compileScript(`
-        global.scripts = {};
-        ${scripts.map(([name, script]) => `
-            (function() {
-                const exports = {};
-                const module = { exports: {} };
-                ${script};
-                global.scripts[${JSON.stringify(name)}] = module.exports;
-            })();
-        `).join('')}
+    const scriptRef = await (await isolate.compileScript(`
+        (function () {
+            const scripts = {};
+            ${scripts.map(([name, script]) => `
+                (function() {
+                    const exports = {};
+                    const module = { exports: {} };
+                    ${script};
+                    scripts[${JSON.stringify(name)}] = module.exports;
+                })();
+            `).join('')}
+            return new _ivm.Reference(scripts);
+        }) ()
      `)).run(context);
+
+    ctx.setSync('scripts', scriptRef);
 
     const bootstrap = await isolate.compileScript('new '+ function() {
 
@@ -183,7 +187,7 @@ function vm({ node, config }) {
 
         global.IRC = {
             // ...config.IRC,
-            colors,
+            // colors,
             inspect: scripts.inspect,
             breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
             parseCommand: scripts['parse-command'].parseCommand,
@@ -257,11 +261,6 @@ function vm({ node, config }) {
             };
         };
 
-        // cleanup
-
-        delete global.config; // TODO: move this
-        delete global.scripts;
-
         // env patches
 
         const { from } = Array;
@@ -290,6 +289,13 @@ function vm({ node, config }) {
                 return n;
             },
         });
+
+        // patch RegExp.$_
+        /\s*/.test('');
+
+        // remove injected scripts
+
+        delete global.scripts;
     });
 
     await bootstrap.run(context);
@@ -299,13 +305,58 @@ function vm({ node, config }) {
         // config.IRC.nick
     }
 
-    function setConfig() {
+    const configScript = await isolate.compileScript('new '+ function() {
+
+        delete global.config;
+        delete global.sendRaw;
+        delete global.scripts;
+    });
+
+    async function setConfig() {
         ctx.setSync('config', new ivm.ExternalCopy(config).copyInto());
+        ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));
+        ctx.setSync('scripts', scriptRef);
+        await configScript.run(context);
+    }
+
+    async function evaluate(script, { timeout, evalType }) {
+        const rawScript = {
+            evalPrint: () => `
+                (async function () {
+                    // take references to functions so they cannot be deleted
+                    const [printRaw, IRCinspect] = [print.raw, IRC.inspect];
+                    const [depth, truncate] = IRC.command.params;
+                    // run in global scope
+                    const result = (0, eval)(${JSON.stringify(script)});
+                    const promise = result == Promise.resolve(result) && await result;
+
+                    printRaw(
+                        IRCinspect(result, {
+                            depth: depth || 0,
+                            truncate: truncate || 390,
+                            promise,
+                        })
+                    );
+                })();
+            `,
+            functionBody: () => `(async () => { \n${script}\n })();`,
+        }[evalType]?.(script) || script;
+
+        if (timeout) {
+            // dispose stuff incase sleep/require/fetchSync are still running
+            setTimeout(dispose, maxTimeout);
+        }
+
+        await code.run(rawScript, { timeout });
     }
 
 
-    setConfig(config);
+    await setConfig(config);
 
+    // onMessage
+    // onDispose
+
+    // TODO: char limit as well as line limit
     // TODO: events use compileScript
     // TODO: test error happening during creation
     // TODO: timeout
@@ -314,14 +365,11 @@ function vm({ node, config }) {
 
     return {
         dispose,
+        evaluate,
         setConfig,
         setMessage,
         isolate,
     };
 }
 
-vm({
-    config: {
-
-    },
-})
+module.exports = vm;

@@ -9,6 +9,7 @@ repl: rs|clojure|vlang|cj|scheme|jsx|html
 // ~babel
 // ~terser await minify
 // ~regexgen
+// date fns / lodash
 
 // e.message = e.message
 //     .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
