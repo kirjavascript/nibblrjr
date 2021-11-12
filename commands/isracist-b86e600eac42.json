@@ -1,6 +1,0 @@
-{
-    "locked": false,
-    "starred": false,
-    "name": "isracist",
-    "command": "const racist = require('racist');\n \nif (racist({exact: true}).test(input)) {\n    print('yes');\n} else {\n  \tprint('no');\n}"
-}

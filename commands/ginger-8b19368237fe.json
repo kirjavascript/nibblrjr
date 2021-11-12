@@ -1,6 +1,6 @@
 {
+    "locked": false,
+    "starred": false,
     "name": "ginger",
-    "command": "n=[78,73,71,71,69,82].map(d=>String.fromCharCode(d)).join``;s=_.shuffle(\"GINGER\").join``; print(s=='GINGER'?'{o}'+s+'{/} (win)':(s==n?`{bl,bl}${s}{/}`:s))",
-    "locked": true,
-    "starred": false
+    "command": "const str = 'NIGGER'\n\nconst rnd = str.split('').sort(function(){return 0.5-Math.random()}).join('')\n\nprint(rnd)\n\nif (rnd === 'NIGGER') {\n  print('congrats u are shreddy :)')\n}\n\nif (rnd === 'GINGER') {\n  print('congrats u are cr0sis :(')\n}"
 }

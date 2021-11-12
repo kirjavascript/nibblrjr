@@ -2,5 +2,5 @@
     "locked": true,
     "starred": false,
     "name": "quickjs",
-    "command": "IRC.require('eval')('quickjs', `console.log(eval(JSON.stringify(${input})))`);"
+    "command": "IRC.require('eval')('quickjs', `console.log(eval(${JSON.stringify(input)}))`);"
 }

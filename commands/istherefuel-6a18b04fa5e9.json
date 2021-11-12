@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "istherefuel",
+    "command": "var fule = 1\nif (fule == 1) {\nprint('https://i.imgur.com/XvXLoci.jpg')\n} else {\nprint('https://i.imgur.com/feUqFM3.jpeg') \n}"
+}

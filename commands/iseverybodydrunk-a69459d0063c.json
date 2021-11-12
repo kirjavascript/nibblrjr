@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "iseverybodydrunk",
+    "command": "print.raw(( // legacy command wrapper\n    () => new Date().getDay()==5?'probably':'only barf'\n)(input, input.split(' '), IRC.message));"
+}
