@@ -50,7 +50,7 @@ async function evaluate({
             }, {});
 
         const config = {
-            hasColors: node.get('colors', true),
+            // hasColors: node.get('colors', true),
             canBroadcast,
             lineLimit: node.getLineLimit(msgData),
             commandLimit: node.get('commandLimit', 5),
@@ -82,7 +82,7 @@ async function evaluate({
         // jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
         // jail.setSync('_ivm', ivm);
         // jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
-        jail.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
+        // jail.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
         jail.setSync('_setNick', new ivm.Reference((str) => {
             if (node.getChannelConfig(msgData.to).setNick) {
                 str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
@@ -288,9 +288,7 @@ async function evaluate({
 
             // global.IRC = {
                 // ...config.IRC,
-            q={
-                colors,
-            }
+                // colors,
                 // inspect: scripts.inspect,
                 // breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
                 // parseCommand: scripts['parse-command'].parseCommand,

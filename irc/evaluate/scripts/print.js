@@ -1,5 +1,4 @@
-module.exports = { createSend, createNodeSend }
-
+module.exports = { createSend, createNodeSend };
 function createNodeSend(node, message) {
     return createSend({
         hasColors: node.get('colors', true),
@@ -20,23 +19,33 @@ function createSend(config) {
     };
 }
 
-function createPrint({
-    type,
-}) {
+function createPrint({ sendRaw, onMessage, hasColors, canBroadcast, lineLimit, charLimit }) {
+    // messageFactory =
 
+    const sendBase = (
+        type,
+        text,
+        { target = defaultTarget, log = true } = {},
+    ) => {
+
+
+    };
 }
 
 // TODO: take event callbacks, have line limit
-function messageFactory(type, {
-    hasColors,
-    canBroadcast = false,
-    lineLimit = 10,
-    message,
-    colors,
-    inspect,
-    sendRaw,
-    logDB,
-}) {
+function messageFactory(
+    type,
+    {
+        hasColors,
+        canBroadcast = false,
+        lineLimit = 10,
+        message,
+        colors,
+        inspect,
+        sendRaw,
+        logDB,
+    },
+) {
     const { target: defaultTarget, isPM } = message;
     let count = 0;
 
@@ -58,13 +67,14 @@ function messageFactory(type, {
         text = text.replace(/\u0001/, '');
 
         text.split('\n')
-            .map(line => line.match(/.{1,400}/g))
+            .map((line) => line.match(/.{1,400}/g))
             .forEach((lines) => {
-                lines && lines.forEach(line => {
-                    if (++count <= lineLimit) {
-                        sendRaw(type, target, line);
-                    }
-                });
+                lines &&
+                    lines.forEach((line) => {
+                        if (++count <= lineLimit) {
+                            sendRaw(type, target, line);
+                        }
+                    });
             });
 
         if (count > lineLimit) return;

@@ -312,8 +312,16 @@ async function vm({ node }) {
 
         Object.assign(IRC, config.IRC);
 
+        const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
+        IRC.colors = colors;
+
         scripts.print.createPrint({
+            hasColors,
+            canBroadcast,
             sendRaw,
+            lineLimit,
+            charLimit,
+            colors,
         });
 
         delete global.config;
@@ -321,18 +329,21 @@ async function vm({ node }) {
         delete global.scripts;
     });
 
-    async function setConfig(config, message) {
-        const config = Object.assign(config, {
-            IRC: Object.assign(config.IRC, {
+    async function setConfig(config) {
+        const vmConfig = Object.assign({
+            hasColors: node.get('colors', true),
+            lineLimit: 10,
+            canBroadcast: false,
+            IRC: Object.assign({
                 trigger: node.trigger,
                 nick: node.client.nick,
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
                 epoch: node.parent.epoch,
                 version,
                 nodeVersion: process.version.slice(1),
-            }),
-        });
-        ctx.setSync('config', new ivm.ExternalCopy(config).copyInto());
+            }, config.IRC),
+        }, config);
+        ctx.setSync('config', new ivm.ExternalCopy(vmConfig).copyInto());
         ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));
         ctx.setSync('scripts', scriptRef);
         await configScript.run(context);
