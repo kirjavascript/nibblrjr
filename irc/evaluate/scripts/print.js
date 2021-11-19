@@ -20,6 +20,12 @@ function createSend(config) {
     };
 }
 
+function createPrint({
+    type,
+}) {
+
+}
+
 // TODO: take event callbacks, have line limit
 function messageFactory(type, {
     hasColors,

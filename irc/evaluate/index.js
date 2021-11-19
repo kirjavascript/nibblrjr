@@ -20,7 +20,6 @@ const vm = require('./vm');
     const q = vm({node:{}, config:{}});
 })();
 
-
 // grab scripts to inject into the isolate
 const scripts = loadScripts();
 
@@ -56,15 +55,15 @@ async function evaluate({
             lineLimit: node.getLineLimit(msgData),
             commandLimit: node.get('commandLimit', 5),
             IRC: {
-                trigger: node.trigger,
+                // trigger: node.trigger,
                 message: msgData,
-                nick: node.client.nick,
+                // nick: node.client.nick,
                 command,
                 channels,
-                webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
-                epoch: node.parent.epoch,
-                version,
-                nodeVersion: process.version.slice(1),
+                // webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+                // epoch: node.parent.epoch,
+                // version,
+                // nodeVersion: process.version.slice(1),
             },
         };
 
@@ -288,8 +287,8 @@ async function evaluate({
             // create IRC object
 
             // global.IRC = {
+                // ...config.IRC,
             q={
-                ...config.IRC,
                 colors,
             }
                 // inspect: scripts.inspect,

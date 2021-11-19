@@ -19,7 +19,7 @@ const scripts = loadScripts();
 // events.js
 // events should last for 5 min
 
-async function vm({ node, config }) {
+async function vm({ node }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();
     const ctx = context.global;
@@ -300,19 +300,38 @@ async function vm({ node, config }) {
 
     await bootstrap.run(context);
 
-
-    function setMessage() {
-        // config.IRC.nick
-    }
-
     const configScript = await isolate.compileScript('new '+ function() {
+
+        const {
+            hasColors,
+            canBroadcast,
+            lineLimit,
+            charLimit,
+            // commandLimit, // add a runOnce() wrapper... maybe?
+        } = config;
+
+        Object.assign(IRC, config.IRC);
+
+        scripts.print.createPrint({
+            sendRaw,
+        });
 
         delete global.config;
         delete global.sendRaw;
         delete global.scripts;
     });
 
-    async function setConfig() {
+    async function setConfig(config, message) {
+        const config = Object.assign(config, {
+            IRC: Object.assign(config.IRC, {
+                trigger: node.trigger,
+                nick: node.client.nick,
+                webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+                epoch: node.parent.epoch,
+                version,
+                nodeVersion: process.version.slice(1),
+            }),
+        });
         ctx.setSync('config', new ivm.ExternalCopy(config).copyInto());
         ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));
         ctx.setSync('scripts', scriptRef);
@@ -351,7 +370,7 @@ async function vm({ node, config }) {
     }
 
 
-    await setConfig(config);
+    // await setConfig(config);
 
     // onMessage
     // onDispose
@@ -359,15 +378,11 @@ async function vm({ node, config }) {
     // TODO: char limit as well as line limit
     // TODO: events use compileScript
     // TODO: test error happening during creation
-    // TODO: timeout
-    // TODO: setConfig should create send, etc
-    // TODO: config.IRC
 
     return {
         dispose,
         evaluate,
         setConfig,
-        setMessage,
         isolate,
     };
 }
