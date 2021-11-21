@@ -19,16 +19,55 @@ function createSend(config) {
     };
 }
 
-function createPrint({ sendRaw, onMessage, hasColors, canBroadcast, lineLimit, charLimit }) {
+function createPrint({
+    sendRaw,
+    onMessage,
+    hasColors,
+    colors,
+    canBroadcast,
+    target,
+    lineLimit,
+    colLimit,
+    charLimit,
+}) {
     // messageFactory =
+
+    let lineCount = 0;
+    let charCount = 0;
 
     const sendBase = (
         type,
         text,
-        { target = defaultTarget, log = true } = {},
+        { target: customTarget = target, log = true } = {},
     ) => {
+        if (!canBroadcast && target !== customTarget) {
+            throw new Error('cannot broadcast');
+        }
+        if (String(target).toLowerCase().includes('serv')) return;
+        if (typeof text != 'string') {
+            text = String(text);
+        }
+        if (!hasColors) {
+            text = colors.strip(text);
+        }
+        // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
+        text = text.replace(/\r/g, '\n');
+        // strip out \01, fixes; print('\01VERSION\01')
+        text = text.replace(/\u0001/, '');
 
 
+        const lines = text.split('\n');
+
+
+
+
+        log && onMessage?.();
+
+        return {
+            print,
+            notice,
+            action,
+        };
     };
 }
 
@@ -51,20 +90,20 @@ function messageFactory(
 
     // raw
     const sendBase = (text, { target = defaultTarget, log = true } = {}) => {
-        if (!canBroadcast && target !== defaultTarget) {
-            throw new Error('cannot broadcast');
-        }
-        if (String(target).toLowerCase().includes('serv')) return;
-        if (typeof text != 'string') {
-            text = String(text);
-        }
-        if (!hasColors) {
-            text = colors.strip(text);
-        }
-        // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
-        text = text.replace(/\r/g, '\n');
-        // strip out \01, fixes; print('\01VERSION\01')
-        text = text.replace(/\u0001/, '');
+        // if (!canBroadcast && target !== defaultTarget) {
+        //     throw new Error('cannot broadcast');
+        // }
+        // if (String(target).toLowerCase().includes('serv')) return;
+        // if (typeof text != 'string') {
+        //     text = String(text);
+        // }
+        // if (!hasColors) {
+        //     text = colors.strip(text);
+        // }
+        // // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
+        // text = text.replace(/\r/g, '\n');
+        // // strip out \01, fixes; print('\01VERSION\01')
+        // text = text.replace(/\u0001/, '');
 
         text.split('\n')
             .map((line) => line.match(/.{1,400}/g))

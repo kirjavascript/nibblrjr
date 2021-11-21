@@ -144,7 +144,7 @@ async function vm({ node }) {
         }) ()
      `)).run(context);
 
-    ctx.setSync('scripts', scriptRef);
+    ctx.setSync('scripts', scriptRef.derefInto());
 
     const bootstrap = await isolate.compileScript('new '+ function() {
 
@@ -301,28 +301,16 @@ async function vm({ node }) {
     await bootstrap.run(context);
 
     const configScript = await isolate.compileScript('new '+ function() {
-
-        const {
-            hasColors,
-            canBroadcast,
-            lineLimit,
-            charLimit,
-            // commandLimit, // add a runOnce() wrapper... maybe?
-        } = config;
-
         Object.assign(IRC, config.IRC);
 
         const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
         IRC.colors = colors;
 
-        scripts.print.createPrint({
-            hasColors,
-            canBroadcast,
+        config.print.target && Object.assign(global, scripts.print.createPrint({
+            ...config.print,
             sendRaw,
-            lineLimit,
-            charLimit,
             colors,
-        });
+        }));
 
         delete global.config;
         delete global.sendRaw;
@@ -330,22 +318,29 @@ async function vm({ node }) {
     });
 
     async function setConfig(config) {
-        const vmConfig = Object.assign({
-            hasColors: node.get('colors', true),
-            lineLimit: 10,
-            canBroadcast: false,
+        const vmConfig = {
+            print: Object.assign({
+                hasColors: node.get('colors', true),
+                lineLimit: 10,
+                charLimit: false,
+                colLimit: 400,
+                canBroadcast: false,
+                // target
+            }, config.print),
             IRC: Object.assign({
                 trigger: node.trigger,
                 nick: node.client.nick,
                 webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
                 epoch: node.parent.epoch,
+                // message
+                // command
                 version,
                 nodeVersion: process.version.slice(1),
             }, config.IRC),
-        }, config);
+        };
         ctx.setSync('config', new ivm.ExternalCopy(vmConfig).copyInto());
         ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));
-        ctx.setSync('scripts', scriptRef);
+        ctx.setSync('scripts', scriptRef.derefInto());
         await configScript.run(context);
     }
 
