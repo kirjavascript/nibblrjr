@@ -15,10 +15,6 @@ const maxTimeout = 60000 * 5;
 
 const scripts = loadScripts();
 
-// vm.js
-// events.js
-// events should last for 5 min
-
 async function vm({ node }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();

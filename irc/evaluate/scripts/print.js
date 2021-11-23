@@ -4,7 +4,7 @@ function createNodeSend(node, message) {
         hasColors: node.get('colors', true),
         canBroadcast: true,
         lineLimit: node.getLineLimit(message),
-        message,
+        target: message.target,
         colors: require('./colors').getColorFuncs(node.trigger),
         inspect: require('./inspect'),
         sendRaw: node.sendRaw,
@@ -33,6 +33,7 @@ function createPrint({
     // messageFactory =
 
     let lineCount = 0;
+    let colCount = 0;
     let charCount = 0;
 
     const sendBase = (
@@ -56,7 +57,25 @@ function createPrint({
         text = text.replace(/\u0001/, '');
 
 
-        const lines = text.split('\n');
+        // TODO: color wrapping
+
+        // char col line
+
+        let lines = text.split('\n');
+
+        // text.split('\n')
+        //     .map((line) => line.match(/.{1,400}/g))
+        //     .forEach((lines) => {
+
+        if (lineLimit) {
+            const remaining = lineLimit - lineCount;
+            lines = lines.slice(0, remaining);
+            lineCount += lines.length;
+        }
+
+        if (colLimit) {
+            lines = lines.map(line => line.slice(0, colLimit));
+        }
 
 
 
