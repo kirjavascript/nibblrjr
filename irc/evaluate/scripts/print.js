@@ -30,18 +30,15 @@ function createPrint({
     colLimit,
     charLimit,
 }) {
-    // messageFactory =
-
     let lineCount = 0;
-    let colCount = 0;
     let charCount = 0;
 
     const sendBase = (
         type,
         text,
-        { target: customTarget = target, log = true } = {},
+        { target: targetOpt = target, log = true } = {},
     ) => {
-        if (!canBroadcast && target !== customTarget) {
+        if (!canBroadcast && target !== targetOpt) {
             throw new Error('cannot broadcast');
         }
         if (String(target).toLowerCase().includes('serv')) return;
@@ -57,15 +54,17 @@ function createPrint({
         text = text.replace(/\u0001/, '');
 
 
-        // TODO: color wrapping
+        const colWidth = colLimit || 400;
 
-        // char col line
-
-        let lines = text.split('\n');
-
-        // text.split('\n')
-        //     .map((line) => line.match(/.{1,400}/g))
-        //     .forEach((lines) => {
+        let lines = text.split('\n').map(line => {
+            // apply wrapping on columns
+            const wrappedLines = [];
+            for (let i = 0; i < line.length; i += colWidth) {
+                wrappedLines.push(line.slice(i, i + colWidth));
+            }
+            return wrappedLines.join('\n');
+        })
+            .join('\n').split('\n'); // join/split to flatten
 
         if (lineLimit) {
             const remaining = lineLimit - lineCount;
@@ -73,21 +72,29 @@ function createPrint({
             lineCount += lines.length;
         }
 
-        if (colLimit) {
-            lines = lines.map(line => line.slice(0, colLimit));
+        if (charLimit) {
+            const remaining = lineLimit - charCount;
+            const chars = lines.join('\n').slice(0, remaining);
+            lines = chars.split('\n');
+            charCount += chars.length;
         }
 
+        lines.forEach(line => {
+            sendRaw(type, targetOpt, line);
+            if (log) {
+                onMessage({ type, line, target: targetOpt });
+            }
+        });
 
+        // TODO: color wrapping
+    };
 
-
-        log && onMessage?.();
 
         return {
             print,
             notice,
             action,
         };
-    };
 }
 
 // TODO: take event callbacks, have line limit
