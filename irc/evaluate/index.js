@@ -152,6 +152,15 @@ async function evaluate({
             obj.nick = config.IRC.nick;
             node.database.log(node, obj);
         }));
+
+        // TODO: from print
+        if (!isPM && log && logDB) {
+            logDB({
+                command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
+                target,
+                args: [target, ...text.slice(0, 400).split(' ')],
+            });
+        }
         // jail.setSync('_auth', new ivm.Reference((from, isSudo) => (
         //     new Promise((resolve, reject) => {
         //         (isSudo ? sudo : auth)({

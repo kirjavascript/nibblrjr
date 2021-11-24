@@ -1,6 +1,10 @@
 sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
+DOC
+===
+colLimit charLimit lineLimit
+
 // long running events vm
 // logging to DB
 // SQL database

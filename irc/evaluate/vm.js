@@ -302,7 +302,7 @@ async function vm({ node }) {
         const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
         IRC.colors = colors;
 
-        config.print.target && Object.assign(global, scripts.print.createPrint({
+        config.print.target && Object.assign(global, scripts.print.createSend({
             ...config.print,
             sendRaw,
             colors,
@@ -371,6 +371,7 @@ async function vm({ node }) {
         await code.run(rawScript, { timeout });
     }
 
+        // TODO: color wrapping in print
 
     // await setConfig(config);
 

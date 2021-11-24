@@ -11,15 +11,7 @@ function createNodeSend(node, message) {
     });
 }
 
-function createSend(config) {
-    return {
-        print: messageFactory('say', config),
-        notice: messageFactory('notice', config),
-        action: messageFactory('action', config),
-    };
-}
-
-function createPrint({
+function createSend({
     sendRaw,
     onMessage,
     hasColors,
@@ -86,94 +78,32 @@ function createPrint({
             }
         });
 
-        // TODO: color wrapping
     };
 
+    function factory(sendType) {
+        const send = (text, config) => sendType(colors(text), config);
 
-        return {
-            print,
-            notice,
-            action,
+        send.raw = sendBaseType;
+
+        send.log = (text, config = {}) => {
+            return sendType(inspect(text, config), config);
         };
-}
+        send.error = (error, config) => {
+            return send(colors.error(error), config);
+        };
+        send.info = (text, config) => {
+            return send(colors.info(text), config);
+        };
+        send.success = (text, config) => {
+            return send(colors.success(text), config);
+        };
 
-// TODO: take event callbacks, have line limit
-function messageFactory(
-    type,
-    {
-        hasColors,
-        canBroadcast = false,
-        lineLimit = 10,
-        message,
-        colors,
-        inspect,
-        sendRaw,
-        logDB,
-    },
-) {
-    const { target: defaultTarget, isPM } = message;
-    let count = 0;
+        return send;
+    }
 
-    // raw
-    const sendBase = (text, { target = defaultTarget, log = true } = {}) => {
-        // if (!canBroadcast && target !== defaultTarget) {
-        //     throw new Error('cannot broadcast');
-        // }
-        // if (String(target).toLowerCase().includes('serv')) return;
-        // if (typeof text != 'string') {
-        //     text = String(text);
-        // }
-        // if (!hasColors) {
-        //     text = colors.strip(text);
-        // }
-        // // strip out \r, fixes; print.raw(`${String.fromCharCode(13)}QUIT`)
-        // text = text.replace(/\r/g, '\n');
-        // // strip out \01, fixes; print('\01VERSION\01')
-        // text = text.replace(/\u0001/, '');
-
-        text.split('\n')
-            .map((line) => line.match(/.{1,400}/g))
-            .forEach((lines) => {
-                lines &&
-                    lines.forEach((line) => {
-                        if (++count <= lineLimit) {
-                            sendRaw(type, target, line);
-                        }
-                    });
-            });
-
-        if (count > lineLimit) return;
-
-        // log to DB (only in isolate)
-        if (!isPM && log && logDB) {
-            logDB({
-                command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
-                target,
-                args: [target, ...text.slice(0, 400).split(' ')],
-            });
-        }
+    return {
+        print: factory((text, config) => sendBase('say', text, config)),
+        notice: factory((text, config) => sendBase('notice', text, config)),
+        action: factory((text, config) => sendBase('action', text, config)),
     };
-
-    // colours
-    const send = (text, config) => {
-        return sendBase(colors(text), config);
-    };
-
-    send.raw = sendBase;
-
-    // inspect
-    send.log = (text, config = {}) => {
-        return sendBase(inspect(text, config), config);
-    };
-    send.error = (error, config) => {
-        return send(colors.error(error), config);
-    };
-    send.info = (text, config) => {
-        return send(colors.info(text), config);
-    };
-    send.success = (text, config) => {
-        return send(colors.success(text), config);
-    };
-
-    return send;
 }
