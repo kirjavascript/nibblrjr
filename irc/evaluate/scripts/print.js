@@ -83,7 +83,7 @@ function createSend({
     function factory(sendType) {
         const send = (text, config) => sendType(colors(text), config);
 
-        send.raw = sendBaseType;
+        send.raw = sendType;
 
         send.log = (text, config = {}) => {
             return sendType(inspect(text, config), config);

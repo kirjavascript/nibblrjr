@@ -1,13 +1,10 @@
-const ivm = require('isolated-vm');
-
 const fs = require('fs');
+const ivm = require('isolated-vm');
 const { ping } = require('./spawn');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const colors = require('./scripts/colors');
 const { acquire } = require('./acquire');
 const { sudo, auth } = require('./access');
-const { createNodeSend } = require('./scripts/print');
 const { loadScripts, loadLazy }  = require('./load-scripts');
 const { version } = require('../../package.json');
 
@@ -31,6 +28,16 @@ async function vm({ node }) {
 
     ctx.setSync('_ivm', ivm);
     ctx.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
+    let hasSetNick = false;
+    ctx.setSync('_setNick', new ivm.Reference((str) => {
+        if (hasSetNick) {
+            str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
+            node.client.send('NICK', str);
+            return true;
+        } else {
+            return false;
+        }
+    }));
     ctx.setSync('_whois', new ivm.Reference((text) => (
         text && new Promise((resolve, reject) => {
             node.client.whois(text, (data) => {
@@ -315,6 +322,7 @@ async function vm({ node }) {
 
     async function setConfig(config) {
         const vmConfig = {
+            setNick: config.setNick || false,
             print: Object.assign({
                 hasColors: node.get('colors', true),
                 lineLimit: 10,
@@ -340,7 +348,7 @@ async function vm({ node }) {
         await configScript.run(context);
     }
 
-    async function evaluate(script, { timeout, evalType }) {
+    async function evaluate(script, { timeout = 30000, evalType }) {
         const rawScript = {
             evalPrint: () => `
                 (async function () {
@@ -378,7 +386,6 @@ async function vm({ node }) {
     // onMessage
     // onDispose
 
-    // TODO: char limit as well as line limit
     // TODO: events use compileScript
     // TODO: test error happening during creation
 
