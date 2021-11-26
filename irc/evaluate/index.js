@@ -17,7 +17,7 @@ const maxTimeout = 60000 * 5;
 const vm = require('./vm');
 
 (async () => {
-    const q = vm({node:{}, config:{}});
+    const q = vm({node:{}});
 })();
 
 // grab scripts to inject into the isolate

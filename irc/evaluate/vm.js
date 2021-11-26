@@ -16,6 +16,9 @@ async function vm({ node }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();
     const ctx = context.global;
+    const env = {
+        hasSetNick: false,
+    };
 
     function dispose() {
         if (!isolate.isDisposed) {
@@ -28,9 +31,8 @@ async function vm({ node }) {
 
     ctx.setSync('_ivm', ivm);
     ctx.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
-    let hasSetNick = false;
     ctx.setSync('_setNick', new ivm.Reference((str) => {
-        if (hasSetNick) {
+        if (env.hasSetNick) {
             str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
             node.client.send('NICK', str);
             return true;
@@ -346,7 +348,7 @@ async function vm({ node }) {
                 nodeVersion: process.version.slice(1),
             }, config.IRC),
         };
-        hasSetNick = config.hasSetNick || false;
+        env.hasSetNick = config.hasSetNick || false;
 
         ctx.setSync('config', new ivm.ExternalCopy(vmConfig).copyInto());
         ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));
@@ -382,8 +384,10 @@ async function vm({ node }) {
             setTimeout(dispose, maxTimeout);
         }
 
-        await code.run(rawScript, { timeout });
+        await context.eval(rawScript, { timeout });
     }
+
+    // make things reconfigurable via reference, for setNick and log and stuff
 
     // onMessage
     // onDispose
