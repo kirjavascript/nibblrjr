@@ -134,6 +134,15 @@ async function vm({ node }) {
         }
     }));
 
+
+    ctx.setSync(
+        '_commandFnsKeys',
+        Object.keys(node.parent.database.commands.fns).join(),
+    );
+    ctx.setSync('_commandFns', new ivm.Callback((fnName, args) => {
+        return node.parent.database.commands.fns[fnName](...args);
+    }));
+
     const scriptRef = await (await isolate.compileScript(`
         (function () {
             const scripts = {};
@@ -217,6 +226,18 @@ async function vm({ node }) {
                 throw error;
             }
         };
+
+        IRC.commandFns = {};
+        ref.commandFnsKeys.split().forEach(key => {
+            IRC.commandFns[key] = (...args) => {
+                return ref.commandFns.applySync(
+                    undefined,
+                    [key, ...args.map(arg => (
+                        new ref.ivm.ExternalCopy(arg).copyInto()
+                    ))],
+                );
+            };
+        })
 
         IRC.resetBuffer = () => {
             ref.resetBuffer.applySync();
@@ -387,7 +408,9 @@ async function vm({ node }) {
         await context.eval(rawScript, { timeout });
     }
 
-    // make things reconfigurable via reference, for setNick and log and stuff
+
+    // have multi entrypoints for wrapfns like a proxy
+
 
     // onMessage
     // onDispose

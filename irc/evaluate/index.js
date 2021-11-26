@@ -222,7 +222,7 @@ async function evaluate({
 
         wrapFns(node.database.logFactory(msgData.target), 'log');
         wrapFns(node.database.storeFactory(command.root), 'store');
-        wrapFns(node.parent.database.commands.getCommandFns(), 'commandFns');
+        // wrapFns(node.parent.database.commands.getCommandFns(), 'commandFns');
         wrapFns(node.database.eventFactory(msgData), 'eventFns');
 
         // await (await isolate.compileScript(`
@@ -349,6 +349,7 @@ async function evaluate({
             //     get: () => ref.wordList.applySyncPromise().trim().split(/\n|\r\n/),
             // });
 
+
             function unwrapFns(name) {
                 const obj = {};
                 ref[name+'Keys'].forEach(key => {
@@ -364,9 +365,9 @@ async function evaluate({
                 return obj;
             }
 
+            // IRC.commandFns = unwrapFns('commandFns');
             IRC.log = unwrapFns('log');
             IRC.log.getGlobal = IRC.log.get;
-            IRC.commandFns = unwrapFns('commandFns');
             IRC.eventFns = unwrapFns('eventFns');
             if (IRC.event) {
                 IRC.eventFns.addEvent = () => {
