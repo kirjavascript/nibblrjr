@@ -83,15 +83,19 @@ async function evaluate({
         // jail.setSync('_ivm', ivm);
         // jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
         // jail.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
-        jail.setSync('_setNick', new ivm.Reference((str) => {
-            if (node.getChannelConfig(msgData.to).setNick) {
-                str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
-                node.client.send('NICK', str);
-                return true;
-            } else {
-                return false;
-            }
-        }));
+
+        // TODO: setnick:
+        node.getChannelConfig(msgData.to).setNick
+
+//         jail.setSync('_setNick', new ivm.Reference((str) => {
+//             if (node.getChannelConfig(msgData.to).setNick) {
+//                 str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
+//                 node.client.send('NICK', str);
+//                 return true;
+//             } else {
+//                 return false;
+//             }
+//         }));
         // jail.setSync('_whois', new ivm.Reference((text) => (
         //     text && new Promise((resolve, reject) => {
         //         node.client.whois(text, (data) => {
@@ -245,28 +249,28 @@ async function evaluate({
             //         return a;
             //     }, {});
 
-            const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
+            // const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
 
             // attach print/action/notice
 
-            Object.assign(global, scripts.print.createSend({
-                hasColors: config.hasColors,
-                canBroadcast: config.canBroadcast,
-                lineLimit: config.lineLimit,
-                message: config.IRC.message,
-                colors,
-                inspect: scripts.inspect,
-                sendRaw: (...args) => {
-                    ref.sendRaw.applySync(undefined, args);
-                },
+            // Object.assign(global, scripts.print.createSend({
+            //     hasColors: config.hasColors,
+            //     canBroadcast: config.canBroadcast,
+            //     lineLimit: config.lineLimit,
+            //     message: config.IRC.message,
+            //     colors,
+            //     inspect: scripts.inspect,
+            //     sendRaw: (...args) => {
+            //         ref.sendRaw.applySync(undefined, args);
+            //     },
                 logDB: (obj) => {
                     ref.logDB.applySync(undefined, [
                         new ref.ivm.ExternalCopy(obj).copyInto(),
                     ]);
                 },
-            }));
+            // }));
 
-            global.log = print.log;
+            // global.log = print.log;
 
             // fetch stuff
 
@@ -325,9 +329,9 @@ async function evaluate({
             //     }
             // };
 
-            IRC.setNick = (str) => {
-                return ref.setNick.applySync(undefined, [str]);
-            };
+            // IRC.setNick = (str) => {
+            //     return ref.setNick.applySync(undefined, [str]);
+            // };
 
             // IRC.resetBuffer = () => {
             //     ref.resetBuffer.applySync();
@@ -341,9 +345,9 @@ async function evaluate({
             //     str,
             // ]);
 
-            Object.defineProperty(IRC, 'wordList', {
-                get: () => ref.wordList.applySyncPromise().trim().split(/\n|\r\n/),
-            });
+            // Object.defineProperty(IRC, 'wordList', {
+            //     get: () => ref.wordList.applySyncPromise().trim().split(/\n|\r\n/),
+            // });
 
             function unwrapFns(name) {
                 const obj = {};

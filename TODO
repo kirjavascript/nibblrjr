@@ -5,9 +5,14 @@ DOC
 ===
 colLimit charLimit lineLimit
 
+// reloadable config
+// event boolean
 // long running events vm
-// logging to DB
 // SQL database
+
+// bugs
+
+// logging to DB
 
 // modules repair;
 // jsdom

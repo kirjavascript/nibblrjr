@@ -1,7 +1,6 @@
 const { readFile } = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
-const initSocket = require('./socket');
 const initAPI = require('./api');
 const esbuild = require('esbuild');
 const sassPlugin = require('esbuild-plugin-sass');
@@ -18,7 +17,6 @@ function initWeb(parent) {
         console.log(`Web running on port ${web.port}`);
     });
 
-    web.wss = initSocket({ parent, server });
     initAPI({ parent, app });
 
     // load esbuild middleware

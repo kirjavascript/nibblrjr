@@ -189,8 +189,6 @@ async function vm({ node }) {
         // create IRC object
 
         global.IRC = {
-            // ...config.IRC,
-            // colors,
             inspect: scripts.inspect,
             breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
             parseCommand: scripts['parse-command'].parseCommand,
@@ -220,6 +218,10 @@ async function vm({ node }) {
 
         IRC.resetBuffer = () => {
             ref.resetBuffer.applySync();
+        };
+
+        IRC.setNick = (str) => {
+            return ref.setNick.applySync(undefined, [str]);
         };
 
         IRC.whois = (text) => {
@@ -309,11 +311,14 @@ async function vm({ node }) {
         const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
         IRC.colors = colors;
 
-        config.print.target && Object.assign(global, scripts.print.createSend({
-            ...config.print,
-            sendRaw,
-            colors,
-        }));
+        if (config.print.target) {
+            Object.assign(global, scripts.print.createSend({
+                ...config.print,
+                sendRaw,
+                colors,
+            }));
+            global.log = print.log;
+        }
 
         delete global.config;
         delete global.sendRaw;
@@ -322,7 +327,6 @@ async function vm({ node }) {
 
     async function setConfig(config) {
         const vmConfig = {
-            setNick: config.setNick || false,
             print: Object.assign({
                 hasColors: node.get('colors', true),
                 lineLimit: 10,
@@ -342,6 +346,8 @@ async function vm({ node }) {
                 nodeVersion: process.version.slice(1),
             }, config.IRC),
         };
+        hasSetNick = config.hasSetNick || false;
+
         ctx.setSync('config', new ivm.ExternalCopy(vmConfig).copyInto());
         ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));
         ctx.setSync('scripts', scriptRef.derefInto());
@@ -378,10 +384,6 @@ async function vm({ node }) {
 
         await code.run(rawScript, { timeout });
     }
-
-        // TODO: color wrapping in print
-
-    // await setConfig(config);
 
     // onMessage
     // onDispose
