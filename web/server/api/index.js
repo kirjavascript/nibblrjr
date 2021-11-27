@@ -31,7 +31,7 @@ function initAPI({ parent, app }) {
             const [, creds] = authorization.match(basicAuth);
             const credsString = Buffer.from(creds, 'base64').toString();
             const [, password] = credsString.match(/^(?:[^:]*):(.*)$/);
-            req.isAdmin = password === parent.web.password;
+            req.isAdmin = password === parent.config.web.password;
         } else {
             req.isAdmin = false;
         }

@@ -1,7 +1,7 @@
 function createServerDBFactory(database) {
     return (node) => {
 
-        const name = node.address.replace(/[^a-zA-Z0-9.]/g, '');
+        const name = node.config.address.replace(/[^a-zA-Z0-9.]/g, '');
         const db = database.createDB(name, `
             CREATE TABLE IF NOT EXISTS log (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,

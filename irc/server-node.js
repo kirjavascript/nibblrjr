@@ -10,10 +10,17 @@ class ServerNode {
 
         this.parent = parent;
 
-        Object.assign(this, server);
-        // { address, channels, trigger, nickname, password, colors }
+        this.config = server;
 
-        this.channels = this.channels.map(ch => {
+        this.get = (key, _default) => {
+            return typeof this.config[key] != 'undefined'
+                ? this.config[key]
+                : typeof this.parent.config[key] != 'undefined'
+                    ? this.parent.config[key]
+                    : _default;
+        }
+
+        this.channels = this.config.channels.map(ch => {
             if (typeof ch == 'string') {
                 return { name: ch.toLowerCase() };
             } else {
@@ -22,13 +29,7 @@ class ServerNode {
             }
         });
 
-        this.get = (key, _default) => {
-            return typeof this[key] != 'undefined'
-                ? this[key]
-                : typeof this.parent[key] != 'undefined'
-                    ? this.parent[key]
-                    : _default;
-        }
+        this.trigger = this.get('trigger', '~');
 
         this.getChannelConfig = (name) => {
             return this.channels.find(ch => ch.name == name) || {};
@@ -37,8 +38,6 @@ class ServerNode {
         this.getLineLimit = (target) => {
             return this.getChannelConfig(target).lineLimit || 10;
         };
-
-        this.trigger = this.get('trigger', '~');
 
         this.client = new Client(this.address, this.nickname, {
             channels: this.channels.map(c => c.name),

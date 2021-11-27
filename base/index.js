@@ -27,17 +27,19 @@ new (class Nibblr {
 
         this.epoch = new Date();
 
-        Object.assign(this, config);
+        this.config = config;
 
         // load databases
         this.database = new Database(this);
 
         // load server nodes
-        this.servers = this.servers.map(server => (
+        this.servers = this.config.servers.map(server => (
             new ServerNode(this, server)
         ));
 
         // load web interface
-        initWeb(this);
+        if (this.config.web) {
+            initWeb(this);
+        }
     }
 });

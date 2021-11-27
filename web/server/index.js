@@ -7,7 +7,7 @@ const sassPlugin = require('esbuild-plugin-sass');
 const path = require('path');
 
 function initWeb(parent) {
-    const { web } = parent;
+    const { web } = parent.config;
 
     const app = express();
 

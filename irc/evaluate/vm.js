@@ -137,7 +137,7 @@ async function createVM({ node }) {
 
     ctx.setSync(
         '_commandFnsKeys',
-        Object.keys(node.parent.database.commands.fns).join(),
+        Object.keys(node.parent.database.commands.fns).join('|'),
     );
     ctx.setSync('_commandFns', new ivm.Callback((fnName, args) => {
         return node.parent.database.commands.fns[fnName](...args);
@@ -228,7 +228,7 @@ async function createVM({ node }) {
         };
 
         IRC.commandFns = {};
-        ref.commandFnsKeys.split().forEach(key => {
+        ref.commandFnsKeys.split('|').forEach(key => {
             IRC.commandFns[key] = (...args) => {
                 return ref.commandFns.applySync(
                     undefined,
@@ -352,7 +352,7 @@ async function createVM({ node }) {
     });
 
     async function setConfig(config) {
-        const { web } = node.parent;
+        const { web } = node.parent.config;
         const webAddress = web && web.url || '[unspecified]';
         const vmConfig = {
             print: Object.assign({

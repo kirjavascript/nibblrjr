@@ -5,6 +5,8 @@ DOC
 ===
 colLimit charLimit lineLimit
 
+// toggle colours, change channels, change servers in config change
+
 // reloadable config
 // move parent config into an actual config that can be updated :>
 // event boolean
@@ -23,12 +25,26 @@ colLimit charLimit lineLimit
 // ~regexgen
 // date fns / lodash
 
+// ~update should clear events vms
+
 // e.message = e.message
 //     .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
 //     .replace(/(\n|\r).*/g, '');
 
 fetchURL
 just have the flag set to turn into an event
+
+const query = {
+  all(query, ...params) {
+    return db.prepare(query.join('?')).all(params)
+  },
+  one(query, ...params) {
+    return db.prepare(query.join('?')).get(params)
+  },
+  run(query, ...params) {
+    return db.prepare(query.join('?')).run(params)
+  },
+}
 
 IRC.message(() => {
 
@@ -42,8 +58,6 @@ version 4: SQL / events
 print streams | built in pipe | IRC.runCommand()
 unix style params
 PYTHON=$(which python2)
-
-// reloadable config
 
 // events//
 first: rewrite evaluate ->isolate and have the events isolate running
