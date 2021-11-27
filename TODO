@@ -6,6 +6,7 @@ DOC
 colLimit charLimit lineLimit
 
 // reloadable config
+// move parent config into an actual config that can be updated :>
 // event boolean
 // long running events vm
 // SQL database

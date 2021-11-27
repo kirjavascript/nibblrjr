@@ -56,8 +56,6 @@ function initWeb(parent) {
             res.send(out);
         });
     });
-
-    return web;
 }
 
 module.exports = {

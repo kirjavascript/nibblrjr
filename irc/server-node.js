@@ -8,7 +8,9 @@ class ServerNode {
 
         this.updateLoader = updateLoader;
 
-        Object.assign(this, server, { parent });
+        this.parent = parent;
+
+        Object.assign(this, server);
         // { address, channels, trigger, nickname, password, colors }
 
         this.channels = this.channels.map(ch => {
@@ -32,9 +34,8 @@ class ServerNode {
             return this.channels.find(ch => ch.name == name) || {};
         };
 
-        this.getLineLimit = (msgData) => {
-            return this.getChannelConfig(msgData.to).lineLimit
-                || (msgData.isPM ? 50 : 10);
+        this.getLineLimit = (target) => {
+            return this.getChannelConfig(target).lineLimit || 10;
         };
 
         this.trigger = this.get('trigger', '~');
@@ -135,7 +136,7 @@ class ServerNode {
             from = from[0] == '#' ? from.toLowerCase() : from;
             to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
-            const { print } = mod.createNodeSend(this, msgData);
+            const { print } = mod.createNodeSend(this, target);
             const { trigger } = this;
 
             // check speak events that have elapsed
@@ -196,7 +197,7 @@ class ServerNode {
             else if (this.get('enableIBIP', true) && text == '.bots') {
                 print(`Reporting in! [JavaScript] use ${trigger}help`);
             }
-                // parse URLS
+            // parse URLS
             else if (this.get('fetchURL', true)) {
                 const showAll = this.getChannelConfig(msgData.to).fetchURLAll;
                 mod.fetchURL({ text, print, showAll });

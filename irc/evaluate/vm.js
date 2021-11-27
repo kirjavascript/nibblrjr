@@ -12,7 +12,7 @@ const maxTimeout = 60000 * 5;
 
 const scripts = loadScripts();
 
-async function vm({ node }) {
+async function createVM({ node }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();
     const ctx = context.global;
@@ -335,9 +335,12 @@ async function vm({ node }) {
         IRC.colors = colors;
 
         if (config.print.target) {
+            const { sendRaw } = global;
             Object.assign(global, scripts.print.createSend({
                 ...config.print,
-                sendRaw,
+                sendRaw: (...args) => {
+                    sendRaw.applySync(undefined, args);
+                },
                 colors,
             }));
             global.log = print.log;
@@ -349,6 +352,8 @@ async function vm({ node }) {
     });
 
     async function setConfig(config) {
+        const { web } = node.parent;
+        const webAddress = web && web.url || '[unspecified]';
         const vmConfig = {
             print: Object.assign({
                 hasColors: node.get('colors', true),
@@ -361,7 +366,7 @@ async function vm({ node }) {
             IRC: Object.assign({
                 trigger: node.trigger,
                 nick: node.client.nick,
-                webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
+                webAddress,
                 epoch: node.parent.epoch,
                 // message
                 // command
@@ -408,16 +413,6 @@ async function vm({ node }) {
         await context.eval(rawScript, { timeout });
     }
 
-
-    // have multi entrypoints for wrapfns like a proxy
-
-
-    // onMessage
-    // onDispose
-
-    // TODO: events use compileScript
-    // TODO: test error happening during creation
-
     return {
         dispose,
         evaluate,
@@ -426,4 +421,4 @@ async function vm({ node }) {
     };
 }
 
-module.exports = vm;
+module.exports = createVM;

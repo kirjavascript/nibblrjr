@@ -2,7 +2,6 @@ const fs = require('fs');
 const ivm = require('isolated-vm');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
-const _ = require('lodash');
 const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
 const { ping } = require('./spawn');
@@ -11,14 +10,7 @@ const { sudo, auth } = require('./access');
 const { loadScripts, loadLazy }  = require('./load-scripts');
 const { version } = require('../../package.json');
 
-const timeout = 30000;
-const maxTimeout = 60000 * 5;
-
-const vm = require('./vm');
-
-(async () => {
-    const q = vm({node:{}});
-})();
+const createVM = require('./vm');
 
 // grab scripts to inject into the isolate
 const scripts = loadScripts();
@@ -32,6 +24,50 @@ async function evaluate({
     command,
     event,
 }) {
+
+    const vm = await createVM({ node });
+
+    try {
+        // TODO:  rename this to eval, add events
+
+        // get jsdom to work
+
+    // onMessage
+    // onDispose
+
+    // TODO: events use compileScript
+    // TODO: test error happening during creation
+
+        await vm.setConfig({
+            print: {
+                lineLimit: node.getLineLimit(msgData.to),
+                canBroadcast,
+                target: msgData.target,
+            },
+            IRC: {
+                message: msgData,
+                command,
+                secret: node.get('secrets', {})[command.root],
+            },
+            hasSetNick: node.getChannelConfig(msgData.to).setNick,
+        });
+
+        await vm.evaluate(script, {
+            evalType: printResult ? 'evalPrint' : 'functionBody',
+        });
+
+
+    } catch (e) {
+        // TODO: how else could this check be done?
+        if (/script execution timed out/i.test(e.message)) {
+            const { text } = msgData;
+            const truncated = text[30] ? text.slice(0, 30) + '...' : text;
+            e.message = `script timeout: ${nick(msgData.from, true)} ${truncated}`;
+        }
+        createNodeSend(node, msgData.target).print.error(e);
+    }
+    vm.dispose();
+}
     // const isolate = new ivm.Isolate({ memoryLimit: 128 });
     // const context = await isolate.createContext();
     // const dispose = () => {
@@ -40,8 +76,7 @@ async function evaluate({
     //         context.release();
     //     }
     // };
-
-    try {
+async function _() {
         const channels = Object.entries(_.cloneDeep(node.client.chans))
             .reduce((acc, [key, value]) => {
                 delete value.users;
@@ -50,108 +85,15 @@ async function evaluate({
             }, {});
 
         const config = {
-            // hasColors: node.get('colors', true),
-            // canBroadcast,
-            // lineLimit: node.getLineLimit(msgData),
             commandLimit: node.get('commandLimit', 5),
             IRC: {
-                // trigger: node.trigger,
-                message: msgData,
-                // nick: node.client.nick,
-                command,
                 channels,
-                // webAddress: _.get(node, 'parent.web.url', '[unspecified]'),
-                // epoch: node.parent.epoch,
-                // version,
-                // nodeVersion: process.version.slice(1),
             },
         };
-
-        const secret = node.get('secrets', {})[command.root];
 
         if (event) {
             config.IRC.event = event;
         }
-        if (secret) {
-            config.IRC.secret = secret;
-        }
-
-        // const jail = context.global;
-
-        // jail.setSync('global', jail.derefInto());
-        // jail.setSync('config', new ivm.ExternalCopy(config).copyInto());
-        // jail.setSync('_ivm', ivm);
-        // jail.setSync('_sendRaw', new ivm.Reference(node.sendRaw));
-        // jail.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
-
-        // TODO: setnick:
-        node.getChannelConfig(msgData.to).setNick
-
-//         jail.setSync('_setNick', new ivm.Reference((str) => {
-//             if (node.getChannelConfig(msgData.to).setNick) {
-//                 str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
-//                 node.client.send('NICK', str);
-//                 return true;
-//             } else {
-//                 return false;
-//             }
-//         }));
-        // jail.setSync('_whois', new ivm.Reference((text) => (
-        //     text && new Promise((resolve, reject) => {
-        //         node.client.whois(text, (data) => {
-        //             try {
-        //                 resolve(new ivm.ExternalCopy(data).copyInto());
-        //             } catch(e) {
-        //                 reject(new Error(e.message));
-        //             }
-        //         });
-        //     })
-        // )));
-        // jail.setSync('_ping', new ivm.Reference(ping));
-        // jail.setSync('_wordList', new ivm.Reference(() => (
-        //     new Promise((resolve, reject) => {
-        //         const path = '/usr/share/dict/words';
-        //         fs.exists(path, (exists) => {
-        //             if (exists) {
-        //                 fs.readFile(path, 'utf8', (err, data) => {
-        //                     if (err) reject(err);
-        //                     else resolve(new ivm.ExternalCopy(data).copyInto());
-        //                 });
-        //             } else {
-        //                 reject(new Error(`no such file: ${path}`));
-        //             }
-        //         });
-        //     })
-        // )));
-        // jail.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
-        //     new Promise((resolve, reject) => {
-        //         if (config.form) {
-        //             const form = new FormData();
-        //             Object.entries(config.form)
-        //                 .forEach(([k, v]) => form.append(k, v));
-        //             config.body = form;
-        //             if (!('method' in config)) {
-        //                 config.method = 'POST';
-        //             }
-        //         }
-        //         fetch(url, config)
-        //             .then((res) => res[type || 'text']())
-        //             .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
-        //             .catch(reject);
-        //     })
-        // )));
-        // jail.setSync('_require', new ivm.Reference((str) => (
-        //     new Promise((resolve, reject) => {
-        //         acquire(str)
-        //             .then(obj => { resolve(obj.toString()) })
-        //             .catch(reject);
-        //     })
-        // )));
-        // jail.setSync('_sleep', new ivm.Reference((ms) => (
-        //     new Promise((resolve) => {
-        //         setTimeout(resolve, Math.min(ms, maxTimeout));
-        //     })
-        // )));
         jail.setSync('_logDB', new ivm.Reference((obj) => {
             obj.nick = config.IRC.nick;
             node.database.log(node, obj);
@@ -165,39 +107,6 @@ async function evaluate({
                 args: [target, ...text.slice(0, 400).split(' ')],
             });
         }
-        // jail.setSync('_auth', new ivm.Reference((from, isSudo) => (
-        //     new Promise((resolve, reject) => {
-        //         (isSudo ? sudo : auth)({
-        //             node,
-        //             from,
-        //             callback: (err) => err ? reject(err) : resolve(),
-        //         });
-        //     })
-        // )));
-        // jail.setSync('_sudoProxy', new ivm.Reference((config) => {
-        //     if (config == 'exit') {
-        //         process.kill(process.pid, 'SIGINT');
-        //     }
-        //     const { key, value, path } = config;
-        //     const leaf = path.pop();
-        //     const parent = path.reduce((a, c) => {
-        //         if (!a[c]) {
-        //             a[c] = {};
-        //         }
-        //         return a[c];
-        //     }, node);
-        //     if (key == 'get') {
-        //         return new ivm.ExternalCopy(parent[leaf]).copyInto()
-        //     } else if (key == 'set') {
-        //         parent[leaf] = value[0];
-        //     } else if (key == 'call') {
-        //         if (typeof parent[leaf] == 'function') {
-        //             return parent[leaf](...value);
-        //         } else {
-        //             throw new Error('not a function');
-        //         }
-        //     }
-        // }));
         jail.setSync('_loadLazy', new ivm.Reference((filename) => {
             return new Promise((resolve, reject) => {
                 loadLazy(filename, (err, success) => {
@@ -239,20 +148,6 @@ async function evaluate({
 
         const bootstrap = await isolate.compileScript('new '+ function() {
 
-            // collect underscored objects
-
-            // const ref = Object.keys(global)
-            //     .filter(key => key.startsWith('_'))
-            //     .reduce((a, c) => {
-            //         a[c.slice(1)] = global[c];
-            //         delete global[c];
-            //         return a;
-            //     }, {});
-
-            // const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
-
-            // attach print/action/notice
-
             // Object.assign(global, scripts.print.createSend({
             //     hasColors: config.hasColors,
             //     canBroadcast: config.canBroadcast,
@@ -269,85 +164,6 @@ async function evaluate({
                     ]);
                 },
             // }));
-
-            // global.log = print.log;
-
-            // fetch stuff
-
-            // Object.assign(global, scripts.fetch.global);
-            // global.fetchSync = scripts.fetch.createFetchSync(ref);
-
-            // npm-require
-
-            // global.require = (str) => (
-            //     new Function(`
-            //         const exports = {};
-            //         const module = { exports };
-            //         const process = { env: {} };
-            //         ${ref.require.applySyncPromise(undefined, [String(str)])}
-            //         return module.exports;
-            //     `)()
-            // );
-
-            // acquire (legacy)
-
-            // global.acquire = async (str) => require(str);
-
-            // timeouts
-
-            // global.sleep = (ms) => ref.sleep.applySyncPromise(undefined, [ms]);
-
-            // create IRC object
-
-            // global.IRC = {
-                // ...config.IRC,
-                // colors,
-                // inspect: scripts.inspect,
-                // breakHighlight: (s) => `${s[0]}\uFEFF${s.slice(1)}`,
-                // parseCommand: scripts['parse-command'].parseCommand,
-                // parseTime: scripts['parse-time'].parseTime,
-            // };
-
-            // global.module = { required: false };
-
-            // const requireCache = {};
-            // IRC.require = (str) => {
-            //     if (requireCache[str]) return requireCache[str];
-            //     const obj = IRC.commandFns.get(str);
-            //     if (obj) {
-            //         const module = new Function(`
-            //             const module = { required: true };
-            //             ${obj.command}
-            //             return module;
-            //         `)();
-            //         requireCache[str] = module.exports;
-            //         return module.exports;
-            //     } else {
-            //         const error = new Error(str + ' not found');
-            //         error.name = 'RequireError';
-            //         throw error;
-            //     }
-            // };
-
-            // IRC.setNick = (str) => {
-            //     return ref.setNick.applySync(undefined, [str]);
-            // };
-
-            // IRC.resetBuffer = () => {
-            //     ref.resetBuffer.applySync();
-            // };
-
-            // IRC.whois = (text) => {
-            //     return ref.whois.applySyncPromise(undefined, [text]);
-            // };
-
-            // IRC.ping = (str) => ref.ping.applySyncPromise(undefined, [
-            //     str,
-            // ]);
-
-            // Object.defineProperty(IRC, 'wordList', {
-            //     get: () => ref.wordList.applySyncPromise().trim().split(/\n|\r\n/),
-            // });
 
 
             function unwrapFns(name) {
@@ -367,7 +183,7 @@ async function evaluate({
 
             // IRC.commandFns = unwrapFns('commandFns');
             IRC.log = unwrapFns('log');
-            IRC.log.getGlobal = IRC.log.get;
+            // IRC.log.getGlobal = IRC.log.get;
             IRC.eventFns = unwrapFns('eventFns');
             if (IRC.event) {
                 IRC.eventFns.addEvent = () => {
@@ -375,35 +191,6 @@ async function evaluate({
                 };
             }
 
-            // IRC.auth = () => {
-            //     ref.auth.applySyncPromise(undefined, [IRC.message.from]);
-            // };
-
-            // IRC.sudo = () => {
-            //     ref.auth.applySyncPromise(undefined, [IRC.message.from, true]);
-            //     function node(path = []) {
-            //         return new Proxy({}, {
-            //             get(target, key) {
-            //                 if (['get', 'set', 'call'].includes(key)) {
-            //                     return (...args) => ref.sudoProxy.applySync(
-            //                         undefined,
-            //                         [new ref.ivm.ExternalCopy({
-            //                             key,
-            //                             path,
-            //                             value: args,
-            //                         }).copyInto()],
-            //                     );
-            //                 } else {
-            //                     return node([...path, key]);
-            //                 }
-            //             }
-            //         });
-            //     }
-            //     return {
-            //         node: node(),
-            //         exit: () => ref.sudoProxy.applySync(undefined, ['exit']),
-            //     };
-            // };
 
             // set limits on command functions
 
@@ -438,87 +225,7 @@ async function evaluate({
                 return jsdom;
             };
 
-            // cleanup env
-
-            // delete global.config;
-            // delete global.scripts;
-
-            // patches for DoS attacks
-            // const { from } = Array;
-            // Array.from = (...args) => {
-            //     if (args?.[0]?.length > 20000000) {
-            //         throw new Error('memory error');
-            //     }
-            //     return from(...args);
-            // };
-            // Object.defineProperty(Array.prototype, 'fill', {
-            //     value: function (t) {
-            //         if (null == this) throw new TypeError('this is null or not defined');
-            //         for (
-            //             var n = Object(this),
-            //                 r = n.length >>> 0,
-            //                 e = arguments[1],
-            //                 i = e >> 0,
-            //                 o = i < 0 ? Math.max(r + i, 0) : Math.min(i, r),
-            //                 a = arguments[2],
-            //                 h = void 0 === a ? r : a >> 0,
-            //                 l = h < 0 ? Math.max(r + h, 0) : Math.min(h, r);
-            //             o < l;
-
-            //         )
-            //             (n[o] = t), o++;
-            //         return n;
-            //     },
-            // });
-
-            // // patch RegExp.$_
-            // /\s*/.test('');
-
-            // ['global', 'acquire', 'module', 'getText', 'getDOM', 'getJSON']
-            //     .forEach(key => {
-            //         Object.defineProperty(global, key, { enumerable: false });
-            //     });
         });
-        // await bootstrap.run(context);
-
-        // dispose stuff incase sleep/require/fetchSync are still running
-
-        // setTimeout(dispose, maxTimeout);
-
-        // run script
-
-        // const code = await isolate.compileScript(printResult
-        //     ? `
-        //         (async function () {
-        //             // take references to functions so they cannot be deleted
-        //             const [printRaw, IRCinspect] = [print.raw, IRC.inspect];
-        //             const [depth, truncate] = IRC.command.params;
-        //             // run in global scope
-        //             const result = (0, eval)(${JSON.stringify(script)});
-        //             const promise = result == Promise.resolve(result) && await result;
-
-        //             printRaw(
-        //                 IRCinspect(result, {
-        //                     depth: depth || 0,
-        //                     truncate: truncate || 390,
-        //                     promise,
-        //                 })
-        //             );
-        //         })();
-        //     `
-        //     : `(async () => { \n${script}\n })();`
-        // );
-
-        // await code.run(context, {timeout});
-
-    } catch (e) {
-        // TODO: how else could this check be done?
-        if (/script execution timed out/i.test(e.message)) {
-            e.message = `script timeout: ${nick(msgData.from, true)} ${_.truncate(msgData.text)}`;
-        }
-        createNodeSend(node, msgData).print.error(e);
-    }
-    dispose();
 }
 
 module.exports = { evaluate };

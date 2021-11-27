@@ -1,10 +1,10 @@
 module.exports = { createSend, createNodeSend };
-function createNodeSend(node, message) {
+function createNodeSend(node, target) {
     return createSend({
         hasColors: node.get('colors', true),
         canBroadcast: true,
-        lineLimit: node.getLineLimit(message),
-        target: message.target,
+        lineLimit: node.getLineLimit(target),
+        target,
         colors: require('./colors').getColorFuncs(node.trigger),
         inspect: require('./inspect'),
         sendRaw: node.sendRaw,
@@ -73,7 +73,7 @@ function createSend({
 
         lines.forEach(line => {
             sendRaw(type, targetOpt, line);
-            if (log) {
+            if (log && onMessage) {
                 onMessage({ type, line, target: targetOpt });
             }
         });

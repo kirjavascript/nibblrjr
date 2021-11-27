@@ -86,14 +86,14 @@ function createServerDBFactory(database) {
             const get = (text, limit = 1, offset = 0) => {
                 return getQuery.all(`%${text}%`, target, limit, offset);
             };
-            const getGlobalQuery = db.prepare(`
-                SELECT * FROM log
-                WHERE message LIKE ?
-                ORDER BY idx DESC LIMIT ? OFFSET ?
-            `);
-            const getGlobal = (text, limit = 1, offset = 0) => {
-                return getGlobalQuery.all(`%${text}%`, limit, offset);
-            };
+            // const getGlobalQuery = db.prepare(`
+            //     SELECT * FROM log
+            //     WHERE message LIKE ?
+            //     ORDER BY idx DESC LIMIT ? OFFSET ?
+            // `);
+            // const getGlobal = (text, limit = 1, offset = 0) => {
+            //     return getGlobalQuery.all(`%${text}%`, limit, offset);
+            // };
             const userQuery = db.prepare(`
                 SELECT * FROM log
                 WHERE lower(user) = lower(?) AND message LIKE ?
@@ -117,7 +117,7 @@ function createServerDBFactory(database) {
             const regex = (rgx, limit = 1, offset = 0) => {
                 return regexQuery.all(rgx, target, limit, offset);
             };
-            return { get, getGlobal, count, user, random, regex };
+            return { get, count, user, random, regex };
         };
 
         // events

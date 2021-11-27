@@ -38,6 +38,6 @@ new (class Nibblr {
         ));
 
         // load web interface
-        this.web = initWeb(this);
+        initWeb(this);
     }
 });
