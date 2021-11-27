@@ -39,7 +39,7 @@ class ServerNode {
             return this.getChannelConfig(target).lineLimit || 10;
         };
 
-        this.client = new Client(this.address, this.nickname, {
+        this.client = new Client(this.config.address, this.config.nickname, {
             channels: this.channels.map(c => c.name),
             userName: this.get('userName', 'eternium'),
             realName: this.get('realName', 'nibblrjr IRC framework'),
@@ -49,15 +49,14 @@ class ServerNode {
             debug: this.get('debug', false),
         });
 
-        this.timeouts = [];
-        this.intervals = [];
-
         this.resetBuffer = () => {
             this.client._clearCmdQueue();
-            this.intervals.forEach(clearInterval);
-            this.timeouts.forEach(clearTimeout);
-            this.intervals = [];
-            this.timeouts = [];
+        };
+
+        this.disco = (...args) => {
+            this.resetBuffer();
+            clearTimeout(this.tick);
+            this.client.disconnect(...args);
         };
 
         this.sendRaw = (type, target, text) => {
@@ -70,8 +69,8 @@ class ServerNode {
 
         this.client.addListener('registered', (message) => {
             this.registered = true;
-            if (this.password) {
-                this.client.say('nickserv', `identify ${this.password}`);
+            if (this.config.password) {
+                this.client.say('nickserv', `identify ${this.config.password}`);
             }
             // this gets trashed after each connect
             this.client.conn.addListener('close', (message) => {
@@ -135,6 +134,8 @@ class ServerNode {
             from = from[0] == '#' ? from.toLowerCase() : from;
             to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
+
+            // TODO: remove print once events are here
             const { print } = mod.createNodeSend(this, target);
             const { trigger } = this;
 

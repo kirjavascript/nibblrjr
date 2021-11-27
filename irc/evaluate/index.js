@@ -28,6 +28,9 @@ async function evaluate({
     const vm = await createVM({ node });
 
     try {
+        // add .disco() to server node (clear timeouts, tick)
+        // add fs.watch to config
+
         // TODO:  rename this to eval, add events
 
         // get jsdom to work

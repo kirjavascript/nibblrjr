@@ -5,7 +5,7 @@ DOC
 ===
 colLimit charLimit lineLimit
 
-// toggle colours, change channels, change servers in config change
+// toggle colours, change channels, change servers in config change (only join new?)
 
 // reloadable config
 // move parent config into an actual config that can be updated :>
