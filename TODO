@@ -4,6 +4,9 @@ repl: rs|clojure|vlang|cj|scheme|jsx|html
 DOC
 ===
 colLimit charLimit lineLimit
+reloadable config
+web can be diusabled
+changelog
 
 // toggle colours, change channels, change servers in config change (only join new?)
 

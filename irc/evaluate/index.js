@@ -28,8 +28,8 @@ async function evaluate({
     const vm = await createVM({ node });
 
     try {
-        // add .disco() to server node (clear timeouts, tick)
-        // add fs.watch to config
+        // add events before the rest of this file
+        // disco / connect to servers
 
         // TODO:  rename this to eval, add events
 

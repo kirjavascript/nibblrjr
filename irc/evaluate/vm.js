@@ -8,11 +8,9 @@ const { sudo, auth } = require('./access');
 const { loadScripts, loadLazy }  = require('./load-scripts');
 const { version } = require('../../package.json');
 
-const maxTimeout = 60000 * 5;
-
 const scripts = loadScripts();
 
-async function createVM({ node }) {
+async function createVM({ node, maxTimeout = 60000 * 5 }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();
     const ctx = context.global;
@@ -25,6 +23,11 @@ async function createVM({ node }) {
             isolate.dispose();
             context.release();
         }
+    }
+
+    if (maxTimeout) {
+        // dispose stuff incase sleep/require/fetchSync are still running
+        setTimeout(dispose, maxTimeout);
     }
 
     ctx.setSync('global', ctx.derefInto());
@@ -384,7 +387,7 @@ async function createVM({ node }) {
 
     async function evaluate(script, { timeout = 30000, evalType }) {
         const rawScript = {
-            evalPrint: () => `
+            evalPrint: `
                 (async function () {
                     // take references to functions so they cannot be deleted
                     const [printRaw, IRCinspect] = [print.raw, IRC.inspect];
@@ -402,22 +405,18 @@ async function createVM({ node }) {
                     );
                 })();
             `,
-            functionBody: () => `(async () => { \n${script}\n })();`,
-        }[evalType]?.(script) || script;
-
-        if (timeout) {
-            // dispose stuff incase sleep/require/fetchSync are still running
-            setTimeout(dispose, maxTimeout);
-        }
+            functionBody: `(async () => { \n${script}\n })();`,
+        }[evalType] || script;
 
         await context.eval(rawScript, { timeout });
     }
 
     return {
+        isolate,
+        context,
         dispose,
         evaluate,
         setConfig,
-        isolate,
     };
 }
 
