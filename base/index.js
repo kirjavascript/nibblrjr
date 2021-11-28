@@ -38,7 +38,7 @@ new (class Nibblr {
                     (node) => node.config.address === server.address,
                 );
                 if (node) {
-                    node.config = server;
+                    node.setConfig(server);
                 } else {
                     this.servers.push(new ServerNode(this, server));
                 }
@@ -80,14 +80,5 @@ new (class Nibblr {
         });
 
         this.loadConfig();
-
-        // this.config = config;
-
-        // load databases
-
-        // load server nodes
-        // this.servers = this.config.servers.map(server => (
-        //     new ServerNode(this, server)
-        // ));
     }
 })();

@@ -10,8 +10,6 @@ class ServerNode {
 
         this.parent = parent;
 
-        this.config = server;
-
         this.get = (key, _default) => {
             return typeof this.config[key] != 'undefined'
                 ? this.config[key]
@@ -20,16 +18,22 @@ class ServerNode {
                     : _default;
         }
 
-        this.channels = this.config.channels.map(ch => {
-            if (typeof ch == 'string') {
-                return { name: ch.toLowerCase() };
-            } else {
-                ch.name = ch.name.toLowerCase();
-                return ch;
-            }
-        });
+        this.setConfig = (config) => {
+            this.channels = config.channels.map(ch => {
+                if (typeof ch == 'string') {
+                    return { name: ch.toLowerCase() };
+                } else {
+                    ch.name = ch.name.toLowerCase();
+                    return ch;
+                }
+            });
 
-        this.trigger = this.get('trigger', '~');
+            this.trigger = this.get('trigger', '~');
+
+            this.config = config;
+        };
+
+        this.setConfig(config);
 
         this.getChannelConfig = (name) => {
             return this.channels.find(ch => ch.name == name) || {};
