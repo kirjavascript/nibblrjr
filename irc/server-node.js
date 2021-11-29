@@ -4,7 +4,7 @@ const reserved = require('../base/reserved');
 const { mod, updateLoader } = require('./hot-loader');
 
 class ServerNode {
-    constructor(parent, server) {
+    constructor(parent, config) {
 
         this.updateLoader = updateLoader;
 
@@ -19,7 +19,9 @@ class ServerNode {
         }
 
         this.setConfig = (config) => {
-            this.channels = config.channels.map(ch => {
+            this.config = config;
+
+            this.channels = this.config.channels.map(ch => {
                 if (typeof ch == 'string') {
                     return { name: ch.toLowerCase() };
                 } else {
@@ -29,8 +31,6 @@ class ServerNode {
             });
 
             this.trigger = this.get('trigger', '~');
-
-            this.config = config;
         };
 
         this.setConfig(config);
@@ -95,41 +95,41 @@ class ServerNode {
         });
 
         // check tick events that have elapsed
-        this.tick = () => {
-            setTimeout(this.tick, 1000);
-            if (this.registered) {
-                this.database.eventFns.tickElapsed()
-                    .forEach(row => {
-                        const msgData = {
-                            from: row.user,
-                            to: row.target.toLowerCase(),
-                            target: row.target.toLowerCase(),
-                            isPM: row.user.toLowerCase() == row.target.toLowerCase(),
-                            // text, message
-                        };
-                        const { ignoreEvents } = this.getChannelConfig(msgData.to);
-                        const inChannel = !!Object.entries(this.client.chans)
-                            .find(([key]) => key.toLowerCase() == msgData.target);
+        // this.tick = () => {
+        //     setTimeout(this.tick, 1000);
+        //     if (this.registered) {
+        //         this.database.eventFns.tickElapsed()
+        //             .forEach(row => {
+        //                 const msgData = {
+        //                     from: row.user,
+        //                     to: row.target.toLowerCase(),
+        //                     target: row.target.toLowerCase(),
+        //                     isPM: row.user.toLowerCase() == row.target.toLowerCase(),
+        //                     // text, message
+        //                 };
+        //                 const { ignoreEvents } = this.getChannelConfig(msgData.to);
+        //                 const inChannel = !!Object.entries(this.client.chans)
+        //                     .find(([key]) => key.toLowerCase() == msgData.target);
 
-                        if (msgData.isPM || (!ignoreEvents && inChannel)) {
-                            const cmdData = parent.database.commands
-                                .get(row.callback);
-                            if (cmdData) {
-                                const { command, name } = cmdData;
-                                mod.evaluate({
-                                    script: command,
-                                    msgData,
-                                    node: this,
-                                    event: row,
-                                    command: mod.parseCommand({ text: name })
-                                });
-                            }
-                            this.database.eventFns.delete(row.idx);
-                        }
-                    });
-            }
-        };
-        setTimeout(this.tick, 5000);
+        //                 if (msgData.isPM || (!ignoreEvents && inChannel)) {
+        //                     const cmdData = parent.database.commands
+        //                         .get(row.callback);
+        //                     if (cmdData) {
+        //                         const { command, name } = cmdData;
+        //                         mod.evaluate({
+        //                             script: command,
+        //                             msgData,
+        //                             node: this,
+        //                             event: row,
+        //                             command: mod.parseCommand({ text: name })
+        //                         });
+        //                     }
+        //                     this.database.eventFns.delete(row.idx);
+        //                 }
+        //             });
+        //     }
+        // };
+        // setTimeout(this.tick, 5000);
 
         this.client.addListener('message', (from, to, text, message) => {
             if (this.get('ignoreHosts', []).includes(message.host)) return;
@@ -145,23 +145,23 @@ class ServerNode {
 
             // check speak events that have elapsed
 
-            if (isPM || !this.getChannelConfig(to).ignoreEvents) {
-                this.database.eventFns.speakElapsed(from)
-                    .forEach(row => {
-                        const cmdData = parent.database.commands.get(row.callback);
-                        if (cmdData) {
-                            const { command, name } = cmdData;
-                            mod.evaluate({
-                                script: command,
-                                msgData,
-                                node: this,
-                                event: row,
-                                command: mod.parseCommand({ text: name })
-                            });
-                        }
-                        this.database.eventFns.delete(row.idx);
-                    });
-            }
+            // if (isPM || !this.getChannelConfig(to).ignoreEvents) {
+            //     this.database.eventFns.speakElapsed(from)
+            //         .forEach(row => {
+            //             const cmdData = parent.database.commands.get(row.callback);
+            //             if (cmdData) {
+            //                 const { command, name } = cmdData;
+            //                 mod.evaluate({
+            //                     script: command,
+            //                     msgData,
+            //                     node: this,
+            //                     event: row,
+            //                     command: mod.parseCommand({ text: name })
+            //                 });
+            //             }
+            //             this.database.eventFns.delete(row.idx);
+            //         });
+            // }
 
             // handle commands
 
