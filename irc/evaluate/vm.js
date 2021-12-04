@@ -16,6 +16,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
     const ctx = context.global;
     const env = {
         hasSetNick: false,
+        namespace: undefined,
     };
 
     function dispose() {
@@ -137,13 +138,22 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         }
     }));
 
-
     ctx.setSync(
         '_commandFnsKeys',
         Object.keys(node.parent.database.commands.fns).join('|'),
     );
     ctx.setSync('_commandFns', new ivm.Callback((fnName, args) => {
         return node.parent.database.commands.fns[fnName](...args);
+    }));
+
+    ctx.setSync(
+        '_storeFnsKeys',
+        Object.keys(node.database.storeFns).join('|'),
+    );
+    ctx.setSync('_storeFns', new ivm.Callback((fnName, args) => {
+        if (env.namespace) {
+            return node.database.storeFns[fnName](env.namespace, ...args);
+        }
     }));
 
     const scriptRef = await (await isolate.compileScript(`
@@ -233,14 +243,16 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         IRC.commandFns = {};
         ref.commandFnsKeys.split('|').forEach(key => {
             IRC.commandFns[key] = (...args) => {
-                return ref.commandFns.applySync(
-                    undefined,
-                    [key, ...args.map(arg => (
-                        new ref.ivm.ExternalCopy(arg).copyInto()
-                    ))],
-                );
+                return ref.commandFns(key, args);
             };
-        })
+        });
+
+        global.store = {};
+        ref.storeFnsKeys.split('|').forEach(key => {
+            global.store[key] = (...args) => {
+                return ref.storeFns(key, args);
+            };
+        });
 
         IRC.resetBuffer = () => {
             ref.resetBuffer.applySync();
@@ -349,6 +361,8 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             global.log = print.log;
         }
 
+        store.namespace = config.namespace;
+
         delete global.config;
         delete global.sendRaw;
         delete global.scripts;
@@ -376,8 +390,10 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                 version,
                 nodeVersion: process.version.slice(1),
             }, config.IRC),
+            namespace: config.namespace,
         };
         env.hasSetNick = config.hasSetNick || false;
+        env.namespace = config.namespace;
 
         ctx.setSync('config', new ivm.ExternalCopy(vmConfig).copyInto());
         ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));

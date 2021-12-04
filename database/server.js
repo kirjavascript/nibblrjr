@@ -226,48 +226,47 @@ function createServerDBFactory(database) {
         const allQuery = db.prepare(`
             SELECT key, value FROM store WHERE namespace = ?
         `);
-        const storeFactory = (namespace) => {
-            // get //
-            const get = (key) => {
-                const obj = getQuery.get(namespace, key);
-                return !obj ? void 0 : String(obj.value);
-            };
-            // set //
-            const set = (key, value) => {
-                const hasData = typeof get(key) != 'undefined';
-                // delete data
-                if (Object.is(null, value) || typeof value == 'undefined') {
-                    hasData && setDeleteQuery.run(namespace, key);
+        // get //
+        const get = (namespace, key) => {
+            const obj = getQuery.get(namespace, key);
+            return !obj ? void 0 : String(obj.value);
+        };
+        // set //
+        const set = (namespace, key, value) => {
+            const hasData = typeof get(key) != 'undefined';
+            // delete data
+            if (Object.is(null, value) || typeof value == 'undefined') {
+                hasData && setDeleteQuery.run(namespace, key);
+            }
+            // update / add data
+            else if (!hasData) {
+                if (String(value).length > 1048576) {
+                    throw new Error('Store size limit is 1MB');
                 }
-                // update / add data
-                else if (!hasData) {
-                    if (String(value).length > 1048576) {
-                        throw new Error('Store size limit is 1MB');
-                    }
-                    setInsertQuery.run(String(value), namespace, key);
-                }
-                else {
-                    setUpdateQuery.run(String(value), namespace, key);
-                }
-            };
-            // load / save
-            const save = (key, data) => set(key, JSON.stringify(data));
-            const load = (key, init = {}) => {
-                const data = get(key);
-                return typeof data === 'undefined' ? init : JSON.parse(data);
-            };
-            // all //
-            const all = () => {
-                const obj = allQuery.all(namespace);
-                return !Array.isArray(obj) ? [] : obj;
-            };
-            const clear = () => {
-                clearQuery.run(namespace);
-            };
-            return { get, set, load, save, all, clear };
+                setInsertQuery.run(String(value), namespace, key);
+            }
+            else {
+                setUpdateQuery.run(String(value), namespace, key);
+            }
+        };
+        // load / save
+        const save = (namespace, key, data) => set(namespace, key, JSON.stringify(data));
+        const load = (namespace, key, init = {}) => {
+            const data = get(namespace, key);
+            return typeof data === 'undefined' ? init : JSON.parse(data);
+        };
+        // all //
+        const all = (namespace) => {
+            const obj = allQuery.all(namespace);
+            return !Array.isArray(obj) ? [] : obj;
+        };
+        const clear = (namespace) => {
+            clearQuery.run(namespace);
         };
 
-        return { db, log, logFactory, storeFactory, eventFactory, eventFns };
+        const storeFns =  { get, set, load, save, all, clear };
+
+        return { db, log, logFactory, storeFns, eventFactory, eventFns };
     };
 }
 

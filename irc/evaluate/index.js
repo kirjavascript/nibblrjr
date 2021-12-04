@@ -1,19 +1,6 @@
-const fs = require('fs');
-const ivm = require('isolated-vm');
-const fetch = require('node-fetch');
-const FormData = require('form-data');
 const { createNodeSend } = require('./scripts/print');
 const { nick } = require('./scripts/colors');
-const { ping } = require('./spawn');
-const { acquire } = require('./acquire');
-const { sudo, auth } = require('./access');
-const { loadScripts, loadLazy }  = require('./load-scripts');
-const { version } = require('../../package.json');
-
 const createVM = require('./vm');
-
-// grab scripts to inject into the isolate
-const scripts = loadScripts();
 
 async function evaluate({
     canBroadcast = false,
@@ -53,6 +40,7 @@ async function evaluate({
                 secret: node.get('secrets', {})[command.root],
             },
             hasSetNick: node.getChannelConfig(msgData.to).setNick,
+            namespace: command.root,
         });
 
         await vm.evaluate(script, {
@@ -134,21 +122,9 @@ async function _() {
         }
 
         wrapFns(node.database.logFactory(msgData.target), 'log');
-        wrapFns(node.database.storeFactory(command.root), 'store');
+        // wrapFns(node.database.storeFactory(command.root), 'store');
         // wrapFns(node.parent.database.commands.getCommandFns(), 'commandFns');
         wrapFns(node.database.eventFactory(msgData), 'eventFns');
-
-        // await (await isolate.compileScript(`
-        //     global.scripts = {};
-        //     ${scripts.map(([name, script]) => `
-        //         (function() {
-        //             const exports = {};
-        //             const module = { exports: {} };
-        //             ${script};
-        //             global.scripts[${JSON.stringify(name)}] = module.exports;
-        //         })();
-        //     `).join('')}
-        //  `)).run(context);
 
         const bootstrap = await isolate.compileScript('new '+ function() {
 
@@ -206,8 +182,8 @@ async function _() {
 
             // add some globals
 
-            global.store = unwrapFns('store');
-            global.store.namespace = IRC.command.root;
+            // global.store = unwrapFns('store');
+            // global.store.namespace = IRC.command.root;
             global.input = IRC.command.input;
             global.dateFns = scripts['date-fns'];
             global._ = { ...scripts.lodash };
