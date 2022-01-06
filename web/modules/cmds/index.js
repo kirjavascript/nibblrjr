@@ -11,6 +11,16 @@ import { useFetch } from '../hooks';
 import reserved from '../../../base/reserved';
 import { parseCommand } from '../../../irc/evaluate/scripts/parse-command';
 
+export function CommandName({ command }) {
+    return <>
+        {command.name}
+        {command.starred && <span className="star"> ★</span>}
+        {' '}
+        {command.locked && <Lock />}
+        {command.event && <span className="event"> (event)</span>}
+    </>;
+}
+
 function Cmds({ history }) {
     const [commands, setCommands] = useState([]);
     const [search, setSearch] = useState('');
@@ -175,7 +185,7 @@ function EditorPane({ updateList, history, match: { params } }) {
     };
 
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
-    const { locked, starred } = cmd;
+    const { locked, starred, event } = cmd;
     const saveText = saving ? 'saving' : cmd.command === cmdTextCopy ? 'saved' : 'save';
 
     const isAdmin = admin;
@@ -192,10 +202,7 @@ function EditorPane({ updateList, history, match: { params } }) {
         >
             <div className="cmd-options">
                 <span className="cmd-name">
-                    {cmd.name}
-                    {cmd.starred && <span className="star"> ★</span>}
-                    {' '}
-                    {cmd.locked && <Lock />}
+                    <CommandName command={cmd} />
                 </span>
                 {!!cmd.name && (
                     <div>
@@ -222,6 +229,13 @@ function EditorPane({ updateList, history, match: { params } }) {
                                                 toggleOption('starred');
                                             }}>
                                             {starred ? 'unstar' : 'star'}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                toggleOption('event');
+                                            }}>
+                                            {event ? 'unevent' : 'as event'}
                                         </button>
                                     </>
                                 )}
