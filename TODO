@@ -8,13 +8,14 @@ reloadable config
 web can be diusabled
 changelog
 
+IRC.require() in events allows whitelisting stuff
+
 // toggle colours, change channels, change servers in config change (only join new?)
 
-// reloadable config
-// move parent config into an actual config that can be updated :>
 // event boolean
 // long running events vm
 // SQL database
+// channel config shoul use inheritance
 
 // bugs
 
@@ -55,6 +56,8 @@ IRC.message(() => {
 
 IRC.listen('connect', () => {
 
+}, {
+    include: [],
 });
 
 version 4: SQL / events

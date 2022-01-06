@@ -1,6 +1,5 @@
 const fs = require('fs');
 const { join } = require('path');
-const { ServerNode } = require('../irc/server-node');
 const { initWeb } = require('../web/server');
 const { Database } = require('../database/index');
 
@@ -27,6 +26,8 @@ new (class Nibblr {
         this.servers = [];
 
         this.loadConfig = () => {
+            console.log(`loading ${configPath}`);
+            const { ServerNode } = require('../irc/server-node');
             const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
             this.config = config;
             process.env.TZ = config.timezone || 'Europe/London';
@@ -51,7 +52,7 @@ new (class Nibblr {
             );
             this.servers = this.servers.filter((node) => {
                 if (!configAddresses.includes(node.config.address)) {
-                    node.disco();
+                    node.dispose();
                     return false;
                 }
                 return true;
@@ -68,12 +69,12 @@ new (class Nibblr {
             }
         };
 
-        let changing;
+        let debounce;
         fs.watch(configPath, () => {
-            if (!changing) {
-                changing = true;
+            if (!debounce) {
+                debounce = true;
                 setTimeout(() => {
-                    changing = false;
+                    debounce = false;
                     this.loadConfig();
                 }, 500);
             }

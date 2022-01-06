@@ -55,28 +55,10 @@ function createCommandDB() {
         };
     };
 
-    const list = () => {
-        // some kind of caching/indexing would improve performance here
-        const cmdList = getAllCommands();
-        return cmdList.map(cmd => {
-            delete cmd.command;
-            const { root } = parseCommand({ text: cmd.name });
-            if (cmd.name == root) return cmd;
-            // const parent = getCommand(root);
-            const parent = cmdList.find(d => d.name == root);
-            if (!parent) return cmd;
-            const obj = {
-                ...parent,
-                name: cmd.name
-            };
-            delete obj.command;
-            return obj;
-        });
-    };
-
     const set = (name, value) => {
         const safeName = name.replace(/\s+/g, '');
         const options = getCommand(safeName) || {
+            event: false,
             locked: false, // setting these is really optional
             starred: false,
         };
@@ -112,6 +94,22 @@ function createCommandDB() {
 
     // public API
 
+    const list = () => {
+        return getAllCommands().map(cmd => {
+            delete cmd.command;
+            const { root } = parseCommand({ text: cmd.name });
+            if (cmd.name == root) return cmd;
+            const parent = getCommand(root);
+            if (!parent) return cmd;
+            const obj = {
+                ...parent,
+                name: cmd.name
+            };
+            delete obj.command;
+            return obj;
+        });
+    };
+
     const names = () => {
         return getAllCommands().map(cmd => cmd.name);
     };
@@ -123,7 +121,7 @@ function createCommandDB() {
     const setSafe = (name, value) => {
         const obj = get(name);
         const isReserved = reserved.includes(name);
-        const parentCmdName = parseCommand({text: name}).list[0];
+        const parentCmdName = parseCommand({text: name}).root;
         const parentCmd = get(parentCmdName);
         if (
             obj && obj.locked

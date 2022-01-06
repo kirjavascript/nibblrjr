@@ -35,6 +35,10 @@ class ServerNode {
 
         this.setConfig(config);
 
+        mod.createEventManager(this);
+
+        // TODO: make getChannelConfig inherit
+
         this.getChannelConfig = (name) => {
             return this.channels.find(ch => ch.name == name) || {};
         };
@@ -46,7 +50,7 @@ class ServerNode {
         this.client = new Client(this.config.address, this.config.nickname, {
             channels: this.channels.map(c => c.name),
             userName: this.get('userName', 'eternium'),
-            realName: this.get('realName', 'nibblrjr IRC framework'),
+            realName: this.get('realName', 'nibblrjr'),
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: this.get('autoRejoin', false),
@@ -57,10 +61,11 @@ class ServerNode {
             this.client._clearCmdQueue();
         };
 
-        this.disco = (...args) => {
+        this.dispose = (...args) => {
             this.resetBuffer();
-            clearTimeout(this.tick);
+            // clearTimeout(this.tick);
             this.client.disconnect(...args);
+            this.events.dispose();
         };
 
         this.sendRaw = (type, target, text) => {

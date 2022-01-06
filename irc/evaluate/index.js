@@ -24,6 +24,7 @@ async function evaluate({
 
     // onMessage
     // onDispose
+        // TODO: clear scripts
 
     // TODO: events use compileScript
     // TODO: test error happening during creation
