@@ -19,8 +19,6 @@ async function evaluate({
 
         // TODO:  rename this to eval, add events
 
-        // get jsdom to work
-
     // onMessage
     // onDispose
         // TODO: clear scripts

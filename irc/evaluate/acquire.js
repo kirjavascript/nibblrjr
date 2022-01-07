@@ -16,13 +16,14 @@ const moduleDir = __dirname + '/../../cache/acquire';
 const stubbed = require('module').builtinModules.filter(
     (mod) => !['buffer', 'events', 'util'].includes(mod),
 );
-const eventPath = path.resolve(moduleDir, 'node_modules/events/events.js');
-const utilPath = path.resolve(moduleDir, 'node_modules/util/util.js');
-const bufferPath = path.resolve(moduleDir, 'node_modules/buffer/index.js');
+const mocks = {
+    events: path.resolve(moduleDir, 'node_modules/events/events.js'),
+    buffer: path.resolve(moduleDir, 'node_modules/buffer/index.js'),
+    util: path.resolve(moduleDir, 'node_modules/util/util.js'),
+};
 
 // load npm
 let npmInstall;
-
 const install = async ({ name, path, version }) => {
     return await npmInstall([`${name}@${version || 'latest'}`]);
 };
@@ -36,10 +37,14 @@ npm.load(async (err) => {
         npm.config.set('ignore-scripts', true);
         // set install dir
         npm.prefix = moduleDir;
-        // preinstall buffer / events
-        if (!(await existsAsync(eventPath))) await install({ name: 'events' });
-        if (!(await existsAsync(bufferPath))) await install({ name: 'buffer' });
-        if (!(await existsAsync(utilPath))) await install({ name: 'util' });
+        // preinstall mocks
+        Object.entries(mocks)
+            .forEach(async ([name, path]) => {
+                if (!(await existsAsync(path)))  {
+                    console.info(`Installing ${name} mock`)
+                    await install({ name });
+                }
+            });
     }
 });
 
@@ -83,11 +88,11 @@ async function acquire(input) {
             {
                 name: 'stub-externals',
                 setup(build) {
+                    const mockKeys = Object.keys(mocks);
                     build.onResolve({ filter: /[\S\s]*/ }, (args) => {
-                        if (args.path === 'events') return { path: eventPath };
-                        if (args.path === 'buffer') return { path: bufferPath };
-                        if (args.path === 'util') return { path: utilPath };
-
+                        if (mockKeys.includes(args.path)) {
+                            return { path: mocks[args.path] };
+                        }
                         if (stubbed.includes(args.path)) {
                             return {
                                 path: path.resolve(__dirname, 'stubs/blank.js'),
