@@ -16,10 +16,18 @@ const moduleDir = __dirname + '/../../cache/acquire';
 const stubbed = require('module').builtinModules.filter(
     (mod) => !['buffer', 'events', 'util'].includes(mod),
 );
+const eventPath = path.resolve(moduleDir, 'node_modules/events/events.js');
+const utilPath = path.resolve(moduleDir, 'node_modules/util/util.js');
+const bufferPath = path.resolve(moduleDir, 'node_modules/buffer/index.js');
 
 // load npm
 let npmInstall;
-npm.load((err) => {
+
+const install = async ({ name, path, version }) => {
+    return await npmInstall([`${name}@${version || 'latest'}`]);
+};
+
+npm.load(async (err) => {
     if (err) {
         console.error(err);
     } else {
@@ -28,12 +36,12 @@ npm.load((err) => {
         npm.config.set('ignore-scripts', true);
         // set install dir
         npm.prefix = moduleDir;
+        // preinstall buffer / events
+        if (!(await existsAsync(eventPath))) await install({ name: 'events' });
+        if (!(await existsAsync(bufferPath))) await install({ name: 'buffer' });
+        if (!(await existsAsync(utilPath))) await install({ name: 'util' });
     }
 });
-
-const install = async ({ name, path, version }) => {
-    return await npmInstall([`${name}@${version || 'latest'}`]);
-};
 
 const pkgFilename = ({ name, path, version }) => {
     return `${name}#${path}@${version.replace('latest', '')}.js`;
@@ -76,6 +84,10 @@ async function acquire(input) {
                 name: 'stub-externals',
                 setup(build) {
                     build.onResolve({ filter: /[\S\s]*/ }, (args) => {
+                        if (args.path === 'events') return { path: eventPath };
+                        if (args.path === 'buffer') return { path: bufferPath };
+                        if (args.path === 'util') return { path: utilPath };
+
                         if (stubbed.includes(args.path)) {
                             return {
                                 path: path.resolve(__dirname, 'stubs/blank.js'),
