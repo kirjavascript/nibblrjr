@@ -30,30 +30,10 @@ function createEventManager(node) {
         // make preventable
     }
 
-// {
-//    name: 'jsdom-patch',
-//    setup(build) {
-//     build.onLoad({ filter: /jsdom\/living\/helpers\/agent-factory\.js$/ }, async (args) => {
-//         return { contents: '', loader: 'js' };
-//      });
 
-//     build.onLoad({ filter: /jsdom\/living\/helpers\/http-request\.js$/ }, async (args) => {
-//         return { contents: '', loader: 'js' };
-//      });
+    getAllCommands().forEach(cmd => {
 
-
-//     build.onLoad({ filter: /jsdom\/living\/xhr\/XMLHttpRequest-impl\.js$/ }, async (args) => {
-//         return { contents: '', loader: 'js' };
-//      });
-
-//     build.onLoad({ filter: /ws\/index.js$/ }, async (args) => {
-//         return { contents: '', loader: 'js' };
-//      });
-//    },
-//  },
-
-
-    const events = getAllCommands().filter(cmd => cmd.event);
+    });
 
     // compilescript
 

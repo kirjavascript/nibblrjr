@@ -53,7 +53,6 @@ async function acquire(input) {
     if (pkg.version !== 'latest' && await existsAsync(bundlePath)) {
         return await readFileAsync(bundlePath);
     }
-    console.log('install');
 
     await install(pkg);
 
@@ -85,6 +84,20 @@ async function acquire(input) {
                         } catch {
                             return { external: true };
                         }
+                    });
+                },
+            },
+            {
+                name: 'jsdom-patch',
+                setup(build) {
+                    build.onLoad({ filter: /light-jsdom\/lib\/api\.js$/ }, async (args) => {
+                        const contents = await fs.promises.readFile(args.path, 'utf8');
+                        return { contents: contents.replace(/"use strict";/g, `"use strict";
+                            global.Buffer = require('buffer').Buffer;`), loader: 'js' };
+                    });
+                    build.onLoad({ filter: /light-jsdom\/lib\/jsdom\/browser\/Window\.js$/ }, async (args) => {
+                        const contents = await fs.promises.readFile(args.path, 'utf8');
+                        return { contents: contents.replace(/process/, `({nextTick: args => args()})`), loader: 'js' };
                     });
                 },
             },

@@ -1,15 +1,29 @@
 sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
-DOC
+DOC / CMDS
 ===
 colLimit charLimit lineLimit
 reloadable config
 web can be disabled
 changelog
 
+// modules repair;
+// jsdom (needs to be load-once)
+module.jsdom -> pin versions
+Object.assign(globalThis, require('text-encoding'));  const { JSDOM } = require('light-jsdom'); (new JSDOM('<h1>hello</h1>', { url: 'https://localhost' })).window.document.querySelector('h1').textContent;
+date-fns
+lodash
+
+// ~jsx
+// ~babel
+// ~terser await minify
+// ~regexgen
+
 add events to nibblrjr.vim
 IRC.require() in events allows whitelisting stuff for others
+
+webhooks: have pub/pruvate keys for use - easy to embed in command (or use secret)
 
 // toggle colours, change channels, change servers in config change (only join new?)
 
@@ -22,17 +36,6 @@ IRC.require() in events allows whitelisting stuff for others
 
 // logging to DB
 
-// modules repair;
-// jsdom
-date-fns
-lodash
-Object.assign(globalThis, require('fastestsmallesttextencoderdecoder'));
-require('jsdom@latest');
-
-// ~jsx
-// ~babel
-// ~terser await minify
-// ~regexgen
 // date fns / lodash
 
 // ~update should clear events vms
