@@ -13,7 +13,8 @@ const existsAsync = promisify(fs.exists);
 const mkdirAsync = promisify(fs.mkdir);
 
 const moduleDir = __dirname + '/../../cache/acquire';
-const stubbed = require('module').builtinModules;
+const stubbed = require('module').builtinModules
+    .filter(mod => !['buffer', 'events', 'util'].includes(mod));
 
 // load npm
 let npmInstall;
@@ -49,9 +50,10 @@ async function acquire(input) {
 
     const bundlePath = path.resolve(moduleDir, pkgFilename(pkg));
 
-    if (await existsAsync(bundlePath)) {
+    if (pkg.version !== 'latest' && await existsAsync(bundlePath)) {
         return await readFileAsync(bundlePath);
     }
+    console.log('install');
 
     await install(pkg);
 
@@ -74,7 +76,7 @@ async function acquire(input) {
                 setup(build) {
                     build.onResolve({ filter: /[\S\s]*/ }, (args) => {
                         if (stubbed.includes(args.path)) {
-                            return { path: path.resolve(__dirname, 'acquire-stub.js') };
+                            return { path: path.resolve(__dirname, 'stubs/blank.js') };
                         }
                         try {
                             require.resolve(args.path, {

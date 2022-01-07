@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const FormData = require('form-data');
 const { acquire } = require('./acquire');
 const { sudo, auth } = require('./access');
-const { loadScripts, loadLazy }  = require('./load-scripts');
+const { loadScripts }  = require('./load-scripts');
 const { version } = require('../../package.json');
 
 const scripts = loadScripts();
@@ -356,6 +356,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                 sendRaw: (...args) => {
                     sendRaw.applySync(undefined, args);
                 },
+                inspect: IRC.inspect,
                 colors,
             }));
             global.log = print.log;

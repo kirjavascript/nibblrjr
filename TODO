@@ -5,10 +5,11 @@ DOC
 ===
 colLimit charLimit lineLimit
 reloadable config
-web can be diusabled
+web can be disabled
 changelog
 
-IRC.require() in events allows whitelisting stuff
+add events to nibblrjr.vim
+IRC.require() in events allows whitelisting stuff for others
 
 // toggle colours, change channels, change servers in config change (only join new?)
 
@@ -23,6 +24,11 @@ IRC.require() in events allows whitelisting stuff
 
 // modules repair;
 // jsdom
+date-fns
+lodash
+Object.assign(globalThis, require('fastestsmallesttextencoderdecoder'));
+require('jsdom@latest');
+
 // ~jsx
 // ~babel
 // ~terser await minify

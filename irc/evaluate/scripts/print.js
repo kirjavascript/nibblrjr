@@ -18,6 +18,7 @@ function createSend({
     colors,
     canBroadcast,
     target,
+    inspect,
     lineLimit,
     colLimit,
     charLimit,

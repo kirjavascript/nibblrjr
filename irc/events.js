@@ -8,6 +8,12 @@ function createEventManager(node) {
     //  just update the event script
     // have an API for sending data to the bot and shit / webhooks
     // TODO: onPrint / prevent Default
+    // priority: expose event queue
+
+    // IRC.addListener('message', () => {}, {
+    //     include: [],
+    //     exclude: [],
+    // })
 
     let vm;
 
@@ -21,11 +27,35 @@ function createEventManager(node) {
         if (vm) {
 
         }
+        // make preventable
     }
+
+// {
+//    name: 'jsdom-patch',
+//    setup(build) {
+//     build.onLoad({ filter: /jsdom\/living\/helpers\/agent-factory\.js$/ }, async (args) => {
+//         return { contents: '', loader: 'js' };
+//      });
+
+//     build.onLoad({ filter: /jsdom\/living\/helpers\/http-request\.js$/ }, async (args) => {
+//         return { contents: '', loader: 'js' };
+//      });
+
+
+//     build.onLoad({ filter: /jsdom\/living\/xhr\/XMLHttpRequest-impl\.js$/ }, async (args) => {
+//         return { contents: '', loader: 'js' };
+//      });
+
+//     build.onLoad({ filter: /ws\/index.js$/ }, async (args) => {
+//         return { contents: '', loader: 'js' };
+//      });
+//    },
+//  },
 
 
     const events = getAllCommands().filter(cmd => cmd.event);
-    console.log(events);
+
+    // compilescript
 
 
     // return {

@@ -16,7 +16,6 @@ async function evaluate({
 
     try {
         // add events before the rest of this file
-        // disco / connect to servers
 
         // TODO:  rename this to eval, add events
 
@@ -26,7 +25,6 @@ async function evaluate({
     // onDispose
         // TODO: clear scripts
 
-    // TODO: events use compileScript
     // TODO: test error happening during creation
 
         await vm.setConfig({
@@ -50,6 +48,7 @@ async function evaluate({
 
 
     } catch (e) {
+        node.parent.dev && console.error(e);
         // TODO: how else could this check be done?
         if (/script execution timed out/i.test(e.message)) {
             const { text } = msgData;
@@ -100,17 +99,6 @@ async function _() {
                 args: [target, ...text.slice(0, 400).split(' ')],
             });
         }
-        jail.setSync('_loadLazy', new ivm.Reference((filename) => {
-            return new Promise((resolve, reject) => {
-                loadLazy(filename, (err, success) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(success);
-                    }
-                });
-            });
-        }));
 
         function wrapFns(obj, name) {
             jail.setSync(
@@ -188,23 +176,6 @@ async function _() {
             global.input = IRC.command.input;
             global.dateFns = scripts['date-fns'];
             global._ = { ...scripts.lodash };
-
-            // JSDOM
-
-            let jsdom;
-            global.jsdom = () => {
-                if (!jsdom) {
-                    jsdom = new Function(`
-                        const self = {};
-                        const setTimeout = (fn) => {fn()};
-                        const clearTimeout = () => {};
-                        ${ref.loadLazy
-                            .applySyncPromise(undefined, ['jsdom.js'])}
-                        return self.jsdom;
-                    `)();
-                }
-                return jsdom;
-            };
 
         });
 }
