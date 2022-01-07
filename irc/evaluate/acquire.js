@@ -13,8 +13,9 @@ const existsAsync = promisify(fs.exists);
 const mkdirAsync = promisify(fs.mkdir);
 
 const moduleDir = __dirname + '/../../cache/acquire';
-const stubbed = require('module').builtinModules
-    .filter(mod => !['buffer', 'events', 'util'].includes(mod));
+const stubbed = require('module').builtinModules.filter(
+    (mod) => !['buffer', 'events', 'util'].includes(mod),
+);
 
 // load npm
 let npmInstall;
@@ -50,7 +51,7 @@ async function acquire(input) {
 
     const bundlePath = path.resolve(moduleDir, pkgFilename(pkg));
 
-    if (pkg.version !== 'latest' && await existsAsync(bundlePath)) {
+    if (pkg.version !== 'latest' && (await existsAsync(bundlePath))) {
         return await readFileAsync(bundlePath);
     }
 
@@ -60,7 +61,8 @@ async function acquire(input) {
     const script = require.resolve(
         modulePath + (pkg.path ? '/' + pkg.path : ''),
     );
-    if (!(await existsAsync(script))) throw new Error(`missing entrypoint file`);
+    if (!(await existsAsync(script)))
+        throw new Error(`missing entrypoint file`);
 
     await esbuild.build({
         entryPoints: [script],
@@ -75,7 +77,9 @@ async function acquire(input) {
                 setup(build) {
                     build.onResolve({ filter: /[\S\s]*/ }, (args) => {
                         if (stubbed.includes(args.path)) {
-                            return { path: path.resolve(__dirname, 'stubs/blank.js') };
+                            return {
+                                path: path.resolve(__dirname, 'stubs/blank.js'),
+                            };
                         }
                         try {
                             require.resolve(args.path, {
@@ -90,15 +94,41 @@ async function acquire(input) {
             {
                 name: 'jsdom-patch',
                 setup(build) {
-                    build.onLoad({ filter: /light-jsdom\/lib\/api\.js$/ }, async (args) => {
-                        const contents = await fs.promises.readFile(args.path, 'utf8');
-                        return { contents: contents.replace(/"use strict";/g, `"use strict";
-                            global.Buffer = require('buffer').Buffer;`), loader: 'js' };
-                    });
-                    build.onLoad({ filter: /light-jsdom\/lib\/jsdom\/browser\/Window\.js$/ }, async (args) => {
-                        const contents = await fs.promises.readFile(args.path, 'utf8');
-                        return { contents: contents.replace(/process/, `({nextTick: args => args()})`), loader: 'js' };
-                    });
+                    build.onLoad(
+                        {
+                            filter: /light-jsdom\/lib\/jsdom\/browser\/Window\.js$/,
+                        },
+                        async (args) => {
+                            const contents = await fs.promises.readFile(
+                                args.path,
+                                'utf8',
+                            );
+                            return {
+                                contents: contents.replace(
+                                    /process.nextTick/g,
+                                    `(args => args())`,
+                                ),
+                                loader: 'js',
+                            };
+                        },
+                    );
+                    build.onLoad(
+                        { filter: /light-jsdom\/lib\/api\.js$/ },
+                        async (args) => {
+                            const contents = await fs.promises.readFile(
+                                args.path,
+                                'utf8',
+                            );
+                            return {
+                                contents: contents.replace(
+                                    /"use strict";/g,
+                                    `"use strict";
+                            global.Buffer = require('buffer').Buffer;`,
+                                ),
+                                loader: 'js',
+                            };
+                        },
+                    );
                 },
             },
         ],

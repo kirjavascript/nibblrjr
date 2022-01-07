@@ -11,7 +11,7 @@ changelog
 // modules repair;
 // jsdom (needs to be load-once)
 module.jsdom -> pin versions
-Object.assign(globalThis, require('text-encoding'));  const { JSDOM } = require('light-jsdom'); (new JSDOM('<h1>hello</h1>', { url: 'https://localhost' })).window.document.querySelector('h1').textContent;
+Object.assign(globalThis, require('fast-text-encoding@1.0.3'));  const { JSDOM } = require('light-jsdom@17.0.0'); (new JSDOM('<h1>hello</h1>', { url: 'https://localhost' })).window.document.querySelector('h1').textContent;
 date-fns
 lodash
 
