@@ -15,6 +15,7 @@ Object.assign(globalThis, require('fast-text-encoding@1.0.3'));  const { JSDOM }
 date-fns
 lodash
 
+IBIP / fetchURL
 
 // ~jsx
 // ~babel
@@ -26,6 +27,7 @@ IRC.require() in events allows whitelisting stuff for others
 say egg everyday in eggchan
 
 webhooks: have pub/pruvate keys for use - easy to embed in command (or use secret)
+crypto.generateKeyPair
 
 // toggle colours, change channels, change servers in config change (only join new?)
 

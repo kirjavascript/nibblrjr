@@ -2,6 +2,7 @@ const { Client } = require('irc-upd');
 const reserved = require('../base/reserved');
 
 const { mod, updateLoader } = require('./hot-loader');
+// console.log(require('crypto').createPrivateKey('asd'));
 
 class ServerNode {
     constructor(parent, config) {

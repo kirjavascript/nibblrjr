@@ -9,7 +9,6 @@ async function evaluate({
     msgData,
     node,
     command,
-    event,
 }) {
 
     const vm = await createVM({ node });
