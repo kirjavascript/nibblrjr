@@ -19,21 +19,19 @@ function createEventManager(node) {
     async function loadEvents(vm) {
         const scripts = ['new ' + String(function () {
             IRC.eventQueue = {};
-            IRC.listen = (name, callback, config) => {
+            IRC.listen = (name, callback, config = {}) => {
                 if (!(name in IRC.eventQueue)) {
                     IRC.eventQueue[name] = [];
                 }
                 IRC.eventQueue[name].push([callback, config]);
             };
             IRC.runEvents = () => {
-                // log(IRC.eventQueue)
-                const { name, eventData } = IRC._event;
+                const [ name, eventData ] = IRC._event;
                 if (name in IRC.eventQueue) {
                     IRC.eventQueue[name].forEach(([callback, config]) => {
                         if (!config.filter || config.filter(eventData)) {
                             callback(eventData);
                         }
-                        // log([callback, config])
                     });
                 }
             };
@@ -62,26 +60,24 @@ function createEventManager(node) {
         .catch(console.error);
 
     function emit(name, eventData) {
-        // message channel server
+        // { target, server, message? }
         // channel server
         // tick|message|print|command|eval|join|part|nick|webhook ? rate nick
         // eventdata must have target
         // make preventable
         if (ref.vm) {
-            // ref.vm.context.global
-            //     .set('_event', new ivm.ExternalCopy({name, eventData}).copyInto())
-            //     .then(() => ref.vm.setConfig({
-            //         print: {
-            //             lineLimit: node.getLineLimit(eventData.target),
-            //             target: eventData.target,
-            //         },
-            //         IRC: {
-            //             message: { eventData.message },
-            //             _event: eventData,
-            //         },
-            //     }))
-            //     .then(() => ref.runEvents.run(ref.vm.context))
-            //     .catch(console.error);
+            ref.vm.setConfig({
+                    print: {
+                        lineLimit: node.getLineLimit(eventData.target),
+                        target: eventData.target,
+                    },
+                    IRC: {
+                        message: eventData.message,
+                        _event: [name, eventData],
+                    },
+                })
+                .then(() => ref.runEvents.run(ref.vm.context))
+                .catch(console.error);
         }
     }
 

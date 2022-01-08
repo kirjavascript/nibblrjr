@@ -361,9 +361,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             }));
             global.log = print.log;
         }
-        if (IRC.message) {
-            global.input = IRC.message.text;
-        }
+        global.input = IRC.message ? String(IRC.message.text) : undefined;
 
         store.namespace = config.namespace;
 

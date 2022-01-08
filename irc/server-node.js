@@ -120,7 +120,11 @@ class ServerNode {
             const { print } = mod.createNodeSend(this, target);
             const { trigger } = this;
 
-            this.events.emit('message', { ...msgData, server: this.config.address });
+            this.events.emit('message', {
+                target,
+                server: this.config.address,
+                message: msgData,
+            });
 
             // handle commands
 
