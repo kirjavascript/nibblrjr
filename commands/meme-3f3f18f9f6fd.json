@@ -1,6 +1,6 @@
 {
     "name": "meme",
-    "command": "getJSON('https://www.reddit.com/r/copypasta/random/.json')\n    .then(d => {\n        const post = d[0].data.children[0].data;\n        print(`{rand}${post.title} ${post.selftext}`)\n    })\n    .catch(print.error)",
-    "locked": false,
+    "command": "query = input.trim();\nconst { document } = fetchSync('https://knowyourmeme.com/search?q=' + encodeURIComponent(query), { type: 'dom'});\n\nlet link = document.querySelector(\".entry_list\").querySelector('a').href\nif(link){\n  let full_link = \"https://knowyourmeme.com\" + link\n  print(full_link)\n}\nelse{\n  print(\"No Results\")\n}\n",
+    "locked": true,
     "starred": false
 }

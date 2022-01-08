@@ -1,6 +1,6 @@
 {
     "name": "dont",
-    "command": "print.raw(( // legacy command wrapper\n   x => {if(x=='say ok') return 'fuck you';else return 'ok';}\n)(input, input.split(' '), IRC.message));",
+    "command": "print('https://i.imgur.com/mI1K4vi.jpeg');",
     "locked": false,
     "starred": false
 }

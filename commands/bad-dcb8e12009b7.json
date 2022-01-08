@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "bad",
+    "command": "const item = input.replace(/\\s/g, '')\nif (item == \"\") {\n  return\n}\n\nconst badThings = JSON.parse(store.get('bad::things') || '{}');\nbadThings[item] = (badThings[item] || 0) - 1;\nstore.set('bad::things', JSON.stringify(badThings));\n\nprint(`${item}: ${badThings[item]}`)"
+}

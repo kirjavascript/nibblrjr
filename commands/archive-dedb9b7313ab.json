@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "archive",
+    "command": "print('http://web.archive.org/web/' + input)"
+}

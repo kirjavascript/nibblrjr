@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "weather-test.set",
+    "command": "function getDefault(user){\n  \treturn store.get(user)\n}\n\nfunction hasSetDefault(user){\n  return typeof(store.get(user)) !== \"undefined\"\n}\n\nif(!module.required){\n    from = IRC.message.from\n\tvalue = input\n\tstore.set(from, value)\n  \tprint(`Successfully set ${value} as default weather location`)\n}\n\nmodule.exports = {getDefault, hasSetDefault}"
+}

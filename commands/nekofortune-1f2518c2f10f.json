@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "nekofortune",
+    "command": "print(fetchSync('http://nekobit.net/fortune'))"
+}

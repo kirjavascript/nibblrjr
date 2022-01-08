@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "weather-test",
+    "command": "IRC.require('weather-test.current').get()\n\n\n    "
+}

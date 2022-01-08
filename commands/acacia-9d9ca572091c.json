@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "acacia",
-    "command": "const { document } = fetchSync.dom('https://acacia.press');\nconst { href, textContent } = document.body.querySelector('.post-item a');\nprint(`{p}${textContent}{/} ${IRC.colors.link(`https://acacia.press${href}`)}`);"
+    "command": "//const { document } = fetchSync.dom('https://prudenceworkshop.tumblr.com/');\n//const { href, textContent } = document.body.querySelector('section#posts > .container > .main > article > div.post-wrapper a.meta-item.post-notes');\n//print(`{p}${textContent}{/} ${IRC.colors.link(href.split('#')[0]}`);\n//print(IRC.colors.link(href.split('#')[0]));\nprint(IRC.colors.link('https://acacia.neocities.org'));"
 }

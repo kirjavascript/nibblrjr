@@ -2,5 +2,5 @@
     "locked": true,
     "starred": false,
     "name": "deno",
-    "command": "IRC.require('eval')('deno', `console.log(eval(JSON.stringify(${input})))`);"
+    "command": "IRC.require('eval')('deno', `console.log(eval(${JSON.stringify(input)}))`);"
 }

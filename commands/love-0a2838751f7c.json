@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "love",
+    "command": "input = input.trim();\nprint(`${input} is the light of my life, when I have a first born they will be named ${input} in respect to the gentle soul I have came to know`);"
+}

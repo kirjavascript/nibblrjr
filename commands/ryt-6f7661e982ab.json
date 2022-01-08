@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "ryt",
+    "command": "const wget = (url, callback) => {\n    getText(url).then(d => print(callback(null, d))).catch(print.error);\n};\n\n(\n   x => wget(\"http://www.randomyoutubecomment.com/\",($,_)=>_.match(/<span(.*?)>(.*?)<\\//m)[2])\n)(input, input.split(' '), IRC.message);"
+}

@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "yearprogress",
+    "command": "print((0|((d=>(d-new Date(d.getFullYear(),0))/(new Date(d.getFullYear()+1,0)-new Date(d.getFullYear(),0)))(new Date)*100))+\"%\")"
+}

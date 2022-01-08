@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "isbarfdrunk",
+    "command": "print(( // legacy command wrapper\n   function isbarfdrunk(a){var responses = [\"No\",\"Yes\"];\nreturn '{r}' + responses[Math.random()*responses.length|0]}\n)(input, input.split(' '), IRC.message));"
+}

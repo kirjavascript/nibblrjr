@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "yiff",
+    "command": "action(`bonks ${IRC.message.from}`)"
+}
