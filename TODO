@@ -15,6 +15,7 @@ Object.assign(globalThis, require('fast-text-encoding@1.0.3'));  const { JSDOM }
 date-fns
 lodash
 
+
 // ~jsx
 // ~babel
 // ~terser await minify
@@ -22,6 +23,7 @@ lodash
 
 add events to nibblrjr.vim
 IRC.require() in events allows whitelisting stuff for others
+say egg everyday in eggchan
 
 webhooks: have pub/pruvate keys for use - easy to embed in command (or use secret)
 
@@ -59,15 +61,28 @@ const query = {
   },
 }
 
-IRC.message(() => {
+const daily = () => (new Date+[]).match(/\d+:\d+:\d+/) === '00:00:00';
 
+IRC.listen('tick', () => {
+    print('egg');
+}, { filter: ({ channel }) => channel === '#eggchan' && daily() });
+
+IRC.listen('tick', ({ channel }) => {
+    if (channel === '#eggchan' && daily()) {
+        print('egg');
+    }
 });
 
-IRC.listen('connect', () => {
+IRC.listen('tick', () => {
+    print('the time is ' + new Date);
+}, { filter: ({ channel }) => channel === '#8bitvape'});
 
-}, {
-    include: [],
+IRC.listen('command', (event) => {
+    if (command.root === 'ginger') {
+        e.preventDefault();
+    }
 });
+// happy new year
 
 version 4: SQL / events
 print streams | built in pipe | IRC.runCommand()

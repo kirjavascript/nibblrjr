@@ -38,13 +38,13 @@ npm.load(async (err) => {
         // set install dir
         npm.prefix = moduleDir;
         // preinstall mocks
-        Object.entries(mocks)
-            .forEach(async ([name, path]) => {
-                if (!(await existsAsync(path)))  {
-                    console.info(`Installing ${name} mock`)
-                    await install({ name });
-                }
-            });
+        for (const [name, path] of Object.entries(mocks)) {
+            if (!(await existsAsync(path)))  {
+                console.info(`require(): installing ${name} mock`)
+                await install({ name });
+                console.info(`require(): ${name} installed`)
+            }
+        }
     }
 });
 
@@ -138,7 +138,7 @@ async function acquire(input) {
                             );
                             return {
                                 contents: contents.replace(
-                                    /"use strict";/g,
+                                    /"use strict";/,
                                     `"use strict";
                             global.Buffer = require('buffer').Buffer;`,
                                 ),

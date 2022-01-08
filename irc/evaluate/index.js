@@ -58,14 +58,6 @@ async function evaluate({
     vm.dispose();
 }
 
-    // const isolate = new ivm.Isolate({ memoryLimit: 128 });
-    // const context = await isolate.createContext();
-    // const dispose = () => {
-    //     if (!isolate.isDisposed) {
-    //         isolate.dispose();
-    //         context.release();
-    //     }
-    // };
 async function _() {
         const channels = Object.entries(_.cloneDeep(node.client.chans))
             .reduce((acc, [key, value]) => {

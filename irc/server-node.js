@@ -148,6 +148,8 @@ class ServerNode {
             const { print } = mod.createNodeSend(this, target);
             const { trigger } = this;
 
+            this.events.emit('message', { ...msgData, server: this.config.address });
+
             // check speak events that have elapsed
 
             // if (isPM || !this.getChannelConfig(to).ignoreEvents) {

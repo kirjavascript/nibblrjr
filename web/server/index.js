@@ -14,7 +14,7 @@ function initWeb(parent) {
     app.use(bodyParser.json());
 
     const server = app.listen(web.port, () => {
-        console.log(`Web running on port ${web.port}`);
+        console.log(`web running on port ${web.port}`);
     });
 
     initAPI({ parent, app });

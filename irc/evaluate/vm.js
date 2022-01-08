@@ -173,7 +173,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
 
     ctx.setSync('scripts', scriptRef.derefInto());
 
-    const bootstrap = await isolate.compileScript('new '+ function() {
+    const bootstrap = await isolate.compileScript('new ' + String(function() {
 
         // collect underscored objects
 
@@ -339,7 +339,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         // remove injected scripts
 
         delete global.scripts;
-    });
+    }));
 
     await bootstrap.run(context);
 
