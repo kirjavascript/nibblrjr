@@ -2,7 +2,6 @@ const { Client } = require('irc-upd');
 const reserved = require('../base/reserved');
 
 const { mod, updateLoader } = require('./hot-loader');
-// console.log(require('crypto').createPrivateKey('asd'));
 
 class ServerNode {
     constructor(parent, config) {
@@ -38,7 +37,7 @@ class ServerNode {
 
         mod.createEventManager(this);
 
-        // TODO: make getChannelConfig inherit
+        // TODO: make getChannelConfig inherit, remove getLineLimit
 
         this.getChannelConfig = (name) => {
             return this.channels.find(ch => ch.name == name) || {};
@@ -103,7 +102,7 @@ class ServerNode {
         this.tick = setInterval(() => {
             Object.keys(this.client.chans).forEach(channel => {
                 this.events.emit('tick', {
-                    channel: channel.toLowerCase(),
+                    target: channel.toLowerCase(),
                     server: this.config.address,
                 });
             });
@@ -148,7 +147,9 @@ class ServerNode {
                     const canBroadcast = this.get('broadcastCommands', [])
                         .includes(command.root);
 
-                    cmdData && mod.evaluate({
+                    // TODO: throw error for events
+
+                    cmdData && !cmdData.event && mod.evaluate({
                         script: cmdData.command,
                         msgData,
                         node: this,

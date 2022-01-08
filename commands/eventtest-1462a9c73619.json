@@ -1,0 +1,7 @@
+{
+    "event": true,
+    "locked": true,
+    "starred": false,
+    "name": "eventtest",
+    "command": "IRC.listen('tick', (events) => {\n\tlog(events);\n  print(1);\n});"
+}

@@ -12,6 +12,7 @@ function createEventManager(node) {
     // TODO: onPrint / prevent Default
     // priority: expose event queue
     // node.getPrintConfig
+    // error handling
 
     const ref = {};
 
@@ -24,25 +25,28 @@ function createEventManager(node) {
                 }
                 IRC.eventQueue[name].push([callback, config]);
             };
-            IRC.runEvents = (name, eventData) => {
+            IRC.runEvents = () => {
+                // log(IRC.eventQueue)
+                const { name, eventData } = IRC._event;
                 if (name in IRC.eventQueue) {
                     IRC.eventQueue[name].forEach(([callback, config]) => {
                         if (!config.filter || config.filter(eventData)) {
                             callback(eventData);
                         }
+                        // log([callback, config])
                     });
                 }
-                delete global._event;
             };
         })];
         getAllCommands()
             .forEach(cmd => {
                 if (cmd.event) {
-                    scripts.push(`(async()=>{\n${cmd.command}\n})();`);
+                    scripts.push(`;(async()=>{\n${cmd.command}\n})()`);
                 }
             });
 
         await vm.context.eval(scripts.join(''));
+        console.log(node.config.address + ' events loaded')
     }
 
     createVM({ node, maxTimeout: 0 })
@@ -64,11 +68,20 @@ function createEventManager(node) {
         // eventdata must have target
         // make preventable
         if (ref.vm) {
-            ref.vm.context.global
-                .set('_event', new ivm.ExternalCopy({name, eventData}).copyInto())
-                // .then(() => setConfig)
-                .then(() => ref.runEvents.run(ref.vm.context))
-                .catch(console.error);
+            // ref.vm.context.global
+            //     .set('_event', new ivm.ExternalCopy({name, eventData}).copyInto())
+            //     .then(() => ref.vm.setConfig({
+            //         print: {
+            //             lineLimit: node.getLineLimit(eventData.target),
+            //             target: eventData.target,
+            //         },
+            //         IRC: {
+            //             message: { eventData.message },
+            //             _event: eventData,
+            //         },
+            //     }))
+            //     .then(() => ref.runEvents.run(ref.vm.context))
+            //     .catch(console.error);
         }
     }
 

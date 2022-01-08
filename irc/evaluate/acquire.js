@@ -40,9 +40,9 @@ npm.load(async (err) => {
         // preinstall mocks
         for (const [name, path] of Object.entries(mocks)) {
             if (!(await existsAsync(path)))  {
-                console.info(`require(): installing ${name} mock`)
+                console.log(`require(): installing ${name} mock`)
                 await install({ name });
-                console.info(`require(): ${name} installed`)
+                console.log(`require(): ${name} installed`)
             }
         }
     }
