@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "unblock",
+    "command": "/*__TEXTCMD__*/print(`https://unblockit.tv/ `);"
+}

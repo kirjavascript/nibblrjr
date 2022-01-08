@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "ginger",
-    "command": "const str = 'NIGGER'\n\nconst rnd = str.split('').sort(function(){return 0.5-Math.random()}).join('')\n\nprint(rnd)\n\nif (rnd === 'NIGGER') {\n  print('congrats u are shreddy :)')\n}\n\nif (rnd === 'GINGER') {\n  print('congrats u are cr0sis :(')\n}"
+    "command": "const rnd = () => 'G'+'INGER'.split('').sort(function(){return 0.5-Math.random()}).join('')\n\nprint(rnd())"
 }

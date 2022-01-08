@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "member",
+    "command": "/*__TEXTCMD__*/print(`este/esta - this, ese/esa - that, estos/estas these, esos/esas - those`);"
+}
