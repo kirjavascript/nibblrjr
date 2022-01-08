@@ -63,7 +63,7 @@ class ServerNode {
 
         this.dispose = (...args) => {
             this.resetBuffer();
-            // clearTimeout(this.tick);
+            clearInterval(this.tick);
             this.client.disconnect(...args);
             this.events.dispose();
         };
@@ -99,42 +99,14 @@ class ServerNode {
             }, 200);
         });
 
-        // check tick events that have elapsed
-        // this.tick = () => {
-        //     setTimeout(this.tick, 1000);
-        //     if (this.registered) {
-        //         this.database.eventFns.tickElapsed()
-        //             .forEach(row => {
-        //                 const msgData = {
-        //                     from: row.user,
-        //                     to: row.target.toLowerCase(),
-        //                     target: row.target.toLowerCase(),
-        //                     isPM: row.user.toLowerCase() == row.target.toLowerCase(),
-        //                     // text, message
-        //                 };
-        //                 const { ignoreEvents } = this.getChannelConfig(msgData.to);
-        //                 const inChannel = !!Object.entries(this.client.chans)
-        //                     .find(([key]) => key.toLowerCase() == msgData.target);
-
-        //                 if (msgData.isPM || (!ignoreEvents && inChannel)) {
-        //                     const cmdData = parent.database.commands
-        //                         .get(row.callback);
-        //                     if (cmdData) {
-        //                         const { command, name } = cmdData;
-        //                         mod.evaluate({
-        //                             script: command,
-        //                             msgData,
-        //                             node: this,
-        //                             event: row,
-        //                             command: mod.parseCommand({ text: name })
-        //                         });
-        //                     }
-        //                     this.database.eventFns.delete(row.idx);
-        //                 }
-        //             });
-        //     }
-        // };
-        // setTimeout(this.tick, 5000);
+        this.tick = setInterval(() => {
+            Object.keys(this.client.chans).forEach(channel => {
+                this.events.emit('tick', {
+                    channel: channel.toLowerCase(),
+                    server: this.config.address,
+                });
+            });
+        }, 1000);
 
         this.client.addListener('message', (from, to, text, message) => {
             if (this.get('ignoreHosts', []).includes(message.host)) return;
@@ -149,26 +121,6 @@ class ServerNode {
             const { trigger } = this;
 
             this.events.emit('message', { ...msgData, server: this.config.address });
-
-            // check speak events that have elapsed
-
-            // if (isPM || !this.getChannelConfig(to).ignoreEvents) {
-            //     this.database.eventFns.speakElapsed(from)
-            //         .forEach(row => {
-            //             const cmdData = parent.database.commands.get(row.callback);
-            //             if (cmdData) {
-            //                 const { command, name } = cmdData;
-            //                 mod.evaluate({
-            //                     script: command,
-            //                     msgData,
-            //                     node: this,
-            //                     event: row,
-            //                     command: mod.parseCommand({ text: name })
-            //                 });
-            //             }
-            //             this.database.eventFns.delete(row.idx);
-            //         });
-            // }
 
             // handle commands
 

@@ -27,11 +27,11 @@ function createEventManager(node) {
                 IRC.eventQueue[name].push([callback, config]);
             };
             IRC.runEvents = (name, eventData) => {
-                IRC.eventQueue[name].forEach(([callback, config] => {
+                IRC.eventQueue[name].forEach(([callback, config]) => {
                     if (!config.filter || config.filter(eventData)) {
                         callback(eventData);
                     }
-                }))
+                });
             };
         })];
         getAllCommands()
@@ -57,7 +57,7 @@ function createEventManager(node) {
     function emit(name, eventData) {
         // message channel server
         // channel server
-        // tick|message|print|command|eval|join|part|nick ? rate nick
+        // tick|message|print|command|eval|join|part|nick|webhook ? rate nick
         if (vm && eventScript) {
             // run event queue
         }

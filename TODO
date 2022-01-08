@@ -40,6 +40,9 @@ webhooks: have pub/pruvate keys for use - easy to embed in command (or use secre
 
 // date fns / lodash
 
+// ~memo
+// ~remind
+
 // ~update should clear events vms
 
 // e.message = e.message
@@ -82,6 +85,64 @@ IRC.listen('command', (event) => {
         e.preventDefault();
     }
 });
+
+
+        // check tick events that have elapsed
+        // this.tick = () => {
+        //     setTimeout(this.tick, 1000);
+        //     if (this.registered) {
+        //         this.database.eventFns.tickElapsed()
+        //             .forEach(row => {
+        //                 const msgData = {
+        //                     from: row.user,
+        //                     to: row.target.toLowerCase(),
+        //                     target: row.target.toLowerCase(),
+        //                     isPM: row.user.toLowerCase() == row.target.toLowerCase(),
+        //                     // text, message
+        //                 };
+        //                 const { ignoreEvents } = this.getChannelConfig(msgData.to);
+        //                 const inChannel = !!Object.entries(this.client.chans)
+        //                     .find(([key]) => key.toLowerCase() == msgData.target);
+
+        //                 if (msgData.isPM || (!ignoreEvents && inChannel)) {
+        //                     const cmdData = parent.database.commands
+        //                         .get(row.callback);
+        //                     if (cmdData) {
+        //                         const { command, name } = cmdData;
+        //                         mod.evaluate({
+        //                             script: command,
+        //                             msgData,
+        //                             node: this,
+        //                             event: row,
+        //                             command: mod.parseCommand({ text: name })
+        //                         });
+        //                     }
+        //                     this.database.eventFns.delete(row.idx);
+        //                 }
+        //             });
+        //     }
+        // };
+        // setTimeout(this.tick, 5000);
+
+            // check speak events that have elapsed
+
+            // if (isPM || !this.getChannelConfig(to).ignoreEvents) {
+            //     this.database.eventFns.speakElapsed(from)
+            //         .forEach(row => {
+            //             const cmdData = parent.database.commands.get(row.callback);
+            //             if (cmdData) {
+            //                 const { command, name } = cmdData;
+            //                 mod.evaluate({
+            //                     script: command,
+            //                     msgData,
+            //                     node: this,
+            //                     event: row,
+            //                     command: mod.parseCommand({ text: name })
+            //                 });
+            //             }
+            //             this.database.eventFns.delete(row.idx);
+            //         });
+            // }V
 // happy new year
 
 version 4: SQL / events
