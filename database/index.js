@@ -5,11 +5,11 @@ const { createCommandDB } = require('./commands');
 const { createServerDBFactory } = require('./server');
 
 class Database {
-    constructor(_parent) {
+    constructor(parent) {
 
         // commands //
 
-        this.commands = createCommandDB();
+        this.commands = createCommandDB(parent);
 
         // server data //
 

@@ -1,18 +1,14 @@
 const createVM = require('./evaluate/vm');
-const ivm = require('isolated-vm');
 const { getAllCommands } = require('./../database/commands');
 
 function createEventManager(node) {
 
-    // TODO hook into set / setConfig in commandDB
-    //  just get access to parent and iterate over events from there
-    //  parent.emit();
-    //  just update the event script
     // have an API for sending data to the bot and shit / webhooks
+    // make preventable
     // TODO: onPrint / prevent Default
-    // priority: expose event queue
     // node.getPrintConfig
-    // error handling
+    //
+        // tick|message|print|command|eval|join|part|nick|webhook ? rate nick
 
     const ref = {};
 
@@ -30,7 +26,15 @@ function createEventManager(node) {
                 if (name in IRC.eventQueue) {
                     IRC.eventQueue[name].forEach(([callback, config]) => {
                         if (!config.filter || config.filter(eventData)) {
-                            callback(eventData);
+                            if (config.showError) {
+                                try {
+                                    callback(eventData);
+                                } catch(e) {
+                                    print.error(e);
+                                }
+                            } else {
+                                callback(eventData);
+                            }
                         }
                     });
                 }
@@ -47,26 +51,23 @@ function createEventManager(node) {
         console.log(node.config.address + ' events loaded')
     }
 
-    createVM({ node, maxTimeout: 0 })
-        .then(vm => {
-            ref.vm = vm;
-            return ref.vm.isolate.compileScript('IRC.runEvents();');
-        })
-        .then(script => {
-            ref.runEvents = script;
-            // run event script, collect listeners to emit into
-            return loadEvents(ref.vm);
-        })
-        .catch(console.error);
+    async function loadVM() {
+        if (ref.vm) ref.vm.dispose();
+        ref.vm = await createVM({ node, maxTimeout: 0 })
+        await loadEvents(ref.vm);
+        ref.runEvents = await ref.vm.isolate.compileScript('IRC.runEvents();');
+    }
+
+    // called in parent
+    async function reloadEvents() {
+        await loadEvents(ref.vm);
+    }
 
     function emit(name, eventData) {
-        // { target, server, message? }
-        // channel server
-        // tick|message|print|command|eval|join|part|nick|webhook ? rate nick
-        // eventdata must have target
-        // make preventable
+        // eventData: { target, server, message? }
         if (ref.vm) {
-            ref.vm.setConfig({
+            ref.vm
+                .setConfig({
                     print: {
                         lineLimit: node.getLineLimit(eventData.target),
                         target: eventData.target,
@@ -77,13 +78,16 @@ function createEventManager(node) {
                     },
                 })
                 .then(() => ref.runEvents.run(ref.vm.context))
-                .catch(console.error);
+                .catch(() => {/* silent ignore, errors can be viewed with showError */});
         }
     }
 
+    loadVM().catch(console.error);
+
     node.events = {
         emit,
-        // reload,
+        reload: loadVM,
+        reloadEvents,
         dispose: () => ref.vm.dispose(),
     };
 }

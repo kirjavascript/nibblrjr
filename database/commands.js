@@ -39,7 +39,7 @@ function getAllCommands() {
     return commands;
 }
 
-function createCommandDB() {
+function createCommandDB({ reloadEvents }) {
     const get = (unsafeName) => {
         const name = unsafeName.replace(/\s+/g, '');
         const obj = getCommand(name);
@@ -67,6 +67,7 @@ function createCommandDB() {
             name: safeName,
             command: value || '',
         });
+        reloadEvents();
     };
 
     const setConfig = (name, config) => {
@@ -76,6 +77,7 @@ function createCommandDB() {
         const realName = parent ? root : name;
         const obj = getCommand(realName);
         setCommand(Object.assign(obj, config));
+        reloadEvents();
     };
 
     const _new = (unsafeName, isAdmin) => {

@@ -7,6 +7,9 @@ colLimit charLimit lineLimit
 reloadable config
 web can be disabled
 changelog
+remove old events
+IRC.listen filter showError
+clean up TODO
 
 // modules repair;
 // jsdom (needs to be load-once)
@@ -40,16 +43,10 @@ crypto.generateKeyPair
 
 // logging to DB
 
-// date fns / lodash
-
 // ~memo
 // ~remind
 
 // ~update should clear events vms
-
-// e.message = e.message
-//     .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
-//     .replace(/(\n|\r).*/g, '');
 
 fetchURL
 just have the flag set to turn into an event
@@ -77,6 +74,9 @@ IRC.listen('tick', ({ channel }) => {
         print('egg');
     }
 });
+
+14:07 <+cake^> I should make CuteServ autoreply with the colour of a hex value
+CuteServ: question?
 
 IRC.listen('tick', () => {
     print('the time is ' + new Date);
@@ -148,7 +148,7 @@ IRC.listen('command', (event) => {
 // happy new year
 
 version 4: SQL / events
-print streams | built in pipe | IRC.runCommand()
+    priority / make preventable
 unix style params
 PYTHON=$(which python2)
 
@@ -165,8 +165,6 @@ SQL scoped to command, not server
 poker2
 botcoin
 onjoin, onconnect
-14:07 <+cake^> I should make CuteServ autoreply with the colour of a hex value
-CuteServ: question?
 
 ## = ignore everything
 Promise { resolved: result }

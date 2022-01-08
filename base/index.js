@@ -21,6 +21,13 @@ new (class Nibblr {
         this.dev = process.argv.includes('--dev');
         this.epoch = new Date();
 
+        // called when commands are changed
+        this.reloadEvents = () => {
+            this.servers.forEach(node => {
+                node.events.reloadEvents().catch(console.error);
+            })
+        };
+
         this.database = new Database(this);
 
         this.servers = [];
@@ -81,5 +88,6 @@ new (class Nibblr {
         });
 
         this.loadConfig();
+
     }
 })();

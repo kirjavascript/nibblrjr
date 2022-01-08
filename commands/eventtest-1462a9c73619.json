@@ -1,7 +1,7 @@
 {
-    "event": true,
+    "event": false,
     "locked": true,
     "starred": false,
     "name": "eventtest",
-    "command": "IRC.listen('tick', (events) => {\n\tlog(events);\n  print(1);\n  // TODO: reload / fix line limit\n});"
+    "command": "const sd = jsdom()\n\n\nIRC.listen('tick', (events) => {\n  //print('the time is ' + new Date);\n});\n\nIRC.listen('message', event => {\n\tif (event.message.text.includes('foo')) {\n       IRC.require('8ball')\n    }\n  \tif (event.message.text === 'oh no') {\n       sleep(1); print('oh no');\n    }\n})"
 }
