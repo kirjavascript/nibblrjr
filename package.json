@@ -1,5 +1,5 @@
 {
-    "version": "3.5.10",
+    "version": "3.6.0",
     "engines": {
         "node": ">=11"
     },
@@ -17,35 +17,24 @@
         "d3-interpolate-path": "^2.1.1",
         "d3-scale-chromatic": "^1.5.0",
         "date-fns": "^1.29.0",
+        "esbuild": "^0.13.12",
         "express": "^4.16.2",
         "form-data": "^3.0.0",
         "global-npm": "^0.3.0",
         "html-entities": "^1.2.1",
-        "irc": "^0.5.2",
-        "isolated-vm": "3.3.10",
+        "irc-upd": "^0.11.0",
+        "isolated-vm": "^4.3.5",
         "lodash": "^4.17.13",
         "marked": "^0.7.0",
         "node-fetch": "^2.2.0",
+        "parse-package-name": "^0.1.0",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-router": "^5.0.1",
         "react-router-dom": "^5.0.1",
-        "semver": "^5.5.1",
         "ws": "^5.0.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.9.0",
-        "@babel/plugin-proposal-class-properties": "^7.0.0",
-        "@babel/plugin-proposal-decorators": "^7.2.3",
-        "@babel/preset-env": "^7.9.5",
-        "@babel/preset-react": "^7.9.4",
-        "babel-loader": "^8.1.0",
-        "node-sass": "^4.13.1",
-        "raw-loader": "^0.5.1",
-        "sass-loader": "^6.0.7",
-        "style-loader": "^0.20.3",
-        "webpack": "^4.42.1",
-        "webpack-cli": "^3.1.1",
-        "webpack-dev-middleware": "^3.0.1"
+        "esbuild-plugin-sass": "^0.6.0"
     }
 }

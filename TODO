@@ -1,8 +1,29 @@
 sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
+// modules repair;
+// jsdom
+// ~jsx
+// ~babel
+// ~terser await minify
+// ~regexgen
+
+// e.message = e.message
+//     .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
+//     .replace(/(\n|\r).*/g, '');
+
+fetchURL
+just have the flag set to turn into an event
+
+IRC.message(() => {
+
+});
+
+IRC.listen('connect', () => {
+
+});
+
 version 4: SQL / events
-fork node-irc  / https://github.com/Throne3d/node-irc
 print streams | built in pipe | IRC.runCommand()
 unix style params
 PYTHON=$(which python2)
@@ -21,6 +42,9 @@ timeout abstraction for responding cutely to messages
 SQL scoped to command, not server
 poker2
 botcoin
+onjoin, onconnect
+14:07 <+cake^> I should make CuteServ autoreply with the colour of a hex value
+CuteServ: question?
 
 ## = ignore everything
 Promise { resolved: result }
@@ -40,8 +64,12 @@ new store for events
 https://www.youtube.com/get_video_info?video_id=dQw4w9WgXcQ
 
 ~7s - ~7 is a card
+~pokemon [name] (have team, start at 0 ELO)
+
+require('jsdom|lodash|date-fns') + 'Downloading from npm'
 
 // TODO //
+add help prop in commands for generic help
 poker2: monthly reset
 secretly log pms
 force chart spread based on number of nodes
@@ -61,7 +89,6 @@ command rate limiting
 IRC.requestLines
 FormData URLSearchParams { form }
 arcsecond command parser
-require('jsdom|lodash|date-fns') + 'Downloading from npm'
 <kingchris> pls to make stock trading game. everybody starts with a budget of £1000 and choose stonks to invest into. use real stonk data for scoring. limit buying and selling to weekly idk? ok thank cool, good talk (2 hours ago)
 koth game (you have HP to share around? - damnit bobby)
 make reserved/silent configurable
