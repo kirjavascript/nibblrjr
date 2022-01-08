@@ -83,7 +83,7 @@ async function acquire(input) {
         platform: 'browser',
         format: 'cjs',
         outfile: bundlePath,
-        minify: false,
+        minify: true,
         plugins: [
             {
                 name: 'stub-externals',

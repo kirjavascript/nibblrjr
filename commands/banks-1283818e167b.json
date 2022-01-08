@@ -1,6 +1,6 @@
 {
     "name": "banks",
-    "command": "print(_.shuffle(store.all())[0].value)",
+    "command": "print(require('lodash').shuffle(store.all())[0].value)",
     "locked": true,
     "starred": false
 }

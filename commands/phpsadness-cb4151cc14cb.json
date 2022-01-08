@@ -1,6 +1,6 @@
 {
     "name": "phpsadness",
-    "command": "const { document, window } = fetchSync('https://web.archive.org/web/20190228080620/http://phpsadness.com/', {type: 'dom'});\nconst { textContent, href } = _.shuffle(document.querySelectorAll('h3 > a'))[0];\nprint(`${textContent} - ${IRC.colors.link(href.replace(/\\/web\\/\\d+\\//,''))}`)",
+    "command": "const _ = require('lodash');const { document, window } = fetchSync('https://web.archive.org/web/20190228080620/http://phpsadness.com/', {type: 'dom'});\nconst { textContent, href } = _.shuffle(document.querySelectorAll('h3 > a'))[0];\nprint(`${textContent} - ${IRC.colors.link(href.replace(/\\/web\\/\\d+\\//,''))}`)",
     "locked": true,
     "starred": true
 }

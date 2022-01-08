@@ -1,6 +1,6 @@
 {
     "name": "róll7.stats",
-    "command": "const scores = _.sortBy(store.all(), (d) => +d.value);\n    \nprint(`{u}Leaderboard{/}`);\nconst colours = ['{y}','{gr}','{o}'];\nscores.slice(0, 5).forEach(({key, value}, i)=> {\n    const pad = 18 - key.length;\n    print(`${i+1}. ${colours[i]||''}${key}{/}{bo}${'.'.repeat(pad>0?pad:0)}{/}{y}${+value}`)\n})\nconst qty = IRC.log.count(`${IRC.trigger}roll 7`)+IRC.log.count(`${IRC.trigger}roll7`)+IRC.log.count(`!roll 7`);\nprint(`roll7 has been played {dc}${Intl.NumberFormat().format(qty)}{/} times`)\nprint(`{p}Monqui's{/} 9 score has been removed for using MAME to get an 8`)",
+    "command": "const _ = require('lodash');const scores = _.sortBy(store.all(), (d) => +d.value);\n    \nprint(`{u}Leaderboard{/}`);\nconst colours = ['{y}','{gr}','{o}'];\nscores.slice(0, 5).forEach(({key, value}, i)=> {\n    const pad = 18 - key.length;\n    print(`${i+1}. ${colours[i]||''}${key}{/}{bo}${'.'.repeat(pad>0?pad:0)}{/}{y}${+value}`)\n})\nconst qty = IRC.log.count(`${IRC.trigger}roll 7`)+IRC.log.count(`${IRC.trigger}roll7`)+IRC.log.count(`!roll 7`);\nprint(`roll7 has been played {dc}${Intl.NumberFormat().format(qty)}{/} times`)\nprint(`{p}Monqui's{/} 9 score has been removed for using MAME to get an 8`)",
     "locked": false,
     "starred": false
 }

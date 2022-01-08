@@ -1,6 +1,6 @@
 {
     "name": "dict",
-    "command": "getDOM('https://en'+(IRC.command.params[0]||'de')+'.dict.cc/?s=' + encodeURIComponent(input))\n.then(dom => {\n    const list = dom.qsa('td.td7nl');\n    Array.from({ length: IRC.command.params[1] || 1 }, (q, i) => {\n        const index = (i + (IRC.command.params[2] || 0)) * 2;\n        print(`${_.get(list, `[${index}].textContent`, '')} <> ${_.get(list, `[${index + 1}].textContent`, '').replace(/^\\d+/, '')}`)\n    });\n}).catch(print.error)",
+    "command": "const _ = require('lodash');getDOM('https://en'+(IRC.command.params[0]||'de')+'.dict.cc/?s=' + encodeURIComponent(input))\n.then(dom => {\n    const list = dom.qsa('td.td7nl');\n    Array.from({ length: IRC.command.params[1] || 1 }, (q, i) => {\n        const index = (i + (IRC.command.params[2] || 0)) * 2;\n        print(`${_.get(list, `[${index}].textContent`, '')} <> ${_.get(list, `[${index + 1}].textContent`, '').replace(/^\\d+/, '')}`)\n    });\n}).catch(print.error)",
     "locked": true,
     "starred": false
 }
