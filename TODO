@@ -3,32 +3,29 @@ repl: rs|clojure|vlang|cj|scheme|jsx|html
 
 DOC / CMDS
 ===
+changelog
 colLimit charLimit lineLimit
 reloadable config
 web can be disabled
-changelog
 remove old events
 IRC.listen filter showError
 clean up TODO
+removal of dateFns and _
+IRC.sudo().node.parent.reloadEvents();
+const dateFns = require('date-fns@1.30.1');
+const _ = require('lodash');
 
 // modules repair;
-// jsdom (needs to be load-once)
-module.jsdom -> pin versions
-Object.assign(globalThis, require('fast-text-encoding@1.0.3'));  const { JSDOM } = require('light-jsdom@17.0.0'); (new JSDOM('<h1>hello</h1>', { url: 'https://localhost' })).window.document.querySelector('h1').textContent;
-date-fns
-lodash
+require('lodash')
 
 IBIP / fetchURL
+config rewrite
+IRC.sudo().getStore('namespace')
 
-// ~jsx
-// ~babel
-// ~terser await minify
-// ~regexgen
+IRC.sudo().node.parent.reloadVM();
 
 add events to nibblrjr.vim
-IRC.require() in events allows whitelisting stuff for others
-say egg everyday in eggchan
-
+command for admin to reload VM
 webhooks: have pub/pruvate keys for use - easy to embed in command (or use secret)
 crypto.generateKeyPair
 
@@ -74,6 +71,8 @@ IRC.listen('tick', ({ channel }) => {
         print('egg');
     }
 });
+IRC.require() in events allows whitelisting stuff for others
+say egg everyday in eggchan
 
 14:07 <+cake^> I should make CuteServ autoreply with the colour of a hex value
 CuteServ: question?

@@ -80,10 +80,10 @@ async function acquire(input) {
     await esbuild.build({
         entryPoints: [script],
         bundle: true,
-        platform: 'node',
+        platform: 'browser',
         format: 'cjs',
         outfile: bundlePath,
-        minify: true,
+        minify: false,
         plugins: [
             {
                 name: 'stub-externals',

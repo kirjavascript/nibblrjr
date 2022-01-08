@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "whendoesthepubopen",
-    "command": "print(dateFns.distanceInWords(new Date(), \"May 17, 2021 00:00:00\"))"
+    "command": "const dateFns = require('date-fns@1.30.1');print(dateFns.distanceInWords(new Date(), \"May 17, 2021 00:00:00\"))"
 }

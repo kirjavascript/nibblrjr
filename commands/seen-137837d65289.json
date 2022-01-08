@@ -1,6 +1,6 @@
 {
     "name": "seen",
-    "command": "const data = IRC.log.user(input.split(' ').shift());\nif (!input) {\n    print(`{p}${IRC.trigger}seen{/} [user]`)\n}\nelse if (!data.length) {\n    print(`I haven\\'t seen ${IRC.colors.nick(input, true)}`)\n}\nelse {\n    const {time, user, command, target, message} = data[0];\n    const type = command != 'PRIVMSG' ? `:${command.toLowerCase()}` : '';\n    const out = IRC.colors(`<${IRC.colors.hash(user)}${user}${type}{/}> `)\n    + message.trim() + IRC.colors(` ({dc}${dateFns.distanceInWordsStrict(time, new Date())} ago{/})`);\n    \n    print.raw(out, IRC.message.target, true)\n}",
+    "command": "const dateFns = require('date-fns@1.30.1');const data = IRC.log.user(input.split(' ').shift());\nif (!input) {\n    print(`{p}${IRC.trigger}seen{/} [user]`)\n}\nelse if (!data.length) {\n    print(`I haven\\'t seen ${IRC.colors.nick(input, true)}`)\n}\nelse {\n    const {time, user, command, target, message} = data[0];\n    const type = command != 'PRIVMSG' ? `:${command.toLowerCase()}` : '';\n    const out = IRC.colors(`<${IRC.colors.hash(user)}${user}${type}{/}> `)\n    + message.trim() + IRC.colors(` ({dc}${dateFns.distanceInWordsStrict(time, new Date())} ago{/})`);\n    \n    print.raw(out, IRC.message.target, true)\n}",
     "locked": true,
     "starred": true
 }

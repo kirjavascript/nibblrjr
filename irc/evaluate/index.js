@@ -43,7 +43,6 @@ async function evaluate({
             evalType: printResult ? 'evalPrint' : 'functionBody',
         });
 
-
     } catch (e) {
         node.parent.dev && console.error(e);
         // TODO: how else could this check be done?

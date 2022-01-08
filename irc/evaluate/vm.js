@@ -304,6 +304,8 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             };
         };
 
+        // lazy load some stuff
+
         let jsdom;
         global.jsdom = () => {
             if (!jsdom) {
@@ -376,7 +378,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             }));
             global.log = print.log;
         }
-        global.input = IRC.message ? String(IRC.message.text) : undefined;
+        global.input = IRC.command && IRC.command.input;
 
         store.namespace = config.namespace;
 

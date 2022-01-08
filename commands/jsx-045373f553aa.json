@@ -2,5 +2,6 @@
     "locked": true,
     "starred": false,
     "name": "jsx",
-    "command": "const { transform } = require('@babel/standalone');\nconst { code, map, ast } = transform(input, {\n    plugins: [\n        require('@babel/plugin-transform-react-jsx'),\n        require('@babel/plugin-proposal-class-properties'),\n    ],\n    sourceType: 'script', \n});\nconst React = require('react');\nconst { renderToStaticMarkup } = require('react-dom/server');\nprint(renderToStaticMarkup(eval(code)));"
+    "command": "global.Buffer = require('buffer').Buffer;\nconst { transform } = require('@babel/standalone');\nconst { code, map, ast } = transform(input, {\n    plugins: [\n        require('@babel/plugin-transform-react-jsx'),\n        require('@babel/plugin-proposal-class-properties'),\n    ],\n    sourceType: 'script', \n});\nconst React = require('react');\nconst { renderToStaticMarkup } = require('react-dom/server.browser');\nprint(renderToStaticMarkup(eval(code)));",
+    "event": false
 }
