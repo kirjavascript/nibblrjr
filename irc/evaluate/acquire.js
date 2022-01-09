@@ -41,7 +41,7 @@ npm.load(async (err) => {
         for (const [name, path] of Object.entries(mocks)) {
             if (!(await existsAsync(path)))  {
                 console.log(`require(): installing ${name} mock`)
-                await install({ name });
+                await acquire(name);
                 console.log(`require(): ${name} installed`)
             }
         }

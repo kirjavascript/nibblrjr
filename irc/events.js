@@ -70,16 +70,14 @@ function createEventManager(node) {
                     IRC.queryConfig = (key, _default) => {
                         // normal users cant access this, but filter to prevent leaks anyway
                         if (['password', 'secret'].includes(key))
-                            throw new Error(
-                                'you must construct additional pylons',
-                            );
+                            throw new Error('insert coin');
                         const conf = _queryConfig(
-                            IRC._event[1].target,
+                            IRC._event[1].target, // [_, eventData.target]
                             key,
                             _default,
                         );
                         if (typeof conf === 'object' && conf !== null)
-                            throw new Error('danger: high voltage');
+                            throw new Error('high voltage');
                         return conf;
                     };
                     delete global._queryConfig;

@@ -66,6 +66,7 @@ function Cmds({ history }) {
             fetchAPI(`command/new/${name}`, { method: 'POST' })
                 .then(() => {
                     setNewName('');
+                    updateList();
                     history.push(`/cmds/${name}`);
                 })
                 .catch(console.error);
@@ -175,6 +176,7 @@ function EditorPane({ updateList, history, match: { params } }) {
             fetchAPI('command/delete/' + params.name, { method: 'POST' })
                 .then(obj => {
                     if (!obj.error) {
+                        updateList();
                         history.push('/cmds');
                     } else {
                         setDeleteText(obj.error);

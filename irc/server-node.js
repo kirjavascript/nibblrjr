@@ -19,7 +19,7 @@ class ServerNode {
         }
 
         this.getTargetCfg = (target, key, _default) => {
-            const chan = this.channels.find(ch => ch.name == target);
+            const chan = this.channelLookup[target];
             return chan && (key in chan) ? chan[key] : this.get(key, _default);
         };
 
@@ -35,14 +35,19 @@ class ServerNode {
         this.setConfig = (config) => {
             this.config = config;
 
+            this.channelLookup = {};
+
             this.channels = this.config.channels.map(ch => {
+                let channel;
                 if (typeof ch == 'string') {
-                    return { name: ch.toLowerCase() };
+                    channel = { name: ch.toLowerCase() };
                 } else {
                     ch.name = ch.name.toLowerCase();
-                    return ch;
+                    channel = ch;
                 }
+                return this.channelLookup[channel.name] = channel;
             });
+
 
             this.trigger = this.get('trigger', '~');
         };
@@ -156,7 +161,6 @@ class ServerNode {
                         .includes(command.root);
 
                     // TODO: throw error for events
-
                     cmdData && !cmdData.event && mod.evaluate({
                         script: cmdData.command,
                         msgData,
