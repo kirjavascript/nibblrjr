@@ -42,16 +42,6 @@ class ServerNode {
 
         mod.createEventManager(this);
 
-        // TODO: make getChannelConfig inherit, remove getLineLimit
-
-        this.getChannelConfig = (name) => {
-            return this.channels.find(ch => ch.name == name) || {};
-        };
-
-        this.getLineLimit = (target) => {
-            return this.getChannelConfig(target).lineLimit || 10;
-        };
-
         this.getPrintConfig = (target) => {
             return {
                 lineLimit: this.getChannel(target, 'lineLimit', 10),

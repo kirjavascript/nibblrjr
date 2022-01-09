@@ -60,10 +60,9 @@ function createEventManager(node) {
         if (ref.vm) {
             ref.vm
                 .setConfig({
-                    print: {
-                        lineLimit: node.getLineLimit(eventData.target),
+                    print: Object.assign(node.getPrintConfig(eventData.target), {
                         target: eventData.target,
-                    },
+                    }),
                     IRC: {
                         message: eventData.message,
                         _event: [name, eventData],
