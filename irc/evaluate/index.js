@@ -161,9 +161,9 @@ async function _() {
 
             // global.store = unwrapFns('store');
             // global.store.namespace = IRC.command.root;
-            global.input = IRC.command.input;
-            global.dateFns = scripts['date-fns'];
-            global._ = { ...scripts.lodash };
+            // global.input = IRC.command.input;
+            // global.dateFns = scripts['date-fns'];
+            // global._ = { ...scripts.lodash };
 
         });
 }

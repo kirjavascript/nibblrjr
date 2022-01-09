@@ -15,9 +15,6 @@ IRC.sudo().node.parent.reloadEvents();
 const dateFns = require('date-fns@1.30.1');
 const _ = require('lodash');
 
-// modules repair;
-require('lodash')
-
 IBIP / fetchURL
 config rewrite
 IRC.sudo().getStore('namespace')
@@ -35,8 +32,6 @@ crypto.generateKeyPair
 // long running events vm
 // SQL database
 // channel config shoul use inheritance
-
-// bugs
 
 // logging to DB
 
@@ -152,13 +147,6 @@ unix style params
 PYTHON=$(which python2)
 
 // events//
-first: rewrite evaluate ->isolate and have the events isolate running
-root event script - run once on vm boot, (reboot vm when edited) register all callbacks
-only run an event command if locked
-message regex
-collect all events and run them in a single vm
-use a whole vm for events?
-limiting: print queue / clear queue
 timeout abstraction for responding cutely to messages
 SQL scoped to command, not server
 poker2

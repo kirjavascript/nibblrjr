@@ -25,7 +25,7 @@ new (class Nibblr {
         this.reloadEvents = () => {
             this.servers.forEach(node => {
                 node.events.reloadEvents().catch(console.error);
-            })
+            });
         };
 
         this.database = new Database(this);
