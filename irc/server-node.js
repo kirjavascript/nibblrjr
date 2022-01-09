@@ -18,9 +18,18 @@ class ServerNode {
                     : _default;
         }
 
-        this.getChannel = (target, key, _default) => {
+        this.getTargetCfg = (target, key, _default) => {
             const chan = this.channels.find(ch => ch.name == target);
-            return key in chan ? chan[key] : this.get(key, _default);
+            return chan && (key in chan) ? chan[key] : this.get(key, _default);
+        };
+
+        this.getPrintCfg = (target) => {
+            return {
+                lineLimit: this.getTargetCfg(target, 'lineLimit', 10),
+                charLimit: this.getTargetCfg(target, 'charLimit', false),
+                colLimit: this.getTargetCfg(target, 'colLimit', 400),
+                hasColors: this.getTargetCfg(target, 'colors', true),
+            };
         };
 
         this.setConfig = (config) => {
@@ -41,15 +50,6 @@ class ServerNode {
         this.setConfig(config);
 
         mod.createEventManager(this);
-
-        this.getPrintConfig = (target) => {
-            return {
-                lineLimit: this.getChannel(target, 'lineLimit', 10),
-                charLimit: this.getChannel(target, 'charLimit', false),
-                colLimit: this.getChannel(target, 'colLimit', 400),
-                hasColors: this.getChannel(target, 'colLimit', 400),
-            };
-        };
 
         this.client = new Client(this.config.address, this.config.nickname, {
             channels: this.channels.map(c => c.name),
@@ -166,13 +166,9 @@ class ServerNode {
                     });
                 }
             }
-            // handle IBIP (https://git.teknik.io/Teknikode/IBIP)
-            else if (this.get('enableIBIP', true) && text == '.bots') {
-                print(`Reporting in! [JavaScript] use ${trigger}help`);
-            }
             // parse URLS
             else if (this.get('fetchURL', true)) {
-                const showAll = this.getChannel(msgData.to, 'fetchURLAll', false);
+                const showAll = this.getTargetCfg(msgData.to, 'fetchURLAll', false);
                 mod.fetchURL({ text, print, showAll });
             }
         });

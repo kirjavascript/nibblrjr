@@ -13,21 +13,19 @@ async function evaluate({
     const vm = await createVM({ node });
 
     try {
-        // add events before the rest of this file
-
         // TODO: onMessage
 
         await vm.setConfig({
-            print: Object.assign(node.getPrintConfig(msgData.to), {
+            print: {
                 canBroadcast,
                 target: msgData.target,
-            }),
+            },
             IRC: {
                 message: msgData,
                 command,
                 secret: node.get('secrets', {})[command.root],
             },
-            hasSetNick: node.getChannel(msgData.to, 'setNick', false),
+            hasSetNick: node.getTargetCfg(msgData.to, 'setNick', false),
             namespace: command.root,
         });
 

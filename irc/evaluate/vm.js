@@ -392,13 +392,9 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         const webAddress = web && web.url || '[unspecified]';
         const vmConfig = {
             print: Object.assign({
-                hasColors: node.get('colors', true),
-                lineLimit: 10,
-                charLimit: false,
-                colLimit: 400,
                 canBroadcast: false,
                 // target
-            }, config.print),
+            }, node.getPrintCfg(config.print.target), config.print),
             IRC: Object.assign({
                 trigger: node.trigger,
                 nick: node.client.nick,
@@ -406,6 +402,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                 epoch: node.parent.epoch,
                 // message
                 // command
+                // _event
                 version,
                 nodeVersion: process.version.slice(1),
             }, config.IRC),

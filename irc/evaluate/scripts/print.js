@@ -1,9 +1,7 @@
 module.exports = { createSend, createNodeSend };
 function createNodeSend(node, target) {
-    return createSend(Object.assign(node.getPrintConfig(target), {
-        hasColors: node.get('colors', true),
+    return createSend(Object.assign(node.getPrintCfg(target), {
         canBroadcast: true,
-        lineLimit: node.getLineLimit(target),
         target,
         colors: require('./colors').getColorFuncs(node.trigger),
         inspect: require('./inspect'),
@@ -14,11 +12,12 @@ function createNodeSend(node, target) {
 function createSend({
     sendRaw,
     onMessage,
-    hasColors,
     colors,
     canBroadcast,
     target,
     inspect,
+    // printConfig
+    hasColors,
     lineLimit,
     colLimit,
     charLimit,
