@@ -1,6 +1,7 @@
 {
     "name": "magic8ball",
-    "command": "print('https://i.imgur.com/pDxkMVi.jpg')",
+    "command": "const sd = jsdom()\n\n\nIRC.listen('tick', (events) => {\n  //print('the time is ' + new Date);\n  global.input = (new Date).toISOString();\n  //print(1)\n  //IRC.require('8ball');\n}, { showError: 1 });\n\nIRC.listen('message', event => {\n\tif (event.message.text.includes('foo')) {\n      global.input = 'foo';\n    print(IRC.require('8ball'))\n    }\n  \tif (event.message.text === 'oh no') {\n       print('oh no');\n    }\n})",
     "locked": false,
-    "starred": false
+    "starred": false,
+    "event": true
 }

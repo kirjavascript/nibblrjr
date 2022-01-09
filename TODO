@@ -14,12 +14,21 @@ removal of dateFns and _
 IRC.sudo().node.parent.reloadEvents();
 const dateFns = require('date-fns@1.30.1');
 const _ = require('lodash');
+update config to explain getChannel
 
-IBIP / fetchURL
+    // make preventable
+    // TODO: onPrint / prevent Default
+    // node.getPrintConfig
+    //
+    // tick|message|print|command|eval|join|part|nick|webhook ? rate nick
+
 config rewrite
+IBIP / fetchURL
 IRC.sudo().getStore('namespace')
 
+sudo disable / enable events
 IRC.sudo().node.parent.reloadVM();
+better admin stuff
 
 add events to nibblrjr.vim
 command for admin to reload VM

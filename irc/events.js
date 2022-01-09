@@ -2,14 +2,6 @@ const createVM = require('./evaluate/vm');
 const { getAllCommands } = require('./../database/commands');
 
 function createEventManager(node) {
-
-    // have an API for sending data to the bot and shit / webhooks
-    // make preventable
-    // TODO: onPrint / prevent Default
-    // node.getPrintConfig
-    //
-        // tick|message|print|command|eval|join|part|nick|webhook ? rate nick
-
     const ref = {};
 
     async function loadEvents(vm) {
@@ -78,7 +70,10 @@ function createEventManager(node) {
                     },
                 })
                 .then(() => ref.runEvents.run(ref.vm.context))
-                .catch(() => {/* silent ignore, errors can be viewed with showError */});
+                .catch(error => {
+                    /* silent ignore, errors can be viewed with showError */
+                    if (node.parent.dev) console.error(error);
+                });
         }
     }
 

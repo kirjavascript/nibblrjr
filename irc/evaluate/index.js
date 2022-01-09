@@ -10,32 +10,24 @@ async function evaluate({
     node,
     command,
 }) {
-
     const vm = await createVM({ node });
 
     try {
         // add events before the rest of this file
 
-        // TODO:  rename this to eval, add events
-
-    // onMessage
-    // onDispose
-        // TODO: clear scripts
-
-    // TODO: test error happening during creation
+        // TODO: onMessage
 
         await vm.setConfig({
-            print: {
-                lineLimit: node.getLineLimit(msgData.to),
+            print: Object.assign(node.getPrintConfig(msgData.to), {
                 canBroadcast,
                 target: msgData.target,
-            },
+            }),
             IRC: {
                 message: msgData,
                 command,
                 secret: node.get('secrets', {})[command.root],
             },
-            hasSetNick: node.getChannelConfig(msgData.to).setNick,
+            hasSetNick: node.getChannel(msgData.to, 'setNick', false),
             namespace: command.root,
         });
 
@@ -71,9 +63,6 @@ async function _() {
             },
         };
 
-        if (event) {
-            config.IRC.event = event;
-        }
         jail.setSync('_logDB', new ivm.Reference((obj) => {
             obj.nick = config.IRC.nick;
             node.database.log(node, obj);
@@ -88,15 +77,15 @@ async function _() {
             });
         }
 
-        function wrapFns(obj, name) {
-            jail.setSync(
-                `_${name}Keys`,
-                new ivm.ExternalCopy(Object.keys(obj)).copyInto(),
-            );
-            jail.setSync('_'+name, new ivm.Reference((fnName, ...args) => {
-                return new ivm.ExternalCopy(obj[fnName](...args)).copyInto();
-            }));
-        }
+        // function wrapFns(obj, name) {
+        //     jail.setSync(
+        //         `_${name}Keys`,
+        //         new ivm.ExternalCopy(Object.keys(obj)).copyInto(),
+        //     );
+        //     jail.setSync('_'+name, new ivm.Reference((fnName, ...args) => {
+        //         return new ivm.ExternalCopy(obj[fnName](...args)).copyInto();
+        //     }));
+        // }
 
         wrapFns(node.database.logFactory(msgData.target), 'log');
         // wrapFns(node.database.storeFactory(command.root), 'store');
@@ -123,30 +112,30 @@ async function _() {
             // }));
 
 
-            function unwrapFns(name) {
-                const obj = {};
-                ref[name+'Keys'].forEach(key => {
-                    obj[key] = (...args) => {
-                        return ref[name].applySync(
-                            undefined,
-                            [key, ...args.map(arg => (
-                                new ref.ivm.ExternalCopy(arg).copyInto()
-                            ))],
-                        );
-                    };
-                });
-                return obj;
-            }
+//             function unwrapFns(name) {
+//                 const obj = {};
+//                 ref[name+'Keys'].forEach(key => {
+//                     obj[key] = (...args) => {
+//                         return ref[name].applySync(
+//                             undefined,
+//                             [key, ...args.map(arg => (
+//                                 new ref.ivm.ExternalCopy(arg).copyInto()
+//                             ))],
+//                         );
+//                     };
+//                 });
+//                 return obj;
+//             }
 
             // IRC.commandFns = unwrapFns('commandFns');
             IRC.log = unwrapFns('log');
             // IRC.log.getGlobal = IRC.log.get;
-            IRC.eventFns = unwrapFns('eventFns');
-            if (IRC.event) {
-                IRC.eventFns.addEvent = () => {
-                    throw new Error('cannot add an event in an event callback');
-                };
-            }
+            // IRC.eventFns = unwrapFns('eventFns');
+            // if (IRC.event) {
+            //     IRC.eventFns.addEvent = () => {
+            //         throw new Error('cannot add an event in an event callback');
+            //     };
+            // }
 
 
             // set limits on command functions

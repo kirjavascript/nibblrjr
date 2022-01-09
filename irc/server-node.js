@@ -18,6 +18,11 @@ class ServerNode {
                     : _default;
         }
 
+        this.getChannel = (target, key, _default) => {
+            const chan = this.channels.find(ch => ch.name == target);
+            return key in chan ? chan[key] : this.get(key, _default);
+        };
+
         this.setConfig = (config) => {
             this.config = config;
 
@@ -45,6 +50,15 @@ class ServerNode {
 
         this.getLineLimit = (target) => {
             return this.getChannelConfig(target).lineLimit || 10;
+        };
+
+        this.getPrintConfig = (target) => {
+            return {
+                lineLimit: this.getChannel(target, 'lineLimit', 10),
+                charLimit: this.getChannel(target, 'charLimit', false),
+                colLimit: this.getChannel(target, 'colLimit', 400),
+                hasColors: this.getChannel(target, 'colLimit', 400),
+            };
         };
 
         this.client = new Client(this.config.address, this.config.nickname, {
@@ -168,7 +182,7 @@ class ServerNode {
             }
             // parse URLS
             else if (this.get('fetchURL', true)) {
-                const showAll = this.getChannelConfig(msgData.to).fetchURLAll;
+                const showAll = this.getChannel(msgData.to, 'fetchURLAll', false);
                 mod.fetchURL({ text, print, showAll });
             }
         });
