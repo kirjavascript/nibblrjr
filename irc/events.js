@@ -107,7 +107,8 @@ function createEventManager(node) {
                         _event: [name, eventData],
                     },
                 })
-                .then(() => ref.runEvents.run(ref.vm.context))
+                .then(() => (console.time(name),ref.runEvents.run(ref.vm.context)))
+                .then(() => { console.timeEnd(name)})
                 .catch((error) => {
                     /* silent ignore, errors can be viewed with showError */
                     if (node.parent.dev) console.error(error);

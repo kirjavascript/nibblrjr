@@ -146,10 +146,6 @@ function EditorPane({ updateList, history, match: { params } }) {
         fetchAPI('command/set-config/' + params.name, init)
             .then(obj => {
                 if (!obj.error) {
-                    setCmd({
-                        ...cmd,
-                        [type]: !cmd[type],
-                    });
                     getCommand();
                     updateList();
                 }

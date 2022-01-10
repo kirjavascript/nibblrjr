@@ -316,6 +316,9 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                     constructor(dom, config = { url: 'https://localhost/' }) {
                         super(dom, config);
                     }
+                    get document() {
+                        return this.window.document;
+                    }
                 };
             }
             return jsdom;

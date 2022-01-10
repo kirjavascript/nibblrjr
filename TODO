@@ -27,7 +27,7 @@ fewer deps
     // make preventable
     // TODO: onPrint / prevent Default
     //
-    // tick|message|print|command|eval|join|part|nick|webhook ? rate nick
+    // tick|message|print|command|eval|join|part|nick|webhook|acquire ? rate nick
 
 IBIP / fetchURL
     https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=ojCkgU5XGdg&format=json
@@ -42,6 +42,8 @@ clear Queue
 sudo disable / enable events
 IRC.sudo().node.parent.reloadVM.await();
 better admin stuff
+
+memo: more than line limit memos
 
 add events to nibblrjr.vim
 command for admin to reload VM
