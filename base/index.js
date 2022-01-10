@@ -2,6 +2,7 @@ const fs = require('fs');
 const { join } = require('path');
 const { initWeb } = require('../web/server');
 const { Database } = require('../database/index');
+const { loadAcquire } = require('../irc/evaluate/acquire');
 
 process.on('uncaughtException', console.error);
 
@@ -87,7 +88,8 @@ new (class Nibblr {
             }
         });
 
-        this.loadConfig();
-
+        loadAcquire(() => {
+            this.loadConfig();
+        });
     }
 })();
