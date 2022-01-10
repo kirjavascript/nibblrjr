@@ -47,20 +47,6 @@ async function evaluate({
 }
 
 async function _() {
-        const channels = Object.entries(_.cloneDeep(node.client.chans))
-            .reduce((acc, [key, value]) => {
-                delete value.users;
-                acc[key.toLowerCase()] = value;
-                return acc;
-            }, {});
-
-        const config = {
-            commandLimit: node.get('commandLimit', 5),
-            IRC: {
-                channels,
-            },
-        };
-
         jail.setSync('_logDB', new ivm.Reference((obj) => {
             obj.nick = config.IRC.nick;
             node.database.log(node, obj);
@@ -75,19 +61,7 @@ async function _() {
             });
         }
 
-        // function wrapFns(obj, name) {
-        //     jail.setSync(
-        //         `_${name}Keys`,
-        //         new ivm.ExternalCopy(Object.keys(obj)).copyInto(),
-        //     );
-        //     jail.setSync('_'+name, new ivm.Reference((fnName, ...args) => {
-        //         return new ivm.ExternalCopy(obj[fnName](...args)).copyInto();
-        //     }));
-        // }
-
         wrapFns(node.database.logFactory(msgData.target), 'log');
-        // wrapFns(node.database.storeFactory(command.root), 'store');
-        // wrapFns(node.parent.database.commands.getCommandFns(), 'commandFns');
         wrapFns(node.database.eventFactory(msgData), 'eventFns');
 
         const bootstrap = await isolate.compileScript('new '+ function() {
@@ -108,49 +82,7 @@ async function _() {
                     ]);
                 },
             // }));
-
-
-//             function unwrapFns(name) {
-//                 const obj = {};
-//                 ref[name+'Keys'].forEach(key => {
-//                     obj[key] = (...args) => {
-//                         return ref[name].applySync(
-//                             undefined,
-//                             [key, ...args.map(arg => (
-//                                 new ref.ivm.ExternalCopy(arg).copyInto()
-//                             ))],
-//                         );
-//                     };
-//                 });
-//                 return obj;
-//             }
-
-            // IRC.commandFns = unwrapFns('commandFns');
             IRC.log = unwrapFns('log');
-            // IRC.log.getGlobal = IRC.log.get;
-            // IRC.eventFns = unwrapFns('eventFns');
-            // if (IRC.event) {
-            //     IRC.eventFns.addEvent = () => {
-            //         throw new Error('cannot add an event in an event callback');
-            //     };
-            // }
-
-
-            // set limits on command functions
-
-            const { setSafe, deleteSafe } = IRC.commandFns;
-            Object.assign(IRC.commandFns, {
-                setSafe: scripts.limit(setSafe, config.commandLimit),
-                deleteSafe: scripts.limit(deleteSafe, config.commandLimit),
-            });
-
-            // add some globals
-
-            // global.store = unwrapFns('store');
-            // global.store.namespace = IRC.command.root;
-            // global.input = IRC.command.input;
-            // global.dateFns = scripts['date-fns'];
-            // global._ = { ...scripts.lodash };
 
         });
 }

@@ -126,7 +126,7 @@ class ServerNode {
             const msgData = { from, to, text, message, target, isPM };
 
             // TODO: remove print once events are here
-            const { print } = mod.createNodeSend(this, target);
+            // const { print } = mod.createNodeSend(this, target);
             const { trigger } = this;
 
             this.events.emit('message', {
@@ -171,10 +171,10 @@ class ServerNode {
                 }
             }
             // parse URLS
-            else if (this.get('fetchURL', true)) {
-                const showAll = this.getTargetCfg(msgData.to, 'fetchURLAll', false);
-                mod.fetchURL({ text, print, showAll });
-            }
+            // else if (this.get('fetchURL', true)) {
+            //     const showAll = this.getTargetCfg(msgData.to, 'fetchURLAll', false);
+            //     mod.fetchURL({ text, print, showAll });
+            // }
         });
 
     }

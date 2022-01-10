@@ -9,16 +9,19 @@ reloadable config
 web can be disabled
 remove old events
 IRC.listen filter showError
+syntax errors
 clean up TODO
 removal of dateFns and _
-IRC.sudo().node.parent.reloadEvents();
+IRC.sudo().node.parent.reloadEvents.call();
 const dateFns = require('date-fns@1.30.1');
 const _ = require('lodash');
+removed channels and commandLimit
 update config to explain getChannel
 IRC.queryConfig
 IBIP example
 update help
 webpack to esbuild
+fewer deps
 
 
     // make preventable
@@ -27,15 +30,17 @@ webpack to esbuild
     // tick|message|print|command|eval|join|part|nick|webhook ? rate nick
 
 IBIP / fetchURL
+    https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=ojCkgU5XGdg&format=json
+    // add normal fetch
     // TODO: remove lodash / html-entities from deps
 IRC.sudo().getStore('namespace')
 
-update list in web ui
+/* message.event.isCommand */
 
 clear Queue
 
 sudo disable / enable events
-IRC.sudo().node.parent.reloadVM();
+IRC.sudo().node.parent.reloadVM.await();
 better admin stuff
 
 add events to nibblrjr.vim
@@ -43,12 +48,7 @@ command for admin to reload VM
 webhooks: have pub/pruvate keys for use - easy to embed in command (or use secret)
 crypto.generateKeyPair
 
-// toggle colours, change channels, change servers in config change (only join new?)
-
-// event boolean
-// long running events vm
 // SQL database
-// channel config shoul use inheritance
 
 // logging to DB
 

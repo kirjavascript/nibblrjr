@@ -76,6 +76,7 @@ function createCommandDB({ reloadEvents }) {
         const parent = getCommand(root);
         const realName = parent ? root : name;
         const obj = getCommand(realName);
+        if (obj.event || config.event) config.locked = true;
         setCommand(Object.assign(obj, config));
         reloadEvents();
     };

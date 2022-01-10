@@ -129,7 +129,7 @@ function EditorPane({ updateList, history, match: { params } }) {
     const [saving, setSaving] = useState(false);
     const [deleteText, setDeleteText] = useState('delete');
 
-    useEffect(() => {
+    function getCommand() {
         fetchAPI('command/get/' + params.name)
             .then(cmd => {
                 setCmd(cmd);
@@ -137,7 +137,9 @@ function EditorPane({ updateList, history, match: { params } }) {
             })
             .catch(console.error);
         setDeleteText('delete');
-    }, [params.name]);
+    }
+
+    useEffect(getCommand, [params.name]);
 
     const toggleOption = (type) => {
         const init = { method: 'POST', body: { [type]: !cmd[type] } };
@@ -148,6 +150,7 @@ function EditorPane({ updateList, history, match: { params } }) {
                         ...cmd,
                         [type]: !cmd[type],
                     });
+                    getCommand();
                     updateList();
                 }
             })
