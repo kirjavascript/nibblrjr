@@ -22,7 +22,7 @@ IBIP example
 update help
 webpack to esbuild
 fewer deps
-
+curl -u io:password https://nibblr.pw/api/iostream
 
     // make preventable
     // TODO: onPrint / prevent Default
@@ -32,6 +32,9 @@ fewer deps
 IBIP / fetchURL
     https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=ojCkgU5XGdg&format=json
     // add normal fetch
+
+fetchSync(url, {async:true})
+remove console.time
 IRC.sudo().getStore('namespace')
 
 /* message.event.isCommand */

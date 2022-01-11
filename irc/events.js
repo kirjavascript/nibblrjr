@@ -6,48 +6,51 @@ function createEventManager(node) {
     const ref = {};
 
     async function loadEvents(vm) {
-        const scripts = [
-            'new ' +
-                String(function () {
-                    IRC.eventQueue = {};
-                    IRC.listen = (name, callback, config = {}) => {
-                        if (!(name in IRC.eventQueue)) {
-                            IRC.eventQueue[name] = [];
-                        }
-                        IRC.eventQueue[name].push([callback, config]);
-                    };
-                    IRC.runEvents = () => {
-                        const [name, eventData] = IRC._event;
-                        if (name in IRC.eventQueue) {
-                            IRC.eventQueue[name].forEach(
-                                ([callback, config]) => {
-                                    if (
-                                        !config.filter ||
-                                        config.filter(eventData)
-                                    ) {
-                                        if (config.showError) {
-                                            try {
-                                                callback(eventData);
-                                            } catch (e) {
-                                                print.error(e);
-                                            }
-                                        } else {
+        await vm.context.eval('new ' +
+            String(function () {
+                IRC.eventQueue = {};
+                IRC.listen = (name, callback, config = {}) => {
+                    if (!(name in IRC.eventQueue)) {
+                        IRC.eventQueue[name] = [];
+                    }
+                    IRC.eventQueue[name].push([callback, config]);
+                };
+                IRC.runEvents = () => {
+                    const [name, eventData] = IRC._event;
+                    if (name in IRC.eventQueue) {
+                        IRC.eventQueue[name].forEach(
+                            ([callback, config]) => {
+                                if (
+                                    !config.filter ||
+                                    config.filter(eventData)
+                                ) {
+                                    if (config.showError) {
+                                        try {
                                             callback(eventData);
+                                        } catch (e) {
+                                            print.error(e);
                                         }
+                                    } else {
+                                        callback(eventData);
                                     }
-                                },
-                            );
-                        }
-                    };
-                }),
-        ];
-        getAllCommands().forEach((cmd) => {
+                                }
+                            },
+                        );
+                    }
+                };
+            })
+        );
+        for (cmd of getAllCommands()) {
             if (cmd.event) {
-                scripts.push(`;(async()=>{\n${cmd.command}\n})()`);
+                try {
+                    await vm.context.eval(`;(async()=>{\n${cmd.command}\n})()`);
+                } catch(e) {
+                    // note which script has the error in
+                    e.name += ` (${cmd.name})`;
+                    throw e;
+                }
             }
-        });
-
-        await vm.context.eval(scripts.join(''));
+        }
         console.log(node.config.address + ' events loaded');
     }
 
@@ -107,12 +110,10 @@ function createEventManager(node) {
                         _event: [name, eventData],
                     },
                 })
-                .then(() => (console.time(name),ref.runEvents.run(ref.vm.context)))
-                .then(() => { console.timeEnd(name)})
-                .catch((error) => {
-                    /* silent ignore, errors can be viewed with showError */
-                    if (node.parent.dev) console.error(error);
-                });
+                // .then(() => node.parent.dev && console.time(name))
+                .then(() => ref.runEvents.run(ref.vm.context))
+                // .then(() => node.parent.dev && console.timeEnd(name))
+                .catch(console.error);
         }
     }
 

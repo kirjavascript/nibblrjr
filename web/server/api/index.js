@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const commandsAPI = require('./commands');
 const statsAPI = require('./stats');
+const ioAPI = require('./iostream');
 
 function initAPI({ parent, app }) {
 
@@ -45,6 +46,9 @@ function initAPI({ parent, app }) {
     // auth APIs
 
     commandsAPI({ parent, app });
+
+    ioAPI({ app });
+
 }
 
 module.exports = initAPI;
