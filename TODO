@@ -1,4 +1,4 @@
-sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
+sudo: reboot|reload|update|join|part|mode|topic|kick|nick|msg|redirect|ignore
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
 DOC / CMDS
@@ -13,6 +13,7 @@ syntax errors
 clean up TODO
 removal of dateFns and _
 IRC.sudo().node.parent.reloadEvents.call();
+IRC.sudo().node.parent.reloadVM();
 const dateFns = require('date-fns@1.30.1');
 const _ = require('lodash');
 removed channels and commandLimit
@@ -24,26 +25,23 @@ webpack to esbuild
 fewer deps
 curl -u io:password https://nibblr.pw/api/iostream
 
-    // make preventable
-    // TODO: onPrint / prevent Default
+/* sudo disable / enable events */
+/* disable event config */
+
     //
     // tick|message|print|command|eval|join|part|nick|webhook|acquire ? rate nick
 
-IBIP / fetchURL
+fetchURL
     https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=ojCkgU5XGdg&format=json
     // add normal fetch
 
 fetchSync(url, {async:true})
-remove console.time
 IRC.sudo().getStore('namespace')
 
 /* message.event.isCommand */
 
 clear Queue
 
-sudo disable / enable events
-IRC.sudo().node.parent.reloadVM.await();
-better admin stuff
 
 memo: more than line limit memos
 
@@ -59,10 +57,8 @@ crypto.generateKeyPair
 // ~memo
 // ~remind
 
-// ~update should clear events vms
 
 fetchURL
-just have the flag set to turn into an event
 
 const query = {
   all(query, ...params) {
@@ -161,6 +157,9 @@ IRC.listen('command', (event) => {
             //         });
             // }V
 // happy new year
+
+    // make preventable
+    // TODO: onPrint / prevent Default
 
 version 4: SQL / events
     priority / make preventable

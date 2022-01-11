@@ -54,7 +54,7 @@ function createEventManager(node) {
         console.log(node.config.address + ' events loaded');
     }
 
-    async function loadVM() {
+    async function reloadVM() {
         // setup VM
         if (ref.vm) ref.vm.dispose();
         ref.vm = await createVM({ node, maxTimeout: 0 });
@@ -117,11 +117,11 @@ function createEventManager(node) {
         }
     }
 
-    loadVM().catch(console.error);
+    reloadVM().catch(console.error);
 
     node.events = {
         emit,
-        reload: loadVM,
+        reloadVM: reloadVM,
         reloadEvents,
         dispose: () => ref.vm.dispose(),
     };

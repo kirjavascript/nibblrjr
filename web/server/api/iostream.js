@@ -15,11 +15,13 @@ process.stderr.write = (string, encoding, fd) => {
     ioStream(string, encoding, fd, true);
 };
 
-module.exports = function({ app }) {
+const usage = `usage: <code>curl -u io:password http://host/api/iostream`;
+
+module.exports = function({ parent, app }) {
     app.get('/api/iostream', (req, res) => {
-        if (!req.isAdmin) return res.send('no access');
+        if (!req.isAdmin) return res.send(usage);
         res.setHeader('Cache-Control', 'no-cache');
-        res.setHeader('Content-Type', 'text/plain');
+        res.setHeader('Content-Type', 'text/event-stream');
         res.setHeader('X-Content-Type-Options', 'nosniff');
         res.setHeader('Connection', 'keep-alive');
         res.flushHeaders(); // start server send events

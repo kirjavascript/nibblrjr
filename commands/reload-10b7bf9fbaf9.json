@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": true,
+    "starred": true,
+    "name": "reload",
+    "command": "const isVM = input.trim() === 'vm';\nIRC.sudo().node.parent[isVM ? 'reloadVM' : 'reloadEvents'].call();\nprint.success('reloaded '+(isVM?'vm':'events'));"
+}

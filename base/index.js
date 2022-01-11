@@ -29,6 +29,12 @@ new (class Nibblr {
             });
         };
 
+        this.reloadVM = () => {
+            this.servers.forEach(node => {
+                node.events.reloadVM().catch(console.error);
+            });
+        };
+
         this.database = new Database(this);
 
         this.servers = [];
