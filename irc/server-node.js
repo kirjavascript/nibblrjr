@@ -125,10 +125,6 @@ class ServerNode {
             to = to[0] == '#' ? to.toLowerCase() : to;
             const msgData = { from, to, text, message, target, isPM };
 
-            // TODO: remove print once events are here
-            // const { print } = mod.createNodeSend(this, target);
-            const { trigger } = this;
-
             this.events.emit('message', {
                 target,
                 server: this.config.address,
@@ -137,6 +133,7 @@ class ServerNode {
 
             // handle commands
 
+            const { trigger } = this;
             if (text.startsWith(trigger)) {
                 const command = mod.parseCommand({ trigger, text });
 
@@ -170,11 +167,6 @@ class ServerNode {
                     });
                 }
             }
-            // parse URLS
-            // else if (this.get('fetchURL', true)) {
-            //     const showAll = this.getTargetCfg(msgData.to, 'fetchURLAll', false);
-            //     mod.fetchURL({ text, print, showAll });
-            // }
         });
 
     }

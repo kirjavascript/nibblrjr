@@ -96,7 +96,7 @@ function createEventManager(node) {
 
     function emit(name, eventData) {
         // eventData: { target, server, message? }
-        if (ref.vm) {
+        if (ref.vm && ref.runEvents) {
             ref.vm
                 .setConfig({
                     print: {
