@@ -157,7 +157,6 @@ class ServerNode {
                     const canBroadcast = this.get('broadcastCommands', [])
                         .includes(command.root);
 
-                    // TODO: throw error for events
                     cmdData && !cmdData.event && mod.evaluate({
                         script: cmdData.command,
                         msgData,

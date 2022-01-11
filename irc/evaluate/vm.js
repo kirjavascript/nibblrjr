@@ -312,6 +312,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                 require('fast-text-encoding@1.0.3');
                 jsdom = require('light-jsdom@17.0.0');
                 const { JSDOM } = jsdom;
+                global.clearInterval = () => {};
                 jsdom.JSDOM = class extends JSDOM {
                     constructor(dom, config = { url: 'https://localhost/' }) {
                         super(dom, config);
