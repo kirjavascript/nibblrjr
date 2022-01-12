@@ -29,8 +29,6 @@ curl -u io:password https://nibblr.pw/api/iostream
 update ~help
 rm -rm cache/acquire
 
-// ~update to reload web
-
     // tick|message|print|command|eval|join|part|nick|webhook|acquire ? rate nick
 
 fetchURL
