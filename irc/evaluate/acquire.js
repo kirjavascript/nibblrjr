@@ -91,9 +91,9 @@ async function acquire(input) {
                 setup(build) {
                     const mockKeys = Object.keys(mocks);
                     build.onResolve({ filter: /[\S\s]*/ }, (args) => {
-                        // if (mockKeys.includes(args.path)) {
-                        //     return { path: mocks[args.path] };
-                        // }
+                        if (mockKeys.includes(args.path)) {
+                            return { path: mocks[args.path] };
+                        }
                         if (stubbed.includes(args.path)) {
                             return {
                                 path: path.resolve(__dirname, 'stubs/blank.js'),
