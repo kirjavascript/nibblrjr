@@ -6,45 +6,46 @@ function createEventManager(node) {
     const ref = {};
 
     async function loadEvents(vm) {
-        await vm.context.eval('new ' +
-            String(function () {
-                IRC.eventQueue = {};
-                IRC.listen = (name, callback, config = {}) => {
-                    if (!(name in IRC.eventQueue)) {
-                        IRC.eventQueue[name] = [];
-                    }
-                    IRC.eventQueue[name].push([callback, config]);
-                };
-                IRC.runEvents = () => {
-                    const [name, eventData] = IRC._event;
-                    if (name in IRC.eventQueue) {
-                        IRC.eventQueue[name].forEach(
-                            ([callback, config]) => {
-                                if (
-                                    !config.filter ||
-                                    config.filter(eventData)
-                                ) {
-                                    if (config.showError) {
-                                        try {
+        await vm.context.eval(
+            'new ' +
+                String(function () {
+                    IRC.eventQueue = {};
+                    IRC.listen = (name, callback, config = {}) => {
+                        if (!(name in IRC.eventQueue)) {
+                            IRC.eventQueue[name] = [];
+                        }
+                        IRC.eventQueue[name].push([callback, config]);
+                    };
+                    IRC.runEvents = () => {
+                        const [name, eventData] = IRC._event;
+                        if (name in IRC.eventQueue) {
+                            IRC.eventQueue[name].forEach(
+                                ([callback, config]) => {
+                                    if (
+                                        !config.filter ||
+                                        config.filter(eventData)
+                                    ) {
+                                        if (config.showError) {
+                                            try {
+                                                callback(eventData);
+                                            } catch (e) {
+                                                print.error(e);
+                                            }
+                                        } else {
                                             callback(eventData);
-                                        } catch (e) {
-                                            print.error(e);
                                         }
-                                    } else {
-                                        callback(eventData);
                                     }
-                                }
-                            },
-                        );
-                    }
-                };
-            })
+                                },
+                            );
+                        }
+                    };
+                }),
         );
         for (cmd of getAllCommands()) {
             if (cmd.event) {
                 try {
                     await vm.context.eval(`;(async()=>{\n${cmd.command}\n})()`);
-                } catch(e) {
+                } catch (e) {
                     // note which script has the error in
                     e.name += ` (${cmd.name})`;
                     throw e;
@@ -99,7 +100,11 @@ function createEventManager(node) {
 
     function emit(name, eventData) {
         // eventData: { target, server, message? }
-        if (ref.vm && ref.runEvents) {
+        if (
+            ref.vm &&
+            ref.runEvents &&
+            !node.getTargetCfg(eventData.target, 'ignoreEvents', false)
+        ) {
             ref.vm
                 .setConfig({
                     print: {

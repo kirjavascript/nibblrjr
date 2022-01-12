@@ -23,17 +23,32 @@ IBIP example
 update help
 webpack to esbuild
 fewer deps
+ignoreEvents
 curl -u io:password https://nibblr.pw/api/iostream
+update ~help
 
-/* sudo disable / enable events */
-/* disable event config */
+// ~update to reload web
 
-    //
     // tick|message|print|command|eval|join|part|nick|webhook|acquire ? rate nick
 
 fetchURL
     https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=ojCkgU5XGdg&format=json
+https://api.github.com/repos/kirjavascript/mdcomp-wasm
+https://stackoverflow.com/questions/695438/what-are-the-safe-characters-for-making-urls
+stars, language
     // add normal fetch
+
+    // fetchSync()
+    // print(fetchSync(urls[0]));
+    // return;
+    // patch fetchsync win modified reddit.com page source
+
+    // content-length thing
+// const bytes = IRC.require('bytes');
+
+    // config is not defined reddit only
+    // sync nature
+    // filesize timeout
 
 fetchSync(url, {async:true})
 IRC.sudo().getStore('namespace')
@@ -42,11 +57,10 @@ IRC.sudo().getStore('namespace')
 
 clear Queue
 
-
 memo: more than line limit memos
+// ~memo
+// ~remind
 
-add events to nibblrjr.vim
-command for admin to reload VM
 webhooks: have pub/pruvate keys for use - easy to embed in command (or use secret)
 crypto.generateKeyPair
 
@@ -54,11 +68,6 @@ crypto.generateKeyPair
 
 // logging to DB
 
-// ~memo
-// ~remind
-
-
-fetchURL
 
 const query = {
   all(query, ...params) {
