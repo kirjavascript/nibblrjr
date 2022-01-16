@@ -28,6 +28,9 @@ ignoreEvents
 curl -u io:password https://nibblr.pw/api/iostream
 update ~help
 rm -rm cache/acquire
+use a better password
+
+    // issues when reloading
 
     // tick|message|print|command|eval|join|part|nick|webhook|acquire ? rate nick
 
@@ -167,11 +170,13 @@ IRC.listen('command', (event) => {
             //             }
             //             this.database.eventFns.delete(row.idx);
             //         });
-            // }V
+            // }
 // happy new year
 
     // make preventable
     // TODO: onPrint / prevent Default
+
+---------
 
 version 4: SQL / events
     priority / make preventable

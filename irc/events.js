@@ -3,8 +3,6 @@ const createVM = require('./evaluate/vm');
 const { getAllCommands } = require('./../database/commands');
 
 function createEventManager(node) {
-    const ref = {};
-
     async function loadEvents(vm) {
         await vm.context.eval(
             'new ' +
@@ -55,9 +53,14 @@ function createEventManager(node) {
         console.log(node.config.address + ' events loaded');
     }
 
+    const ref = {};
+
     async function reloadVM() {
         // setup VM
-        if (ref.vm) ref.vm.dispose();
+        if (ref.vm) {
+            ref.vm.dispose();
+            delete ref.vm;
+        }
         ref.vm = await createVM({ node, maxTimeout: 0 });
 
         // provide access to config
@@ -85,7 +88,7 @@ function createEventManager(node) {
                         return conf;
                     };
                     delete global._queryConfig;
-                }),
+                })
         );
 
         // load / run events

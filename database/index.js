@@ -21,9 +21,7 @@ class Database {
         fs.openSync(filename, 'a');
         const db = new SQLiteDatabase(filename);
         db.exec(schema);
-        db.function('REGEXP', (a, b) => {
-            return new RegExp(a, 'm').test(b) ? 1 : 0;
-        });
+        db.function('REGEXP', (a, b) => new RegExp(a, 'm').test(b) ? 1 : 0);
         return db;
     }
 };
