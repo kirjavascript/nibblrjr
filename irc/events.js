@@ -55,12 +55,8 @@ function createEventManager(node) {
 
     const ref = {};
 
-    async function reloadVM() {
+    async function loadVM() {
         // setup VM
-        if (ref.vm) {
-            ref.vm.dispose();
-            delete ref.vm;
-        }
         ref.vm = await createVM({ node, maxTimeout: 0 });
 
         // provide access to config
@@ -97,7 +93,7 @@ function createEventManager(node) {
     }
 
     // called in parent
-    async function reloadEvents() {
+    async function reloadScripts() {
         await loadEvents(ref.vm);
     }
 
@@ -125,12 +121,11 @@ function createEventManager(node) {
         }
     }
 
-    reloadVM().catch(console.error);
+    loadVM().catch(console.error);
 
     node.events = {
         emit,
-        reloadVM: reloadVM,
-        reloadEvents,
+        reloadScripts,
         dispose: () => ref.vm.dispose(),
     };
 }

@@ -52,9 +52,11 @@ class ServerNode {
             this.trigger = this.get('trigger', '~');
         };
 
+        this.createEventManager = () => mod.createEventManager(this);
+
         this.setConfig(config);
 
-        mod.createEventManager(this);
+        this.createEventManager();
 
         this.client = new Client(this.config.address, this.config.nickname, {
             channels: this.channels.map(c => c.name),

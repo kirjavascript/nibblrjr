@@ -72,24 +72,28 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         })
     )));
 
-    //https://github.com/laverdet/isolated-vm/issues/278#issuecomment-1008332036
+    // TODO: vm not being updated on reload
 
     context.evalClosureSync('new ' + String(function () {
         globalThis.fetch = function (url, config) {
-            return new Promise((chain1, reject1) => {
-                const ref = {
-                    reject: reject1,
-
-                };
-                function resolve() {
-                    chain1({
-                        json: () => new Promise((chain2) => {
-                            ref.chain = chain2;
-                        })
+                return new Promise((res1, reject) => {
+                const ref = {};
+                function resolve(res) {
+                    res.json = () => new Promise((res2) => {
+                        // TODO: update reject
+                        ref.chain = res2;
+                        ref.type = 'json';
                     });
+
+                    res1(res);
+
+                    // TODO: handle abort if this isnt done
+                    return ref.type;
                 }
-                function resolve2(...args) {
-                    ref.chain(...args);
+                function chainedMethod(...args) {
+                    if (ref.chain) {
+                        return ref.chain(...args);
+                    }
                 }
                 function reject(...args) {
                     return ref.reject(...args);
@@ -98,22 +102,24 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                     url,
                     config,
                     new $0.Reference(resolve),
-                    new $0.Reference(resolve2),
+                    new $0.Reference(chainedMethod),
                     new $0.Reference(reject)
                 );
             });
-        };
+        }
     }), [
         ivm,
-        (url, config, resolve, resolve2, reject) => {
+        (url, config, resolve, chainedMethod, reject) => {
             fetch(url, config)
                 .then((res) => {
-                    resolve.applySync(undefined, []); // TODO: timeout?
-                    console.log(1);
+                    console.log(res)
+                    resolve.applySync(undefined, [1]); // TODO: timeout?
+                    // abort controller
+                    // content-length
                     return res.text();
                 })
                 .then(obj => {
-                    resolve2.applySync(undefined, [new ivm.ExternalCopy(obj).copyInto()]);
+                    chainedMethod.applySync(undefined, [new ivm.ExternalCopy(obj).copyInto()]);
                 })
                 // .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
                 .catch(reject);
@@ -121,46 +127,6 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             // TODO clean up references
         },
     ]);
-
-    // TODO: clean up references when they're used. make one-time only
-
-    // context.evalClosureSync('new ' + String(function () {
-    //     globalThis.setTimeout2 = (fn, ...rest) => $1(new $0.Reference(fn), ...rest);
-    // }), [
-    //     ivm,
-    //     (fn, timeout) => void setTimeout(() => fn.applySync(), timeout),
-    // ]);
-
-
-    // function fetch() {
-    //     return {
-    //         then: () => {
-    //             return new Promise(resolve => {
-    //                 resolve(42);
-    //             });
-    //         }
-    //     }
-    // }
-    // ctx.evalClosureSync(String(function () {
-    //     globalThis.log = $1
-    //     globalThis.setTimeout = (fn, ...rest) => $2(new $0.Reference(fn), ...rest);
-    // }), [
-    //     ivm,
-    //     (...args) => console.log(...args),
-    //     (fn, timeout) => void setTimeout(() => fn.applySync(), timeout),
-    // ]);
-
-    // console.log(ctx);
-
-    // ctx.evalSync('setTimeout(() => log("wow"), 100)');
-
-    // ctx.setSync('ivm2', ivm);
-    // ctx.setSync('ft', new ivm.Reference(() => (
-    //     new Promise((resolve, reject) => {
-    //         resolve(42);
-    //     }))
-    //     // 'asd')
-    // ), { async: true });
 
     ctx.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
         new Promise((resolve, reject) => {

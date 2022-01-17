@@ -31,7 +31,8 @@ new (class Nibblr {
 
         this.reloadVM = () => {
             this.servers.forEach(node => {
-                node.events.reloadVM().catch(console.error);
+                node.events.dispose();
+                node.createEventManager();
             });
         };
 
