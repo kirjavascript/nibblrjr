@@ -50,16 +50,14 @@ module.exports = function({ context }) {
         (url, config, resolve, chainedMethod, reject) => {
             fetch(url, config)
                 .then((res) => {
-                    console.log(res.headers['content-length'])
                     const resData = {};
                     ['ok', 'status', 'statusText', 'redirected', 'url']
                         .forEach(key => { resData[key] = res[key] });
                     resData.headers = Array.from(res.headers.entries());
+                    // limit out size
                     // config timeout
                     // abort controller
                     // TODO: handle abort if unused
-                    // content-length
-                    // limit out size
 
                     return new Promise((next) => {
                         // autoresolve to nothing if the promise is unused
