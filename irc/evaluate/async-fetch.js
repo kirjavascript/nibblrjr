@@ -1,13 +1,12 @@
 const ivm = require('isolated-vm');
 const fetch = require('node-fetch');
-const FormData = require('form-data');
 
 module.exports = function({ context }) {
     context.evalClosureSync('new ' + String(function () {
         const methods = ['json', 'text'];
         const properties = ['ok', 'headers', 'status', 'statusText', 'redirected', 'url', 'bodyUsed'];
         globalThis.fetch = function (url, config) {
-            return new Promise((res1, reject) => {
+            return new Promise((res1, _reject) => {
                 const ref = {};
                 function resolve(res, next, nextReject) {
                     res1(res);
@@ -28,8 +27,8 @@ module.exports = function({ context }) {
                         log(3);
                     }
                 }
-                function reject(...args) {
-                    return ref.reject(...args);
+                function reject(message) {
+                    _reject(new Error(message));
                 }
                 $1(
                     url,
@@ -43,8 +42,10 @@ module.exports = function({ context }) {
     }), [
         ivm,
         (url, config, resolve, chainedMethod, reject) => {
+            console.log(config);
             fetch(url, config)
                 .then((res) => {
+                    // ignore messages from self
                     // timeout
                     // TEST displaying invalid json error
                     // console.log(res)
@@ -55,7 +56,9 @@ module.exports = function({ context }) {
                     // return res.json();
                     return new Promise((next, nextReject) => {
                         resolve.apply(undefined, [
-                            res,
+                            {
+
+                            },
                             new ivm.Reference(next),
                             new ivm.Reference(nextReject),
                         ], { arguments: { copy: true } })
@@ -66,7 +69,9 @@ module.exports = function({ context }) {
                     typeof obj !== 'undefined'
                         && chainedMethod.applySync(undefined, [new ivm.ExternalCopy(obj).copyInto()]);
                 })
-                .catch(reject);
+                .catch((error) => {
+                    reject.applyIgnored(undefined, [error.message]);
+                });
 
             // TODO clean up references
         },
