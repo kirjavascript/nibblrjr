@@ -3,28 +3,34 @@ const fetch = require('node-fetch');
 
 module.exports = function({ context }) {
     context.evalClosureSync('new ' + String(function () {
-        const methods = ['json', 'text'];
-        const properties = ['ok', 'headers', 'status', 'statusText', 'redirected', 'url', 'bodyUsed'];
+        const responseMethods = ['json', 'text'];
+        const headerMethods = ['append', 'delete', 'get', 'has', 'set'];
+        class Headers extends Map {
+            constructor(entries) {
+                super(entries);
+                headerMethods.forEach((key) => {
+                    this[key] = (name, ...other) =>
+                        super[key](name.toLowerCase(), ...other);
+                });
+            }
+        }
         globalThis.fetch = function (url, config) {
             return new Promise((res1, _reject) => {
                 const ref = {};
-                function resolve(res, next, nextReject) {
+                function resolve(res, next) {
+                    res.headers = new Headers(res.headers);
                     res1(res);
-                    methods.forEach(method => {
+                    responseMethods.forEach(method => {
                         res[method] = () => (new Promise((res2) => {
                             ref.chain = res2;
                             next.apply(undefined, [method]);
+                            next.release();
                         }));
                     });
-                    // TODO: handle abort if this isnt done
                 }
                 function chainedMethod(...args) {
                     if (ref.chain) {
                         return ref.chain(...args);
-                    } else {
-                        // cleanup
-                        // reject
-                        log(3);
                     }
                 }
                 function reject(message) {
@@ -42,25 +48,25 @@ module.exports = function({ context }) {
     }), [
         ivm,
         (url, config, resolve, chainedMethod, reject) => {
-            console.log(config);
             fetch(url, config)
                 .then((res) => {
-                    // ignore messages from self
-                    // timeout
-                    // TEST displaying invalid json error
-                    // console.log(res)
-                    // const type = resolve.applySync(undefined, [res], { arguments: { copy: true } });
-                    // console.log(type);
+                    console.log(res.headers['content-length'])
+                    const resData = {};
+                    ['ok', 'status', 'statusText', 'redirected', 'url']
+                        .forEach(key => { resData[key] = res[key] });
+                    resData.headers = Array.from(res.headers.entries());
+                    // config timeout
                     // abort controller
+                    // TODO: handle abort if unused
                     // content-length
-                    // return res.json();
-                    return new Promise((next, nextReject) => {
-                        resolve.apply(undefined, [
-                            {
+                    // limit out size
 
-                            },
+                    return new Promise((next) => {
+                        // autoresolve to nothing if the promise is unused
+                        setTimeout(next, 50);
+                        resolve.apply(undefined, [
+                            resData,
                             new ivm.Reference(next),
-                            new ivm.Reference(nextReject),
                         ], { arguments: { copy: true } })
                     })
                         .then((type) => type && res[type]());
@@ -71,9 +77,10 @@ module.exports = function({ context }) {
                 })
                 .catch((error) => {
                     reject.applyIgnored(undefined, [error.message]);
+                    resolve.release();
+                    chainedMethod.release();
+                    reject.release();
                 });
-
-            // TODO clean up references
         },
     ]);
 }
