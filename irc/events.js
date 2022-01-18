@@ -1,5 +1,6 @@
 const ivm = require('isolated-vm');
 const createVM = require('./evaluate/vm');
+const createAsyncFetch = require('./evaluate/async-fetch');
 const { getAllCommands } = require('./../database/commands');
 
 function createEventManager(node) {
@@ -59,6 +60,8 @@ function createEventManager(node) {
         // setup VM
         ref.vm = await createVM({ node, maxTimeout: 0 });
 
+        createAsyncFetch(ref.vm);
+
         // provide access to config
         await ref.vm.context.global.set(
             '_queryConfig',
@@ -93,7 +96,7 @@ function createEventManager(node) {
     }
 
     // called in parent
-    async function reloadScripts() {
+    async function reloadEvents() {
         await loadEvents(ref.vm);
     }
 
@@ -125,7 +128,7 @@ function createEventManager(node) {
 
     node.events = {
         emit,
-        reloadScripts,
+        reloadEvents,
         dispose: () => ref.vm.dispose(),
     };
 }
