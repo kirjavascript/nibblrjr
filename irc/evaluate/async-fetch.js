@@ -15,14 +15,15 @@ module.exports = function({ context }) {
             }
         }
         globalThis.fetch = function (url, config) {
-            return new Promise((res1, _reject) => {
-                const ref = {};
+            return new Promise((res1, rej1) => {
+                const ref = { reject: rej1};
                 function resolve(res, next) {
                     res.headers = new Headers(res.headers);
                     res1(res);
                     responseMethods.forEach(method => {
-                        res[method] = () => (new Promise((res2) => {
+                        res[method] = () => (new Promise((res2, rej2) => {
                             ref.chain = res2;
+                            ref.reject = rej2;
                             next.apply(undefined, [method]);
                             next.release();
                         }));
@@ -34,7 +35,7 @@ module.exports = function({ context }) {
                     }
                 }
                 function reject(message) {
-                    _reject(new Error(message));
+                    ref.reject(new Error(message));
                 }
                 $1(
                     url,
@@ -47,24 +48,27 @@ module.exports = function({ context }) {
         }
     }), [
         ivm,
-        (url, config, resolve, chainedMethod, reject) => {
+        (url, config = {}, resolve, chainedMethod, reject) => {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => {
+                controller.abort();
+            }, 5000);
+            config.signal = controller.signal;
+
             fetch(url, config)
                 .then((res) => {
                     const resData = {};
                     ['ok', 'status', 'statusText', 'redirected', 'url']
                         .forEach(key => { resData[key] = res[key] });
                     resData.headers = Array.from(res.headers.entries());
-                    // limit out size
-                    // config timeout
-                    // abort controller
-                    // TODO: handle abort if unused
 
                     return new Promise((next) => {
+                        const nextRef = new ivm.Reference(next);
                         // autoresolve to nothing if the promise is unused
-                        setTimeout(next, 50);
+                        setTimeout(() => (next(),nextRef.release()), 50);
                         resolve.apply(undefined, [
                             resData,
-                            new ivm.Reference(next),
+                            nextRef,
                         ], { arguments: { copy: true } })
                     })
                         .then((type) => type && res[type]());
@@ -75,9 +79,12 @@ module.exports = function({ context }) {
                 })
                 .catch((error) => {
                     reject.applyIgnored(undefined, [error.message]);
+                })
+                .finally(() => {
                     resolve.release();
                     chainedMethod.release();
                     reject.release();
+                    clearTimeout(timeout);
                 });
         },
     ]);
