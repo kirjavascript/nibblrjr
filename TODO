@@ -34,34 +34,24 @@ event.fetchURL
 webhooks
     queryparams / body
 
-
 // tick|message|webhook.name
+// print|command|eval|join|part|nick|acquire
+
+twitter / log api
 
 
-have pub/pruvate keys for use - easy to embed in command (or use secret)
-
-just have the auth as a built in
-crypto.generateKeyPair
-npm install tripcode
-
-    // print|command|eval|join|part|nick|acquire ? rate nick
 
 
 toggle debug mode
 
 IRC.sudo().getStore('namespace')
 
-/* message.event.isCommand */
-
 clearQueue
-
 memo: more than line limit memos
 // ~memo
 // ~remind
 
 // SQL database
-
-// logging to DB
 
 
 const query = {
@@ -161,6 +151,7 @@ IRC.listen('command', (event) => {
             //         });
             // }
 // happy new year
+// s/thing/thing
 
     // make preventable
     // TODO: onPrint / prevent Default

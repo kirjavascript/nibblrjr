@@ -13,8 +13,6 @@ async function evaluate({
     const vm = await createVM({ node });
 
     try {
-        // TODO: onMessage
-
         await vm.setConfig({
             print: {
                 canBroadcast,
@@ -27,6 +25,15 @@ async function evaluate({
             },
             hasSetNick: node.getTargetCfg(msgData.to, 'setNick', false),
             namespace: command.root,
+            onPrint: ({ type, line, target }) => {
+                const obj = ({
+                    command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
+                    target,
+                    args: [target, ...line.split(' ')],
+                    nick: node.client.nick,
+                });
+                node.database.log(node, obj);
+            },
         });
 
         await vm.evaluate(script, {
@@ -44,47 +51,6 @@ async function evaluate({
         createNodeSend(node, msgData.target).print.error(e);
     }
     vm.dispose();
-}
-
-async function _() {
-        jail.setSync('_logDB', new ivm.Reference((obj) => {
-            obj.nick = config.IRC.nick;
-            node.database.log(node, obj);
-        }));
-
-        // TODO: from print
-        if (!isPM && log && logDB) {
-            logDB({
-                command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
-                target,
-                args: [target, ...text.slice(0, 400).split(' ')],
-            });
-        }
-
-        wrapFns(node.database.logFactory(msgData.target), 'log');
-        wrapFns(node.database.eventFactory(msgData), 'eventFns');
-
-        const bootstrap = await isolate.compileScript('new '+ function() {
-
-            // Object.assign(global, scripts.print.createSend({
-            //     hasColors: config.hasColors,
-            //     canBroadcast: config.canBroadcast,
-            //     lineLimit: config.lineLimit,
-            //     message: config.IRC.message,
-            //     colors,
-            //     inspect: scripts.inspect,
-            //     sendRaw: (...args) => {
-            //         ref.sendRaw.applySync(undefined, args);
-            //     },
-                logDB: (obj) => {
-                    ref.logDB.applySync(undefined, [
-                        new ref.ivm.ExternalCopy(obj).copyInto(),
-                    ]);
-                },
-            // }));
-            IRC.log = unwrapFns('log');
-
-        });
 }
 
 module.exports = { evaluate };

@@ -73,7 +73,7 @@ function createSend({
 
         lines.forEach(line => {
             sendRaw(type, targetOpt, line);
-            if (log && onMessage) {
+            if (targetOpt.startsWith('#') && log && onMessage) {
                 onMessage({ type, line, target: targetOpt });
             }
         });

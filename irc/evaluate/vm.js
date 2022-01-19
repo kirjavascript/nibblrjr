@@ -15,8 +15,9 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
     const context = await isolate.createContext();
     const ctx = context.global;
     const env = {
-        hasSetNick: false,
+        target: undefined,
         namespace: undefined,
+        hasSetNick: false,
     };
 
     function dispose() {
@@ -156,6 +157,16 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         }
     }));
 
+    ctx.setSync(
+        '_logFnsKeys',
+        Object.keys(node.database.logFns).join('|'),
+    );
+    ctx.setSync('_logFns', new ivm.Callback((fnName, args) => {
+        if (env.target) {
+            return node.database.storeFns[fnName](env.target, ...args);
+        }
+    }));
+
     const scriptRef = await (await isolate.compileScript(`
         (function () {
             const scripts = {};
@@ -254,6 +265,13 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             };
         });
 
+        global.log = {};
+        ref.storeFnsKeys.split('|').forEach(key => {
+            global.store[key] = (...args) => {
+                return ref.logFns(key, args);
+            };
+        });
+
         IRC.resetBuffer = () => {
             ref.resetBuffer.applySync();
         };
@@ -312,8 +330,6 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                 require('fast-text-encoding@1.0.3');
                 jsdom = require('light-jsdom@17.0.0');
                 const { JSDOM } = jsdom;
-                global.clearInterval = () => {};
-                global.setTimeout = () => {};
                 jsdom.JSDOM = class extends JSDOM {
                     constructor(dom, config = { url: 'https://localhost/' }) {
                         super(dom, config);
@@ -372,6 +388,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
 
     const configScript = await isolate.compileScript('new '+ function() {
         Object.assign(IRC, config.IRC);
+        const { onPrint } = global;
 
         const colors = scripts.colors.getColorFuncs(config.IRC.trigger);
         IRC.colors = colors;
@@ -385,6 +402,11 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                 },
                 inspect: IRC.inspect,
                 colors,
+                onMessage: onPrint && ((args) => {
+                    onPrint.applyIgnored(undefined, [args], {
+                        arguments: { copy: true },
+                    });
+                }),
             }));
             global.log = print.log;
         }
@@ -395,6 +417,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         delete global.config;
         delete global.sendRaw;
         delete global.scripts;
+        delete global.onPrint;
     });
 
     async function setConfig(config) {
@@ -420,10 +443,14 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         };
         env.hasSetNick = config.hasSetNick || false;
         env.namespace = config.namespace;
+        env.target = vmConfig.print.target;
 
         ctx.setSync('config', new ivm.ExternalCopy(vmConfig).copyInto());
         ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));
         ctx.setSync('scripts', scriptRef.derefInto());
+        if (config.onPrint) {
+            ctx.setSync('onPrint', new ivm.Reference(config.onPrint));
+        }
         await configScript.run(context);
     }
 
