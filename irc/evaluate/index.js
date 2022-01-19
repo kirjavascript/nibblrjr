@@ -27,7 +27,7 @@ async function evaluate({
             namespace: command.root,
             onPrint: ({ type, line, target }) => {
                 const obj = ({
-                    command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
+                    command: type === 'notice' ? 'NOTICE' : 'PRIVMSG',
                     target,
                     args: [target, ...line.split(' ')],
                     nick: node.client.nick,

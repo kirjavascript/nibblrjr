@@ -69,13 +69,13 @@ function createServerDBFactory(database) {
                 }
             }
         };
-        const logFactory = (target) => {
+        const logFns = (() => {
             const randomQuery = db.prepare(`
                 SELECT * FROM log
                 WHERE command = 'PRIVMSG' AND target = ?
                 ORDER BY RANDOM() LIMIT ?
             `);
-            const random = (qty = 1) => {
+            const random = (target, qty = 1) => {
                 return randomQuery.all(target, qty);
             };
             const getQuery = db.prepare(`
@@ -83,30 +83,22 @@ function createServerDBFactory(database) {
                 WHERE message LIKE ? AND target = ?
                 ORDER BY idx DESC LIMIT ? OFFSET ?
             `);
-            const get = (text, limit = 1, offset = 0) => {
+            const get = (target, text, limit = 1, offset = 0) => {
                 return getQuery.all(`%${text}%`, target, limit, offset);
             };
-            // const getGlobalQuery = db.prepare(`
-            //     SELECT * FROM log
-            //     WHERE message LIKE ?
-            //     ORDER BY idx DESC LIMIT ? OFFSET ?
-            // `);
-            // const getGlobal = (text, limit = 1, offset = 0) => {
-            //     return getGlobalQuery.all(`%${text}%`, limit, offset);
-            // };
             const userQuery = db.prepare(`
                 SELECT * FROM log
                 WHERE lower(user) = lower(?) AND message LIKE ?
                 ORDER BY idx DESC LIMIT ? OFFSET ?
             `);
-            const user = (name, text = '', limit = 1, offset = 0) => {
+            const user = (_target, name, text = '', limit = 1, offset = 0) => {
                 return userQuery.all(name, `%${text}%`, limit, offset);
             }
             const countQuery = db.prepare(`
                 SELECT count(idx) FROM log
                 WHERE message LIKE ?
             `);
-            const count = (text) => {
+            const count = (_target, text) => {
                 return countQuery.get(`%${text}%`)['count(idx)'];
             };
             const regexQuery = db.prepare(`
@@ -114,11 +106,11 @@ function createServerDBFactory(database) {
                 WHERE message REGEXP ? AND target = ?
                 ORDER BY idx DESC LIMIT ? OFFSET ?
             `);
-            const regex = (rgx, limit = 1, offset = 0) => {
+            const regex = (target, rgx, limit = 1, offset = 0) => {
                 return regexQuery.all(rgx, target, limit, offset);
             };
             return { get, count, user, random, regex };
-        };
+        })();
 
         // events
 
@@ -266,7 +258,7 @@ function createServerDBFactory(database) {
 
         const storeFns =  { get, set, load, save, all, clear };
 
-        return { db, log, logFactory, storeFns, eventFactory, eventFns };
+        return { db, log, logFns, storeFns, eventFactory, eventFns };
     };
 }
 

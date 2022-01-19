@@ -163,7 +163,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
     );
     ctx.setSync('_logFns', new ivm.Callback((fnName, args) => {
         if (env.target) {
-            return node.database.storeFns[fnName](env.target, ...args);
+            return node.database.logFns[fnName](env.target, ...args);
         }
     }));
 
@@ -265,9 +265,9 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             };
         });
 
-        global.log = {};
-        ref.storeFnsKeys.split('|').forEach(key => {
-            global.store[key] = (...args) => {
+        IRC.log = {};
+        ref.logFnsKeys.split('|').forEach(key => {
+            IRC.log[key] = (...args) => {
                 return ref.logFns(key, args);
             };
         });

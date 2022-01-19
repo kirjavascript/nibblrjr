@@ -37,10 +37,11 @@ webhooks
 // tick|message|webhook.name
 // print|command|eval|join|part|nick|acquire
 
-twitter / log api
+twitter
 
+tweak jsdom
 
-
+// remove old events
 
 toggle debug mode
 
