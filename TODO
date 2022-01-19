@@ -26,21 +26,23 @@ webpack to esbuild
 fewer deps
 ignoreEvents
 curl -u io:password https://nibblr.pw/api/iostream
-update ~help
+update ~help add ~about
 rm -rm cache/acquire
 use a better password
 fetch
 event.fetchURL
 webhooks
     queryparams / body
+setDebug / internal API / admin commands
 
 // tick|message|webhook.name
 // print|command|eval|join|part|nick|acquire
 
+mark log with isSelf
+ctrl + / command web
+
 // remove old events from db script
 // migration
-
-toggle debug mode
 
 IRC.sudo().getStore('namespace')
 

@@ -68,6 +68,17 @@ class ServerNode {
             debug: this.get('debug', false),
         });
 
+        this.setDebug = (active) => {
+            const handler = (...args) => {
+                if (active) {
+                    const prefix = (new Date()).toISOString().slice(11,19) + ' -';
+                    console.log(prefix, ...args);
+                }
+            };
+            this.client.out.debug = handler;
+            this.client.out.error = handler;
+        };
+
         this.resetBuffer = () => {
             this.client._clearCmdQueue();
         };
