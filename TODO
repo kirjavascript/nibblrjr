@@ -32,9 +32,10 @@ use a better password
 fetch
 event.fetchURL
 webhooks
+    queryparams / body
 
 
-
+// tick|message|webhook.name
 
 
 have pub/pruvate keys for use - easy to embed in command (or use secret)
@@ -43,7 +44,7 @@ just have the auth as a built in
 crypto.generateKeyPair
 npm install tripcode
 
-    // tick|message|print|command|eval|join|part|nick|webhook|acquire ? rate nick
+    // print|command|eval|join|part|nick|acquire ? rate nick
 
 
 toggle debug mode
