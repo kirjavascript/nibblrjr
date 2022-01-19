@@ -105,6 +105,7 @@ function createEventManager(node) {
         if (
             ref.vm &&
             ref.runEvents &&
+            !ref.vm.isolate.isDisposed &&
             !node.getTargetCfg(eventData.target, 'ignoreEvents', false)
         ) {
             ref.vm
@@ -117,17 +118,27 @@ function createEventManager(node) {
                         _event: [name, eventData],
                     },
                 })
-                // .then(() => node.parent.dev && console.time(name))
                 .then(() => ref.runEvents.run(ref.vm.context))
-                // .then(() => node.parent.dev && console.timeEnd(name))
                 .catch(console.error);
         }
+    }
+
+    function broadcast(name, eventData) {
+        // run an event in every channel
+        Object.keys(node.client.chans).forEach(channel => {
+            const defaultData = {
+                target: channel.toLowerCase(),
+                server: node.config.address,
+            };
+            emit(name, eventData ? Object.assign(eventData, defaultData) : defaultData);
+        });
     }
 
     loadVM().catch(console.error);
 
     node.events = {
         emit,
+        broadcast,
         reloadEvents,
         dispose: () => ref.vm.dispose(),
     };

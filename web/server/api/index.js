@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const commandsAPI = require('./commands');
+const eventsAPI = require('./events');
 const statsAPI = require('./stats');
 const ioAPI = require('./iostream');
 
@@ -46,6 +47,8 @@ function initAPI({ parent, app }) {
     // auth APIs
 
     commandsAPI({ parent, app });
+
+    eventsAPI({ parent, app });
 
     ioAPI({ app });
 

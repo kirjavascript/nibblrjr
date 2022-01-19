@@ -1,0 +1,7 @@
+{
+    "event": true,
+    "locked": true,
+    "starred": true,
+    "name": "event",
+    "command": "// curl -X POST --data-binary '{\"passcode\":\"demo\"}' -H \"Content-Type: application/json\" http://localhost:8888/api/webhook/test\n\n// webhook.test\nconst tripcode = require('tripcode');\n\nIRC.listen('webhook.test', event => {\n    const authed = tripcode(event.body.passcode) === 'oH8oPWu0PA';\n    print(authed ? 'pass' : 'fail');\n});"
+}

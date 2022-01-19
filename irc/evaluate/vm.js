@@ -72,62 +72,6 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         })
     )));
 
-    // TODO: vm not being updated on reload
-
-    context.evalClosureSync('new ' + String(function () {
-        globalThis.fetch = function (url, config) {
-                return new Promise((res1, reject) => {
-                const ref = {};
-                function resolve(res) {
-                    res.json = () => new Promise((res2) => {
-                        // TODO: update reject
-                        ref.chain = res2;
-                        ref.type = 'json';
-                    });
-
-                    res1(res);
-
-                    // TODO: handle abort if this isnt done
-                    return ref.type;
-                }
-                function chainedMethod(...args) {
-                    if (ref.chain) {
-                        return ref.chain(...args);
-                    }
-                }
-                function reject(...args) {
-                    return ref.reject(...args);
-                }
-                $1(
-                    url,
-                    config,
-                    new $0.Reference(resolve),
-                    new $0.Reference(chainedMethod),
-                    new $0.Reference(reject)
-                );
-            });
-        }
-    }), [
-        ivm,
-        (url, config, resolve, chainedMethod, reject) => {
-            fetch(url, config)
-                .then((res) => {
-                    console.log(res)
-                    resolve.applySync(undefined, [1]); // TODO: timeout?
-                    // abort controller
-                    // content-length
-                    return res.text();
-                })
-                .then(obj => {
-                    chainedMethod.applySync(undefined, [new ivm.ExternalCopy(obj).copyInto()]);
-                })
-                // .then(obj => resolve(new ivm.ExternalCopy(obj).copyInto()))
-                .catch(reject);
-
-            // TODO clean up references
-        },
-    ]);
-
     ctx.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
         new Promise((resolve, reject) => {
             if (config.form) {

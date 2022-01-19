@@ -1,7 +1,0 @@
-{
-    "event": false,
-    "locked": true,
-    "starred": false,
-    "name": "event.#code",
-    "command": "IRC.listen('message', event => {\n\tif (event.target === '#code' && event.message.text.includes('egg')) {\n     \tprint(IRC.colors.nick(IRC.breakHighlight('LambdaComplex'))+' egg'); \n    }\n})"
-}

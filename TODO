@@ -30,44 +30,33 @@ update ~help
 rm -rm cache/acquire
 use a better password
 fetch
+event.fetchURL
+webhooks
+
+
+
+
+
+have pub/pruvate keys for use - easy to embed in command (or use secret)
+
+just have the auth as a built in
+crypto.generateKeyPair
+npm install tripcode
 
     // tick|message|print|command|eval|join|part|nick|webhook|acquire ? rate nick
 
-fetchURL
-    https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=ojCkgU5XGdg&format=json
-https://api.github.com/repos/kirjavascript/mdcomp-wasm
-https://stackoverflow.com/questions/695438/what-are-the-safe-characters-for-making-urls
-stars, language
 
-    add normal fetch
+toggle debug mode
 
-    fetch limits
-
-    // fetchSync()
-    // print(fetchSync(urls[0]));
-    // return;
-    // patch fetchsync win modified reddit.com page source
-
-    // content-length thing
-// const bytes = IRC.require('bytes');
-
-    // config is not defined reddit only
-    // sync nature
-    // filesize timeout
-
-fetchSync(url, {async:true})
 IRC.sudo().getStore('namespace')
 
 /* message.event.isCommand */
 
-clear Queue
+clearQueue
 
 memo: more than line limit memos
 // ~memo
 // ~remind
-
-webhooks: have pub/pruvate keys for use - easy to embed in command (or use secret)
-crypto.generateKeyPair
 
 // SQL database
 

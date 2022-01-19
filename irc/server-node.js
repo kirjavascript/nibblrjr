@@ -87,13 +87,13 @@ class ServerNode {
 
         this.database = parent.database.createServerDB(this);
 
-        this.client.addListener('registered', (message) => {
+        this.client.addListener('registered', (_message) => {
             this.registered = true;
             if (this.config.password) {
                 this.client.say('nickserv', `identify ${this.config.password}`);
             }
             // this gets trashed after each connect
-            this.client.conn.addListener('close', (message) => {
+            this.client.conn.addListener('close', (_message) => {
                 this.registered = false;
                 this.resetBuffer();
             });
@@ -111,12 +111,7 @@ class ServerNode {
         });
 
         this.tick = setInterval(() => {
-            Object.keys(this.client.chans).forEach(channel => {
-                this.events.emit('tick', {
-                    target: channel.toLowerCase(),
-                    server: this.config.address,
-                });
-            });
+            this.events.broadcast('tick');
         }, 1000);
 
         this.client.addListener('message', (from, to, text, message) => {
