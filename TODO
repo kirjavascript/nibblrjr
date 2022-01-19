@@ -37,11 +37,8 @@ webhooks
 // tick|message|webhook.name
 // print|command|eval|join|part|nick|acquire
 
-twitter
-
-tweak jsdom
-
-// remove old events
+// remove old events from db script
+// migration
 
 toggle debug mode
 
