@@ -130,23 +130,6 @@ async function acquire(input) {
                             };
                         },
                     );
-                    build.onLoad(
-                        { filter: /light-jsdom\/lib\/api\.js$/ },
-                        async (args) => {
-                            const contents = await fs.promises.readFile(
-                                args.path,
-                                'utf8',
-                            );
-                            return {
-                                contents: contents.replace(
-                                    /"use strict";/,
-                                    `"use strict";
-                            global.Buffer = require('buffer').Buffer;`,
-                                ),
-                                loader: 'js',
-                            };
-                        },
-                    );
                 },
             },
         ],

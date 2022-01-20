@@ -328,6 +328,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         global.jsdom = () => {
             if (!jsdom) {
                 require('fast-text-encoding@1.0.3');
+                global.Buffer = require('buffer').Buffer;
                 jsdom = require('light-jsdom@17.0.0');
                 const { JSDOM } = jsdom;
                 jsdom.JSDOM = class extends JSDOM {
