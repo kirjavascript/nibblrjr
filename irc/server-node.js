@@ -88,6 +88,7 @@ class ServerNode {
             clearInterval(this.tick);
             this.client.disconnect(...args);
             this.events.dispose();
+            this.database.db.close();
         };
 
         this.sendRaw = (type, target, text) => {

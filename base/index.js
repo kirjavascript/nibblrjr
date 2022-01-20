@@ -4,6 +4,28 @@ const { initWeb } = require('../web/server');
 const { Database } = require('../database/index');
 const { loadAcquire } = require('../irc/evaluate/acquire');
 
+// const SQLiteDatabase = require('better-sqlite3');
+
+// const db = new SQLiteDatabase(join(__dirname, '..', 'test.db'));
+// db.pragma('max_page_count = 1000');
+// db.pragma('page_size = 4096');
+
+// db.exec(`
+//     CREATE TABLE IF NOT EXISTS log (
+//         idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+//         foo TEXT
+//     );
+
+// `);
+
+// for (let i = 0; i < 10000; i++) {
+//     db.exec(`
+//     INSERT INTO log (foo) VALUES ('${'.'.repeat(10000)}');
+//     `);
+// }
+// // SqliteError: database or disk is full
+// console.log('test');
+
 process.on('uncaughtException', console.error);
 
 // create storage dirs
