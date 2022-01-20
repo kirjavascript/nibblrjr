@@ -17,6 +17,7 @@ module.exports = async ({ parent, app }) => {
     // load databases
 
     const databases = (await fs.readdir(storagePath))
+        .filter(file => file.endsWith('.db'))
         .map(file => {
             const db = new Database(path.join(storagePath, file), { readonly: true });
             const name = path.parse(file).name;

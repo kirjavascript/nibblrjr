@@ -39,7 +39,12 @@ setDebug / internal API / admin commands
 // print|command|eval|join|part|nick|acquire
 
 mark log with isSelf
-ctrl + / command web
+
+database limit max size
+try DDoS
+
+https://sqlite.org/pragma.html#pragma_max_page_count
+https://sqlite.org/pragma.html#pragma_page_size
 
 // remove old events from db script
 // migration
