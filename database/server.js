@@ -1,6 +1,5 @@
 function createServerDBFactory(database) {
     return (node) => {
-
         const name = node.config.address.replace(/[^a-zA-Z0-9.]/g, '');
         const db = database.createDB(name, `
             CREATE TABLE IF NOT EXISTS log (
@@ -19,16 +18,6 @@ function createServerDBFactory(database) {
                 key VARCHAR(100),
                 value TEXT
             );
-            CREATE TABLE IF NOT EXISTS events (
-                idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-                callback VARCHAR (100),
-                type VARCHAR (10),
-                timestamp DATETIME (20),
-                init DATETIME (20),
-                user VARCHAR (100),
-                target VARCHAR (100),
-                message TEXT
-            );
         `);
 
         // logging
@@ -40,7 +29,7 @@ function createServerDBFactory(database) {
             // this function is ugly af because it's legacy stuff from OG nibblr
             const commands = ['JOIN', 'PART', 'NICK', 'KICK', 'KILL', 'NOTICE', 'MODE', 'PRIVMSG', 'QUIT', 'TOPIC'];
             if (commands.includes(message.command)) {
-                if (message.command == 'QUIT') {
+                if (message.command === 'QUIT') {
                     logQuery.run([
                         message.nick,
                         message.command,
@@ -112,92 +101,6 @@ function createServerDBFactory(database) {
             return { get, count, user, random, regex };
         })();
 
-        // events
-
-        const eventInsertQuery = db.prepare(`
-            INSERT INTO events (
-                callback,
-                type,
-                timestamp,
-                init,
-                user,
-                target,
-                message
-            )
-            VALUES (?,?,?,?,?,?,?)
-        `);
-
-        const eventFns = {};
-        const speakElapsedQuery = db.prepare(`
-            SELECT * FROM events
-            WHERE timestamp < ?
-            AND type = 'speak'
-            AND UPPER(target) = UPPER(?)
-        `);
-        eventFns.speakElapsed = (target) => {
-            const obj = speakElapsedQuery.all((new Date()).toISOString(), target);
-            return Array.isArray(obj) ? obj : [];
-        };
-        const tickElapsedQuery = db.prepare(`
-            SELECT * FROM events
-            WHERE timestamp < ?
-            AND type = 'tick'
-        `);
-        eventFns.tickElapsed = () => {
-            const obj = tickElapsedQuery.all((new Date()).toISOString());
-            return Array.isArray(obj) ? obj : [];
-        };
-        // getByCallback
-        // unused
-        // const tickPendingQuery = db.prepare(`
-        //     SELECT * FROM events
-        //     WHERE type = "tick"
-        //     AND callback = ?
-        // `);
-        // eventFns.tickPending = (callback = '') => {
-        //     const obj = tickPendingQuery.all(callback);
-        //     return Array.isArray(obj) ? obj : [];
-        // };
-        // const speakPendingQuery = db.prepare(`
-        //     SELECT * FROM events
-        //     WHERE type = "speak"
-        //     AND callback = ?
-        // `);
-        // eventFns.speakPending = (callback = '') => {
-        //     const obj = speakPendingQuery.all(callback);
-        //     return Array.isArray(obj) ? obj : [];
-        // };
-        const deleteQuery = db.prepare(`
-            DELETE FROM events WHERE idx = ?
-        `);
-        eventFns.delete = (idx) => {
-            return deleteQuery.run(idx);
-        };
-
-        const eventFactory = (msgData) => {
-            const addEvent = (type, { callback, time = new Date(), message = '', target = '' }) => {
-                if (String(message).length > 400) {
-                    throw new Error('Store size limit is 400');
-                }
-                if (['speak', 'tick'].includes(type)) {
-                    const fixedTarget = type == 'tick'
-                        ? (msgData.isPM ? msgData.from : msgData.target)
-                        : target;
-                    return eventInsertQuery.run(
-                        callback,
-                        type,
-                        time.toISOString(),
-                        (new Date()).toISOString(),
-                        msgData.from,
-                        fixedTarget,
-                        message,
-                    );
-                }
-            };
-
-            return { addEvent, ...eventFns };
-        };
-
         // key/value store
 
         const getQuery = db.prepare(`
@@ -258,7 +161,7 @@ function createServerDBFactory(database) {
 
         const storeFns =  { get, set, load, save, all, clear };
 
-        return { db, log, logFns, storeFns, eventFactory, eventFns };
+        return { db, log, logFns, storeFns };
     };
 }
 

@@ -10,7 +10,6 @@ const fs = require('fs');
 
 const readFileAsync = promisify(fs.readFile);
 const existsAsync = promisify(fs.exists);
-const mkdirAsync = promisify(fs.mkdir);
 
 const moduleDir = __dirname + '/../../cache/acquire';
 const stubbed = require('module').builtinModules.filter(
@@ -54,8 +53,6 @@ const pkgFilename = ({ name, path, version }) => {
 };
 
 async function acquire(input) {
-    if (!(await existsAsync(moduleDir))) await mkdirAsync(moduleDir);
-
     const pkg = (() => {
         try {
             return pkgname(input);

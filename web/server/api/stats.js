@@ -10,10 +10,6 @@ module.exports = async ({ parent, app }) => {
 
     const exists = async (dir) => !!await fs.stat(dir).catch(_err => false);
 
-    if (!await exists(cachePath)) {
-        await fs.mkdir(cachePath);
-    }
-
     // load databases
 
     const databases = (await fs.readdir(storagePath))

@@ -3,14 +3,17 @@ repl: rs|clojure|vlang|cj|scheme|jsx|html
 
 DOC / CMDS
 ===
+clean up TODO
+use a better password
 changelog
+update guide
+
 colLimit charLimit lineLimit
 reloadable config
 web can be disabled
 remove old events
 IRC.listen filter showError
 syntax errors
-clean up TODO
 removal of dateFns and _
 IRC.sudo().node.events.reloadVM.call();
 IRC.sudo().node.parent.reloadEvents.call();
@@ -28,7 +31,6 @@ ignoreEvents
 curl -u io:password https://nibblr.pw/api/iostream
 update ~help add ~about
 rm -rm cache/acquire
-use a better password
 fetch
 event.fetchURL
 webhooks
@@ -39,9 +41,11 @@ setDebug / internal API / admin commands
 // print|command|eval|join|part|nick|acquire
 
 mark log with isSelf
+limit command adding / editing
 
 database limit max size
 try DDoS
+a way of clearing the db
 
 https://sqlite.org/pragma.html#pragma_max_page_count
 https://sqlite.org/pragma.html#pragma_page_size
@@ -71,33 +75,130 @@ const query = {
   },
 }
 
-const daily = () => (new Date+[]).match(/\d+:\d+:\d+/) === '00:00:00';
 
-IRC.listen('tick', () => {
-    print('egg');
-}, { filter: ({ channel }) => channel === '#eggchan' && daily() });
 
-IRC.listen('tick', ({ channel }) => {
-    if (channel === '#eggchan' && daily()) {
-        print('egg');
-    }
-});
-IRC.require() in events allows whitelisting stuff for others
-say egg everyday in eggchan
+const SQLiteDatabase = require('better-sqlite3');
 
-14:07 <+cake^> I should make CuteServ autoreply with the colour of a hex value
-CuteServ: question?
+// time db tick attempts
 
-IRC.listen('tick', () => {
-    print('the time is ' + new Date);
-}, { filter: ({ channel }) => channel === '#8bitvape'});
+// take a scope prefix
+// db({ scope: IRC.server })
 
-IRC.listen('command', (event) => {
-    if (command.root === 'ginger') {
-        e.preventDefault();
-    }
-});
+const db = new SQLiteDatabase(join(__dirname, '..', 'test.db'));
+db.pragma('max_page_count = 1000');
+db.pragma('page_size = 4096');
 
+db.exec(`
+    CREATE TABLE IF NOT EXISTS log (
+        idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        foo TEXT
+    );
+
+`);
+
+for (let i = 0; i < 10000; i++) {
+    db.exec(`
+    INSERT INTO log (foo) VALUES ('${'.'.repeat(10000)}');
+    `);
+}
+// console.time the db calls I guess
+            // CREATE TABLE IF NOT EXISTS events (
+            //     idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+            //     callback VARCHAR (100),
+            //     type VARCHAR (10),
+            //     timestamp DATETIME (20),
+            //     init DATETIME (20),
+            //     user VARCHAR (100),
+            //     target VARCHAR (100),
+            //     message TEXT
+            // );
+
+        // // events
+
+        // const eventInsertQuery = db.prepare(`
+            // INSERT INTO events (
+            //     callback,
+            //     type,
+            //     timestamp,
+            //     init,
+            //     user,
+            //     target,
+            //     message
+            // )
+            // VALUES (?,?,?,?,?,?,?)
+        // `);
+
+        // const eventFns = {};
+        // const speakElapsedQuery = db.prepare(`
+            // SELECT * FROM events
+            // WHERE timestamp < ?
+            // AND type = 'speak'
+            // AND UPPER(target) = UPPER(?)
+        // `);
+        // eventFns.speakElapsed = (target) => {
+            // const obj = speakElapsedQuery.all((new Date()).toISOString(), target);
+            // return Array.isArray(obj) ? obj : [];
+        // };
+        // const tickElapsedQuery = db.prepare(`
+            // SELECT * FROM events
+            // WHERE timestamp < ?
+            // AND type = 'tick'
+        // `);
+        // eventFns.tickElapsed = () => {
+            // const obj = tickElapsedQuery.all((new Date()).toISOString());
+            // return Array.isArray(obj) ? obj : [];
+        // };
+        // // getByCallback
+        // // unused
+        // // const tickPendingQuery = db.prepare(`
+        // //     SELECT * FROM events
+        // //     WHERE type = "tick"
+        // //     AND callback = ?
+        // // `);
+        // // eventFns.tickPending = (callback = '') => {
+        // //     const obj = tickPendingQuery.all(callback);
+        // //     return Array.isArray(obj) ? obj : [];
+        // // };
+        // // const speakPendingQuery = db.prepare(`
+        // //     SELECT * FROM events
+        // //     WHERE type = "speak"
+        // //     AND callback = ?
+        // // `);
+        // // eventFns.speakPending = (callback = '') => {
+        // //     const obj = speakPendingQuery.all(callback);
+        // //     return Array.isArray(obj) ? obj : [];
+        // // };
+        // const deleteQuery = db.prepare(`
+            // DELETE FROM events WHERE idx = ?
+        // `);
+        // eventFns.delete = (idx) => {
+            // return deleteQuery.run(idx);
+        // };
+
+        // const eventFactory = (msgData) => {
+            // const addEvent = (type, { callback, time = new Date(), message = '', target = '' }) => {
+            //     if (String(message).length > 400) {
+            //         throw new Error('Store size limit is 400');
+            //     }
+            //     if (['speak', 'tick'].includes(type)) {
+            //         const fixedTarget = type == 'tick'
+            //             ? (msgData.isPM ? msgData.from : msgData.target)
+            //             : target;
+            //         return eventInsertQuery.run(
+            //             callback,
+            //             type,
+            //             time.toISOString(),
+            //             (new Date()).toISOString(),
+            //             msgData.from,
+            //             fixedTarget,
+            //             message,
+            //         );
+            //     }
+            // };
+
+            // return { addEvent, ...eventFns };
+        // };
+console.log('test');
 
         // check tick events that have elapsed
         // this.tick = () => {
@@ -158,13 +259,35 @@ IRC.listen('command', (event) => {
 // happy new year
 // s/thing/thing
 
-    // make preventable
-    // TODO: onPrint / prevent Default
+const daily = () => (new Date+[]).match(/\d+:\d+:\d+/) === '00:00:00';
+
+IRC.listen('tick', () => {
+    print('egg');
+}, { filter: ({ channel }) => channel === '#eggchan' && daily() });
+
+IRC.listen('tick', ({ channel }) => {
+    if (channel === '#eggchan' && daily()) {
+        print('egg');
+    }
+});
+IRC.require() in events allows whitelisting stuff for others
+say egg everyday in eggchan
+
+14:07 <+cake^> I should make CuteServ autoreply with the colour of a hex value
+CuteServ: question?
+
+IRC.listen('tick', () => {
+    print('the time is ' + new Date);
+}, { filter: ({ channel }) => channel === '#8bitvape'});
+
+IRC.listen('command', (event) => {
+    if (command.root === 'ginger') {
+        e.preventDefault();
+    }
+});
 
 ---------
 
-version 4: SQL / events
-    priority / make preventable
 unix style params
 PYTHON=$(which python2)
 
@@ -177,25 +300,19 @@ onjoin, onconnect
 
 ## = ignore everything
 Promise { resolved: result }
-make events more powerful, restrict how they're created -> current event API is bad
 s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
 trigger commands when not even at start of message
 IRC.resetEvents
 poker: call check bet raise (show odds)
-~img
 check with buck what different things we can do, s//
-new store for events
 19:00 <@nibblrjr> <Kirjava> add joins/parts to events spec (2 hours ago)
 19:00 <@nibblrjr> <Kirjava> duck hunt (1 hour ago) quack / fire
 19:00 <@nibblrjr> <Kirjava> add web API system for pushing events (7 hours ago)
 19:00 <+nibblrjr> <Kirjava> add 'push event' exmaple for finn to events todo list (3 hours ago)
 11:00 <+IckleFinn> The two use cases I have is: Send a Photo to TeleNibblr -> post the photo here and Send a standard nibblr command to TeleNibblr -> get back the response
-https://www.youtube.com/get_video_info?video_id=dQw4w9WgXcQ
 
 ~7s - ~7 is a card
 ~pokemon [name] (have team, start at 0 ELO)
-
-require('jsdom|lodash|date-fns') + 'Downloading from npm'
 
 // TODO //
 add help prop in commands for generic help
