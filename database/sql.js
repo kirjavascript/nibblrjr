@@ -2,6 +2,7 @@ const SQLiteDatabase = require('better-sqlite3');
 const { join } = require('path');
 const { commandHash } = require('./commands');
 
+console.log('once');
 // can load other databases in readonly mode
 // write only in events
 
@@ -9,23 +10,46 @@ const { commandHash } = require('./commands');
 
 // have a connection pool
 // handle nsting
-yeah that's huge. I guess nestris is a simple game when it comes down to it and needs minimal process
+
+const connections = new Map();
 
 
 const useSQLDB = (path) => {
+    if (connections.has(path)) {
+        return connections.get(path);
+    }
+
     const db = new SQLiteDatabase(join(__dirname, '../storage', path));
     db.pragma('max_page_count = 1000');
     db.pragma('page_size = 4096');
     db.pragma('journal_mode = WAL');
 
-    db.exec(`
+    let timeout;
+    const bump = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            connections.delete(path);
+            db.close();
+        }, 60000)
+    };
 
-            CREATE TABLE IF NOT EXISTS foo (
-                idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-                message TEXT
-            );
-    `);
-    // enable WAL on normal DBs
+    bump();
+
+    const sqlFns = {
+        exec: (query) => {
+            bump();
+            db.exec(query);
+        },
+    };
+
+
+//     db.exec(`
+
+//             CREATE TABLE IF NOT EXISTS foo (
+//                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+//                 message TEXT
+//             );
+//     `);
     // generate AST and validate
     // TODO handle cleanup
     // check intransaction
@@ -34,18 +58,13 @@ const useSQLDB = (path) => {
     // check if you can pragma on blank
 
     // view tables / schema
-    return {
-        db,
-        dispose: () => db.close(),
-    };
+    // return {
+    //     db,
+    //     dispose: () => db.close(),
+    // };
+
+    connections.set(path, sqlFns);
 };
 
 
-const test = useSQLDB('test.db');
-
-// console.log(test.db.pragma('pragma_list'))
-console.log(test.db.pragma('max_page_count'))
-console.log(test.db.exec('SELECT 1;PRAGMA max_page_count = 10'))
-console.log(test.db.pragma('max_page_count'))
-
-module.exports = {};
+module.exports = { useSQLDB };
