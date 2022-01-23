@@ -5,23 +5,29 @@ const { commandHash } = require('./commands');
 // can load other databases in readonly mode
 // write only in events
 
+// parse to AST, validate.
+
+// have a connection pool
+// handle nsting
+
 const useSQLDB = (path) => {
     const db = new SQLiteDatabase(join(__dirname, '../storage', path));
     db.pragma('max_page_count = 1000');
     db.pragma('page_size = 4096');
 
-        db.exec(`
+    db.exec(`
 
             CREATE TABLE IF NOT EXISTS foo (
                 idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
                 message TEXT
             );
     `);
+    // enable WAL on normal DBs
     // generate AST and validate
     // db.pragma('journal_mode = WAL');
     // TODO handle cleanup
     // check intransaction
-    // have connection ppol, so only ever one connection
+    // have connection pool, so only ever one connection
     // pollClose()
     // check if you can pragma on blank
 
