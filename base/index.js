@@ -11,6 +11,8 @@ process.on('uncaughtException', console.error);
     'cache/acquire',
     'cache/stats',
     'storage',
+    'storage/server',
+    'storage/command',
 ].forEach((dir) => {
     const path = join(__dirname, '..', dir);
     if (!fs.existsSync(path)) {

@@ -17,7 +17,7 @@ class Database {
     }
 
     createDB(name, schema) {
-        const filename = __dirname + `/../storage/${name}.db`;
+        const filename = __dirname + `/../storage/server/${name}.db`;
         fs.openSync(filename, 'a');
         const db = new SQLiteDatabase(filename);
         db.exec(schema);

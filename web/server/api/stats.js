@@ -3,7 +3,7 @@ const path = require('path');
 const Database = require('better-sqlite3');
 const { inspect } = require('util');
 
-const storagePath = path.join(__dirname, '../../../storage');
+const storagePath = path.join(__dirname, '../../../storage/server');
 const cachePath = path.join(__dirname, '../../../cache/stats');
 
 module.exports = async ({ parent, app }) => {

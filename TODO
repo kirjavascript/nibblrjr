@@ -7,6 +7,7 @@ clean up TODO
 use a better password
 changelog
 update guide
+    storage moved to
 
 colLimit charLimit lineLimit
 reloadable config
@@ -61,6 +62,9 @@ memo: more than line limit memos
 // ~remind
 
 // SQL database
+deal qith querying on tick
+    /* tick.global */
+    /* tick tick.channel */
 
 
 const query = {
@@ -77,7 +81,6 @@ const query = {
 
 
 
-const SQLiteDatabase = require('better-sqlite3');
 
 // time db tick attempts
 
@@ -256,6 +259,7 @@ console.log('test');
             //             this.database.eventFns.delete(row.idx);
             //         });
             // }
+// heartfinder
 // happy new year
 // s/thing/thing
 
