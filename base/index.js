@@ -84,7 +84,9 @@ new (class Nibblr {
                 this.webServer = initWeb(this);
             }
             if (!config.web && this.webServer) {
-                this.webServer.close();
+                this.webServer.close(() => {
+                    console.log(1);
+                });
                 this.webServer = undefined;
             }
         };

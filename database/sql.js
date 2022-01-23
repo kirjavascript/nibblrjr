@@ -9,11 +9,14 @@ const { commandHash } = require('./commands');
 
 // have a connection pool
 // handle nsting
+yeah that's huge. I guess nestris is a simple game when it comes down to it and needs minimal process
+
 
 const useSQLDB = (path) => {
     const db = new SQLiteDatabase(join(__dirname, '../storage', path));
     db.pragma('max_page_count = 1000');
     db.pragma('page_size = 4096');
+    db.pragma('journal_mode = WAL');
 
     db.exec(`
 
@@ -24,7 +27,6 @@ const useSQLDB = (path) => {
     `);
     // enable WAL on normal DBs
     // generate AST and validate
-    // db.pragma('journal_mode = WAL');
     // TODO handle cleanup
     // check intransaction
     // have connection pool, so only ever one connection

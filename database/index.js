@@ -20,6 +20,8 @@ class Database {
         const filename = __dirname + `/../storage/server/${name}.db`;
         fs.openSync(filename, 'a');
         const db = new SQLiteDatabase(filename);
+        // https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/performance.md
+        db.pragma('journal_mode = WAL');
         db.exec(schema);
         db.function('REGEXP', (a, b) => new RegExp(a, 'm').test(b) ? 1 : 0);
         return db;
