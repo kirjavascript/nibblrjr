@@ -7,7 +7,6 @@ const { acquire } = require('./acquire');
 const { sudo, auth } = require('./access');
 const { loadScripts }  = require('./load-scripts');
 const { version } = require('../../package.json');
-require('../../database/sql');
 
 const scripts = loadScripts();
 

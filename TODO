@@ -37,6 +37,9 @@ event.fetchURL
 webhooks
     queryparams / body
 setDebug / internal API / admin commands
+SQL
+    subset / prepare cache
+    escaping
 
 // tick|message|webhook.name
 // print|command|eval|join|part|nick|acquire
@@ -44,12 +47,8 @@ setDebug / internal API / admin commands
 mark log with isSelf
 limit command adding / editing
 
-database limit max size
-try DDoS
 a way of clearing the db
-
-https://sqlite.org/pragma.html#pragma_max_page_count
-https://sqlite.org/pragma.html#pragma_page_size
+prepare cache
 
 // remove old events from db script
 // migration
@@ -59,12 +58,11 @@ IRC.sudo().getStore('namespace')
 clearQueue
 memo: more than line limit memos
 // ~memo
+~memo.setup - have a check if it's done already
 // ~remind
 
 // SQL database
 deal qith querying on tick
-    /* tick.global */
-    /* tick tick.channel */
 
 
 const query = {

@@ -12,7 +12,7 @@ process.on('uncaughtException', console.error);
     'cache/stats',
     'storage',
     'storage/server',
-    'storage/namespaced',
+    'storage/namespace',
 ].forEach((dir) => {
     const path = join(__dirname, '..', dir);
     if (!fs.existsSync(path)) {
@@ -84,9 +84,7 @@ new (class Nibblr {
                 this.webServer = initWeb(this);
             }
             if (!config.web && this.webServer) {
-                this.webServer.close(() => {
-                    console.log(1);
-                });
+                this.webServer.close();
                 this.webServer = undefined;
             }
         };

@@ -3,25 +3,22 @@ const SQLiteDatabase = require('better-sqlite3');
 
 const { createCommandDB } = require('./commands');
 const { createServerDBFactory } = require('./server');
+const { useSQLDB } = require('./sql');
 
 class Database {
     constructor(parent) {
-
-        // commands //
-
         this.commands = createCommandDB(parent);
 
-        // server data //
-
         this.createServerDB = createServerDBFactory(this);
+
+        this.useSQLDB = useSQLDB;
     }
 
     createDB(name, schema) {
         const filename = __dirname + `/../storage/server/${name}.db`;
         fs.openSync(filename, 'a');
         const db = new SQLiteDatabase(filename);
-        // https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/performance.md
-        db.pragma('journal_mode = WAL');
+        db.pragma('journal_mode = WAL'); // only one connection at a time is made
         db.exec(schema);
         db.function('REGEXP', (a, b) => new RegExp(a, 'm').test(b) ? 1 : 0);
         return db;
