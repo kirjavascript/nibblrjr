@@ -48,12 +48,12 @@ mark log with isSelf
 limit command adding / editing
 
 a way of clearing the db
-prepare cache
 
 // remove old events from db script
 // migration
 
-IRC.sudo().getStore('namespace')
+IRC.sudo().setNamespace('namespace')
+IRC.setNamespace('event');
 
 clearQueue
 memo: more than line limit memos
@@ -61,9 +61,7 @@ memo: more than line limit memos
 ~memo.setup - have a check if it's done already
 // ~remind
 
-// SQL database
-deal qith querying on tick
-
+get status ot events / sql workers
 
 const query = {
   all(query, ...params) {
@@ -260,6 +258,7 @@ console.log('test');
 // heartfinder
 // happy new year
 // s/thing/thing
+// IP Address leak
 
 const daily = () => (new Date+[]).match(/\d+:\d+:\d+/) === '00:00:00';
 
