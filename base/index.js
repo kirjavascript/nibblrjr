@@ -103,5 +103,15 @@ new (class Nibblr {
         loadAcquire(() => {
             this.loadConfig();
         });
+
+        this.exitHandler = () => {
+            this.servers.forEach(node => {
+                node.dispose();
+            });
+            process.exit(0);
+        };
+
+        process.on('SIGTERM', this.exitHandler);
+        process.on('SIGINT', this.exitHandler);
     }
 })();

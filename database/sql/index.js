@@ -45,9 +45,16 @@ function spawn(namespace) {
     };
 }
 
+spawn('foo')
+// TODO always call close
+// even on main db stuff
+
 
 function useSQLDB(namespace) {
-    spawn(namespace);
+    if (workers.has(namespace)) {
+
+        spawn(namespace);
+    }
 }
 
 module.exports = { useSQLDB };

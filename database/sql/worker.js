@@ -61,7 +61,6 @@ const prepare = (query) => {
     return statement;
 };
 
-
 parentPort.on('message', ({ sql, parameters }) => {
   // const result = db.prepare(sql).all(...parameters);
   parentPort.postMessage('hello');
