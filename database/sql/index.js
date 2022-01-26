@@ -31,42 +31,37 @@ function useSQLDB(namespace) {
     let isClosed = false;
     let activityTimeout;
     let closeTimeout;
-    const disposers = [];
 
     // queryID
 
     // for close: main (mark ded) -> worker (close) -> msg -> main terminate
-    // TODO: log to console about DB connections
     // TODO: resourceLimits
-    // TODO: error handling
 
-    // TODO: dispose in sig when it's happening
     // TODO: remove queries when returned
 
     // for memo, the connection will always be open ^_^
 
     const queueQuery = (id, type, query, resolve, reject) => {
         if (isClosed) {
-            reject(new Error(`db restarting`));
+            reject(new Error(`db restart`));
         } else {
-            queries.set(id, [type, query, resolve, reject]);
+            queries.set(id, { type, query, resolve, reject });
             if (isOnline) sendQuery(id);
         }
     };
 
     const sendQuery = id => {
-        const [type, query] = queries.get(id);
+        const { type, query } = queries.get(id);
         worker.postMessage([type, id, query]);
     };
 
     // two step close -> mark as closed
 
     const closeWorker = () => {
-        console.log('close');
         isClosed = true;
         // flush queries
-        for (const [_type, _query, _resolve, reject] of queries.values()) {
-            reject(new Error(`db restarting`));
+        for (const { reject } of queries.values()) {
+            reject(new Error(`db restart`));
         }
         // close worker
         worker.postMessage(['close']);
@@ -75,17 +70,15 @@ function useSQLDB(namespace) {
     };
 
     const removeWorker = () => {
-        console.log('remove');
         clearTimeout(closeTimeout);
         connections.delete(namespace);
         worker.terminate();
-        console.log(connections);
+        console.log(`unload db ${namespace}`);
     };
 
     const bump = () => {
-        console.log('bump');
         clearTimeout(activityTimeout);
-        activityTimeout = setTimeout(closeWorker, 6000);
+        activityTimeout = setTimeout(closeWorker, 60000);
     };
 
     const sqlDB = {
@@ -101,27 +94,33 @@ function useSQLDB(namespace) {
 
     worker
         .on('online', () => {
+            console.log(`load db ${namespace}`);
             isOnline = true;
             for (key of queries.keys()) {
                 sendQuery(key);
             }
         })
-        .on('message', ([type, ...args]) => {
-            console.log(2, type, args);
+        .on('message', ([type, id, _data]) => {
             if (type === 'bump') {
                 bump();
+            } else {
+                const { resolve, reject } = queries.get(id);
+                if (type === 'result') {
+                    resolve(_data);
+                } else if (type === 'error') {
+                    reject(_data);
+                }
+                queries.delete(id);
             }
         })
         .on('error', (err) => {
             console.error(err);
-            // error = err;
+            closeWorker();
         })
         .on('exit', () => {
-            console.error('exit');
             if (connections.has(namespace)) {
                 removeWorker();
             }
-            disposers.forEach(disposer => disposer());
         });
 
     return sqlDB;

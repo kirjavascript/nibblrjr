@@ -167,9 +167,9 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         }
     }));
 
-    ctx.setSync('_sqlFns', new ivm.Reference((fnName, args) => {
+    ctx.setSync('_sqlFns', new ivm.Reference((fnName, query) => {
         if (env.namespace) {
-            return node.parent.database.useSQLDB(env.namespace)[fnName](...args);
+            return node.parent.database.useSQLDB(env.namespace)[fnName](query);
         }
     }));
 
@@ -279,8 +279,8 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         });
 
         global.SQL = {};
-        SQL.all = (...args) => ref.sqlFns.applySyncPromise(undefined, [
-            'all', new ref.ivm.ExternalCopy(args).copyInto(),
+        SQL.all = (query, ...params) => ref.sqlFns.applySyncPromise(undefined, [
+            'all', new ref.ivm.ExternalCopy([query.join('?'), params]).copyInto(),
         ]);
         // TODO: async api
 

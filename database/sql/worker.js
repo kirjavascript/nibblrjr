@@ -50,26 +50,18 @@ const prepare = (query) => {
     return statement;
 };
 
-parentPort.on('message', ([type, ...args]) => {
-    console.log(1,type, args);
+parentPort.on('message', ([type, id, _query]) => {
     if (type === 'all') {
         parentPort.postMessage(['bump']);
+        try {
+            const [query, params] = _query;
+            assertNotEvil(query);
+            parentPort.postMessage(['result', id, prepare(query).all(...params)]);
+        } catch (e) {
+            parentPort.postMessage(['error', id, e]);
+        }
     } else if (type === 'close') {
         db.close();
         process.exit(0);
-        // parentPort.postMessage(['close']);
     }
-  // const result = db.prepare(sql).all(...parameters);
-  // parentPort.postMessage('hello');
 });
-
-// const sqlFns = {
-//     // TODO: other shit
-//     // SQL.all``
-//     // SQL.exec``
-//     all: (query, params) => {
-//         assertNotEvil(query);
-//         bump();
-//         return prepare(query).all(...params);
-//     },
-// };
