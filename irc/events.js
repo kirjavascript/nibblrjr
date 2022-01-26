@@ -106,7 +106,7 @@ function createEventManager(node) {
             ref.vm &&
             ref.runEvents &&
             !ref.vm.isolate.isDisposed &&
-            !node.getTargetCfg(eventData.target, 'ignoreEvents', false)
+            !node.getTargetCfg(eventData.target, 'enableEvents', true)
         ) {
             ref.vm
                 .setConfig({

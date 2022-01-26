@@ -37,6 +37,7 @@ event.fetchURL
 webhooks
     queryparams / body
 setDebug / internal API / admin commands
+ignoreEvents -> enableEvents
 SQL
     subset / prepare cache
     escaping
@@ -57,6 +58,7 @@ IRC.setNamespace('event');
 
 clearQueue
 memo: more than line limit memos
+enableMemo config
 // ~memo
 ~memo.setup - have a check if it's done already
 // ~remind

@@ -12,9 +12,9 @@ const traverse = item => {
         }
     } else {
         const { type, variant, name } = item;
-        if (variant === 'attach') throw new Error('ATTACH forbidden');
-        if (variant === 'detach') throw new Error('DETACH forbidden');
-        if (variant === 'pragma') throw new Error('PRAGMA disallowed');
+        if (variant === 'attach') throw new Error('parity interrupt');
+        if (variant === 'detach') throw new Error('wrong calendar');
+        if (variant === 'pragma') throw new Error('insert floppy #2');
         if (
             type === 'identifier'
             && variant === 'function'
@@ -41,17 +41,6 @@ db.pragma('max_page_count = 1000');
 db.pragma('page_size = 4096');
 db.pragma('journal_mode = WAL');
 
-let timeout;
-const bump = () => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-        connections.delete(path);
-        db.close();
-    }, 60000)
-};
-
-bump();
-
 const prepareCache = new Map();
 
 const prepare = (query) => {
@@ -61,9 +50,17 @@ const prepare = (query) => {
     return statement;
 };
 
-parentPort.on('message', ({ sql, parameters }) => {
+parentPort.on('message', ([type, ...args]) => {
+    console.log(1,type, args);
+    if (type === 'all') {
+        parentPort.postMessage(['bump']);
+    } else if (type === 'close') {
+        db.close();
+        process.exit(0);
+        // parentPort.postMessage(['close']);
+    }
   // const result = db.prepare(sql).all(...parameters);
-  parentPort.postMessage('hello');
+  // parentPort.postMessage('hello');
 });
 
 // const sqlFns = {

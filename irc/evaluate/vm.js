@@ -139,12 +139,6 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         }
     }));
 
-    ctx.setSync('_sqlFns', new ivm.Callback((fnName, args) => {
-        if (env.namespace) {
-            return node.parent.database.useSQLDB(env.namespace)[fnName](...args);
-        }
-    }));
-
     ctx.setSync(
         '_commandFnsKeys',
         Object.keys(node.parent.database.commands.fns).join('|'),
@@ -170,6 +164,12 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
     ctx.setSync('_logFns', new ivm.Callback((fnName, args) => {
         if (env.target) {
             return node.database.logFns[fnName](env.target, ...args);
+        }
+    }));
+
+    ctx.setSync('_sqlFns', new ivm.Reference((fnName, args) => {
+        if (env.namespace) {
+            return node.parent.database.useSQLDB(env.namespace)[fnName](...args);
         }
     }));
 
@@ -279,7 +279,10 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         });
 
         global.SQL = {};
-        SQL.all = (...args) => ref.sqlFns('all', args);
+        SQL.all = (...args) => ref.sqlFns.applySyncPromise(undefined, [
+            'all', new ref.ivm.ExternalCopy(args).copyInto(),
+        ]);
+        // TODO: async api
 
         IRC.resetBuffer = () => {
             ref.resetBuffer.applySync();

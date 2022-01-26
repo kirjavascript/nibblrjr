@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 const { initWeb } = require('../web/server');
-const { Database } = require('../database/index');
+const { Database } = require('../database');
 const { loadAcquire } = require('../irc/evaluate/acquire');
 
 process.on('uncaughtException', console.error);
@@ -105,10 +105,12 @@ new (class Nibblr {
         });
 
         this.exitHandler = () => {
+            console.log('cleaning up resources...');
+            this.webServer && this.webServer.close();
             this.servers.forEach(node => {
                 node.dispose();
             });
-            process.exit(0);
+            this.database.waitSQLClose().then(() => process.exit(0));
         };
 
         process.on('SIGTERM', this.exitHandler);

@@ -83,10 +83,10 @@ class ServerNode {
             this.client._clearCmdQueue();
         };
 
-        this.dispose = (...args) => {
+        this.dispose = () => {
             this.resetBuffer();
             clearInterval(this.tick);
-            this.client.disconnect(...args);
+            this.client.disconnect('._.');
             this.events.dispose();
             this.database.db.close();
         };

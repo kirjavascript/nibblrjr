@@ -1,60 +1,132 @@
 const { Worker } = require('worker_threads');
 const { join } = require('path');
 
-const workers = new Map();
+const connections = new Map();
+const closeKey = Symbol();
 
-// log to console about DB connections
+async function waitSQLClose() {
+    // tell all the open connections to close
+    for (const sqlDB of connections.values()) {
+        sqlDB[closeKey]();
+    }
+    while (connections.size) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+}
 
-function spawn(namespace) {
+function useSQLDB(namespace) {
+    if (connections.has(namespace)) {
+        return connections.get(namespace);
+    }
+
     const worker = new Worker(join(__dirname, 'worker.js'), {
         env: {
             namespace,
         },
     });
 
+    const queries = new Map();
+    let id = 0;
+    let isOnline = false;
+    let isClosed = false;
+    let activityTimeout;
+    let closeTimeout;
+    const disposers = [];
+
+    // queryID
+
+    // for close: main (mark ded) -> worker (close) -> msg -> main terminate
+    // TODO: log to console about DB connections
+    // TODO: resourceLimits
+    // TODO: error handling
+
+    // TODO: dispose in sig when it's happening
+    // TODO: remove queries when returned
+
+    // for memo, the connection will always be open ^_^
+
+    const queueQuery = (id, type, query, resolve, reject) => {
+        if (isClosed) {
+            reject(new Error(`db restarting`));
+        } else {
+            queries.set(id, [type, query, resolve, reject]);
+            if (isOnline) sendQuery(id);
+        }
+    };
+
+    const sendQuery = id => {
+        const [type, query] = queries.get(id);
+        worker.postMessage([type, id, query]);
+    };
+
+    // two step close -> mark as closed
+
+    const closeWorker = () => {
+        console.log('close');
+        isClosed = true;
+        // flush queries
+        for (const [_type, _query, _resolve, reject] of queries.values()) {
+            reject(new Error(`db restarting`));
+        }
+        // close worker
+        worker.postMessage(['close']);
+        // kill it if it didnt close
+        closeTimeout = setTimeout(removeWorker, 3000);
+    };
+
+    const removeWorker = () => {
+        console.log('remove');
+        clearTimeout(closeTimeout);
+        connections.delete(namespace);
+        worker.terminate();
+        console.log(connections);
+    };
+
+    const bump = () => {
+        console.log('bump');
+        clearTimeout(activityTimeout);
+        activityTimeout = setTimeout(closeWorker, 6000);
+    };
+
+    const sqlDB = {
+        all: (query) => new Promise((resolve, reject) => {
+            queueQuery(id++, 'all', query, resolve, reject);
+        }),
+        [closeKey]: closeWorker,
+    };
+
+    connections.set(namespace, sqlDB);
+
+    bump();
+
     worker
         .on('online', () => {
-            console.log('online');
-            // workers.push({ takeWork });
-            // takeWork();
+            isOnline = true;
+            for (key of queries.keys()) {
+                sendQuery(key);
+            }
         })
-        .on('message', (result) => {
-            console.log(result, 1);
-            // job.resolve(result);
-            // job = null;
-            // takeWork(); // Check if there's more work to do
+        .on('message', ([type, ...args]) => {
+            console.log(2, type, args);
+            if (type === 'bump') {
+                bump();
+            }
         })
         .on('error', (err) => {
             console.error(err);
             // error = err;
         })
-        .on('exit', (code) => {
+        .on('exit', () => {
             console.error('exit');
-            // workers = workers.filter(w => w.takeWork !== takeWork);
-            // if (job) {
-            //   job.reject(error || new Error('worker died'));
-            // }
-            // if (code !== 0) {
-            //   console.error(`worker exited with code ${code}`);
-            //   spawn(); // Worker died, so spawn a new one
-            // }
+            if (connections.has(namespace)) {
+                removeWorker();
+            }
+            disposers.forEach(disposer => disposer());
         });
 
-    return {
-        exec: new Promise(() => {}),
-    };
+    return sqlDB;
+
 }
 
-spawn('foo')
-// TODO always call close
-// even on main db stuff
 
-
-function useSQLDB(namespace) {
-    if (workers.has(namespace)) {
-
-        spawn(namespace);
-    }
-}
-
-module.exports = { useSQLDB };
+module.exports = { useSQLDB, waitSQLClose };

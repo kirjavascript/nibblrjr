@@ -3,7 +3,7 @@ const SQLiteDatabase = require('better-sqlite3');
 
 const { createCommandDB } = require('./commands');
 const { createServerDBFactory } = require('./server');
-const { useSQLDB } = require('./sql');
+const { useSQLDB, waitSQLClose } = require('./sql');
 
 class Database {
     constructor(parent) {
@@ -12,6 +12,7 @@ class Database {
         this.createServerDB = createServerDBFactory(this);
 
         this.useSQLDB = useSQLDB;
+        this.waitSQLClose = waitSQLClose;
     }
 
     createDB(name, schema) {
