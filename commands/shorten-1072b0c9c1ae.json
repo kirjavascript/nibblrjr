@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "shorten",
+    "command": "input = '(\\\\b(https?):\\\\/\\\\/[-A-Za-z0-9+&@#\\\\/%?=~_|!:,.;]*[-A-Za-z0-9+&@#\\\\/%=~_|])'\n\nif (IRC.command.params[0] && isNaN(IRC.command.params[0])) {\n  getUrl(IRC.command.params[0])\n} else {\n  getUrl(IRC.log.regex(input, 1, IRC.command.params[0] || 0)[0].message.match(input)[0])\n}\n\nfunction getUrl (url) {\n  const res = fetchSync('https://u.ddxt.cc/api', { method: \"POST\", form: { url: url } })\n  print(JSON.parse(res).url)\n}"
+}

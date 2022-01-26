@@ -1,0 +1,6 @@
+{
+    "locked": true,
+    "starred": false,
+    "name": "wordleCheat",
+    "command": "if (!input) {\n \tthrow IRC.colors.cmd('wordleCheat','black letters|yellow letters|green (__b_c)')\n}\n\nconst [black, yellow = '', green = ''] = input.replace(/\\s+/g,'').split('|');\nconst words = IRC.require('wordle.words');\n\nconst ideas = words\n\t.map(str=>str.toLowerCase())\n\t.filter(str=>str.length===5)\n\t.filter(str => !new RegExp(`[${black}]`,'i').test(str))\n\t.filter(str => yellow.split(',').every(line =>( [...line].every((ch,i)=>ch=='_'||(str.includes(ch)&&str[i]!=ch)))))\n\t.filter(str => [...green].every((d, i) => d === '_' || d === str[i]));\n\n\n\nif (ideas.length > 40) {\n  print(`${ideas.length} results; ${IRC.require('module.paste')(ideas.join(' '))}`);\n} else {\n  print(`${ideas.length} results; ${ideas.join(' ')}`);\n}\n"
+}

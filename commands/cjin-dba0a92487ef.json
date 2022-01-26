@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "cjin",
+    "command": "IRC.require('cj')\nprint.raw(window.runCJam(IRC.command.params.join(','),input))\n"
+}
