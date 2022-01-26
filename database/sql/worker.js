@@ -37,7 +37,7 @@ const assertNotEvil = (query) => {
 const db = require('better-sqlite3')(
     join(__dirname, '../../storage/namespace', commandHash(namespace))
 );
-db.pragma('max_page_count = 1000');
+db.pragma('max_page_count = 4000'); // 15MB
 db.pragma('page_size = 4096');
 db.pragma('journal_mode = WAL');
 
@@ -50,13 +50,15 @@ const prepare = (query) => {
     return statement;
 };
 
+const methods = ['all', 'get', 'run']
+
 parentPort.on('message', ([type, id, _query]) => {
-    if (type === 'all') {
+    if (methods.includes(type)) {
         parentPort.postMessage(['bump']);
         try {
             const [query, params] = _query;
             assertNotEvil(query);
-            parentPort.postMessage(['result', id, prepare(query).all(...params)]);
+            parentPort.postMessage(['result', id, prepare(query)[type](...params)]);
         } catch (e) {
             parentPort.postMessage(['error', id, e.message]);
         }

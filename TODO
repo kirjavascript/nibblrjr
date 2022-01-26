@@ -44,17 +44,21 @@ ignoreEvents -> enableEvents
 SQL
     subset / prepare cache
     escaping
+    many/one/exec
+
 
 // tick|message|webhook.name
 // print|command|eval|join|part|nick|acquire
 
-mark log with isSelf
-limit command adding / editing
+    mark log with isSelf
+    limit command adding / editing
+
+memo / SQL
+===
+
+async SQL
 
 a way of clearing the db
-
-// remove old events from db script
-// migration
 
 IRC.sudo().setNamespace('namespace')
 IRC.setNamespace('event');
@@ -64,42 +68,12 @@ clearQueue
 memo: more than line limit memos
 enableMemo config
 // ~memo
-~memo.setup - have a check if it's done already
+    have a check if it's setup  already and do if not
 // ~remind
 
 get status ot events / sql workers
 
-const query = {
-  all(query, ...params) {
-    return db.prepare(query.join('?')).all(params)
-  },
-  one(query, ...params) {
-    return db.prepare(query.join('?')).get(params)
-  },
-  run(query, ...params) {
-    return db.prepare(query.join('?')).run(params)
-  },
-}
-
-
-
-
 // time db tick attempts
-
-// take a scope prefix
-// db({ scope: IRC.server })
-
-const db = new SQLiteDatabase(join(__dirname, '..', 'test.db'));
-db.pragma('max_page_count = 1000');
-db.pragma('page_size = 4096');
-
-db.exec(`
-    CREATE TABLE IF NOT EXISTS log (
-        idx INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-        foo TEXT
-    );
-
-`);
 
 for (let i = 0; i < 10000; i++) {
     db.exec(`

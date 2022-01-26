@@ -30,6 +30,7 @@ function useSQLDB(namespace) {
     });
 
     const queries = new Map();
+
     let id = 0;
     let isOnline = false;
     let isClosed = false;
@@ -50,7 +51,7 @@ function useSQLDB(namespace) {
         worker.postMessage([type, id, query]);
     };
 
-    // two step close -> mark as closed
+    // two step close -> mark as closed and notify worker
 
     const closeWorker = () => {
         isClosed = true;
@@ -76,10 +77,15 @@ function useSQLDB(namespace) {
         activityTimeout = setTimeout(closeWorker, 60000);
     };
 
+    const queryFn = type => query => new Promise((resolve, reject) => {
+        console.time(id);
+        queueQuery(id++, type, query, resolve, reject);
+    });
+
     const sqlDB = {
-        all: (query) => new Promise((resolve, reject) => {
-            queueQuery(id++, 'all', query, resolve, reject);
-        }),
+        all: queryFn('all'),
+        get: queryFn('get'),
+        run: queryFn('run'),
         [closeKey]: closeWorker,
     };
 
@@ -100,6 +106,7 @@ function useSQLDB(namespace) {
                 bump();
             } else {
                 const { resolve, reject } = queries.get(id);
+                console.timeEnd(id);
                 if (type === 'result') {
                     resolve(_data);
                 } else if (type === 'error') {

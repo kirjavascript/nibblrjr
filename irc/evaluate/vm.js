@@ -173,6 +173,15 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
                 .then(result => new ivm.ExternalCopy(result).copyInto())
         }
     }));
+    ctx.setSync('_sqlFnsAsync', new ivm.Callback((fnName, query, resolve, reject) => {
+        if (env.namespace) {
+            node.parent.database.useSQLDB(env.namespace)[fnName](query)
+                .then(result => new ivm.ExternalCopy(result).copyInto())
+                .then(result => resolve.applySync(undefined, [result]))
+                .catch(error => reject.applySync(undefined, [error.message]))
+                .finally(() => { resolve.release(); reject.release() });
+        }
+    }));
 
     const scriptRef = await (await isolate.compileScript(`
         (function () {
@@ -279,11 +288,24 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             };
         });
 
-        global.SQL = {};
-        SQL.all = (query, ...params) => ref.sqlFns.applySyncPromise(undefined, [
-            'all', new ref.ivm.ExternalCopy([query.join('?'), params]).copyInto(),
-        ]);
-        // TODO: async api
+        global.SQL = { async: {} };
+        Object.entries({
+            all: 'many',
+            get: 'one',
+            run: 'run',
+        }).forEach(([key, value]) => {
+            SQL[value] = (query, ...params) => ref.sqlFns.applySyncPromise(undefined, [
+                key, new ref.ivm.ExternalCopy([query.join('?'), params]).copyInto(),
+            ]);
+            SQL.async[value] = (query, ...params) => new Promise((resolve, reject) => {
+                ref.sqlFnsAsync(
+                    key,
+                    new ref.ivm.ExternalCopy([query.join('?'), params]).copyInto(),
+                    new ref.ivm.Reference(resolve),
+                    new ref.ivm.Reference(reject),
+                );
+            });
+        });
 
         IRC.resetBuffer = () => {
             ref.resetBuffer.applySync();
