@@ -23,6 +23,10 @@ function useSQLDB(namespace) {
         env: {
             namespace,
         },
+        resourceLimits: {
+            maxOldGenerationSizeMb: 100,
+            maxYoungGenerationSizeMb: 10,
+        },
     });
 
     const queries = new Map();
@@ -31,15 +35,6 @@ function useSQLDB(namespace) {
     let isClosed = false;
     let activityTimeout;
     let closeTimeout;
-
-    // queryID
-
-    // for close: main (mark ded) -> worker (close) -> msg -> main terminate
-    // TODO: resourceLimits
-
-    // TODO: remove queries when returned
-
-    // for memo, the connection will always be open ^_^
 
     const queueQuery = (id, type, query, resolve, reject) => {
         if (isClosed) {
@@ -126,6 +121,5 @@ function useSQLDB(namespace) {
     return sqlDB;
 
 }
-
 
 module.exports = { useSQLDB, waitSQLClose };

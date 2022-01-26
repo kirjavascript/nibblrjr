@@ -58,7 +58,7 @@ parentPort.on('message', ([type, id, _query]) => {
             assertNotEvil(query);
             parentPort.postMessage(['result', id, prepare(query).all(...params)]);
         } catch (e) {
-            parentPort.postMessage(['error', id, e]);
+            parentPort.postMessage(['error', id, e.message]);
         }
     } else if (type === 'close') {
         db.close();

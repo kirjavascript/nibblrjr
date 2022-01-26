@@ -6,6 +6,8 @@ DOC / CMDS
 clean up TODO
 use a better password
 update config
+    autorejoin code
+    memo
 changelog
 update guide
     storage moved to
@@ -57,6 +59,7 @@ a way of clearing the db
 IRC.sudo().setNamespace('namespace')
 IRC.setNamespace('event');
 
+    // for memo, the connection will always be open ^_^
 clearQueue
 memo: more than line limit memos
 enableMemo config
