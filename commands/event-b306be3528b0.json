@@ -3,5 +3,5 @@
     "locked": true,
     "starred": true,
     "name": "event",
-    "command": "IRC.listen('message', event => {\n    if (event.message.text.includes(IRC.nick + ':')) {\n        print('TODO: give the bot a brain');\n    }\n});\n\n// Auth example;\n//\n// curl -X POST --data-binary '{\"passcode\":\"demo\"}' -H \"Content-Type: application/json\" http://localhost:8888/api/webhook/test\n\n// const tripcode = require('tripcode');\n\n// IRC.listen('webhook.test', event => {\n//     const authed = tripcode(event.body.passcode) === IRC.queryConfig('testCode');\n//     print(authed ? 'pass' : 'fail');\n// });"
+    "command": "IRC.listen('message', event => {\n    if (event.message.text.includes(IRC.nick + ':')) {\n        print('TODO: give the bot a brain');\n    }\n});\n\nIRC.listen('tick', () => {\n  \tprint(1);\n  IRC.setNamespace('>');\n  log(SQL.one`SELECT count(message) from foo`)\n  \n}, { showError: true})\n\n// Auth example;\n//\n// curl -X POST --data-binary '{\"passcode\":\"demo\"}' -H \"Content-Type: application/json\" http://localhost:8888/api/webhook/test\n\n// const tripcode = require('tripcode');\n\n// IRC.listen('webhook.test', event => {\n//     const authed = tripcode(event.body.passcode) === IRC.queryConfig('testCode');\n//     print(authed ? 'pass' : 'fail');\n// });"
 }

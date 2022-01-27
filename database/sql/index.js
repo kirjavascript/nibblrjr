@@ -78,7 +78,7 @@ function useSQLDB(namespace) {
     };
 
     const queryFn = type => query => new Promise((resolve, reject) => {
-        console.time(id);
+        // console.time(id);
         queueQuery(id++, type, query, resolve, reject);
     });
 
@@ -106,7 +106,7 @@ function useSQLDB(namespace) {
                 bump();
             } else {
                 const { resolve, reject } = queries.get(id);
-                console.timeEnd(id);
+                // console.timeEnd(id);
                 if (type === 'result') {
                     resolve(_data);
                 } else if (type === 'error') {

@@ -10,6 +10,15 @@ const { version } = require('../../package.json');
 
 const scripts = loadScripts();
 
+function wrapTimeout(Class, env) {
+    return (func, options) => {
+        return new Class((...args) => {
+            if (env.timedOut) throw new Error('script timeout');
+            return func.apply(undefined, args);
+        }, options);
+    }
+}
+
 async function createVM({ node, maxTimeout = 60000 }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();
@@ -35,19 +44,8 @@ async function createVM({ node, maxTimeout = 60000 }) {
         }, maxTimeout);
     }
 
-    function timeoutRef(func) {
-        return new ivm.Reference((...args) => {
-            if (env.timedOut) throw new Error('script timeout');;
-            return func.apply(undefined, args);
-        });
-    }
-
-    function timeoutCallback(func) {
-        return new ivm.Callback((...args) => {
-            if (env.timedOut) throw new Error('script timeout');;
-            return func.apply(undefined, args);
-        });
-    }
+    const timeoutRef = wrapTimeout(ivm.Reference, env);
+    const timeoutCallback = wrapTimeout(ivm.Callback, env);
 
     ctx.setSync('global', ctx.derefInto());
 
@@ -512,6 +510,10 @@ async function createVM({ node, maxTimeout = 60000 }) {
         await configScript.run(context);
     }
 
+    function setNamespace(namespace) {
+        env.namespace = namespace;
+    }
+
     async function evaluate(script, { timeout = 30000, evalType }) {
         const rawScript = {
             evalPrint: `
@@ -544,6 +546,7 @@ async function createVM({ node, maxTimeout = 60000 }) {
         dispose,
         evaluate,
         setConfig,
+        setNamespace,
     };
 }
 

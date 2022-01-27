@@ -46,6 +46,7 @@ SQL
     escaping
     many/one/run
     async
+IRC.setNamespace
 
 https://i.imgur.com/sCCrrgW.png
 
@@ -62,7 +63,6 @@ IRC.sudo().setNamespace('namespace')
 IRC.setNamespace('event');
 
     // for memo, the connection will always be open ^_^
-clearQueue
 memo: more than line limit memos
 enableMemo config
 // ~memo

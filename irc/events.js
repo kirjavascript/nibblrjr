@@ -69,6 +69,10 @@ function createEventManager(node) {
                 return node.getTargetCfg(target, key, _default);
             }),
         );
+        await ref.vm.context.global.set(
+            '_setNamespace',
+            new ivm.Callback(ref.vm.setNamespace),
+        );
         await ref.vm.context.eval(
             'new ' +
                 String(function () {
@@ -87,6 +91,8 @@ function createEventManager(node) {
                         return conf;
                     };
                     delete global._queryConfig;
+                    IRC.setNamespace = global._setNamespace;
+                    delete global._setNamespace;
                 })
         );
 
@@ -106,7 +112,7 @@ function createEventManager(node) {
             ref.vm &&
             ref.runEvents &&
             !ref.vm.isolate.isDisposed &&
-            !node.getTargetCfg(eventData.target, 'enableEvents', true)
+            node.getTargetCfg(eventData.target, 'enableEvents', true)
         ) {
             ref.vm
                 .setConfig({
