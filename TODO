@@ -26,7 +26,6 @@ const dateFns = require('date-fns@1.30.1');
 const _ = require('lodash');
 removed channels and commandLimit
 update config to explain getChannel
-IRC.queryConfig
 IBIP example
 update help
 webpack to esbuild
@@ -47,6 +46,7 @@ SQL
     many/one/run
     async
 IRC.setNamespace
+IRC.queryConfig
 
 https://i.imgur.com/sCCrrgW.png
 
@@ -54,13 +54,10 @@ https://i.imgur.com/sCCrrgW.png
 // print|command|eval|join|part|nick|acquire
 
     mark log with isSelf
-    limit command adding / editing
+    memo
 
 memo / SQL
 ===
-
-IRC.sudo().setNamespace('namespace')
-IRC.setNamespace('event');
 
     // for memo, the connection will always be open ^_^
 memo: more than line limit memos
@@ -72,11 +69,6 @@ enableMemo config
 get status ot events / sql workers
 
 // time db tick attempts
-
-for (let i = 0; i < 10000; i++) {
-    db.exec(`
-    INSERT INTO log (foo) VALUES ('${'.'.repeat(10000)}');
-    `);
 }
 // console.time the db calls I guess
             // CREATE TABLE IF NOT EXISTS events (
@@ -233,22 +225,10 @@ console.log('test');
             //             this.database.eventFns.delete(row.idx);
             //         });
             // }
-// heartfinder
 // happy new year
 // s/thing/thing
 // IP Address leak
 
-const daily = () => (new Date+[]).match(/\d+:\d+:\d+/) === '00:00:00';
-
-IRC.listen('tick', () => {
-    print('egg');
-}, { filter: ({ channel }) => channel === '#eggchan' && daily() });
-
-IRC.listen('tick', ({ channel }) => {
-    if (channel === '#eggchan' && daily()) {
-        print('egg');
-    }
-});
 IRC.require() in events allows whitelisting stuff for others
 say egg everyday in eggchan
 
@@ -272,17 +252,12 @@ PYTHON=$(which python2)
 
 // events//
 timeout abstraction for responding cutely to messages
-SQL scoped to command, not server
 poker2
+poker: call check bet raise (show odds)
 botcoin
 onjoin, onconnect
 
 ## = ignore everything
-Promise { resolved: result }
-s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
-trigger commands when not even at start of message
-IRC.resetEvents
-poker: call check bet raise (show odds)
 check with buck what different things we can do, s//
 19:00 <@nibblrjr> <Kirjava> add joins/parts to events spec (2 hours ago)
 19:00 <@nibblrjr> <Kirjava> duck hunt (1 hour ago) quack / fire
