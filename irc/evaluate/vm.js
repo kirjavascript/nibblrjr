@@ -10,7 +10,7 @@ const { version } = require('../../package.json');
 
 const scripts = loadScripts();
 
-async function createVM({ node, maxTimeout = 60000 * 5 }) {
+async function createVM({ node, maxTimeout = 6000 }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();
     const ctx = context.global;
@@ -18,6 +18,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         target: undefined,
         namespace: undefined,
         hasSetNick: false,
+        timedOut: false,
     };
 
     function dispose() {
@@ -29,14 +30,23 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
 
     if (maxTimeout) {
         // dispose stuff incase sleep/require/fetchSync are still running
-        setTimeout(dispose, maxTimeout);
+        setTimeout(() => {
+            env.timedOut = true;
+        }, maxTimeout);
+    }
+
+    function timeoutRef(func) {
+        return new ivm.Reference((...args) => {
+            if (env.timedOut) throw new Error('script timeout');;
+            return func.apply(undefined, args);
+        });
     }
 
     ctx.setSync('global', ctx.derefInto());
 
     ctx.setSync('_ivm', ivm);
-    ctx.setSync('_resetBuffer', new ivm.Reference(node.resetBuffer));
-    ctx.setSync('_setNick', new ivm.Reference((str) => {
+    ctx.setSync('_resetBuffer', timeoutRef(node.resetBuffer));
+    ctx.setSync('_setNick', timeoutRef((str) => {
         if (env.hasSetNick) {
             str = String(str).replace(/[^a-zA-Z0-9]+/g, '');
             node.client.send('NICK', str);
@@ -45,7 +55,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             return false;
         }
     }));
-    ctx.setSync('_whois', new ivm.Reference((text) => (
+    ctx.setSync('_whois', timeoutRef((text) => (
         text && new Promise((resolve, reject) => {
             node.client.whois(text, (data) => {
                 try {
@@ -56,8 +66,8 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             });
         })
     )));
-    ctx.setSync('_ping', new ivm.Reference(ping));
-    ctx.setSync('_wordList', new ivm.Reference(() => (
+    ctx.setSync('_ping', timeoutRef(ping));
+    ctx.setSync('_wordList', timeoutRef(() => (
         new Promise((resolve, reject) => {
             const path = '/usr/share/dict/words';
             fs.exists(path, (exists) => {
@@ -73,7 +83,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         })
     )));
 
-    ctx.setSync('_fetchSync', new ivm.Reference((url, type, config = {}) => (
+    ctx.setSync('_fetchSync', timeoutRef((url, type, config = {}) => (
         new Promise((resolve, reject) => {
             if (config.form) {
                 const form = new FormData();
@@ -91,20 +101,20 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         })
     )));
 
-    ctx.setSync('_require', new ivm.Reference((str) => (
+    ctx.setSync('_require', timeoutRef((str) => (
         new Promise((resolve, reject) => {
             acquire(str)
                 .then(obj => { resolve(obj.toString()) })
                 .catch(reject);
         })
     )));
-    ctx.setSync('_sleep', new ivm.Reference((ms) => (
+    ctx.setSync('_sleep', timeoutRef((ms) => (
         new Promise((resolve) => {
             setTimeout(resolve, Math.min(ms, maxTimeout));
         })
     )));
 
-    ctx.setSync('_auth', new ivm.Reference((from, isSudo) => (
+    ctx.setSync('_auth', timeoutRef((from, isSudo) => (
         new Promise((resolve, reject) => {
             (isSudo ? sudo : auth)({
                 node,
@@ -114,7 +124,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         })
     )));
 
-    ctx.setSync('_sudoProxy', new ivm.Reference((config) => {
+    ctx.setSync('_sudoProxy', timeoutRef((config) => {
         if (config === 'exit') {
             process.kill(process.pid, 'SIGINT');
         }
@@ -167,7 +177,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
         }
     }));
 
-    ctx.setSync('_sqlFns', new ivm.Reference((fnName, query) => {
+    ctx.setSync('_sqlFns', timeoutRef((fnName, query) => {
         if (env.namespace) {
             return node.parent.database.useSQLDB(env.namespace)[fnName](query)
                 .then(result => new ivm.ExternalCopy(result).copyInto())
@@ -335,7 +345,7 @@ async function createVM({ node, maxTimeout = 60000 * 5 }) {
             ref.auth.applySyncPromise(undefined, [IRC.message.from, true]);
             function node(path = []) {
                 return new Proxy({}, {
-                    get(target, key) {
+                    get(_target, key) {
                         if (['get', 'set', 'call'].includes(key)) {
                             return (...args) => ref.sudoProxy.applySync(
                                 undefined,
