@@ -58,11 +58,6 @@ https://i.imgur.com/sCCrrgW.png
 memo / SQL
 ===
 
-a way of clearing the db
-01:00 <@cake^> ~> while(1) SQL.run`INSERT INTO foo (message) VALUES (1)`
-01:00 <@cake^> ~> while(1) fetchSync('https://google.com')
-timeout ref
-
 IRC.sudo().setNamespace('namespace')
 IRC.setNamespace('event');
 

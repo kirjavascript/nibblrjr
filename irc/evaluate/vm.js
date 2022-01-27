@@ -10,7 +10,7 @@ const { version } = require('../../package.json');
 
 const scripts = loadScripts();
 
-async function createVM({ node, maxTimeout = 6000 }) {
+async function createVM({ node, maxTimeout = 60000 }) {
     const isolate = new ivm.Isolate({ memoryLimit: 128 });
     const context = await isolate.createContext();
     const ctx = context.global;
@@ -37,6 +37,13 @@ async function createVM({ node, maxTimeout = 6000 }) {
 
     function timeoutRef(func) {
         return new ivm.Reference((...args) => {
+            if (env.timedOut) throw new Error('script timeout');;
+            return func.apply(undefined, args);
+        });
+    }
+
+    function timeoutCallback(func) {
+        return new ivm.Callback((...args) => {
             if (env.timedOut) throw new Error('script timeout');;
             return func.apply(undefined, args);
         });
@@ -153,7 +160,7 @@ async function createVM({ node, maxTimeout = 6000 }) {
         '_commandFnsKeys',
         Object.keys(node.parent.database.commands.fns).join('|'),
     );
-    ctx.setSync('_commandFns', new ivm.Callback((fnName, args) => {
+    ctx.setSync('_commandFns', timeoutCallback((fnName, args) => {
         return node.parent.database.commands.fns[fnName](...args);
     }));
 
@@ -161,7 +168,7 @@ async function createVM({ node, maxTimeout = 6000 }) {
         '_storeFnsKeys',
         Object.keys(node.database.storeFns).join('|'),
     );
-    ctx.setSync('_storeFns', new ivm.Callback((fnName, args) => {
+    ctx.setSync('_storeFns', timeoutCallback((fnName, args) => {
         if (env.namespace) {
             return node.database.storeFns[fnName](env.namespace, ...args);
         }
@@ -171,7 +178,7 @@ async function createVM({ node, maxTimeout = 6000 }) {
         '_logFnsKeys',
         Object.keys(node.database.logFns).join('|'),
     );
-    ctx.setSync('_logFns', new ivm.Callback((fnName, args) => {
+    ctx.setSync('_logFns', timeoutCallback((fnName, args) => {
         if (env.target) {
             return node.database.logFns[fnName](env.target, ...args);
         }
@@ -183,7 +190,7 @@ async function createVM({ node, maxTimeout = 6000 }) {
                 .then(result => new ivm.ExternalCopy(result).copyInto())
         }
     }));
-    ctx.setSync('_sqlFnsAsync', new ivm.Callback((fnName, query, resolve, reject) => {
+    ctx.setSync('_sqlFnsAsync', timeoutCallback((fnName, query, resolve, reject) => {
         if (env.namespace) {
             node.parent.database.useSQLDB(env.namespace)[fnName](query)
                 .then(result => new ivm.ExternalCopy(result).copyInto())
@@ -492,10 +499,10 @@ async function createVM({ node, maxTimeout = 6000 }) {
         env.target = vmConfig.print.target;
 
         ctx.setSync('config', new ivm.ExternalCopy(vmConfig).copyInto());
-        ctx.setSync('sendRaw', new ivm.Reference(node.sendRaw));
+        ctx.setSync('sendRaw', timeoutRef(node.sendRaw));
         ctx.setSync('scripts', scriptRef.derefInto());
         if (config.onPrint) {
-            ctx.setSync('onPrint', new ivm.Reference(config.onPrint));
+            ctx.setSync('onPrint', timeoutRef(config.onPrint));
         }
         await configScript.run(context);
     }
