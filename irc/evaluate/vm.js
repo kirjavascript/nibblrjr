@@ -340,8 +340,13 @@ async function createVM({ node, maxTimeout = 60000 }) {
             str,
         ]);
 
+        let wordList;
         Object.defineProperty(IRC, 'wordList', {
-            get: () => ref.wordList.applySyncPromise().trim().split(/\n|\r\n/),
+            get: () => {
+                if (wordList) return wordList;
+                wordList = ref.wordList.applySyncPromise().trim().split(/\n|\r\n/);
+                return wordList;
+            },
         });
 
         IRC.auth = () => {
