@@ -12,6 +12,9 @@ changelog
 update guide
     storage moved to
 
+actual docs / changelog
+
+
 colLimit charLimit lineLimit
 reloadable config
 web can be disabled
@@ -55,6 +58,7 @@ https://i.imgur.com/sCCrrgW.png
 
     mark log with isSelf
     memo
+    remind
 
 memo / SQL
 ===
