@@ -1,20 +1,21 @@
 nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 
 * multiple servers/channels
+* reloadable config
 * rich IRC command API
-* web CRUD command UI
+* web CRUD command editor
 * statistics visualisation
+* events API
+* webhooks API
+* safe arbitrary npm module use
+* databases; key-value store, SQLite API
+* command module format
 * easy colour parsing DSL
 * human datetime parsing
-* database functions
-* event functions
-* safe arbitrary npm module use
-* custom command module format
 * logging
-* admin control
+* admin control / debugger
 * hot reloading of base code
-* memo system
-* reminders
+* memo system / reminders
 * 1000+ commands
 * various API integrations
 * texas hold em, roulette, blackjack, roll7, slots

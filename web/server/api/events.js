@@ -1,5 +1,5 @@
 module.exports = function({ parent, app }) {
-    app.use('/api/webhook/:name', (req, res, next) => {
+    app.use('/api/webhook/:name', (req, res) => {
         const { name } = req.params;
         parent.servers.forEach(node => {
             node.events.broadcast(`webhook.${name}`, {
