@@ -14,10 +14,15 @@ update example config
 update guide
     storage moved to
 
+
+
 colLimit charLimit lineLimit
 reloadable config
+
+
+
 IRC.listen filter showError
-syntax errors
+syntax errors -> debugger
 removal of dateFns and _
 IRC.sudo().node.events.reloadVM.call();
 IRC.sudo().node.parent.reloadEvents.call();

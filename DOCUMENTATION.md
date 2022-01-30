@@ -525,7 +525,7 @@ a *boolean* indicating if the current command has been required or not. allows c
 
 **all properties are optional**. [see the example config](config.json.example)
 
-all root properties (except `timezone` and `web`) are global, and can also placed inside the server config for a local override
+all properties (except `timezone` and `web`) are global, and can also placed inside the server or channel config for a local override
 
 * `trigger` _string_ &emsp; the prefix to use for running commands (default: `~`)
 * `nickname` _string_ &emsp; nickname

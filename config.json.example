@@ -9,7 +9,7 @@
             "nickname": "nibblrjr"
         },
         {
-            "address": "irc.furnet.org",
+            "address": "irc.efnet.org",
             "channels": [{
                 "name": "#purple",
                 "lineLimit": 100
@@ -19,7 +19,7 @@
             "password": "milkshake"
         },
         {
-            "address": "irc.freenode.net",
+            "address": "irc.libera.chat",
             "trigger": "!",
             "channels": ["#bottest"],
             "nickname": "nibblrjr",
