@@ -18,6 +18,8 @@ update guide
 
 command conventions
 
+    "some useful utilities are available as subcommands of the `module` command. for example:"
+
 modules
 event.
 admin command list
@@ -41,6 +43,8 @@ setDebug / internal API / admin commands
 
 config
 
+split into top level only, top and server, and top server channel
+
 colLimit charLimit lineLimit
 reloadable config
 update config to explain getChannel
@@ -61,15 +65,15 @@ webhooks
 
 remote debugger
 
+browser
 curl -u io:password https://nibblr.pw/api/iostream
 
-
-https://i.imgur.com/sCCrrgW.png
 
 // tick|message|webhook.name
 // print|command|eval|join|part|nick|acquire
 
     mark log with isSelf
+    log limit 1 month
     memo
     remind
     update help / add about - simplify - docs and commands
@@ -78,8 +82,6 @@ memo / SQL
 ===
     for debug: show query time
 migration
-
-    have a query that takes longer than a second
 
     // for memo, the connection will always be open ^_^
 memo: more than line limit memos

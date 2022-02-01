@@ -7,9 +7,6 @@
     * [fetching data](#fetching-data)
     * [storing data](#storing-data)
     * [using npm packages](#using-npm-packages)
-
-    * [events](#events)
-
     * [the IRC object](#the-irc-object)
     * [colours / formatting](#colours--formatting)
     * [dealing with time](#dealing-with-time)
@@ -466,7 +463,15 @@ a *boolean* indicating if the current command has been required or not. allows c
 
 **all properties are optional**. [see the example config](config.json.example)
 
-all root properties (except `timezone` and `web`) are global, and can also placed inside the server for a local override
+if the configuration file is edited while the bot is running, these changes will be reflected in its behaviour, to the extent that if you change the server address it will leave the old one and rejoin the new one
+
+* `servers` _array_ &emsp; list of IRC servers to connect to 
+    * `address` _string_ &emsp; for example: `irc.libera.chat`
+    * `password` _string_ &emsp; password to use for services authentication
+    * `channels` _array_ &emsp; list of channels to join.
+        * `name` _string_ &emsp; channel name to join. for example: `##rust`
+
+the following properties are top level, but can also placed inside the server for a local override
 
 * `trigger` _string_ &emsp; the prefix to use for running commands (default: `~`)
 * `nickname` _string_ &emsp; nickname
@@ -475,30 +480,36 @@ all root properties (except `timezone` and `web`) are global, and can also place
 * `floodProtection` _boolean_ &emsp; should flood protection be enabled (default: `true`)
 * `floodProtectionDelay` _number_ &emsp; set flood protection time delay in ms (default: `250`)
 * `autoRejoin` _boolean_ &emsp; should the bot autorejoin channels when kicked (default: `true`)
-* `enableIBIP` _boolean_ &emsp; should the bot conform to [IBIP](https://git.teknik.io/Teknikode/IBIP) standard (default: `true`)
-* `enableCommands` _boolean_ &emsp; should commands be triggerable (default: `true`)
-* `logCommands` _bool_ &emsp; should messages that trigger commands be logged (default: `true`)
 * `ignoreHosts` _array_ &emsp; list of hostnames to ignore for events and messages entirely
 * `admins` _array_ &emsp; list of nicknames of users that have access to [IRC.sudo](#IRC-sudo)
-* `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
-* `fetchURL` _boolean_ &emsp; should URLs posted in channel have their titles displayed (default: `true`)
 * `secrets` _object_ &emsp; keys in this object correspond to commands that have an [IRC.secret](#IRC-secret) value
 * `broadcastCommands` _array_ &emsp; list of commands that are able to use the *target* property of [print](#print)
+
+the following properties are top level, but can also placed inside the server or channel for a local override
+
+* `lineLimit` _number_ &emsp; maximum number of lines a command can display (default: `10`)
+    charLimit
+    colLimit
+* `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
+
+* `setNick` _boolean_ &emsp; does anyone in this channel have access to [IRC.setNick](#IRC-setNick) (default: `false`)
+* `enableEvents` _boolean_ &emsp; should channel run events system (default: `true`)
+* `enableCommands` _boolean_ &emsp; should commands be triggerable (default: `true`)
+
+the following properties are top level only
+
 * `timezone` _string_ &emsp; timezone to use for dates (default: `Europe/London`)
 * `web` _object_ &emsp; configuration for the web frontend
     * `url` _string_ &emsp; web address for the frontend, available at [IRC.webAddress](#IRC-webAddress)
     * `port` _number_ &emsp; port to host the content at
     * `socketURL` _string_ &emsp; websocket URL to connect to
     * `password` _string_ &emsp; logging in to the web interface allows you to modify locked commands
-* `servers` _array_ &emsp; list of IRC servers to connect to 
-    * `address` _string_ &emsp; for example: `irc.freenode.org`
-    * `password` _string_ &emsp; password to use for services authentication
-    * `channels` _array_ &emsp; list of channels to join. (can just be a list of strings of channel names)
-        * `name` _string_ &emsp; channel name to join. for example: `##rust`
-        * `lineLimit` _number_ &emsp; maximum number of lines a command can display (default: `10`)
-        * `setNick` _boolean_ &emsp; does anyone in this channel have access to [IRC.setNick](#IRC-setNick) (default: `false`)
-        * `fetchURLAll` _boolean_ &emsp; should every scraped URL be shown, or just 'useful' ones (default: `false`)
-        * `ignoreEvents` _boolean_ &emsp; should this channel ignore `speak` and `tick` events (default: `false`)
+
+these used to be part of the core, but are now user-defined configuration values
+
+* `enableIBIP` _boolean_ &emsp; should the bot conform to [IBIP](https://git.teknik.io/Teknikode/IBIP) standard (default: `true`)
+* `fetchURL` _boolean_ &emsp; should URLs posted in channel have their titles displayed (default: `true`)
+* `fetchURLAll` _boolean_ &emsp; should every scraped URL be shown, or just 'useful' ones (default: `false`)
 
 ## REPL
 
