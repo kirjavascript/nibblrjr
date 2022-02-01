@@ -7,18 +7,19 @@
     * [fetching data](#fetching-data)
     * [storing data](#storing-data)
     * [using npm packages](#using-npm-packages)
+
+    * [events](#events)
+
     * [the IRC object](#the-irc-object)
     * [colours / formatting](#colours--formatting)
     * [dealing with time](#dealing-with-time)
     * [reading logs](#reading-logs)
     * [manipulating commands](#manipulating-commands)
-    * [interacting with events](#interacting-with-events)
     * [timers](#timers)
     * [authentication](#authentication)
     * [modules](#modules)
 * [Configuration](#configuration)
 * [REPL](#repl)
-* [Flags](#Flags)
 
 ## API Reference
 
@@ -104,7 +105,7 @@ the following functions are deprecated
 
 ### storing data
 
-data is scoped by server. a future version may introduce additional scope
+data is scoped by server
 
 <a name="set" href="#set">#</a> store.<b>set</b>(<i>key</i>, <i>value</i>) 
 
@@ -137,14 +138,6 @@ equal to [IRC.command.root](#IRC-command)
 different commands store data in different namespaces, only commands with the same `root` share the same namespace
 
 read more about `command.root` in [IRC.command](#IRC-command)
-
-there is an experimental react-hooks like API for dealing with non-string values in the command module `module.loadObject` that can be used with [IRC.require](#IRC-require)
-
-```javascript
-const [scores, setScores] = IRC.require('module.loadObject')('someKey');
-```
-
-once the API is finalised, it'll be moved into the core
 
 ### using npm packages
 
@@ -207,10 +200,6 @@ used internally to parse commands. object has the following properties;
 
 * `trigger` - _string|undefined_ &emsp; the command prefix to use, if at all 
 * `text` - _string_ &emsp; the full message
-
-<a name="IRC-channels" href="#IRC-channels">#</a> IRC.<b>channels</b>
-
-an *object* containing information about channels
 
 <a name="IRC-webAddress" href="#IRC-webAddress">#</a> IRC.<b>webAddress</b>
 
@@ -367,21 +356,13 @@ each format can be combined to create a time offset
 
 [see here](https://github.com/kirjavascript/nibblrjr/blob/master/irc/evaluate/scripts/parse-time.js) for a full list of strings that are accepted
 
-<a name="datefns" href="#datefns">#</a> <b>dateFns</b>
-
-the [date-fns](https://date-fns.org/) library
-
 ### reading logs
 
 used in the `log` command and subcommands, but also used to create sed like functionality for messages
 
 <a name="IRC-log-get" href="#IRC-log-get">#</a> IRC.log.<b>get</b>(<i>text</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
 
-retrieve messages from the current channel
-
-<a name="IRC-log-getGlobal" href="#IRC-log-getGlobal">#</a> IRC.log.<b>getGlobal</b>(<i>text</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
-
-same as [IRC.log.get](#IRC-log-get) but for every channel
+retrieve messages from the channel
 
 <a name="IRC-log-count" href="#IRC-log-count">#</a> IRC.log.<b>count</b>(<i>text</i>) -> <i>number</i>
 
@@ -426,53 +407,13 @@ returns an array of all the command names
 
 returns the number of commands
 
-<a name="IRC-commandFns-setSafe" href="#IRC-commandFns-setSafe">#</a> IRC.commandFns.<b>setSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
+<a name="IRC-commandFns-set" href="#IRC-commandFns-set">#</a> IRC.commandFns.<b>setSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
 
 sets the code for a particular command. returns *true* if successful
 
-<a name="IRC-commandFns-deleteSafe" href="#IRC-commandFns-deleteSafe">#</a> IRC.commandFns.<b>deleteSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
+<a name="IRC-commandFns-delete" href="#IRC-commandFns-delete">#</a> IRC.commandFns.<b>deleteSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
 
 deletes the command. returns *true* if successful
-
-the names `deleteSafe` and `setSafe` are used as in future, additional `delete` and `set` functions will be able to modify locked commands for admins
-
-### interacting with events
-
-used in the `memo` and `remind` commands
-
-<a name="IRC-event" href="#IRC-event">#</a> IRC.<b>event</b>
-
-if the command is running in an event, contains the event information
-
-* `idx` - _number_ &emsp; index
-* `callback` - _string_ &emsp; name of the command to trigger when the event happens
-* `type` - _string_ &emsp; type of event triggered
-* `timestamp` - _date_ &emsp; timestamp the message should reach before triggering
-* `init` - _date_ &emsp; timestamp from when the event was created
-* `user` - _string_ &emsp; user that created the event
-* `target` - _string_ &emsp; user/channel the message is targeted at
-* `message` - _string_ &emsp; additional text to send with the event
-
-<a name="IRC-eventFns-addEvent" href="#IRC-eventFns-addEvent">#</a> IRC.eventFns.<b>addEvent</b>(<i>type</i>{, <i>options</i>})
-
-type can be `speak` to trigger after a user has spoken, or `tick` to trigger after an elapsed amount of time. options are;
-
-* `callback` - _string_ &emsp; name of the command to trigger when the event happens
-* `time` - _date_ &emsp; minimum timestamp the message should reach before triggering
-* `message` - _string_ &emsp; additional text to send with the event
-* `target` - _string_ &emsp; user the event is intended for. (does nothing for tick)
-
-<a name="IRC-eventFns-speakElapsed" href="#IRC-eventFns-speakElapsed">#</a> IRC.eventFns.<b>speakElapsed</b>(<i>nick</i>) -> <i>array</i>
-
-an *array* of elapsed speak events for a specific user with the same format as [IRC.event](#IRC-event)
-
-<a name="IRC-eventFns-tickElapsed" href="#IRC-eventFns-tickElapsed">#</a> IRC.eventFns.<b>tickElapsed</b>() -> <i>array</i>
-
-an *array* of elapsed tick events for a specific user with the same format as [IRC.event](#IRC-event)
-
-<a name="IRC-eventFns-delete" href="#IRC-eventFns-delete">#</a> IRC.eventFns.<b>delete</b>(<i>index</i>)
-
-used to delete events
 
 ### timers
 
@@ -525,7 +466,7 @@ a *boolean* indicating if the current command has been required or not. allows c
 
 **all properties are optional**. [see the example config](config.json.example)
 
-all properties (except `timezone` and `web`) are global, and can also placed inside the server or channel config for a local override
+all root properties (except `timezone` and `web`) are global, and can also placed inside the server for a local override
 
 * `trigger` _string_ &emsp; the prefix to use for running commands (default: `~`)
 * `nickname` _string_ &emsp; nickname
@@ -536,7 +477,6 @@ all properties (except `timezone` and `web`) are global, and can also placed ins
 * `autoRejoin` _boolean_ &emsp; should the bot autorejoin channels when kicked (default: `true`)
 * `enableIBIP` _boolean_ &emsp; should the bot conform to [IBIP](https://git.teknik.io/Teknikode/IBIP) standard (default: `true`)
 * `enableCommands` _boolean_ &emsp; should commands be triggerable (default: `true`)
-* `commandLimit` _number_ &emsp; limit the number of times functions that manipulate commands can be used in a single REPL call (default: `2`)
 * `logCommands` _bool_ &emsp; should messages that trigger commands be logged (default: `true`)
 * `ignoreHosts` _array_ &emsp; list of hostnames to ignore for events and messages entirely
 * `admins` _array_ &emsp; list of nicknames of users that have access to [IRC.sudo](#IRC-sudo)
@@ -571,7 +511,3 @@ the REPL works as a command like any other, and `>` takes optional params. the p
 **>**(<i>depth</i>, <i>truncate</i>)
 
 which correspond to the options from [IRC.inspect](#IRC-inspect)
-
-## Flags
-
-`--dev` will enable development mode

@@ -154,8 +154,10 @@ function createCommandDB({ reloadEvents }) {
         list,
         names,
         count,
-        setSafe,
-        deleteSafe,
+        delete: deleteSafe,
+        set: setSafe,
+        setSafe, // backwards compat
+        deleteSafe, // backwards compat
     };
 
     return {

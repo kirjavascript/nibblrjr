@@ -10,49 +10,59 @@ when updating
 update config
     autorejoin 8bitvape
     memo
-update example config
 update guide
     storage moved to
+    const dateFns = require('date-fns@1.30.1');
+    const _ = require('lodash');
+    rm -rm cache/acquire
 
+command conventions
 
+modules
+event.
+admin command list
 
-colLimit charLimit lineLimit
-reloadable config
+API
 
+jsdom() built in function for loading
 
-
-IRC.listen filter showError
-syntax errors -> debugger
-removal of dateFns and _
-IRC.sudo().node.events.reloadVM.call();
-IRC.sudo().node.parent.reloadEvents.call();
-IRC.sudo().node.parent.reloadVM.call();
-setDebug / internal API / admin commands
-
-const dateFns = require('date-fns@1.30.1');
-const _ = require('lodash');
-removed channels and commandLimit
-update config to explain getChannel
-IBIP example
-update help
-webpack to esbuild
-fewer deps
-ignoreEvents
-curl -u io:password https://nibblr.pw/api/iostream
-update ~help add ~about
-rm -rm cache/acquire
-fetch
-event.fetchURL
-webhooks
-    queryparams / body
-ignoreEvents -> enableEvents
 SQL
     subset / prepare cache
     escaping
     many/one/run
     async
+
+auth
+
+IRC.sudo().node.events.reloadVM.call();
+IRC.sudo().node.parent.reloadEvents.call();
+IRC.sudo().node.parent.reloadVM.call();
+setDebug / internal API / admin commands
+
+config
+
+colLimit charLimit lineLimit
+reloadable config
+update config to explain getChannel
+ignoreEvents -> enableEvents
+
+events
+
+IRC.listen filter showError
+syntax errors -> debugger
+IBIP example
+event.fetchURL
 IRC.setNamespace
 IRC.queryConfig
+fetch
+
+webhooks
+    queryparams / body
+
+remote debugger
+
+curl -u io:password https://nibblr.pw/api/iostream
+
 
 https://i.imgur.com/sCCrrgW.png
 
@@ -62,6 +72,7 @@ https://i.imgur.com/sCCrrgW.png
     mark log with isSelf
     memo
     remind
+    update help / add about - simplify - docs and commands
 
 memo / SQL
 ===
