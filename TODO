@@ -16,12 +16,6 @@ update guide
     const _ = require('lodash');
     rm -rm cache/acquire
 
-webhooks
-    queryparams / body
-
-
-// print|command|eval|join|part|nick|acquire
-
     mark log with isSelf
     log limit 1 month
     memo
@@ -30,7 +24,7 @@ webhooks
 
 memo / SQL
 ===
-    for debug: show query time
+    for debug: show query time, show eval errors
 migration
 
     // for memo, the connection will always be open ^_^
@@ -221,6 +215,7 @@ IRC.listen('command', (event) => {
 
 ---------
 
+// print|command|eval|join|part|nick|acquire
 unix style params
 PYTHON=$(which python2)
 

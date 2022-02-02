@@ -8,6 +8,7 @@
     * [storing data](#storing-data)
     * [using npm packages](#using-npm-packages)
     * [events](#events)
+    * [webhooks](#webhooks)
     * [the IRC object](#the-irc-object)
     * [colours / formatting](#colours--formatting)
     * [dealing with time](#dealing-with-time)
@@ -177,7 +178,7 @@ download a package from npm and bundle it with esbuild. npm scripts are ignored 
 
 the event system runs in a dedicated long running vm. each server connection has their own vm
 
-by convention, events are stored in commands with the prefix `event.`, but any command an be an event by setting the option in a command editor
+by convention, events are stored in commands with the prefix `event.`, but any command can be an event by setting the option in a command editor
 
 only admins have access to changing events
 
@@ -195,6 +196,8 @@ the `message` event happens for each message
 
 the `webhook.name` events happen when a request is sent to a webhook
 
+the callback will receive some `eventData` object that always contains a `target` property with the channel or username
+
 available options are
 
 * `showErrors` - _boolean_ &emsp; should errors in this event be printed
@@ -202,7 +205,7 @@ available options are
 
 some additional APIs are only available in events;
 
-<a name="IRC-queryConfig" href="#IRC-queryconfig">#</a> IRC.<b>queryConfig</b>(<i>key</i>{, <i>default value</i>}) -> <i>value</i>
+<a name="IRC-queryConfig" href="#IRC-queryConfig">#</a> IRC.<b>queryConfig</b>(<i>key</i>{, <i>default value</i>}) -> <i>value</i>
 
 query user-defined config values
 
@@ -224,7 +227,27 @@ async versions of the SQLite API
 
 <a name="sql-async-many" href="#sql-async-many">#</a> IRC.<b>setNamespace</b>(<i>namespace</i>)
 
-change the namespace the the key-value and SQLite stores use. this allows the events full access to all command data
+change the namespace the the key-value and SQLite stores use. this gives the events full access to all command data
+
+#### webhooks
+
+multiple webhooks can be created on the fly to allow pushing data to the bot
+
+the following route structure is used; `https://host/api/webhook/somename`
+
+webhooks support any http method, and provide body data and query params as part of the `eventData` object
+
+for example;
+
+```
+IRC.listen('webhook.print', (event) => {
+    if (IRC.queryConfig('hasPrintWebhook')) {
+        print(event.query.message);
+    }
+})
+```
+
+will cause the rquest `http://host/api/webhook/print?message=foo` to print 'foo' to the channel
 
 ### the IRC object
 
