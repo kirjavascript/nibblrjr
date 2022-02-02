@@ -16,20 +16,6 @@ update guide
     const _ = require('lodash');
     rm -rm cache/acquire
 
-events
-
-set in the command editor
-only admins
-
-event. convention
-IRC.listen filter showError
-syntax errors -> debugger
-IBIP example
-event.fetchURL
-IRC.setNamespace
-
-tripcode example
-
 webhooks
     queryparams / body
 

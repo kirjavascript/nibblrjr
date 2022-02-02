@@ -165,9 +165,6 @@ however, the SQLite API also allows you to use tagged template strings for safe 
 SQL.run`INSERT INTO foo (bar) VALUES (${userInput})`
 ```
 
-there are also async versions of these APIs, for use in events;
-
-
 ### using npm packages
 
 <a name="require" href="#require">#</a> <b>require</b>(<i>packagename</i>) -> <i>object</i>
@@ -180,13 +177,28 @@ download a package from npm and bundle it with esbuild. npm scripts are ignored 
 
 the event system runs in a dedicated long running vm. each server connection has their own vm
 
+by convention, events are stored in commands with the prefix `event.`, but any command an be an event by setting the option in a command editor
+
+only admins have access to changing events
+
+the remote debugger is useful for event development
+
 <a name="IRC-listen" href="#IRC-listen">#</a> IRC.<b>listen</b>(<i>eventname</i>, <i>callback</i> {, <i>options</i>})
+
+run a callback each time an event happens
+
+available events are
 
 the `tick` event happens every second
 
 the `message` event happens for each message
 
 the `webhook.name` events happen when a request is sent to a webhook
+
+available options are
+
+* `showErrors` - _boolean_ &emsp; should errors in this event be printed
+* `filter` - _function_ &emsp; provide a callback to dictate if an event should run or not
 
 some additional APIs are only available in events;
 
@@ -209,6 +221,10 @@ async APIs are favoured in events as blocking would cause the event system to pa
 <a name="sql-async-many" href="#sql-async-many">#</a> SQL.async.<b>many</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
 
 async versions of the SQLite API
+
+<a name="sql-async-many" href="#sql-async-many">#</a> IRC.<b>setNamespace</b>(<i>namespace</i>)
+
+change the namespace the the key-value and SQLite stores use. this allows the events full access to all command data
 
 ### the IRC object
 
