@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "debug",
+    "command": "const { node } = IRC.sudo();\n\nif (input.includes('dev')) {\n    node.parent.dev.set(!node.parent.dev.get())\n    print(`dev: ${node.parent.dev.get()}`)\n} else {\n    node.debug.set(!node.debug.get());\n    print(`debug: ${node.debug.get()}`)\n}"
+}

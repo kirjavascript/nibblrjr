@@ -551,7 +551,7 @@ the returned object has the following properties
 * `exit` - _function_ &emsp; kills the main process
 * `node` - _proxy_ &emsp; a bridge out of the vm to the channel's internal node object in the main process
 
-the `node` proxy allows you to send raw commands and update config options on the fly. examples of its use can be seen in the following commands; `reload`, `reboot`, `update`, `join`, `part`, `mode`, `topic`, `kick`, `nick`, `redirect`, `ignore`
+the `node` proxy allows you to send raw commands and update config options on the fly. examples of its use can be seen in the following commands; `reload`, `reboot`, `update`, `join`, `part`, `mode`, `topic`, `kick`, `nick`, `redirect`, `ignore`, `debug`
 
 `update` can be used to update the bot without rebooting
 
@@ -642,6 +642,6 @@ which correspond to the options from [IRC.inspect](#IRC-inspect)
 
 console output is available in real-time via a HTTP stream. this is useful for live monitoring and development
 
-combine with `IRC.sudo().node.setDebug.call(true)` to show full IRC event information
+combine with `IRC.sudo().node.debug.set(true)` and `IRC.sudo().node.parent.dev.set(true)` to show deeper levels of debug information
 
 to connect using curl: `curl -u io:webpassword https://host/api/iostream`

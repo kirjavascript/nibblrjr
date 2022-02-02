@@ -1,4 +1,4 @@
-sudo: reboot|reload|update|join|part|mode|topic|kick|nick|msg|redirect|ignore
+sudo: debug|reboot|reload|update|join|part|mode|topic|kick|nick|msg|redirect|ignore
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
 DOC / CMDS
@@ -21,6 +21,8 @@ update guide
     remind
     mark log with isSelf
     log limit 1 month
+
+setDebug / node.parent.
 
 memo / SQL
 ===

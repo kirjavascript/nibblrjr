@@ -48,8 +48,8 @@ class ServerNode {
                 return this.channelLookup[channel.name] = channel;
             });
 
-
             this.trigger = this.get('trigger', '~');
+            this.debug = this.get('debug', false);
         };
 
         this.createEventManager = () => mod.createEventManager(this);
@@ -65,19 +65,17 @@ class ServerNode {
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: this.get('autoRejoin', false),
-            debug: this.get('debug', false),
+            debug: this.debug,
         });
 
-        this.setDebug = (active) => {
-            const handler = (...args) => {
-                if (active) {
-                    const prefix = (new Date()).toISOString().slice(11,19) + ' -';
-                    console.log(prefix, ...args);
-                }
-            };
-            this.client.out.debug = handler;
-            this.client.out.error = handler;
+        const debugHandler = (...args) => {
+            if (this.debug) {
+                const prefix = (new Date()).toISOString().slice(11,19) + ' -';
+                console.log(prefix, ...args);
+            }
         };
+        this.client.out.debug = debugHandler;
+        this.client.out.error = debugHandler;
 
         this.resetBuffer = () => {
             this.client._clearCmdQueue();
