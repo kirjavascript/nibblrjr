@@ -313,14 +313,20 @@ async function createVM({ node, maxTimeout = 60000 }) {
             all: 'many',
             get: 'one',
             run: 'run',
+            exec: 'exec',
         }).forEach(([key, value]) => {
             SQL[value] = (query, ...params) => ref.sqlFns.applySyncPromise(undefined, [
-                key, new ref.ivm.ExternalCopy([query.join('?'), params]).copyInto(),
+                key,
+                new ref.ivm.ExternalCopy([
+                    Array.isArray(query) ? query.join('?') : query,
+                    params,
+                ]).copyInto(),
             ]);
             SQL.async[value] = (query, ...params) => new Promise((resolve, reject) => {
+                const queryStr = Array.isArray(query) ? query.join('?') : query;
                 ref.sqlFnsAsync(
                     key,
-                    new ref.ivm.ExternalCopy([query.join('?'), params]).copyInto(),
+                    new ref.ivm.ExternalCopy([queryStr, params]).copyInto(),
                     new ref.ivm.Reference(resolve),
                     new ref.ivm.Reference(reject),
                 );

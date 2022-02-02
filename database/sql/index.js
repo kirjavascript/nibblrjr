@@ -14,7 +14,7 @@ async function waitSQLClose() {
     }
 }
 
-function useSQLDB(namespace) {
+function useSQLDB(parent, namespace) {
     if (connections.has(namespace)) {
         return connections.get(namespace);
     }
@@ -78,7 +78,7 @@ function useSQLDB(namespace) {
     };
 
     const queryFn = type => query => new Promise((resolve, reject) => {
-        // console.time(id);
+        parent.dev && console.time(`${namespace}-${id}`);
         queueQuery(id++, type, query, resolve, reject);
     });
 
@@ -86,6 +86,7 @@ function useSQLDB(namespace) {
         all: queryFn('all'),
         get: queryFn('get'),
         run: queryFn('run'),
+        exec: queryFn('exec'),
         [closeKey]: closeWorker,
     };
 
@@ -106,7 +107,7 @@ function useSQLDB(namespace) {
                 bump();
             } else {
                 const { resolve, reject } = queries.get(id);
-                // console.timeEnd(id);
+                parent.dev && console.timeEnd(`${namespace}-${id}`);
                 if (type === 'result') {
                     resolve(_data);
                 } else if (type === 'error') {

@@ -50,7 +50,7 @@ const prepare = (query) => {
     return statement;
 };
 
-const methods = ['all', 'get', 'run']
+const methods = ['all', 'get', 'run', 'exec'];
 
 parentPort.on('message', ([type, id, _query]) => {
     if (methods.includes(type)) {
@@ -58,7 +58,14 @@ parentPort.on('message', ([type, id, _query]) => {
         try {
             const [query, params] = _query;
             assertNotEvil(query);
-            parentPort.postMessage(['result', id, prepare(query)[type](...params)]);
+
+            const result = type === 'exec'
+                ? (db.exec(query), undefined)
+                : prepare(query)[type](...params);
+
+            console.log(result);
+
+            parentPort.postMessage(['result', id, result]);
         } catch (e) {
             parentPort.postMessage(['error', id, e.message]);
         }

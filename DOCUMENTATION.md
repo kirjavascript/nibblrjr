@@ -158,6 +158,10 @@ retrieve a single result from a query
 
 retrieve all results of a query
 
+<a name="sql-exec" href="#sql-exec">#</a> SQL.<b>exec</b>(<i>query</i>)
+
+run multiple statements. worse performing, no caching
+
 an example use of the API could be like this; `SQL.one('SELECT ?', 1)`
 
 however, the SQLite API also allows you to use tagged template strings for safe and easy statement escaping;
@@ -222,6 +226,8 @@ async APIs are favoured in events as blocking would cause the event system to pa
 <a name="sql-async-one" href="#sql-async-one">#</a> SQL.async.<b>one</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
 
 <a name="sql-async-many" href="#sql-async-many">#</a> SQL.async.<b>many</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
+
+<a name="sql-async-exec" href="#sql-async-exec">#</a> SQL.async.<b>exec</b>(<i>query</i>) -> <i>Promise</i>
 
 async versions of the SQLite API
 

@@ -11,7 +11,7 @@ class Database {
 
         this.createServerDB = createServerDBFactory(this);
 
-        this.useSQLDB = useSQLDB;
+        this.useSQLDB = namespace => useSQLDB(parent, namespace);
         this.waitSQLClose = waitSQLClose;
     }
 
