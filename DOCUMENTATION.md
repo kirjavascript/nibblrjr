@@ -7,12 +7,12 @@
     * [fetching data](#fetching-data)
     * [storing data](#storing-data)
     * [using npm packages](#using-npm-packages)
+    * [events](#events)
     * [the IRC object](#the-irc-object)
     * [colours / formatting](#colours--formatting)
     * [dealing with time](#dealing-with-time)
     * [reading logs](#reading-logs)
     * [manipulating commands](#manipulating-commands)
-    * [timers](#timers)
     * [authentication](#authentication)
     * [modules](#modules)
 * [configuration](#configuration)
@@ -167,25 +167,48 @@ SQL.run`INSERT INTO foo (bar) VALUES (${userInput})`
 
 there are also async versions of these APIs, for use in events;
 
+
+### using npm packages
+
+<a name="require" href="#require">#</a> <b>require</b>(<i>packagename</i>) -> <i>object</i>
+
+download a package from npm and bundle it with esbuild. npm scripts are ignored for safety. subsequent accesses of the same package are cached
+
+*packagename* can include the version and a path, like - `require('react-dom/server@16.8.6').renderToString( ... )`
+
+### events
+
+the event system runs in a dedicated long running vm. each server connection has their own vm
+
+<a name="IRC-listen" href="#IRC-listen">#</a> IRC.<b>listen</b>(<i>eventname</i>, <i>callback</i> {, <i>options</i>})
+
+the `tick` event happens every second
+
+the `message` event happens for each message
+
+the `webhook.name` events happen when a request is sent to a webhook
+
+some additional APIs are only available in events;
+
+<a name="IRC-queryConfig" href="#IRC-queryconfig">#</a> IRC.<b>queryConfig</b>(<i>key</i>{, <i>default value</i>}) -> <i>value</i>
+
+query user-defined config values
+
+will first check the channel config, then server, and then top level
+
+<a name="fetch" href="#fetch">#</a> <b>fetch</b>(<i>url</i>{, <i>options</i>}) -> <i>Promise</i>
+
+API to match browser [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+
+async APIs are favoured in events as blocking would cause the event system to pause
+
 <a name="sql-async-run" href="#sql-async-run">#</a> SQL.async.<b>run</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
 
 <a name="sql-async-one" href="#sql-async-one">#</a> SQL.async.<b>one</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
 
 <a name="sql-async-many" href="#sql-async-many">#</a> SQL.async.<b>many</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
 
-### using npm packages
-
-<a name="require" href="#require">#</a> <b>require</b>(<i>packagename</i>) -> <i>object</i>
-
-download a package from npm and bundle it with webpack. npm scripts are ignored for safety. subsequent accesses of the same package are cached
-
-*packagename* can include the version and a path, like - `require('react-dom/server@16.8.6').renderToString( ... )`
-
-not everything works, compatibility fares better the closer you get to ECMAScript
-
-the following command is deprecated
-
-<a name="acquire" href="#acquire">#</a> <b>acquire</b>(<i>packagename</i>) -> <i>promise</i>
+async versions of the SQLite API
 
 ### the IRC object
 
@@ -449,8 +472,6 @@ sets the code for a particular command. returns *true* if successful
 
 deletes the command. returns *true* if successful
 
-### timers
-
 <a name="sleep" href="#sleep">#</a> <b>sleep</b>(<i>milliseconds</i>)
 
 blocks the current thread for the specified time. other commands will continue to run
@@ -528,7 +549,6 @@ the following properties are top level, but can also placed inside the server or
 * `charLimit` _number_ &emsp; maximum number of characters a command can display (default: `false`)
 * `colLimit` _number_ &emsp; maximum number of characters per line a command can display (default: `400`)
 * `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
-
 * `setNick` _boolean_ &emsp; does anyone in this channel have access to [IRC.setNick](#IRC-setNick) (default: `false`)
 * `enableEvents` _boolean_ &emsp; should channel run events system (default: `true`)
 * `enableCommands` _boolean_ &emsp; should commands be triggerable (default: `true`)

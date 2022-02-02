@@ -18,15 +18,17 @@ update guide
 
 events
 
+set in the command editor
+only admins
+
 event. convention
 IRC.listen filter showError
 syntax errors -> debugger
 IBIP example
 event.fetchURL
 IRC.setNamespace
-IRC.queryConfig
-fetch
-tick|message|webhook.name
+
+tripcode example
 
 webhooks
     queryparams / body
