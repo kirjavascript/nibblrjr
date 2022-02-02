@@ -237,7 +237,7 @@ the following route structure is used; `https://host/api/webhook/somename`
 
 webhooks support any http method, and provide body data and query params as part of the `eventData` object
 
-for example;
+for example, the following event;
 
 ```
 IRC.listen('webhook.print', (event) => {
@@ -247,7 +247,26 @@ IRC.listen('webhook.print', (event) => {
 })
 ```
 
-will cause the rquest `http://host/api/webhook/print?message=foo` to print 'foo' to the channel
+will cause the request `http://host/api/webhook/print?message=foo` to print 'foo' to the channel
+
+auth is left as an exercise for the user. it can be as complex or simple as you like
+
+here's a simple tripcode example;
+
+```
+const tripcode = require('tripcode');
+
+IRC.listen('webhook.test', event => {
+    const authed = tripcode(event.body.passcode) === IRC.queryConfig('testCode');
+    print(authed ? 'pass' : 'fail');
+});
+```
+
+which can be used with;
+
+```
+curl -X POST --data-binary '{"passcode":"demo"}' -H "Content-Type: application/json" http://localhost:8888/api/webhook/test
+```
 
 ### the IRC object
 
@@ -574,6 +593,7 @@ the following properties are top level, but can also placed inside the server fo
 * `nickname` _string_ &emsp; nickname
 * `userName` _string_ &emsp; username shown in whois information
 * `realName` _string_ &emsp; real name shown in whois information
+* `quitMessage` _string_ &emsp; message to provide when the bot leaves a server
 * `floodProtection` _boolean_ &emsp; should flood protection be enabled (default: `true`)
 * `floodProtectionDelay` _number_ &emsp; set flood protection time delay in ms (default: `250`)
 * `autoRejoin` _boolean_ &emsp; should the bot autorejoin channels when kicked (default: `true`)
@@ -622,6 +642,6 @@ which correspond to the options from [IRC.inspect](#IRC-inspect)
 
 console output is available in real-time via a HTTP stream. this is useful for live monitoring and development
 
-combine with `IRC.sudo().node.setDebug(true)` to show full IRC event information
+combine with `IRC.sudo().node.setDebug.call(true)` to show full IRC event information
 
 to connect using curl: `curl -u io:webpassword https://host/api/iostream`

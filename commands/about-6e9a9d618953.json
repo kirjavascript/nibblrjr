@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": true,
+    "starred": true,
+    "name": "about",
+    "command": "print(`{c}nibblr{/}{dc}jr{/} {dgr}v${IRC.version}{/} {bo}★{/} ${IRC.colors.link('https://github.com/kirjavascript/nibblrjr')}`)"
+}

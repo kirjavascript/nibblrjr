@@ -16,15 +16,14 @@ update guide
     const _ = require('lodash');
     rm -rm cache/acquire
 
-    mark log with isSelf
-    log limit 1 month
+    for debug: show query time, show eval errors
     memo
     remind
-    update help / add about - simplify - docs and commands
+    mark log with isSelf
+    log limit 1 month
 
 memo / SQL
 ===
-    for debug: show query time, show eval errors
 migration
 
     // for memo, the connection will always be open ^_^
