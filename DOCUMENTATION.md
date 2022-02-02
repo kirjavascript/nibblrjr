@@ -299,6 +299,14 @@ an *object* with information about the current message that triggered the comman
 
 the current nickname of the bot
 
+<a name="IRC-address" href="#IRC-address">#</a> IRC.<b>address</b>
+
+the address the server has connected to
+
+<a name="IRC-channel" href="#IRC-channel">#</a> IRC.<b>channel</b>
+
+the current channel. undefined if message is a PM
+
 <a name="IRC-setNick" href="#IRC-setNick">#</a> IRC.<b>setNick</b>(<i>string</i>)
 
 change the bot's nick. only works if the user is an admin or the channel has the `setNick` config option enabled

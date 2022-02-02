@@ -1,4 +1,3 @@
-
 const parser = require('sqlite-parser');
 const { join } = require('path');
 const { commandHash } = require('../commands');
@@ -62,8 +61,6 @@ parentPort.on('message', ([type, id, _query]) => {
             const result = type === 'exec'
                 ? (db.exec(query), undefined)
                 : prepare(query)[type](...params);
-
-            console.log(result);
 
             parentPort.postMessage(['result', id, result]);
         } catch (e) {
