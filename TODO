@@ -16,42 +16,9 @@ update guide
     const _ = require('lodash');
     rm -rm cache/acquire
 
-command conventions
-
-    "some useful utilities are available as subcommands of the `module` command. for example:"
-
-modules
-event.
-admin command list
-
-API
-
-jsdom() built in function for loading
-
-SQL
-    subset / prepare cache
-    escaping
-    many/one/run
-    async
-
-auth
-
-IRC.sudo().node.events.reloadVM.call();
-IRC.sudo().node.parent.reloadEvents.call();
-IRC.sudo().node.parent.reloadVM.call();
-setDebug / internal API / admin commands
-
-config
-
-split into top level only, top and server, and top server channel
-
-colLimit charLimit lineLimit
-reloadable config
-update config to explain getChannel
-ignoreEvents -> enableEvents
-
 events
 
+event. convention
 IRC.listen filter showError
 syntax errors -> debugger
 IBIP example
@@ -59,17 +26,12 @@ event.fetchURL
 IRC.setNamespace
 IRC.queryConfig
 fetch
+tick|message|webhook.name
 
 webhooks
     queryparams / body
 
-remote debugger
 
-browser
-curl -u io:password https://nibblr.pw/api/iostream
-
-
-// tick|message|webhook.name
 // print|command|eval|join|part|nick|acquire
 
     mark log with isSelf

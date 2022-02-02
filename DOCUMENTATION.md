@@ -15,8 +15,9 @@
     * [timers](#timers)
     * [authentication](#authentication)
     * [modules](#modules)
-* [Configuration](#configuration)
+* [configuration](#configuration)
 * [REPL](#repl)
+* [remote debugger](#remote-debugger)
 
 ## API Reference
 
@@ -94,15 +95,15 @@ useful for scraping websites or RSS feeds
 const { window, document } = fetchSync.dom('http://google.com');
 ```
 
-the following functions are deprecated
+<a name="jsdom" href="#jsdom">#</a> <b>jsdom</b>() -> <i>{ JSDOM, ... }</i>
 
-<a name="getText" href="#getText">#</a> <b>getText</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
-<a name="getJSON" href="#getJSON">#</a> <b>getJSON</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
-<a name="getDOM" href="#getDOM">#</a> <b>getDOM</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>
+helper to set up the environment to run JSDOM and return the library
 
 ### storing data
 
-data is scoped by server
+#### key-value store
+
+data is scoped by server and command. data will be stored in the server database
 
 <a name="set" href="#set">#</a> store.<b>set</b>(<i>key</i>, <i>value</i>) 
 
@@ -135,6 +136,42 @@ equal to [IRC.command.root](#IRC-command)
 different commands store data in different namespaces, only commands with the same `root` share the same namespace
 
 read more about `command.root` in [IRC.command](#IRC-command)
+
+#### SQLite store
+
+the SQLite store is scoped by command namespace only, so data is shared between servers
+
+each command will have a seperate database file. various restrictions on execution time, filesize, and available features of the language have been made for safety reasons
+
+statements have a prepare cache, so repeating the same query is as cheap as if you had prepared it
+
+<a name="sql-run" href="#sql-run">#</a> SQL.<b>run</b>(<i>query</i>[, ...<i>params</i>]) -> <i>array</i>
+
+run an SQLite statement
+
+<a name="sql-one" href="#sql-one">#</a> SQL.<b>one</b>(<i>query</i>[, ...<i>params</i>]) -> <i>result</i>
+
+retrieve a single result from a query
+
+<a name="sql-many" href="#sql-many">#</a> SQL.<b>many</b>(<i>query</i>[, ...<i>params</i>]) -> <i>info</i>
+
+retrieve all results of a query
+
+an example use of the API could be like this; `SQL.one('SELECT ?', 1)`
+
+however, the SQLite API also allows you to use tagged template strings for safe and easy statement escaping;
+
+```
+SQL.run`INSERT INTO foo (bar) VALUES (${userInput})`
+```
+
+there are also async versions of these APIs, for use in events;
+
+<a name="sql-async-run" href="#sql-async-run">#</a> SQL.async.<b>run</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
+
+<a name="sql-async-one" href="#sql-async-one">#</a> SQL.async.<b>one</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
+
+<a name="sql-async-many" href="#sql-async-many">#</a> SQL.async.<b>many</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
 
 ### using npm packages
 
@@ -435,7 +472,7 @@ the returned object has the following properties
 * `exit` - _function_ &emsp; kills the main process
 * `node` - _proxy_ &emsp; a bridge out of the vm to the channel's internal node object in the main process
 
-the `node` proxy allows you to send raw commands and update config options on the fly. examples of its use can be seen in the following commands; `reboot`, `update`, `join`, `part`, `mode`, `topic`, `kick`, `nick`, `redirect`, `ignore`
+the `node` proxy allows you to send raw commands and update config options on the fly. examples of its use can be seen in the following commands; `reload`, `reboot`, `update`, `join`, `part`, `mode`, `topic`, `kick`, `nick`, `redirect`, `ignore`
 
 `update` can be used to update the bot without rebooting
 
@@ -459,7 +496,7 @@ an *object* to place functions you would like to export on
 
 a *boolean* indicating if the current command has been required or not. allows commands to be used as commands or modules
 
-## Configuration
+## configuration
 
 **all properties are optional**. [see the example config](config.json.example)
 
@@ -488,8 +525,8 @@ the following properties are top level, but can also placed inside the server fo
 the following properties are top level, but can also placed inside the server or channel for a local override
 
 * `lineLimit` _number_ &emsp; maximum number of lines a command can display (default: `10`)
-    charLimit
-    colLimit
+* `charLimit` _number_ &emsp; maximum number of characters a command can display (default: `false`)
+* `colLimit` _number_ &emsp; maximum number of characters per line a command can display (default: `400`)
 * `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
 
 * `setNick` _boolean_ &emsp; does anyone in this channel have access to [IRC.setNick](#IRC-setNick) (default: `false`)
@@ -502,7 +539,6 @@ the following properties are top level only
 * `web` _object_ &emsp; configuration for the web frontend
     * `url` _string_ &emsp; web address for the frontend, available at [IRC.webAddress](#IRC-webAddress)
     * `port` _number_ &emsp; port to host the content at
-    * `socketURL` _string_ &emsp; websocket URL to connect to
     * `password` _string_ &emsp; logging in to the web interface allows you to modify locked commands
 
 these used to be part of the core, but are now user-defined configuration values
@@ -522,3 +558,11 @@ the REPL works as a command like any other, and `>` takes optional params. the p
 **>**(<i>depth</i>, <i>truncate</i>)
 
 which correspond to the options from [IRC.inspect](#IRC-inspect)
+
+## remote debugger
+
+console output is available in real-time via a HTTP stream. this is useful for live monitoring and development
+
+combine with `IRC.sudo().node.setDebug(true)` to show full IRC event information
+
+to connect using curl: `curl -u io:webpassword https://host/api/iostream`
