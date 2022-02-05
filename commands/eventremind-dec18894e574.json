@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "event.remind",
+    "command": "IRC.setNamespace('remind');\nif (!SQL.one`SELECT 1 FROM sqlite_master WHERE name='remind'`) {\n    // SQL.exec`\n    //     DROP TABLE IF EXISTS remind;\n\n    //     CREATE TABLE remind (\n    //         key INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,\n    //         \"from\" VARCHAR (100),\n    //         \"to\" VARCHAR (100),\n    //         \"when\" DATETIME,\n    //         server TEXT,\n    //         channel TEXT,\n    //         message TEXT,\n    //         time DATETIME DEFAULT ((DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME')))\n    //     );\n\n    //     CREATE INDEX idx_to\n    //     ON remind ('to', 'when');\n    // `;\n}"
+}

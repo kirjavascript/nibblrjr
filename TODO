@@ -9,15 +9,13 @@ when updating
     make a v3-final branch
 update config
     autorejoin 8bitvape
-    memo
+    memo / remind
 update guide
     storage moved to
     const dateFns = require('date-fns@1.30.1');
     const _ = require('lodash');
     rm -rm cache/acquire
 
-    memo
-        just need to use async paste
     remind
 
     mark log with isSelf
