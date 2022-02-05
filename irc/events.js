@@ -1,7 +1,6 @@
 const ivm = require('isolated-vm');
 const createVM = require('./evaluate/vm');
 const createAsyncFetch = require('./evaluate/async-fetch');
-const { getAllCommands } = require('./../database/commands');
 
 function createEventManager(node) {
     async function loadEvents(vm) {
@@ -40,15 +39,13 @@ function createEventManager(node) {
                     };
                 }),
         );
-        for (cmd of getAllCommands()) {
-            if (cmd.event) {
-                try {
-                    await vm.context.eval(`;(async()=>{\n${cmd.command}\n})()`);
-                } catch (e) {
-                    // note which script has the error in
-                    e.name += ` (${cmd.name})`;
-                    throw e;
-                }
+        for (cmd of node.parent.database.commands.events()) {
+            try {
+                await vm.context.eval(`;(async()=>{\n${cmd.command}\n})()`);
+            } catch (e) {
+                // note which script has the error in
+                e.name += ` (${cmd.name})`;
+                throw e;
             }
         }
         console.log(node.config.address + ' events loaded');

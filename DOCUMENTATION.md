@@ -299,7 +299,7 @@ an *object* with information about the current message that triggered the comman
 
 the current nickname of the bot
 
-<a name="IRC-address" href="#IRC-address">#</a> IRC.<b>address</b>
+<a name="IRC-server" href="#IRC-server">#</a> IRC.<b>server</b>
 
 the address the server has connected to
 

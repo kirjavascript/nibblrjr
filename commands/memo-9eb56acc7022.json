@@ -1,6 +1,6 @@
 {
     "name": "memo",
-    "command": "const exists = !!SQL.one`SELECT 1 FROM sqlite_master WHERE type='table' AND name='memo';`;\n\nif (true||!exists) {\n    SQL.exec`\n        DROP TABLE IF EXISTS memo;\n\n        CREATE TABLE memo (\n            key INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,\n            \"from\" VARCHAR (100),\n            \"to\" VARCHAR (100),\n            address TEXT,\n            channel TEXT,\n            message TEXT,\n            time DATETIME DEFAULT ((DATETIME(CURRENT_TIMESTAMP, 'LOCALTIME')))\n        );\n\n        CREATE INDEX idx_to\n        ON memo ('to');\n    `;\n}\n\nSQL.run`\n    INSERT INTO memo (\"from\", \"to\", address, channel, message) \n    VALUES (${IRC.message.from}, ${'test'}, ${'test2'}, ${'test3'}, ${'text4'})\n`;\n\nlog(SQL.many`SELECT * from memo`)",
+    "command": "const dateFns = require('date-fns@1.30.1');\nconst [name] = IRC.command.params;\n\nif (!name || !input.trim()) throw `usage: ${IRC.colors.cmd('memo', 'message', 'name')}`;\n\nSQL.run`\n    INSERT INTO memo (\"from\", \"to\", server, channel, message) \n    VALUES (${IRC.message.from}, ${name}, ${IRC.server}, ${IRC.channel}, ${input})\n`;\n\nprint(`Saved message for ${IRC.colors.nick(name, false)}`);",
     "locked": true,
     "starred": true
 }

@@ -1,6 +1,6 @@
 {
     "name": "module.paste",
-    "command": "module.exports = (source) => fetchSync('https://paste.rs', {\n    method: 'POST',    \n    body: source,    \n    headers: {    \n        'Content-Type': 'application/json',        \n        'Accept': 'application/json',\n    },\n}).trim();",
+    "command": "const config = source => ({\n    method: 'POST',    \n    body: source,    \n    headers: {    \n        'Content-Type': 'application/json',        \n        'Accept': 'application/json',\n    },\n});\nconst url = 'https://paste.rs';\n\nmodule.exports = (source) => fetchSync(url, config(source)).trim();\nmodule.exports.async = (source) => fetch(url, config(source))\n    .then(res => res.text())\n    .then(text => text.trim());",
     "locked": false,
     "starred": false
 }

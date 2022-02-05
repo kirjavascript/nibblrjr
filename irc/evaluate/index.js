@@ -21,7 +21,7 @@ async function evaluate({
             IRC: {
                 message: msgData,
                 command,
-                address: node.config.address,
+                server: node.config.address,
                 channel: msgData.isPM ? undefined : msgData.target,
                 secret: node.get('secrets', {})[command.root],
             },

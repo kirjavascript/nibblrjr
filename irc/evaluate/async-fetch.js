@@ -48,14 +48,14 @@ module.exports = function({ context }) {
         }
     }), [
         ivm,
-        (url, config = {}, resolve, chainedMethod, reject) => {
+        (url, config, resolve, chainedMethod, reject) => {
             const controller = new AbortController();
             const timeout = setTimeout(() => {
                 controller.abort();
             }, 5000);
             config.signal = controller.signal;
 
-            fetch(url, config)
+            fetch(url, config || {})
                 .then((res) => {
                     const resData = {};
                     ['ok', 'status', 'statusText', 'redirected', 'url']

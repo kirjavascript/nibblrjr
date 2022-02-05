@@ -17,6 +17,7 @@ update guide
     rm -rm cache/acquire
 
     memo
+        just need to use async paste
     remind
 
     mark log with isSelf

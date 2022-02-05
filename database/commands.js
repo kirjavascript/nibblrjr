@@ -95,6 +95,15 @@ function createCommandDB({ reloadEvents }) {
         return false;
     };
 
+    const events = () => {
+        return getAllCommands().filter(cmd => {
+            const { root } = parseCommand({ text: cmd.name });
+            if (cmd.name === root && cmd.event) return true;
+            const parent = getCommand(root);
+            return Boolean(parent && parent.event)
+        });
+    };
+
     // public API
 
     const list = () => {
@@ -145,6 +154,7 @@ function createCommandDB({ reloadEvents }) {
             return false;
         } else {
             deleteCommand(name);
+            reloadEvents();
             return true;
         }
     };
@@ -167,6 +177,7 @@ function createCommandDB({ reloadEvents }) {
         delete: deleteCommand,
         count,
         list,
+        events,
         setConfig,
         fns,
     };

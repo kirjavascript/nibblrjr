@@ -16,5 +16,6 @@
 - webhooks 
 - require(): switched from webpack to esbuild
 - web style async fetch API
+- lots of new APIs (check the documentation)
 - much fewer dependencies used
 - dateFns and lodash removed from environment: use require() instead
