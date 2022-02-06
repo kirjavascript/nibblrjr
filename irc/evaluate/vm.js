@@ -404,6 +404,7 @@ async function createVM({ node, maxTimeout = 60000 }) {
                 global.Buffer = require('buffer').Buffer;
                 jsdom = require('light-jsdom@17.0.0');
                 const { JSDOM } = jsdom;
+                global.setTimeout = () => {};
                 jsdom.JSDOM = class extends JSDOM {
                     constructor(dom, config = { url: 'https://localhost/' }) {
                         super(dom, config);

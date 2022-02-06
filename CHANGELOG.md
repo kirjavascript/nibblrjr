@@ -25,9 +25,9 @@
 - server data in `storage` should be moved to `storage/server`
 - require() implementation has changed, so delete `cache/acquire` folder
 - dateFns and lodash removed from environment: use require() instead
-    to easily provide backwards compat in commands that used it;
+    to provide backwards compat in commands that used it;
     ```javascript
         const dateFns = require('date-fns@1.30.1');
         const _ = require('lodash');
     ```
-- some configuration has changed; see docs for exact detail
+- some configuration scope has changed; see docs for exact details
