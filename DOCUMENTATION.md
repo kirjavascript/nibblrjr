@@ -233,7 +233,7 @@ async versions of the SQLite API
 
 <a name="sql-async-many" href="#sql-async-many">#</a> IRC.<b>setNamespace</b>(<i>namespace</i>)
 
-change the namespace the the key-value and SQLite stores use. this gives the events full access to all command data
+change the namespace the key-value and SQLite stores use. this gives the events full access to all command data
 
 #### webhooks
 

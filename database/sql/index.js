@@ -79,7 +79,8 @@ function useSQLDB(parent, namespace) {
 
     const queryFn = type => query => new Promise((resolve, reject) => {
         parent.dev && console.time(`${namespace}-${id}`);
-        queueQuery(id++, type, query, resolve, reject);
+        queueQuery(id, type, query, resolve, reject);
+        id = (id + 1) % 1e6;
     });
 
     const sqlDB = {
