@@ -19,6 +19,7 @@ update guide
 
     mark log with isSelf
     log limit 1 month
+    <+cake^> I should make many`SELECT w/e WHERE thing IN (${[1, 2]})` work
 
 memo / SQL
 ===

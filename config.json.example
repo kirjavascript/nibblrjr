@@ -12,6 +12,7 @@
             "address": "irc.efnet.org",
             "channels": [{
                 "name": "#purple",
+                "enableMemo": true,
                 "lineLimit": 100
             }],
             "nickname": "purple",

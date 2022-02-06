@@ -308,6 +308,17 @@ async function createVM({ node, maxTimeout = 60000 }) {
             };
         });
 
+        function handleQuery(query, params) {
+            if (!Array.isArray(query)) return [query, params];
+
+            const escaped = query.flatMap((fragment, i) => params[i] ? [
+                fragment,
+                Array.isArray(params[i]) ? params[i].map(() => '?').join(',') : '?',
+            ] : [fragment]).join('');
+
+            return [escaped, params.flat()];
+        }
+
         global.SQL = { async: {} };
         Object.entries({
             all: 'many',
@@ -317,16 +328,12 @@ async function createVM({ node, maxTimeout = 60000 }) {
         }).forEach(([key, value]) => {
             SQL[value] = (query, ...params) => ref.sqlFns.applySyncPromise(undefined, [
                 key,
-                new ref.ivm.ExternalCopy([
-                    Array.isArray(query) ? query.join('?') : query,
-                    params,
-                ]).copyInto(),
+                new ref.ivm.ExternalCopy(handleQuery(query, params)).copyInto(),
             ]);
             SQL.async[value] = (query, ...params) => new Promise((resolve, reject) => {
-                const queryStr = Array.isArray(query) ? query.join('?') : query;
                 ref.sqlFnsAsync(
                     key,
-                    new ref.ivm.ExternalCopy([queryStr, params]).copyInto(),
+                    new ref.ivm.ExternalCopy(handleQuery(query, params)).copyInto(),
                     new ref.ivm.Reference(resolve),
                     new ref.ivm.Reference(reject),
                 );
