@@ -4,6 +4,7 @@ repl: rs|clojure|vlang|cj|scheme|jsx|html
 DOC / CMDS
 ===
 use a better password
+update weechat config
 when updating
     get commands
     make a v3-final branch
@@ -14,6 +15,8 @@ update config
 
     mark log with isSelf
     log limit 1 month
+
+worker for log
 
 memo / SQL
 ===
