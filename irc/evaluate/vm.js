@@ -171,9 +171,10 @@ async function createVM({ node, maxTimeout = 60000 }) {
         '_storeFnsKeys',
         Object.keys(node.database.storeFns).join('|'),
     );
-    ctx.setSync('_storeFns', timeoutCallback((fnName, args) => {
+    ctx.setSync('_storeFns', timeoutRef((fnName, args) => {
         if (env.namespace) {
-            return node.database.storeFns[fnName](env.namespace, ...args);
+            return node.database.storeFns[fnName](env.namespace, ...args)
+                .then(result => new ivm.ExternalCopy(result).copyInto());
         }
     }));
 
@@ -181,9 +182,10 @@ async function createVM({ node, maxTimeout = 60000 }) {
         '_logFnsKeys',
         Object.keys(node.database.logFns).join('|'),
     );
-    ctx.setSync('_logFns', timeoutCallback((fnName, args) => {
+    ctx.setSync('_logFns', timeoutRef((fnName, args) => {
         if (env.target) {
-            return node.database.logFns[fnName](env.target, ...args);
+            return node.database.logFns[fnName](env.target, ...args)
+                .then(result => new ivm.ExternalCopy(result).copyInto());
         }
     }));
 
@@ -297,14 +299,20 @@ async function createVM({ node, maxTimeout = 60000 }) {
         global.store = {};
         ref.storeFnsKeys.split('|').forEach(key => {
             global.store[key] = (...args) => {
-                return ref.storeFns(key, args);
+                return ref.storeFns.applySyncPromise(undefined, [
+                    key,
+                    new ref.ivm.ExternalCopy(args).copyInto()
+                ]);
             };
         });
 
         IRC.log = {};
         ref.logFnsKeys.split('|').forEach(key => {
             IRC.log[key] = (...args) => {
-                return ref.logFns(key, args);
+                return ref.logFns.applySyncPromise(undefined, [
+                    key,
+                    new ref.ivm.ExternalCopy(args).copyInto()
+                ]);
             };
         });
 

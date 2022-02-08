@@ -2,14 +2,14 @@ const fs = require('fs');
 const SQLiteDatabase = require('better-sqlite3');
 
 const { createCommandDB } = require('./commands');
-const { createServerDBFactory } = require('./server');
+const { createServerDB } = require('./server');
 const { useSQLDB, waitSQLClose } = require('./sql');
 
 class Database {
     constructor(parent) {
         this.commands = createCommandDB(parent);
 
-        this.createServerDB = createServerDBFactory(this);
+        this.createServerDB = createServerDB;
 
         this.useSQLDB = namespace => useSQLDB(parent, namespace);
         this.waitSQLClose = waitSQLClose;

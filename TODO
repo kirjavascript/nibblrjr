@@ -13,11 +13,6 @@ update config
     memo / remind
     enableMemo / enableRemind
 
-    mark log with isSelf
-    log limit 1 month
-
-worker for log
-
 memo / SQL
 ===
 migration
@@ -43,6 +38,8 @@ IRC.listen('command', (event) => {
 
 ---------
 
+isSelf migration:
+PRAGMA table_info(foo_table_name)
 // print|command|eval|join|part|nick|acquire
 unix style params
 PYTHON=$(which python2)

@@ -85,7 +85,7 @@ class ServerNode {
             clearInterval(this.tick);
             this.client.disconnect(this.get('quitMessage', '._.'));
             this.events.dispose();
-            this.database.db.close();
+            this.database.dispose();
         };
 
         this.sendRaw = (type, target, text) => {
@@ -115,7 +115,7 @@ class ServerNode {
         this.client.addListener('raw', (message) => {
             setTimeout(() => {
                 // ensure message enters the log after vm has run
-                this.database.log(this, message);
+                this.database.log(this.client.nick, message);
             }, 200);
         });
 
