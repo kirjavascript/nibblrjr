@@ -13,9 +13,11 @@ update config
     memo / remind
     enableMemo / enableRemind
 
+migration / print target in async
+
+
 memo / SQL
 ===
-migration
 
 // happy new year
 // s/thing/thing

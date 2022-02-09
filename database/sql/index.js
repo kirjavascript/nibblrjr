@@ -112,7 +112,7 @@ function useSQLDB(parent, namespace) {
                 if (type === 'result') {
                     resolve(_data);
                 } else if (type === 'error') {
-                    reject(_data);
+                    reject(new Error(_data));
                 }
                 queries.delete(id);
             }

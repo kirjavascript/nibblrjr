@@ -319,10 +319,13 @@ async function createVM({ node, maxTimeout = 60000 }) {
         function handleQuery(query, params) {
             if (!Array.isArray(query)) return [query, params];
 
-            const escaped = query.flatMap((fragment, i) => params[i] ? [
-                fragment,
-                Array.isArray(params[i]) ? params[i].map(() => '?').join(',') : '?',
-            ] : [fragment]).join('');
+            const escaped = query.flatMap((fragment, i) =>
+                i === params.length
+                    ? [fragment]
+                    : [fragment,
+                        Array.isArray(params[i])
+                            ? params[i].map(() => '?').join(',') : '?']
+            ).join('')
 
             return [escaped, params.flat()];
         }
