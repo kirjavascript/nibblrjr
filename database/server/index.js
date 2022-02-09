@@ -53,7 +53,9 @@ function createServerDB(node) {
             console.error(err);
             closeWorker();
         })
-        .on('exit', () => { });
+        .on('exit', () => {
+            console.log(`${node.config.address} db closed`)
+        });
 
     const queryFn = (type, subtype) => (...args) => new Promise((resolve, reject) => {
         queueQuery(id, type, subtype, args, resolve, reject);

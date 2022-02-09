@@ -34,7 +34,7 @@ async function evaluate({
                     args: [target, ...line.split(' ')],
                     nick: node.client.nick,
                 });
-                node.database.log(node, obj);
+                node.database.log(node.client.nick, obj);
             },
         });
 
