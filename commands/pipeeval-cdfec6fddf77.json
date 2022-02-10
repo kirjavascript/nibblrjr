@@ -1,0 +1,6 @@
+{
+    "locked": false,
+    "starred": false,
+    "name": "pipe.eval",
+    "command": "print(eval(input));"
+}
