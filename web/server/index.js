@@ -1,13 +1,14 @@
 const { readFile } = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
+const webpack = require('webpack');
+const wdm = require('webpack-dev-middleware');
+const reporter = require('webpack-dev-middleware/lib/reporter');
 const initSocket = require('./socket');
 const initAPI = require('./api');
-const esbuild = require('esbuild');
-const sassPlugin = require('esbuild-plugin-sass');
-const path = require('path');
 
 function initWeb(parent) {
+
     const { web } = parent;
 
     const app = express();
@@ -18,46 +19,30 @@ function initWeb(parent) {
         console.log(`Web running on port ${web.port}`);
     });
 
-    web.wss = initSocket({ parent, server });
+    web.wss = initSocket({parent, server});
     initAPI({ parent, app });
 
     // load webpack middleware
 
-    if (!parent.noWebpack && parent.dev) {
-        esbuild
-            .build({
-                entryPoints: [path.resolve(__dirname, '../modules/main.js')],
-                outfile: path.resolve(__dirname, '../static/main.js'),
-                bundle: true,
-                minify: true,
-                platform: 'browser',
-                format: 'cjs',
-                watch: {
-                    onRebuild() { console.log('esrebuilt') },
+    if (!parent.noWebpack) {
+        if (parent.dev) {
+            const webpackConfig = require('../../webpack.config.js')({dev: true});
+            webpackConfig.mode = 'development'
+            const compiler = webpack(webpackConfig);
+            app.use(wdm(compiler, {
+                reporter: (...args) => {
+                    reporter(...args);
+                    web.wss.sendAll('RELOAD');
                 },
-                plugins: [
-                    {
-                        name: 'web',
-                        setup(build) {
-                            build.onResolve({ filter: /\.woff2$/ }, (args) => {
-                                return { };
-                            });
-                        },
-                    },
-                    sassPlugin(),
-                ],
-                loader: {
-                    '.js': 'jsx',
-                    '.woff2': 'file',
-                },
-            })
-            .then(() => console.log('esbuilt'))
-            .catch(console.error);
+            }));
+
+            app.use('/', express.static(__dirname + '/../bundles'));
+        }
     }
 
     // assign static asset folder
 
-    app.use('/', express.static(__dirname + '/../static'));
+    app.use('/', express.static(__dirname + '/../static'))
 
     // wildcard defaulting
 

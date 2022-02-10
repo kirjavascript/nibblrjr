@@ -211,7 +211,7 @@ async function evaluate({
             ${scripts.map(([name, script]) => `
                 (function() {
                     const exports = {};
-                    const module = { exports: {} };
+                    const module = { exports };
                     ${script};
                     global.scripts[${JSON.stringify(name)}] = module.exports;
                 })();
@@ -262,11 +262,9 @@ async function evaluate({
 
             global.require = (str) => (
                 new Function(`
-                    const exports = {};
-                    const module = { exports };
-                    const process = { env: {} };
+                    const self = {};
                     ${ref.require.applySyncPromise(undefined, [String(str)])}
-                    return module.exports;
+                    return self.__acquire__;
                 `)()
             );
 

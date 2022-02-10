@@ -1,4 +1,4 @@
-const { Client } = require('irc-upd');
+const { Client } = require('irc');
 const reserved = require('../base/reserved');
 
 const { mod, updateLoader } = require('./hot-loader');
@@ -45,7 +45,7 @@ class ServerNode {
             realName: this.get('realName', 'nibblrjr IRC framework'),
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
-            autoRejoin: this.get('autoRejoin', false),
+            autoRejoin: this.get('autoRejoin', true),
             debug: this.get('debug', false),
         });
 
