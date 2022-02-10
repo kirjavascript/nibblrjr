@@ -109,14 +109,14 @@ function createEventManager(node) {
         await loadEvents(ref.vm);
     }
 
+    let runningEvents = false;
+
     function emit(name, eventData) {
         // eventData: { target, server, message? }
-        if (
-            ref.vm &&
-            ref.runEvents &&
-            !ref.vm.isolate.isDisposed &&
-            node.getTargetCfg(eventData.target, 'enableEvents', true)
-        ) {
+        const queue = [];
+
+        function run() {
+            runningEvents = true;
             ref.vm
                 .setConfig({
                     print: {
@@ -128,7 +128,25 @@ function createEventManager(node) {
                     },
                 })
                 .then(() => ref.runEvents.run(ref.vm.context))
-                .catch(console.error);
+                .catch(console.error)
+                .finally(() => {
+                    runningEvents = false;
+                    if (queue.length) queue.pop()();
+                });
+        }
+
+        if (
+            ref.vm &&
+            ref.runEvents &&
+            !ref.vm.isolate.isDisposed &&
+            node.getTargetCfg(eventData.target, 'enableEvents', true)
+        ) {
+
+            if (runningEvents) {
+                queue.push(run)
+            } else {
+                run();
+            }
         }
     }
 
