@@ -126,9 +126,9 @@ class ServerNode {
         this.client.addListener('message', (from, to, text, message) => {
             if (this.get('ignoreHosts', []).includes(message.host)) return;
             const isPM = to == this.client.nick;
-            const target = isPM ? from : to;
             from = from[0] == '#' ? from.toLowerCase() : from;
             to = to[0] == '#' ? to.toLowerCase() : to;
+            const target = isPM ? from : to;
             const msgData = { from, to, text, message, target, isPM };
 
             this.events.emit('message', {

@@ -9,9 +9,10 @@ const storagePath = join(__dirname, 'storage');
     'storage/namespace',
 ].forEach((dir) => {
     const path = join(__dirname, dir);
-    if (!fs.existsSync(path)) {
-        fs.mkdirSync(path);
+    if (fs.existsSync(path)) {
+        fs.rmSync(path, { recursive: true, force: true });
     }
+    fs.mkdirSync(path);
 });
 const memoDB = SQLiteDatabase(join(storagePath, 'namespace', commandHash('memo')));
 const remindDB = SQLiteDatabase(join(storagePath, 'namespace', commandHash('remind')));
@@ -63,6 +64,7 @@ fs.readdirSync(storagePath)
         // append
         const server = file.replace(/.db$/, '');
         const memoIn = memoDB.prepare('INSERT INTO memo ("from", "to", "server", "channel", "message", "time") VALUES (?,?,?,?,?,?)');
+        const remindIn = remindDB.prepare('INSERT INTO remind ("from", "when", "server", "channel", "message", "time") VALUES (?,?,?,?,?,?)');
 
         memoDB.transaction((list) => {
             list.forEach(({ timestamp, init, user, target, message }) => {
@@ -70,6 +72,12 @@ fs.readdirSync(storagePath)
             });
         })(memo);
 
-        // db.exec('DROP TABLE events');
-        // fs.renameSync(path, join(storagePath, 'server', file);
+        remindDB.transaction((list) => {
+            list.forEach(({ timestamp, init, user, target, message }) => {
+                remindIn.run(user, timestamp, server, target.toLowerCase(), message, init);
+            });
+        })(remind);
+
+        db.exec('DROP TABLE events');
+        fs.renameSync(path, join(storagePath, 'server', file));
     });

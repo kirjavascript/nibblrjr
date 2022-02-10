@@ -325,7 +325,7 @@ async function createVM({ node, maxTimeout = 60000 }) {
                     : [fragment,
                         Array.isArray(params[i])
                             ? params[i].map(() => '?').join(',') : '?']
-            ).join('')
+            ).join('');
 
             return [escaped, params.flat()];
         }
