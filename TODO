@@ -4,15 +4,14 @@ repl: rs|clojure|vlang|cj|scheme|jsx|html
 DOC / CMDS
 ===
 use a better password
-update weechat config
 when updating
     get commands
     make a v3-final branch
+    merge PR
 update config
-    autorejoin 8bitvape
     memo / remind
-    enableMemo / enableRemind
-    disable on code
+    enableMemo / enableRemind opt in
+
 
 migration
 
