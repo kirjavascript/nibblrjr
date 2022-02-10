@@ -36,6 +36,12 @@ function createEventManager(node) {
                                 },
                             );
                         }
+                        // remove print for async callbacks
+                        delete global.print;
+                        delete global.action;
+                        delete global.notice;
+                        delete global.log;
+                        // TODO: undo setconfig
                     };
                 }),
         );

@@ -495,7 +495,6 @@ async function createVM({ node, maxTimeout = 60000 }) {
                     });
                 }),
             }));
-            global.log = print.log;
         }
         global.input = IRC.command && IRC.command.input;
 

@@ -12,12 +12,9 @@ update config
     autorejoin 8bitvape
     memo / remind
     enableMemo / enableRemind
+    disable on code
 
-migration / print target in async
-
-
-memo / SQL
-===
+migration
 
 // happy new year
 // s/thing/thing

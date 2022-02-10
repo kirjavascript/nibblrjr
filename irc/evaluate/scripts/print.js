@@ -101,9 +101,10 @@ function createSend({
         return send;
     }
 
-    return {
-        print: factory((text, config) => sendBase('say', text, config)),
-        notice: factory((text, config) => sendBase('notice', text, config)),
-        action: factory((text, config) => sendBase('action', text, config)),
-    };
+    const print = factory((text, config) => sendBase('say', text, config));
+    const notice = factory((text, config) => sendBase('notice', text, config));
+    const action = factory((text, config) => sendBase('action', text, config));
+
+    // if this changes we also have to update events.js to remove it
+    return { print, notice, action, log: print.log };
 }

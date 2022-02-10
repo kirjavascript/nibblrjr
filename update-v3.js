@@ -65,7 +65,6 @@ fs.readdirSync(storagePath)
         const memoIn = memoDB.prepare('INSERT INTO memo ("from", "to", "server", "channel", "message", "time") VALUES (?,?,?,?,?,?)');
 
         memoDB.transaction((list) => {
-            // TODO: support empty target in memo
             list.forEach(({ timestamp, init, user, target, message }) => {
                 memoIn.run(user, target, server, null, message, init);
             });
