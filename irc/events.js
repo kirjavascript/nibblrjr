@@ -110,37 +110,36 @@ function createEventManager(node) {
     }
 
     let runningEvents = false;
+    const queue = [];
 
     function emit(name, eventData) {
         // eventData: { target, server, message? }
-        const queue = [];
-
-        function run() {
-            runningEvents = true;
-            ref.vm
-                .setConfig({
-                    print: {
-                        target: eventData.target,
-                    },
-                    IRC: {
-                        message: eventData.message,
-                        _event: [name, eventData],
-                    },
-                })
-                .then(() => ref.runEvents.run(ref.vm.context))
-                .catch(console.error)
-                .finally(() => {
-                    runningEvents = false;
-                    if (queue.length) queue.pop()();
-                });
-        }
-
         if (
             ref.vm &&
             ref.runEvents &&
             !ref.vm.isolate.isDisposed &&
             node.getTargetCfg(eventData.target, 'enableEvents', true)
         ) {
+
+            function run() {
+                runningEvents = true;
+                ref.vm
+                    .setConfig({
+                        print: {
+                            target: eventData.target,
+                        },
+                        IRC: {
+                            message: eventData.message,
+                            _event: [name, eventData],
+                        },
+                    })
+                    .then(() => ref.runEvents.run(ref.vm.context))
+                    .catch(console.error)
+                    .finally(() => {
+                        runningEvents = false;
+                        if (queue.length) queue.pop()();
+                    });
+            }
 
             if (runningEvents) {
                 queue.push(run)
