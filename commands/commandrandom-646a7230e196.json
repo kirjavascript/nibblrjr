@@ -1,6 +1,6 @@
 {
     "name": "command.random",
-    "command": "const obj = IRC.commandFns.get(_.shuffle(IRC.commandFns.names()).pop());\nIRC.command = IRC.parseCommand({ text: input });\ninput = IRC.command.input;\nprint(`${IRC.trigger}${obj.name} ${input}`);\nIRC.command.path = obj.name;\nIRC.require(obj.name);",
+    "command": "const _ = require('lodash');const obj = IRC.commandFns.get(_.shuffle(IRC.commandFns.names()).pop());\nIRC.command = IRC.parseCommand({ text: input });\ninput = IRC.command.input;\nprint(`${IRC.trigger}${obj.name} ${input}`);\nIRC.command.path = obj.name;\nIRC.require(obj.name);",
     "locked": false,
     "starred": false
 }

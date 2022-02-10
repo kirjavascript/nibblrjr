@@ -1,15 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const commandsAPI = require('./commands');
+const eventsAPI = require('./events');
 const statsAPI = require('./stats');
+const ioAPI = require('./iostream');
 
 function initAPI({ parent, app }) {
-
-    app.get('/api/socketURL', (req, res) => {
-        const protocol = req.protocol.includes('https') ? 'wss' : 'ws';
-        const url = `${protocol}://${req.hostname}:${parent.web.port}`;
-        res.send(parent.web.socketURL || url);
-    });
 
     app.get('/api/docs', (_req, res) => {
         const docs = path.join(__dirname, '../../../DOCUMENTATION.md');
@@ -37,7 +33,7 @@ function initAPI({ parent, app }) {
             const [, creds] = authorization.match(basicAuth);
             const credsString = Buffer.from(creds, 'base64').toString();
             const [, password] = credsString.match(/^(?:[^:]*):(.*)$/);
-            req.isAdmin = password === parent.web.password;
+            req.isAdmin = password === parent.config.web.password;
         } else {
             req.isAdmin = false;
         }
@@ -51,6 +47,11 @@ function initAPI({ parent, app }) {
     // auth APIs
 
     commandsAPI({ parent, app });
+
+    eventsAPI({ parent, app });
+
+    ioAPI({ app });
+
 }
 
 module.exports = initAPI;

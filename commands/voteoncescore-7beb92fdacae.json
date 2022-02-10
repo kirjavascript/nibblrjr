@@ -1,6 +1,6 @@
 {
     "name": "vote.once.score",
-    "command": "const [obj, setObj] = IRC.require('module.loadObject')('once');\n\n_.sortBy(Object.entries(obj), ([k, v]) => v.length)\n.reverse()\n.splice(0, 5).forEach(([k, v]) => {\n    print(`{y}${v.length}{/} - ${IRC.colors.nick(k, false)}`);\n})",
+    "command": "const _ = require('lodash');const _ = require('lodash');const [obj, setObj] = IRC.require('module.loadObject')('once');\n\n_.sortBy(Object.entries(obj), ([k, v]) => v.length)\n.reverse()\n.splice(0, 5).forEach(([k, v]) => {\n    print(`{y}${v.length}{/} - ${IRC.colors.nick(k, false)}`);\n})",
     "locked": false,
     "starred": false
 }

@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "regexgen",
-    "command": "log(require('regexgen')(input.split` `))"
+    "command": "global.Buffer = require('buffer').Buffer;\nlog(require('regexgen')(input.split` `))"
 }

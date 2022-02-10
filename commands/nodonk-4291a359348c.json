@@ -1,6 +1,0 @@
-{
-    "locked": false,
-    "starred": false,
-    "name": "nodonk",
-    "command": "if (input) {\r\n    \r\n    IRC.eventFns.addEvent('speak', { callback: 'nodonk.event', time:  new Date(), message: `no more donk ${input}`, target: input.trim() })\r\n    print('ok')\r\n\r\n} else {\r\nObject.keys(IRC.channels[IRC.message.to.toLowerCase()].users)\r\n    .filter(d => d != IRC.nick)\r\n    .forEach((d) => { print(`donk ${d}`) });\r\n}\r\n"
-}

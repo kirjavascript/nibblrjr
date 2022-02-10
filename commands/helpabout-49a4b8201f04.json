@@ -1,6 +1,6 @@
 {
     "name": "help.about",
-    "command": "print(`{c}nibblr{/}{dc}jr{/} {dgr}v${IRC.version}{/} {bo}★{/}  web frontend: ${IRC.colors.link(IRC.webAddress)} docs: ${IRC.colors.link(IRC.webAddress + '/docs')}`)",
+    "command": "IRC.require('about')\n",
     "locked": false,
     "starred": false
 }

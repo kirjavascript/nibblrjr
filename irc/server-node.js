@@ -4,60 +4,88 @@ const reserved = require('../base/reserved');
 const { mod, updateLoader } = require('./hot-loader');
 
 class ServerNode {
-    constructor(parent, server) {
+    constructor(parent, config) {
 
         this.updateLoader = updateLoader;
 
-        Object.assign(this, server, { parent });
-        // { address, channels, trigger, nickname, password, colors }
-
-        this.channels = this.channels.map(ch => {
-            if (typeof ch == 'string') {
-                return { name: ch.toLowerCase() };
-            } else {
-                ch.name = ch.name.toLowerCase();
-                return ch;
-            }
-        });
+        this.parent = parent;
 
         this.get = (key, _default) => {
-            return typeof this[key] != 'undefined'
-                ? this[key]
-                : typeof this.parent[key] != 'undefined'
-                    ? this.parent[key]
+            return typeof this.config[key] != 'undefined'
+                ? this.config[key]
+                : typeof this.parent.config[key] != 'undefined'
+                    ? this.parent.config[key]
                     : _default;
         }
 
-        this.getChannelConfig = (name) => {
-            return this.channels.find(ch => ch.name == name) || {};
+        this.getTargetCfg = (target, key, _default) => {
+            const chan = this.channelLookup[target];
+            return chan && (key in chan) ? chan[key] : this.get(key, _default);
         };
 
-        this.getLineLimit = (msgData) => {
-            return this.getChannelConfig(msgData.to).lineLimit
-                || (msgData.isPM ? 50 : 10);
+        this.getPrintCfg = (target) => {
+            return {
+                lineLimit: this.getTargetCfg(target, 'lineLimit', 10),
+                charLimit: this.getTargetCfg(target, 'charLimit', false),
+                colLimit: this.getTargetCfg(target, 'colLimit', 400),
+                hasColors: this.getTargetCfg(target, 'colors', true),
+            };
         };
 
-        this.trigger = this.get('trigger', '~');
+        this.setConfig = (config) => {
+            this.config = config;
 
-        this.client = new Client(this.address, this.nickname, {
+            this.channelLookup = {};
+
+            this.channels = this.config.channels.map(ch => {
+                let channel;
+                if (typeof ch == 'string') {
+                    channel = { name: ch.toLowerCase() };
+                } else {
+                    ch.name = ch.name.toLowerCase();
+                    channel = ch;
+                }
+                return this.channelLookup[channel.name] = channel;
+            });
+
+            this.trigger = this.get('trigger', '~');
+            this.debug = this.get('debug', false);
+        };
+
+        this.createEventManager = () => mod.createEventManager(this);
+
+        this.setConfig(config);
+
+        this.createEventManager();
+
+        this.client = new Client(this.config.address, this.config.nickname, {
             channels: this.channels.map(c => c.name),
             userName: this.get('userName', 'eternium'),
-            realName: this.get('realName', 'nibblrjr IRC framework'),
+            realName: this.get('realName', 'nibblrjr'),
             floodProtection: this.get('floodProtection', true),
             floodProtectionDelay: this.get('floodProtectionDelay', 250),
             autoRejoin: this.get('autoRejoin', false),
-            debug: this.get('debug', false),
+            debug: this.debug,
         });
 
-        this.timeouts = [];
-        this.intervals = [];
+        const debugHandler = (...args) => {
+            if (this.debug) {
+                const prefix = (new Date()).toISOString().slice(11,19) + ' -';
+                console.log(prefix, ...args);
+            }
+        };
+        this.client.out.debug = debugHandler;
+        this.client.out.error = debugHandler;
 
         this.resetBuffer = () => {
             this.client._clearCmdQueue();
-            this.intervals.forEach(clearInterval);
-            this.timeouts.forEach(clearTimeout);
-            this.intervals = [];
-            this.timeouts = [];
+        };
+
+        this.dispose = () => {
+            clearInterval(this.tick);
+            this.client.disconnect(this.get('quitMessage', '(◕◡◕✿)'));
+            this.events.dispose();
+            this.database.dispose();
         };
 
         this.sendRaw = (type, target, text) => {
@@ -68,13 +96,13 @@ class ServerNode {
 
         this.database = parent.database.createServerDB(this);
 
-        this.client.addListener('registered', (message) => {
+        this.client.addListener('registered', (_message) => {
             this.registered = true;
-            if (this.password) {
-                this.client.say('nickserv', `identify ${this.password}`);
+            if (this.config.password) {
+                this.client.say('nickserv', `identify ${this.config.password}`);
             }
             // this gets trashed after each connect
-            this.client.conn.addListener('close', (message) => {
+            this.client.conn.addListener('close', (_message) => {
                 this.registered = false;
                 this.resetBuffer();
             });
@@ -87,79 +115,31 @@ class ServerNode {
         this.client.addListener('raw', (message) => {
             setTimeout(() => {
                 // ensure message enters the log after vm has run
-                this.database.log(this, message);
+                this.database.log(this.client.nick, message);
             }, 200);
         });
 
-        // check tick events that have elapsed
-        this.tick = () => {
-            setTimeout(this.tick, 1000);
-            if (this.registered) {
-                this.database.eventFns.tickElapsed()
-                    .forEach(row => {
-                        const msgData = {
-                            from: row.user,
-                            to: row.target.toLowerCase(),
-                            target: row.target.toLowerCase(),
-                            isPM: row.user.toLowerCase() == row.target.toLowerCase(),
-                            // text, message
-                        };
-                        const { ignoreEvents } = this.getChannelConfig(msgData.to);
-                        const inChannel = !!Object.entries(this.client.chans)
-                            .find(([key]) => key.toLowerCase() == msgData.target);
-
-                        if (msgData.isPM || (!ignoreEvents && inChannel)) {
-                            const cmdData = parent.database.commands
-                                .get(row.callback);
-                            if (cmdData) {
-                                const { command, name } = cmdData;
-                                mod.evaluate({
-                                    script: command,
-                                    msgData,
-                                    node: this,
-                                    event: row,
-                                    command: mod.parseCommand({ text: name })
-                                });
-                            }
-                            this.database.eventFns.delete(row.idx);
-                        }
-                    });
-            }
-        };
-        setTimeout(this.tick, 5000);
+        this.tick = setInterval(() => {
+            this.events.broadcast('tick');
+        }, 1000);
 
         this.client.addListener('message', (from, to, text, message) => {
             if (this.get('ignoreHosts', []).includes(message.host)) return;
             const isPM = to == this.client.nick;
-            const target = isPM ? from : to;
             from = from[0] == '#' ? from.toLowerCase() : from;
             to = to[0] == '#' ? to.toLowerCase() : to;
+            const target = isPM ? from : to;
             const msgData = { from, to, text, message, target, isPM };
-            const { print } = mod.createNodeSend(this, msgData);
-            const { trigger } = this;
 
-            // check speak events that have elapsed
-
-            if (isPM || !this.getChannelConfig(to).ignoreEvents) {
-                this.database.eventFns.speakElapsed(from)
-                    .forEach(row => {
-                        const cmdData = parent.database.commands.get(row.callback);
-                        if (cmdData) {
-                            const { command, name } = cmdData;
-                            mod.evaluate({
-                                script: command,
-                                msgData,
-                                node: this,
-                                event: row,
-                                command: mod.parseCommand({ text: name })
-                            });
-                        }
-                        this.database.eventFns.delete(row.idx);
-                    });
-            }
+            this.events.emit('message', {
+                target,
+                server: this.config.address,
+                message: msgData,
+            });
 
             // handle commands
 
+            const { trigger } = this;
             if (text.startsWith(trigger)) {
                 const command = mod.parseCommand({ trigger, text });
 
@@ -178,12 +158,12 @@ class ServerNode {
                     });
                 }
                 // normal commands
-                else if (this.get('enableCommands', true)) {
+                else if (this.getTargetCfg(target, 'enableCommands', true)) {
                     const cmdData = parent.database.commands.get(command.path);
                     const canBroadcast = this.get('broadcastCommands', [])
                         .includes(command.root);
 
-                    cmdData && mod.evaluate({
+                    cmdData && !cmdData.event && mod.evaluate({
                         script: cmdData.command,
                         msgData,
                         node: this,
@@ -191,15 +171,6 @@ class ServerNode {
                         command,
                     });
                 }
-            }
-            // handle IBIP (https://git.teknik.io/Teknikode/IBIP)
-            else if (this.get('enableIBIP', true) && text == '.bots') {
-                print(`Reporting in! [JavaScript] use ${trigger}help`);
-            }
-                // parse URLS
-            else if (this.get('fetchURL', true)) {
-                const showAll = this.getChannelConfig(msgData.to).fetchURLAll;
-                mod.fetchURL({ text, print, showAll });
             }
         });
 

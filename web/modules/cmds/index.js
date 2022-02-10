@@ -11,6 +11,16 @@ import { useFetch } from '../hooks';
 import reserved from '../../../base/reserved';
 import { parseCommand } from '../../../irc/evaluate/scripts/parse-command';
 
+export function CommandName({ command }) {
+    return <>
+        {command.name}
+        {command.starred && <span className="star"> ★</span>}
+        {' '}
+        {command.locked && <Lock />}
+        {command.event && <span className="event"> (event)</span>}
+    </>;
+}
+
 function Cmds({ history }) {
     const [commands, setCommands] = useState([]);
     const [search, setSearch] = useState('');
@@ -56,6 +66,7 @@ function Cmds({ history }) {
             fetchAPI(`command/new/${name}`, { method: 'POST' })
                 .then(() => {
                     setNewName('');
+                    updateList();
                     history.push(`/cmds/${name}`);
                 })
                 .catch(console.error);
@@ -118,7 +129,7 @@ function EditorPane({ updateList, history, match: { params } }) {
     const [saving, setSaving] = useState(false);
     const [deleteText, setDeleteText] = useState('delete');
 
-    useEffect(() => {
+    function getCommand() {
         fetchAPI('command/get/' + params.name)
             .then(cmd => {
                 setCmd(cmd);
@@ -126,17 +137,16 @@ function EditorPane({ updateList, history, match: { params } }) {
             })
             .catch(console.error);
         setDeleteText('delete');
-    }, [params.name]);
+    }
+
+    useEffect(getCommand, [params.name]);
 
     const toggleOption = (type) => {
         const init = { method: 'POST', body: { [type]: !cmd[type] } };
         fetchAPI('command/set-config/' + params.name, init)
             .then(obj => {
                 if (!obj.error) {
-                    setCmd({
-                        ...cmd,
-                        [type]: !cmd[type],
-                    });
+                    getCommand();
                     updateList();
                 }
             })
@@ -165,6 +175,7 @@ function EditorPane({ updateList, history, match: { params } }) {
             fetchAPI('command/delete/' + params.name, { method: 'POST' })
                 .then(obj => {
                     if (!obj.error) {
+                        updateList();
                         history.push('/cmds');
                     } else {
                         setDeleteText(obj.error);
@@ -175,7 +186,7 @@ function EditorPane({ updateList, history, match: { params } }) {
     };
 
     const source = cmd.error ? `/* error: ${cmd.error} */` : cmd.command;
-    const { locked, starred } = cmd;
+    const { locked, starred, event } = cmd;
     const saveText = saving ? 'saving' : cmd.command === cmdTextCopy ? 'saved' : 'save';
 
     const isAdmin = admin;
@@ -192,10 +203,7 @@ function EditorPane({ updateList, history, match: { params } }) {
         >
             <div className="cmd-options">
                 <span className="cmd-name">
-                    {cmd.name}
-                    {cmd.starred && <span className="star"> ★</span>}
-                    {' '}
-                    {cmd.locked && <Lock />}
+                    <CommandName command={cmd} />
                 </span>
                 {!!cmd.name && (
                     <div>
@@ -222,6 +230,13 @@ function EditorPane({ updateList, history, match: { params } }) {
                                                 toggleOption('starred');
                                             }}>
                                             {starred ? 'unstar' : 'star'}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                toggleOption('event');
+                                            }}>
+                                            {event ? 'unevent' : 'as event'}
                                         </button>
                                     </>
                                 )}

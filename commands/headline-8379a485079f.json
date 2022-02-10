@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "headline",
-    "command": "if (! input) {\n  input = 'Shreddy'\n}\nlet obj = fetchSync.json(`https://www.reddit.com/r/FloridaMan/random/.json`)\nobj = Array.isArray(obj) ? obj[0] : obj\nif (obj.error || !obj.data) {\n  throw `it is dead ???`\n} else if (obj.data.children.length) {\n  const post = _.shuffle(obj.data.children)[0].data\n  let hl = post.title.replace(/florida man|florida woman|floridaman|floridawoman|florida/gi, input.trim())\n  store.save('last', post.url)\n  print(`${hl.replace(/\\w+/g, IRC.breakHighlight)}`)\n}"
+    "command": "const _ = require('lodash');if (! input) {\n  input = 'Shreddy'\n}\nlet obj = fetchSync.json(`https://www.reddit.com/r/FloridaMan/random/.json`)\nobj = Array.isArray(obj) ? obj[0] : obj\nif (obj.error || !obj.data) {\n  throw `it is dead ???`\n} else if (obj.data.children.length) {\n  const post = _.shuffle(obj.data.children)[0].data\n  let hl = post.title.replace(/florida man|florida woman|floridaman|floridawoman|florida/gi, input.trim())\n  store.save('last', post.url)\n  print(`${hl.replace(/\\w+/g, IRC.breakHighlight)}`)\n}"
 }

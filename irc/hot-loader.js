@@ -11,7 +11,7 @@ const loadMod = () => {
         ...require('./evaluate'),
         ...require('./evaluate/scripts/parse-command'),
         ...require('./evaluate/scripts/print'),
-        ...require('./fetch-url'),
+        ...require('./events'),
     });
 };
 

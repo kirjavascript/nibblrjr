@@ -1,17 +1,15 @@
 {
-    "version": "3.6.0",
+    "version": "4.0.0",
     "engines": {
-        "node": ">=11"
+        "node": ">=14"
     },
     "scripts": {
         "start": "node index.js",
-        "build": "npx webpack -p",
         "dev": "node index.js --dev"
     },
     "dependencies": {
-        "better-sqlite3": "^6.0.1",
+        "better-sqlite3": "^7.5.0",
         "body-parser": "^1.19.0",
-        "chokidar": "^3.4.0",
         "codemirror": "^5.52.2",
         "d3": "^5.15.1",
         "d3-interpolate-path": "^2.1.1",
@@ -21,10 +19,8 @@
         "express": "^4.16.2",
         "form-data": "^3.0.0",
         "global-npm": "^0.3.0",
-        "html-entities": "^1.2.1",
         "irc-upd": "^0.11.0",
         "isolated-vm": "^4.3.5",
-        "lodash": "^4.17.13",
         "marked": "^0.7.0",
         "node-fetch": "^2.2.0",
         "parse-package-name": "^0.1.0",
@@ -32,7 +28,7 @@
         "react-dom": "^16.13.1",
         "react-router": "^5.0.1",
         "react-router-dom": "^5.0.1",
-        "ws": "^5.0.0"
+        "sqlite-parser": "^1.0.1"
     },
     "devDependencies": {
         "esbuild-plugin-sass": "^0.6.0"

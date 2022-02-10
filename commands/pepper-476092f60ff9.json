@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "pepper",
-    "command": "const items = [\n    ...fetchSync\n        .dom('https://peppe.rs/index.xml')\n        .document.body.querySelectorAll('item'),\n].map(n =>({\n  \ttitle: n.querySelector('title').textContent,\n    post_link: n.querySelector('guid').textContent,\n    desc: _.truncate(n.querySelector('description').textContent, { length: 50 }),\n}));\n\nitems.slice(0, 1)\n    .forEach(({ title, post_link, desc }) => {\n        print(`{g}${title}{/} ${IRC.colors.link(post_link)} ${desc}`)\n    });"
+    "command": "const _ = require('lodash');const items = [\n    ...fetchSync\n        .dom('https://peppe.rs/index.xml')\n        .document.body.querySelectorAll('item'),\n].map(n =>({\n  \ttitle: n.querySelector('title').textContent,\n    post_link: n.querySelector('guid').textContent,\n    desc: _.truncate(n.querySelector('description').textContent, { length: 50 }),\n}));\n\nitems.slice(0, 1)\n    .forEach(({ title, post_link, desc }) => {\n        print(`{g}${title}{/} ${IRC.colors.link(post_link)} ${desc}`)\n    });"
 }

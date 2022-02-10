@@ -1,6 +1,6 @@
 {
     "name": "colourascii",
-    "command": "getDOM(\"http://wepump.in/ascii/\")\n    .then(dom => {\n        getText(\"http://wepump.in/ascii/\" + _.shuffle(dom.qsa('.b strong')).pop().textContent)\n            .then(print.raw)\n            .catch(print.error)\n    })\n    .catch(print.error)",
+    "command": "const _ = require('lodash');getDOM(\"http://wepump.in/ascii/\")\n    .then(dom => {\n        getText(\"http://wepump.in/ascii/\" + _.shuffle(dom.qsa('.b strong')).pop().textContent)\n            .then(print.raw)\n            .catch(print.error)\n    })\n    .catch(print.error)",
     "locked": true,
     "starred": false
 }

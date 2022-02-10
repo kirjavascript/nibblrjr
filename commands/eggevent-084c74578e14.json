@@ -1,6 +1,0 @@
-{
-    "name": "egg.event",
-    "command": "// event handler for memo\n\nif (!IRC.event) {\n    throw new Error('you cannot call this command manually')\n}\n\nconst { type, message, user, target, init, timestamp } = IRC.event;\nprint(`${target}: {bo}egg`);",
-    "locked": false,
-    "starred": false
-}

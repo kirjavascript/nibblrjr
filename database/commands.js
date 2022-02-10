@@ -39,7 +39,7 @@ function getAllCommands() {
     return commands;
 }
 
-function createCommandDB() {
+function createCommandDB({ reloadEvents }) {
     const get = (unsafeName) => {
         const name = unsafeName.replace(/\s+/g, '');
         const obj = getCommand(name);
@@ -55,28 +55,10 @@ function createCommandDB() {
         };
     };
 
-    const list = () => {
-        // some kind of caching/indexing would improve performance here
-        const cmdList = getAllCommands();
-        return cmdList.map(cmd => {
-            delete cmd.command;
-            const { root } = parseCommand({ text: cmd.name });
-            if (cmd.name == root) return cmd;
-            // const parent = getCommand(root);
-            const parent = cmdList.find(d => d.name == root);
-            if (!parent) return cmd;
-            const obj = {
-                ...parent,
-                name: cmd.name
-            };
-            delete obj.command;
-            return obj;
-        });
-    };
-
     const set = (name, value) => {
         const safeName = name.replace(/\s+/g, '');
         const options = getCommand(safeName) || {
+            event: false,
             locked: false, // setting these is really optional
             starred: false,
         };
@@ -85,6 +67,7 @@ function createCommandDB() {
             name: safeName,
             command: value || '',
         });
+        reloadEvents();
     };
 
     const setConfig = (name, config) => {
@@ -93,7 +76,9 @@ function createCommandDB() {
         const parent = getCommand(root);
         const realName = parent ? root : name;
         const obj = getCommand(realName);
+        if (obj.event || config.event) config.locked = true;
         setCommand(Object.assign(obj, config));
+        reloadEvents();
     };
 
     const _new = (unsafeName, isAdmin) => {
@@ -110,7 +95,32 @@ function createCommandDB() {
         return false;
     };
 
+    const events = () => {
+        return getAllCommands().filter(cmd => {
+            const { root } = parseCommand({ text: cmd.name });
+            if (cmd.name === root && cmd.event) return true;
+            const parent = getCommand(root);
+            return Boolean(parent && parent.event)
+        });
+    };
+
     // public API
+
+    const list = () => {
+        return getAllCommands().map(cmd => {
+            delete cmd.command;
+            const { root } = parseCommand({ text: cmd.name });
+            if (cmd.name == root) return cmd;
+            const parent = getCommand(root);
+            if (!parent) return cmd;
+            const obj = {
+                ...parent,
+                name: cmd.name
+            };
+            delete obj.command;
+            return obj;
+        });
+    };
 
     const names = () => {
         return getAllCommands().map(cmd => cmd.name);
@@ -123,7 +133,7 @@ function createCommandDB() {
     const setSafe = (name, value) => {
         const obj = get(name);
         const isReserved = reserved.includes(name);
-        const parentCmdName = parseCommand({text: name}).list[0];
+        const parentCmdName = parseCommand({text: name}).root;
         const parentCmd = get(parentCmdName);
         if (
             obj && obj.locked
@@ -144,18 +154,21 @@ function createCommandDB() {
             return false;
         } else {
             deleteCommand(name);
+            reloadEvents();
             return true;
         }
     };
 
-    const getCommandFns = (node) => ({
+    const fns = {
         get,
         list,
         names,
         count,
-        setSafe,
-        deleteSafe,
-    });
+        delete: deleteSafe,
+        set: setSafe,
+        setSafe, // backwards compat
+        deleteSafe, // backwards compat
+    };
 
     return {
         get,
@@ -164,8 +177,9 @@ function createCommandDB() {
         delete: deleteCommand,
         count,
         list,
+        events,
         setConfig,
-        getCommandFns,
+        fns,
     };
 }
 

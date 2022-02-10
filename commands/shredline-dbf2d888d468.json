@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "shredline",
-    "command": "let obj = fetchSync.json(`https://www.reddit.com/r/FloridaMan/random/.json`)\nobj = Array.isArray(obj) ? obj[0] : obj\nif (obj.error || !obj.data) {\n  throw `shreddy is dead ???`\n} else if (obj.data.children.length) {\n  const post = _.shuffle(obj.data.children)[0].data\n  let hl = post.title.replace(/florida man|florida woman|floridaman|floridawoman|florida/gi, 'Shreddy')\n  print(`${hl.replace(/\\w+/g, IRC.breakHighlight)} (${post.url})`)\n}"
+    "command": "const _ = require('lodash');let obj = fetchSync.json(`https://www.reddit.com/r/FloridaMan/random/.json`)\nobj = Array.isArray(obj) ? obj[0] : obj\nif (obj.error || !obj.data) {\n  throw `shreddy is dead ???`\n} else if (obj.data.children.length) {\n  const post = _.shuffle(obj.data.children)[0].data\n  let hl = post.title.replace(/florida man|florida woman|floridaman|floridawoman|florida/gi, 'Shreddy')\n  print(`${hl.replace(/\\w+/g, IRC.breakHighlight)} (${post.url})`)\n}"
 }

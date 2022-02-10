@@ -12,11 +12,7 @@ function loadScriptsFromDir(dir) {
 }
 
 function loadScripts() {
-    return loadScriptsFromDir('scripts').concat(loadScriptsFromDir('libs'));
+    return loadScriptsFromDir('scripts');
 };
 
-function loadLazy(name, callback) {
-    fs.readFile(path.join(__dirname, 'lazy', name), 'utf8', callback);
-}
-
-module.exports = { loadScripts, loadLazy };
+module.exports = { loadScripts };

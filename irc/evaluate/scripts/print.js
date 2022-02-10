@@ -1,41 +1,36 @@
-module.exports = { createSend, createNodeSend }
-
-function createNodeSend(node, message) {
-    return createSend({
-        hasColors: node.get('colors', true),
+module.exports = { createSend, createNodeSend };
+function createNodeSend(node, target) {
+    return createSend(Object.assign(node.getPrintCfg(target), {
         canBroadcast: true,
-        lineLimit: node.getLineLimit(message),
-        message,
+        target,
         colors: require('./colors').getColorFuncs(node.trigger),
         inspect: require('./inspect'),
         sendRaw: node.sendRaw,
-    });
+    }));
 }
 
-function createSend(config) {
-    return {
-        print: messageFactory('say', config),
-        notice: messageFactory('notice', config),
-        action: messageFactory('action', config),
-    };
-}
-
-function messageFactory(type, {
-    hasColors,
-    canBroadcast = false,
-    lineLimit = 10,
-    message,
-    colors,
-    inspect,
+function createSend({
     sendRaw,
-    logDB,
+    onMessage,
+    colors,
+    canBroadcast,
+    target,
+    inspect,
+    // printConfig
+    hasColors,
+    lineLimit,
+    colLimit,
+    charLimit,
 }) {
-    const { target: defaultTarget, isPM } = message;
-    let count = 0;
+    let lineCount = 0;
+    let charCount = 0;
 
-    // raw
-    const sendBase = (text, { target = defaultTarget, log = true } = {}) => {
-        if (!canBroadcast && target !== defaultTarget) {
+    const sendBase = (
+        type,
+        text,
+        { target: targetOpt = target, log = true } = {},
+    ) => {
+        if (!canBroadcast && target !== targetOpt) {
             throw new Error('cannot broadcast');
         }
         if (String(target).toLowerCase().includes('serv')) return;
@@ -50,48 +45,66 @@ function messageFactory(type, {
         // strip out \01, fixes; print('\01VERSION\01')
         text = text.replace(/\u0001/, '');
 
-        text.split('\n')
-            .map(line => line.match(/.{1,400}/g))
-            .forEach((lines) => {
-                lines && lines.forEach(line => {
-                    if (++count <= lineLimit) {
-                        sendRaw(type, target, line);
-                    }
-                });
-            });
 
-        if (count > lineLimit) return;
+        const colWidth = colLimit || 400;
 
-        // log to DB (only in isolate)
-        if (!isPM && log && logDB) {
-            logDB({
-                command: type == 'notice' ? 'NOTICE' : 'PRIVMSG',
-                target,
-                args: [target, ...text.slice(0, 400).split(' ')],
-            });
+        let lines = text.split('\n').map(line => {
+            // apply wrapping on columns
+            const wrappedLines = [];
+            for (let i = 0; i < line.length; i += colWidth) {
+                wrappedLines.push(line.slice(i, i + colWidth));
+            }
+            return wrappedLines.join('\n');
+        })
+            .join('\n').split('\n'); // join/split to flatten
+
+        if (lineLimit) {
+            const remaining = lineLimit - lineCount;
+            lines = lines.slice(0, remaining);
+            lineCount += lines.length;
         }
+
+        if (charLimit) {
+            const remaining = lineLimit - charCount;
+            const chars = lines.join('\n').slice(0, remaining);
+            lines = chars.split('\n');
+            charCount += chars.length;
+        }
+
+        lines.forEach(line => {
+            sendRaw(type, targetOpt, line);
+            if (targetOpt.startsWith('#') && log && onMessage) {
+                onMessage({ type, line, target: targetOpt });
+            }
+        });
+
     };
 
-    // colours
-    const send = (text, config) => {
-        return sendBase(colors(text), config);
-    };
+    function factory(sendType) {
+        const send = (text, config) => sendType(colors(text), config);
 
-    send.raw = sendBase;
+        send.raw = sendType;
 
-    // inspect
-    send.log = (text, config = {}) => {
-        return sendBase(inspect(text, config), config);
-    };
-    send.error = (error, config) => {
-        return send(colors.error(error), config);
-    };
-    send.info = (text, config) => {
-        return send(colors.info(text), config);
-    };
-    send.success = (text, config) => {
-        return send(colors.success(text), config);
-    };
+        send.log = (text, config = {}) => {
+            return sendType(inspect(text, config), config);
+        };
+        send.error = (error, config) => {
+            return send(colors.error(error), config);
+        };
+        send.info = (text, config) => {
+            return send(colors.info(text), config);
+        };
+        send.success = (text, config) => {
+            return send(colors.success(text), config);
+        };
 
-    return send;
+        return send;
+    }
+
+    const print = factory((text, config) => sendBase('say', text, config));
+    const notice = factory((text, config) => sendBase('notice', text, config));
+    const action = factory((text, config) => sendBase('action', text, config));
+
+    // if this changes we also have to update events.js to remove it
+    return { print, notice, action, log: print.log };
 }

@@ -1,6 +1,6 @@
 {
     "name": "pornhub",
-    "command": "getJSON('http://www.pornhub.com/webmasters/search?search=' + encodeURIComponent(input))\n    .then(obj => {\n        const video = _.shuffle(obj.videos).pop();\n        print(`{bo}{o}${video.title}{/} - {b}{u}${video.url}{/}\n${video.tags.map(d => `{bo}${d.tag_name}{/}`).join`, `}`)\n    })\n    .catch(d => {print('{r}no data')})",
+    "command": "const _ = require('lodash');getJSON('http://www.pornhub.com/webmasters/search?search=' + encodeURIComponent(input))\n    .then(obj => {\n        const video = _.shuffle(obj.videos).pop();\n        print(`{bo}{o}${video.title}{/} - {b}{u}${video.url}{/}\n${video.tags.map(d => `{bo}${d.tag_name}{/}`).join`, `}`)\n    })\n    .catch(d => {print('{r}no data')})",
     "locked": true,
     "starred": false
 }

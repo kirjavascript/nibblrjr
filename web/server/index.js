@@ -1,29 +1,27 @@
 const { readFile } = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
-const initSocket = require('./socket');
 const initAPI = require('./api');
 const esbuild = require('esbuild');
 const sassPlugin = require('esbuild-plugin-sass');
 const path = require('path');
 
 function initWeb(parent) {
-    const { web } = parent;
+    const { web } = parent.config;
 
     const app = express();
 
     app.use(bodyParser.json());
 
     const server = app.listen(web.port, () => {
-        console.log(`Web running on port ${web.port}`);
+        console.log(`web running on port ${web.port}`);
     });
 
-    web.wss = initSocket({ parent, server });
     initAPI({ parent, app });
 
-    // load webpack middleware
+    // load esbuild middleware
 
-    if (!parent.noWebpack && parent.dev) {
+    if (parent.dev) {
         esbuild
             .build({
                 entryPoints: [path.resolve(__dirname, '../modules/main.js')],
@@ -33,19 +31,11 @@ function initWeb(parent) {
                 platform: 'browser',
                 format: 'cjs',
                 watch: {
-                    onRebuild() { console.log('esrebuilt') },
-                },
-                plugins: [
-                    {
-                        name: 'web',
-                        setup(build) {
-                            build.onResolve({ filter: /\.woff2$/ }, (args) => {
-                                return { };
-                            });
-                        },
+                    onRebuild() {
+                        console.log('esrebuilt');
                     },
-                    sassPlugin(),
-                ],
+                },
+                plugins: [sassPlugin()],
                 loader: {
                     '.js': 'jsx',
                     '.woff2': 'file',
@@ -67,7 +57,7 @@ function initWeb(parent) {
         });
     });
 
-    return web;
+    return server;
 }
 
 module.exports = {

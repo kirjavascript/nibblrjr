@@ -1,0 +1,7 @@
+{
+    "event": true,
+    "locked": true,
+    "starred": true,
+    "name": "event.IBIP",
+    "command": "// handle IBIP (https://git.teknik.io/Teknikode/IBIP)\n\nIRC.listen('message', event => {\n    if (event.message.text === '.bots' && IRC.queryConfig('enableIBIP', true)) {\n     \tprint(`Reporting in! [JavaScript] use ${IRC.trigger}help`);\n    }\n});"
+}

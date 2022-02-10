@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "huevo?",
-    "command": "s=_.shuffle(\"egg\").join``; print(s=='egg'?'¡huevo! 🥚':s)"
+    "command": "const _ = require('lodash');s=_.shuffle(\"egg\").join``; print(s=='egg'?'¡huevo! 🥚':s)"
 }

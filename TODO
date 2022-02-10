@@ -1,72 +1,66 @@
-sudo: reboot|update|join|part|mode|topic|kick|nick|msg|redirect|ignore|setlinelimit
+sudo: debug|reboot|reload|update|join|part|mode|topic|kick|nick|msg|redirect|ignore
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
-// modules repair;
-// jsdom
-// ~jsx
-// ~babel
-// ~terser await minify
-// ~regexgen
+DOC / CMDS
+===
+use a better password
+when updating
+    get commands
+    make a v3-final branch
+    merge PR
+update config
+    memo / remind
+    enableMemo / enableRemind opt in
 
-// e.message = e.message
-//     .replace(new RegExp(path.resolve(__dirname + '/../..'), 'g'), '')
-//     .replace(/(\n|\r).*/g, '');
 
-fetchURL
-just have the flag set to turn into an event
+migration
 
-IRC.message(() => {
+// happy new year
+// s/thing/thing
+// IP Address leak
 
-});
+IRC.require() in events allows whitelisting stuff for others
 
-IRC.listen('connect', () => {
-
-});
-
-version 4: SQL / events
-print streams | built in pipe | IRC.runCommand()
-unix style params
-PYTHON=$(which python2)
-
-// reloadable config
-
-// events//
-first: rewrite evaluate ->isolate and have the events isolate running
-root event script - run once on vm boot, (reboot vm when edited) register all callbacks
-only run an event command if locked
-message regex
-collect all events and run them in a single vm
-use a whole vm for events?
-limiting: print queue / clear queue
-timeout abstraction for responding cutely to messages
-SQL scoped to command, not server
-poker2
-botcoin
-onjoin, onconnect
 14:07 <+cake^> I should make CuteServ autoreply with the colour of a hex value
 CuteServ: question?
 
-## = ignore everything
-Promise { resolved: result }
-make events more powerful, restrict how they're created -> current event API is bad
-s/thing/thing hooks ~event.message (disable errors?) - fetchURL / memo / remind
-trigger commands when not even at start of message
-IRC.resetEvents
+IRC.listen('tick', () => {
+    print('the time is ' + new Date);
+}, { filter: ({ channel }) => channel === '#8bitvape'});
+
+IRC.listen('command', (event) => {
+    if (command.root === 'ginger') {
+        e.preventDefault();
+    }
+});
+
+---------
+
+isSelf migration:
+PRAGMA table_info(foo_table_name)
+// print|command|eval|join|part|nick|acquire
+unix style params
+PYTHON=$(which python2)
+
+store commands as json for meta and js for code
+
+// events//
+timeout abstraction for responding cutely to messages
+poker2
 poker: call check bet raise (show odds)
-~img
+botcoin
+onjoin, onconnect
+
+## = ignore everything
 check with buck what different things we can do, s//
-new store for events
 19:00 <@nibblrjr> <Kirjava> add joins/parts to events spec (2 hours ago)
 19:00 <@nibblrjr> <Kirjava> duck hunt (1 hour ago) quack / fire
 19:00 <@nibblrjr> <Kirjava> add web API system for pushing events (7 hours ago)
 19:00 <+nibblrjr> <Kirjava> add 'push event' exmaple for finn to events todo list (3 hours ago)
 11:00 <+IckleFinn> The two use cases I have is: Send a Photo to TeleNibblr -> post the photo here and Send a standard nibblr command to TeleNibblr -> get back the response
-https://www.youtube.com/get_video_info?video_id=dQw4w9WgXcQ
 
 ~7s - ~7 is a card
 ~pokemon [name] (have team, start at 0 ELO)
-
-require('jsdom|lodash|date-fns') + 'Downloading from npm'
 
 // TODO //
 add help prop in commands for generic help

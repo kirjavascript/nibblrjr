@@ -1,6 +1,6 @@
 {
     "name": "egg?",
-    "command": "s=_.shuffle(\"egg\").join``; print(s=='egg'?'egg! 🥚':s)",
+    "command": "const _ = require('lodash');s=_.shuffle(\"egg\").join``; print(s=='egg'?'egg! 🥚':s)",
     "locked": true,
     "starred": false
 }

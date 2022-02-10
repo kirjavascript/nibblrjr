@@ -1,34 +1,17 @@
 const fs = require('fs').promises;
 const path = require('path');
-const Database = require('better-sqlite3');
 const { inspect } = require('util');
 
-const storagePath = path.join(__dirname, '../../../storage');
 const cachePath = path.join(__dirname, '../../../cache/stats');
 
 module.exports = async ({ parent, app }) => {
-
     const exists = async (dir) => !!await fs.stat(dir).catch(_err => false);
 
-    if (!await exists(cachePath)) {
-        await fs.mkdir(cachePath);
-    }
-
-    // load databases
-
-    const databases = (await fs.readdir(storagePath))
-        .map(file => {
-            const db = new Database(path.join(storagePath, file), { readonly: true });
-            const name = path.parse(file).name;
-            const server = parent.servers.find(d => d.address == name);
-            const trigger = server ? server.trigger : '~';
-            return { db, name, trigger };
-        })
-        .filter(({ db }) => (
-            db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='log';`).get()
-        ));
-
-    // api
+    const databases = parent.servers.map(node => ({
+        name: node.config.address,
+        db: node.database.db,
+        trigger: node.trigger,
+    }));
 
     app.post('/api/stats/base', (req, res) => {
         const { month } = req.body;

@@ -17,7 +17,7 @@ function parseTime(str) {
         getYear,
         format,
         parse,
-    } = global.dateFns;
+    } = require('date-fns@1.30.1');
 
     const months = Array.from({length: 12}, (_,i) => format(new Date(1234,i,1), 'MMMM').toLowerCase());
     const monthsShort = Array.from({length: 12}, (_,i) => format(new Date(1234,i,1), 'MMM').toLowerCase());

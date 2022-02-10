@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Lock from './lock';
+import { CommandName } from './index';
 
 import { useRef, useState, useEffect } from 'react';
 
@@ -48,10 +48,7 @@ function CmdList({ commands }) {
                             <Link
                                 to={`/cmds/${encodeURIComponent(command.name)}`}
                             >
-                                {command.name}
-                                {command.starred && <span className="star"> ★</span>}
-                                {' '}
-                                {command.locked && <Lock />}
+                                <CommandName command={command} />
                             </Link>
                         </div>
                     ) : false;

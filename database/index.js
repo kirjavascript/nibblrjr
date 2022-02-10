@@ -1,30 +1,18 @@
-const fs = require('fs');
-const SQLiteDatabase = require('better-sqlite3');
-
 const { createCommandDB } = require('./commands');
-const { createServerDBFactory } = require('./server');
+const { createServerDB } = require('./server');
+const { useSQLDB, waitSQLClose } = require('./sql');
 
 class Database {
-    constructor(_parent) {
+    constructor(parent) {
+        this.commands = createCommandDB(parent);
 
-        // commands //
+        // references to db runtime are stored here,
+        // so flushing the require cache has no unintended consequences
 
-        this.commands = createCommandDB();
+        this.createServerDB = createServerDB;
 
-        // server data //
-
-        this.createServerDB = createServerDBFactory(this);
-    }
-
-    createDB(name, schema) {
-        const filename = __dirname + `/../storage/${name}.db`;
-        fs.openSync(filename, 'a');
-        const db = new SQLiteDatabase(filename);
-        db.exec(schema);
-        db.function('REGEXP', (a, b) => {
-            return new RegExp(a, 'm').test(b) ? 1 : 0;
-        });
-        return db;
+        this.useSQLDB = namespace => useSQLDB(parent, namespace);
+        this.waitSQLClose = waitSQLClose;
     }
 };
 

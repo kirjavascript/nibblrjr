@@ -1,6 +1,6 @@
 {
     "name": "networkrailweek",
-    "command": "\"use strict\";var _dateFns=dateFns,setDate=_dateFns.setDate,setMonth=_dateFns.setMonth,getDay=_dateFns.getDay,subDays=_dateFns.subDays,differenceInWeeks=_dateFns.differenceInWeeks;function diffInWeeks(){return Math.abs(differenceInWeeks.apply(void 0,arguments))}function getNetworkRailDayOfWeek(e){return[1,2,3,4,5,6,0][e]}function networkRailWeek(e){var t=setMonth(setDate(e,1),0),a=getNetworkRailDayOfWeek(getDay(t)),n=subDays(t,a),s=setMonth(setDate(e,31),11),f=getNetworkRailDayOfWeek(getDay(t)),r=diffInWeeks(n,subDays(s,f)),i=40+diffInWeeks(n,e);return r<i?i-r:i}print(networkRailWeek(new Date));",
+    "command": "const dateFns = require('date-fns@1.30.1');\"use strict\";var _dateFns=dateFns,setDate=_dateFns.setDate,setMonth=_dateFns.setMonth,getDay=_dateFns.getDay,subDays=_dateFns.subDays,differenceInWeeks=_dateFns.differenceInWeeks;function diffInWeeks(){return Math.abs(differenceInWeeks.apply(void 0,arguments))}function getNetworkRailDayOfWeek(e){return[1,2,3,4,5,6,0][e]}function networkRailWeek(e){var t=setMonth(setDate(e,1),0),a=getNetworkRailDayOfWeek(getDay(t)),n=subDays(t,a),s=setMonth(setDate(e,31),11),f=getNetworkRailDayOfWeek(getDay(t)),r=diffInWeeks(n,subDays(s,f)),i=40+diffInWeeks(n,e);return r<i?i-r:i}print(networkRailWeek(new Date));",
     "locked": false,
     "starred": false
 }

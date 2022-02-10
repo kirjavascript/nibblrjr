@@ -1,6 +1,6 @@
 {
     "name": "update",
-    "command": "IRC.sudo().node.updateLoader.call();\nprint.success('reloaded modules');",
+    "command": "IRC.sudo().node.updateLoader.call();\nIRC.sudo().node.parent.reloadVM.call();\nprint.success('reloaded modules');",
     "locked": true,
     "starred": true
 }

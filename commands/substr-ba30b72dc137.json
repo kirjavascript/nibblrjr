@@ -2,5 +2,5 @@
     "locked": true,
     "starred": false,
     "name": "substr",
-    "command": "input = input.trim();\nconst word = _.shuffle(\n\tIRC.wordList.filter((d) => d.toLowerCase().includes(input)),\n)[0].toLowerCase();\nprint(word.replace(input.toLowerCase(), input.toUpperCase()));"
+    "command": "const _ = require('lodash');input = input.trim();\nconst word = _.shuffle(\n\tIRC.wordList.filter((d) => d.toLowerCase().includes(input)),\n)[0].toLowerCase();\nprint(word.replace(input.toLowerCase(), input.toUpperCase()));"
 }

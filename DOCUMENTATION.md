@@ -7,18 +7,18 @@
     * [fetching data](#fetching-data)
     * [storing data](#storing-data)
     * [using npm packages](#using-npm-packages)
+    * [events](#events)
+    * [webhooks](#webhooks)
     * [the IRC object](#the-irc-object)
     * [colours / formatting](#colours--formatting)
     * [dealing with time](#dealing-with-time)
     * [reading logs](#reading-logs)
     * [manipulating commands](#manipulating-commands)
-    * [interacting with events](#interacting-with-events)
-    * [timers](#timers)
     * [authentication](#authentication)
     * [modules](#modules)
-* [Configuration](#configuration)
+* [configuration](#configuration)
 * [REPL](#repl)
-* [Flags](#Flags)
+* [remote debugger](#remote-debugger)
 
 ## API Reference
 
@@ -96,15 +96,15 @@ useful for scraping websites or RSS feeds
 const { window, document } = fetchSync.dom('http://google.com');
 ```
 
-the following functions are deprecated
+<a name="jsdom" href="#jsdom">#</a> <b>jsdom</b>() -> <i>{ JSDOM, ... }</i>
 
-<a name="getText" href="#getText">#</a> <b>getText</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
-<a name="getJSON" href="#getJSON">#</a> <b>getJSON</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>  
-<a name="getDOM" href="#getDOM">#</a> <b>getDOM</b>(<i>url</i>{, <i>options</i>}) -> <i>promise</i>
+helper to set up the environment to run JSDOM and return the library
 
 ### storing data
 
-data is scoped by server. a future version may introduce additional scope
+#### key-value store
+
+data is scoped by server and command. data will be stored in the server database
 
 <a name="set" href="#set">#</a> store.<b>set</b>(<i>key</i>, <i>value</i>) 
 
@@ -138,27 +138,141 @@ different commands store data in different namespaces, only commands with the sa
 
 read more about `command.root` in [IRC.command](#IRC-command)
 
-there is an experimental react-hooks like API for dealing with non-string values in the command module `module.loadObject` that can be used with [IRC.require](#IRC-require)
+#### SQLite store
 
-```javascript
-const [scores, setScores] = IRC.require('module.loadObject')('someKey');
+the SQLite store is scoped by command namespace only, so data is shared between servers
+
+each command will have a seperate database file. various restrictions on execution time, filesize, and available features of the language have been made for safety reasons
+
+statements have a prepare cache, so repeating the same query is as cheap as if you had prepared it
+
+<a name="sql-run" href="#sql-run">#</a> SQL.<b>run</b>(<i>query</i>[, ...<i>params</i>]) -> <i>array</i>
+
+run an SQLite statement
+
+<a name="sql-one" href="#sql-one">#</a> SQL.<b>one</b>(<i>query</i>[, ...<i>params</i>]) -> <i>result</i>
+
+retrieve a single result from a query
+
+<a name="sql-many" href="#sql-many">#</a> SQL.<b>many</b>(<i>query</i>[, ...<i>params</i>]) -> <i>info</i>
+
+retrieve all results of a query
+
+<a name="sql-exec" href="#sql-exec">#</a> SQL.<b>exec</b>(<i>query</i>)
+
+run multiple statements. worse performing, no caching
+
+an example use of the API could be like this; `SQL.one('SELECT ?', 1)`
+
+however, the SQLite API also allows you to use tagged template strings for safe and easy statement escaping;
+
 ```
-
-once the API is finalised, it'll be moved into the core
+SQL.run`INSERT INTO foo (bar) VALUES (${userInput})`
+```
 
 ### using npm packages
 
 <a name="require" href="#require">#</a> <b>require</b>(<i>packagename</i>) -> <i>object</i>
 
-download a package from npm and bundle it with webpack. npm scripts are ignored for safety. subsequent accesses of the same package are cached
+download a package from npm and bundle it with esbuild. npm scripts are ignored for safety. subsequent accesses of the same package are cached
 
 *packagename* can include the version and a path, like - `require('react-dom/server@16.8.6').renderToString( ... )`
 
-not everything works, compatibility fares better the closer you get to ECMAScript
+### events
 
-the following command is deprecated
+the event system runs in a dedicated long running vm. each server connection has their own vm
 
-<a name="acquire" href="#acquire">#</a> <b>acquire</b>(<i>packagename</i>) -> <i>promise</i>
+by convention, events are stored in commands with the prefix `event.`, but any command can be an event by setting the option in a command editor
+
+only admins have access to changing events
+
+the remote debugger is useful for event development
+
+<a name="IRC-listen" href="#IRC-listen">#</a> IRC.<b>listen</b>(<i>eventname</i>, <i>callback</i> {, <i>options</i>})
+
+run a callback each time an event happens
+
+available events are
+
+the `tick` event happens every second
+
+the `message` event happens for each message
+
+the `webhook.name` events happen when a request is sent to a webhook
+
+the callback will receive some `eventData` object that always contains a `target` property with the channel or username
+
+available options are
+
+* `showErrors` - _boolean_ &emsp; should errors in this event be printed
+* `filter` - _function_ &emsp; provide a callback to dictate if an event should run or not
+
+some additional APIs are only available in events;
+
+<a name="IRC-queryConfig" href="#IRC-queryConfig">#</a> IRC.<b>queryConfig</b>(<i>key</i>{, <i>default value</i>}) -> <i>value</i>
+
+query user-defined config values
+
+will first check the channel config, then server, and then top level
+
+<a name="fetch" href="#fetch">#</a> <b>fetch</b>(<i>url</i>{, <i>options</i>}) -> <i>Promise</i>
+
+API to match browser [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+
+async APIs are favoured in events as blocking would cause the event system to pause
+
+<a name="sql-async-run" href="#sql-async-run">#</a> SQL.async.<b>run</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
+
+<a name="sql-async-one" href="#sql-async-one">#</a> SQL.async.<b>one</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
+
+<a name="sql-async-many" href="#sql-async-many">#</a> SQL.async.<b>many</b>(<i>query</i>[, ...<i>params</i>]) -> <i>Promise</i>
+
+<a name="sql-async-exec" href="#sql-async-exec">#</a> SQL.async.<b>exec</b>(<i>query</i>) -> <i>Promise</i>
+
+async versions of the SQLite API
+
+<a name="sql-async-many" href="#sql-async-many">#</a> IRC.<b>setNamespace</b>(<i>namespace</i>)
+
+change the namespace the key-value and SQLite stores use. this gives the events full access to all command data
+
+#### webhooks
+
+multiple webhooks can be created on the fly to allow pushing data to the bot
+
+the following route structure is used; `https://host/api/webhook/somename`
+
+webhooks support any http method, and provide body data and query params as part of the `eventData` object
+
+for example, the following event;
+
+```
+IRC.listen('webhook.print', (event) => {
+    if (IRC.queryConfig('hasPrintWebhook')) {
+        print(event.query.message);
+    }
+})
+```
+
+will cause the request `http://host/api/webhook/print?message=foo` to print 'foo' to the channel
+
+auth is left as an exercise for the user. it can be as complex or simple as you like
+
+here's a simple tripcode example;
+
+```
+const tripcode = require('tripcode');
+
+IRC.listen('webhook.test', event => {
+    const authed = tripcode(event.body.passcode) === IRC.queryConfig('testCode');
+    print(authed ? 'pass' : 'fail');
+});
+```
+
+which can be used with;
+
+```
+curl -X POST --data-binary '{"passcode":"demo"}' -H "Content-Type: application/json" http://localhost:8888/api/webhook/test
+```
 
 ### the IRC object
 
@@ -185,6 +299,14 @@ an *object* with information about the current message that triggered the comman
 
 the current nickname of the bot
 
+<a name="IRC-server" href="#IRC-server">#</a> IRC.<b>server</b>
+
+the address the server has connected to
+
+<a name="IRC-channel" href="#IRC-channel">#</a> IRC.<b>channel</b>
+
+the current channel. undefined if message is a PM
+
 <a name="IRC-setNick" href="#IRC-setNick">#</a> IRC.<b>setNick</b>(<i>string</i>)
 
 change the bot's nick. only works if the user is an admin or the channel has the `setNick` config option enabled
@@ -207,10 +329,6 @@ used internally to parse commands. object has the following properties;
 
 * `trigger` - _string|undefined_ &emsp; the command prefix to use, if at all 
 * `text` - _string_ &emsp; the full message
-
-<a name="IRC-channels" href="#IRC-channels">#</a> IRC.<b>channels</b>
-
-an *object* containing information about channels
 
 <a name="IRC-webAddress" href="#IRC-webAddress">#</a> IRC.<b>webAddress</b>
 
@@ -367,21 +485,13 @@ each format can be combined to create a time offset
 
 [see here](https://github.com/kirjavascript/nibblrjr/blob/master/irc/evaluate/scripts/parse-time.js) for a full list of strings that are accepted
 
-<a name="datefns" href="#datefns">#</a> <b>dateFns</b>
-
-the [date-fns](https://date-fns.org/) library
-
 ### reading logs
 
 used in the `log` command and subcommands, but also used to create sed like functionality for messages
 
 <a name="IRC-log-get" href="#IRC-log-get">#</a> IRC.log.<b>get</b>(<i>text</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
 
-retrieve messages from the current channel
-
-<a name="IRC-log-getGlobal" href="#IRC-log-getGlobal">#</a> IRC.log.<b>getGlobal</b>(<i>text</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
-
-same as [IRC.log.get](#IRC-log-get) but for every channel
+retrieve messages from the channel
 
 <a name="IRC-log-count" href="#IRC-log-count">#</a> IRC.log.<b>count</b>(<i>text</i>) -> <i>number</i>
 
@@ -426,55 +536,13 @@ returns an array of all the command names
 
 returns the number of commands
 
-<a name="IRC-commandFns-setSafe" href="#IRC-commandFns-setSafe">#</a> IRC.commandFns.<b>setSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
+<a name="IRC-commandFns-set" href="#IRC-commandFns-set">#</a> IRC.commandFns.<b>setSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
 
 sets the code for a particular command. returns *true* if successful
 
-<a name="IRC-commandFns-deleteSafe" href="#IRC-commandFns-deleteSafe">#</a> IRC.commandFns.<b>deleteSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
+<a name="IRC-commandFns-delete" href="#IRC-commandFns-delete">#</a> IRC.commandFns.<b>deleteSafe</b>(<i>name</i>, <i>code</i>) -> <i>boolean</i>
 
 deletes the command. returns *true* if successful
-
-the names `deleteSafe` and `setSafe` are used as in future, additional `delete` and `set` functions will be able to modify locked commands for admins
-
-### interacting with events
-
-used in the `memo` and `remind` commands
-
-<a name="IRC-event" href="#IRC-event">#</a> IRC.<b>event</b>
-
-if the command is running in an event, contains the event information
-
-* `idx` - _number_ &emsp; index
-* `callback` - _string_ &emsp; name of the command to trigger when the event happens
-* `type` - _string_ &emsp; type of event triggered
-* `timestamp` - _date_ &emsp; timestamp the message should reach before triggering
-* `init` - _date_ &emsp; timestamp from when the event was created
-* `user` - _string_ &emsp; user that created the event
-* `target` - _string_ &emsp; user/channel the message is targeted at
-* `message` - _string_ &emsp; additional text to send with the event
-
-<a name="IRC-eventFns-addEvent" href="#IRC-eventFns-addEvent">#</a> IRC.eventFns.<b>addEvent</b>(<i>type</i>{, <i>options</i>})
-
-type can be `speak` to trigger after a user has spoken, or `tick` to trigger after an elapsed amount of time. options are;
-
-* `callback` - _string_ &emsp; name of the command to trigger when the event happens
-* `time` - _date_ &emsp; minimum timestamp the message should reach before triggering
-* `message` - _string_ &emsp; additional text to send with the event
-* `target` - _string_ &emsp; user the event is intended for. (does nothing for tick)
-
-<a name="IRC-eventFns-speakElapsed" href="#IRC-eventFns-speakElapsed">#</a> IRC.eventFns.<b>speakElapsed</b>(<i>nick</i>) -> <i>array</i>
-
-an *array* of elapsed speak events for a specific user with the same format as [IRC.event](#IRC-event)
-
-<a name="IRC-eventFns-tickElapsed" href="#IRC-eventFns-tickElapsed">#</a> IRC.eventFns.<b>tickElapsed</b>() -> <i>array</i>
-
-an *array* of elapsed tick events for a specific user with the same format as [IRC.event](#IRC-event)
-
-<a name="IRC-eventFns-delete" href="#IRC-eventFns-delete">#</a> IRC.eventFns.<b>delete</b>(<i>index</i>)
-
-used to delete events
-
-### timers
 
 <a name="sleep" href="#sleep">#</a> <b>sleep</b>(<i>milliseconds</i>)
 
@@ -497,7 +565,7 @@ the returned object has the following properties
 * `exit` - _function_ &emsp; kills the main process
 * `node` - _proxy_ &emsp; a bridge out of the vm to the channel's internal node object in the main process
 
-the `node` proxy allows you to send raw commands and update config options on the fly. examples of its use can be seen in the following commands; `reboot`, `update`, `join`, `part`, `mode`, `topic`, `kick`, `nick`, `redirect`, `ignore`
+the `node` proxy allows you to send raw commands and update config options on the fly. examples of its use can be seen in the following commands; `reload`, `reboot`, `update`, `join`, `part`, `mode`, `topic`, `kick`, `nick`, `redirect`, `ignore`, `debug`
 
 `update` can be used to update the bot without rebooting
 
@@ -521,44 +589,56 @@ an *object* to place functions you would like to export on
 
 a *boolean* indicating if the current command has been required or not. allows commands to be used as commands or modules
 
-## Configuration
+## configuration
 
 **all properties are optional**. [see the example config](config.json.example)
 
-all root properties (except `timezone` and `web`) are global, and can also placed inside the server config for a local override
+if the configuration file is edited while the bot is running, these changes will be reflected in its behaviour, to the extent that if you change the server address it will leave the old one and rejoin the new one
+
+* `servers` _array_ &emsp; list of IRC servers to connect to 
+    * `address` _string_ &emsp; for example: `irc.libera.chat`
+    * `password` _string_ &emsp; password to use for services authentication
+    * `channels` _array_ &emsp; list of channels to join.
+        * `name` _string_ &emsp; channel name to join. for example: `##rust`
+
+the following properties are top level, but can also placed inside the server for a local override
 
 * `trigger` _string_ &emsp; the prefix to use for running commands (default: `~`)
 * `nickname` _string_ &emsp; nickname
 * `userName` _string_ &emsp; username shown in whois information
 * `realName` _string_ &emsp; real name shown in whois information
+* `quitMessage` _string_ &emsp; message to provide when the bot leaves a server
 * `floodProtection` _boolean_ &emsp; should flood protection be enabled (default: `true`)
 * `floodProtectionDelay` _number_ &emsp; set flood protection time delay in ms (default: `250`)
 * `autoRejoin` _boolean_ &emsp; should the bot autorejoin channels when kicked (default: `true`)
-* `enableIBIP` _boolean_ &emsp; should the bot conform to [IBIP](https://git.teknik.io/Teknikode/IBIP) standard (default: `true`)
-* `enableCommands` _boolean_ &emsp; should commands be triggerable (default: `true`)
-* `commandLimit` _number_ &emsp; limit the number of times functions that manipulate commands can be used in a single REPL call (default: `2`)
-* `logCommands` _bool_ &emsp; should messages that trigger commands be logged (default: `true`)
 * `ignoreHosts` _array_ &emsp; list of hostnames to ignore for events and messages entirely
 * `admins` _array_ &emsp; list of nicknames of users that have access to [IRC.sudo](#IRC-sudo)
-* `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
-* `fetchURL` _boolean_ &emsp; should URLs posted in channel have their titles displayed (default: `true`)
 * `secrets` _object_ &emsp; keys in this object correspond to commands that have an [IRC.secret](#IRC-secret) value
 * `broadcastCommands` _array_ &emsp; list of commands that are able to use the *target* property of [print](#print)
+
+the following properties are top level, but can also placed inside the server or channel for a local override
+
+* `lineLimit` _number_ &emsp; maximum number of lines a command can display (default: `10`)
+* `charLimit` _number_ &emsp; maximum number of characters a command can display (default: `false`)
+* `colLimit` _number_ &emsp; maximum number of characters per line a command can display (default: `400`)
+* `colors` _boolean_ &emsp; should colours and formatting be enabled (default: `true`)
+* `setNick` _boolean_ &emsp; does anyone in this channel have access to [IRC.setNick](#IRC-setNick) (default: `false`)
+* `enableEvents` _boolean_ &emsp; should channel run events system (default: `true`)
+* `enableCommands` _boolean_ &emsp; should commands be triggerable (default: `true`)
+
+the following properties are top level only
+
 * `timezone` _string_ &emsp; timezone to use for dates (default: `Europe/London`)
 * `web` _object_ &emsp; configuration for the web frontend
     * `url` _string_ &emsp; web address for the frontend, available at [IRC.webAddress](#IRC-webAddress)
     * `port` _number_ &emsp; port to host the content at
-    * `socketURL` _string_ &emsp; websocket URL to connect to
     * `password` _string_ &emsp; logging in to the web interface allows you to modify locked commands
-* `servers` _array_ &emsp; list of IRC servers to connect to 
-    * `address` _string_ &emsp; for example: `irc.freenode.org`
-    * `password` _string_ &emsp; password to use for services authentication
-    * `channels` _array_ &emsp; list of channels to join. (can just be a list of strings of channel names)
-        * `name` _string_ &emsp; channel name to join. for example: `##rust`
-        * `lineLimit` _number_ &emsp; maximum number of lines a command can display (default: `10`)
-        * `setNick` _boolean_ &emsp; does anyone in this channel have access to [IRC.setNick](#IRC-setNick) (default: `false`)
-        * `fetchURLAll` _boolean_ &emsp; should every scraped URL be shown, or just 'useful' ones (default: `false`)
-        * `ignoreEvents` _boolean_ &emsp; should this channel ignore `speak` and `tick` events (default: `false`)
+
+these used to be part of the core, but are now user-defined configuration values
+
+* `enableIBIP` _boolean_ &emsp; should the bot conform to [IBIP](https://git.teknik.io/Teknikode/IBIP) standard (default: `true`)
+* `fetchURL` _boolean_ &emsp; should URLs posted in channel have their titles displayed (default: `true`)
+* `fetchURLAll` _boolean_ &emsp; should every scraped URL be shown, or just 'useful' ones (default: `false`)
 
 ## REPL
 
@@ -572,6 +652,10 @@ the REPL works as a command like any other, and `>` takes optional params. the p
 
 which correspond to the options from [IRC.inspect](#IRC-inspect)
 
-## Flags
+## remote debugger
 
-`--dev` will enable development mode
+console output is available in real-time via a HTTP stream. this is useful for live monitoring and development
+
+combine with `IRC.sudo().node.debug.set(true)` and `IRC.sudo().node.parent.dev.set(true)` to show deeper levels of debug information
+
+to connect using curl: `curl -u io:webpassword https://host/api/iostream`
