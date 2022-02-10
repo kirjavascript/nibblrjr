@@ -43,6 +43,8 @@ PRAGMA table_info(foo_table_name)
 unix style params
 PYTHON=$(which python2)
 
+store commands as json for meta and js for code
+
 // events//
 timeout abstraction for responding cutely to messages
 poker2
