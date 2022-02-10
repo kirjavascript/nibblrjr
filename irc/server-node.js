@@ -83,7 +83,7 @@ class ServerNode {
 
         this.dispose = () => {
             clearInterval(this.tick);
-            this.client.disconnect(this.get('quitMessage', '._.'));
+            this.client.disconnect(this.get('quitMessage', '(◕◡◕✿)'));
             this.events.dispose();
             this.database.dispose();
         };
