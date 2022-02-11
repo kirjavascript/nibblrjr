@@ -56,7 +56,7 @@ const get = (namespace, key) => {
 };
 // set //
 const set = (namespace, key, value) => {
-    const hasData = typeof get(key) != 'undefined';
+    const hasData = typeof get(namespace, key) != 'undefined';
     // delete data
     if (Object.is(null, value) || typeof value == 'undefined') {
         hasData && setDeleteQuery.run(namespace, key);

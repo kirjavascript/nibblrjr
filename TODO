@@ -11,9 +11,6 @@ migrate cuteserv data
 writes happening at the right time
 db.pragma('synchronous = FULL')
 
-exit() should call the graceful shutdown (send sigint)
-process.kill(process.pid, "SIGINT");
-
 redo / fix stats
 remind pms not working
     remind.pending
