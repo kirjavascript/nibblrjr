@@ -130,9 +130,6 @@ async function createVM({ node, maxTimeout = 60000 }) {
     )));
 
     ctx.setSync('_sudoProxy', timeoutRef((config) => {
-        if (config === 'exit') {
-            process.kill(process.pid, 'SIGINT');
-        }
         const { key, value, path } = config;
         const leaf = path.pop();
         const parent = path.reduce((a, c) => {
@@ -402,7 +399,6 @@ async function createVM({ node, maxTimeout = 60000 }) {
             }
             return {
                 node: node(),
-                exit: () => ref.sudoProxy.applySync(undefined, ['exit']),
             };
         };
 
