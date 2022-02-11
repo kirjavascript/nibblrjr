@@ -92,6 +92,7 @@ function createServerDB(node) {
             }
 
         },
+        query: queryFn('query'),
         dispose: closeWorker,
     };
 }

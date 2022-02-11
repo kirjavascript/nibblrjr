@@ -2,29 +2,19 @@ sudo: debug|reboot|reload|update|join|part|mode|topic|kick|nick|msg|redirect|ign
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
 migrate cuteserv data
-
-14:02 <j`ey> ~> store.set("letters",1); print("store.get( " + store.get("letters") + ")"); store.set("letters",10); print("store.get( " + store.get("letters") + ")")
-14:02 <kawaii> store.get( 1)
-14:02 <kawaii> store.get( 1)
-14:02 <kawaii> undefined
-
-writes happening at the right time
-db.pragma('synchronous = FULL')
-
 redo / fix stats
+
 remind pms not working
     remind.pending
 <s>dont resolve URLs from self</s>bcz apis
-09:10 <eyeoh> https://twitter.com/Kiwiseabreeze/status/1491861303723696129
-09:10 <kawaii> Rochelle F @Kiwiseabreeze For those government usability folks out there :
 
-wordle
-hex-to-color-name
 redditvideourl
 
-IRC.require() in events allows whitelisting stuff for others
-
 ---------
+
+poker2: have a fakeout poker game
+
+htmlpastebin built in for shit
 
 select * from sqlite_schema
 

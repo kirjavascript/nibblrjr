@@ -9,31 +9,33 @@ module.exports = async ({ parent, app }) => {
 
     const databases = parent.servers.map(node => ({
         name: node.config.address,
-        db: node.database.db,
+        query: node.database.query,
         trigger: node.trigger,
     }));
 
     app.post('/api/stats/base', (req, res) => {
         const { month } = req.body;
         const dateTo = month ? `${month}-01` : 'now'
-        // flip
-        const servers = databases.map(({ db, name }) => {
-            return {
-                server: name,
-                channels: db.prepare(`
-                    SELECT DISTINCT lower(target) as channel
-                    FROM log
-                    WHERE command='PRIVMSG'
-                    AND target LIKE '#%'
-                    AND time BETWEEN date(?, '-1 month') AND date(?)
-                `).all(dateTo, dateTo).map(d => d.channel),
-            };
-        });
 
-        res.json({
-            servers,
-            uptime: 0 | (new Date() - parent.epoch) / 36e5,
-        });
+        Promise.all(databases.map(({ query, name }) => {
+            return query('all', `
+                SELECT DISTINCT lower(target) as channel
+                FROM log
+                WHERE command='PRIVMSG'
+                AND target LIKE '#%'
+                AND time BETWEEN date(?, '-1 month') AND date(?)
+            `, [dateTo, dateTo]).then(rows => ({
+                server: name,
+                channels: rows.map(row => row.channel),
+            }))
+        }))
+            .then(servers => {
+                res.json({
+                    servers,
+                    uptime: 0 | (new Date() - parent.epoch) / 36e5,
+                });
+            })
+            .catch((e) => res.status(500).send(e.message));
     });
 
     // cache middleware

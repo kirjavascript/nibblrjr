@@ -155,7 +155,7 @@ async function createVM({ node, maxTimeout = 60000 }) {
         '_commandFnsKeys',
         Object.keys(node.parent.database.commands.fns).join('|'),
     );
-    let commandFnsLimit = 5;
+    let commandFnsLimit = 20;
     ctx.setSync('_commandFns', timeoutCallback((fnName, args) => {
         if (commandFnsLimit--) {
             return node.parent.database.commands.fns[fnName](...args);

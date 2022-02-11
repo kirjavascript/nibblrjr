@@ -165,6 +165,17 @@ const logFns = (() => {
     return { get, count, user, random, regex };
 })();
 
+// only used in query
+
+const prepareCache = new Map();
+
+const prepare = (query) => {
+    if (prepareCache.has(query)) return prepareCache.get(query);
+    const statement = db.prepare(query);
+    prepareCache.set(query, statement);
+    return statement;
+};
+
 parentPort.on('message', ([id, type, subtype, args]) => {
     if (type === 'log') {
         try {
@@ -176,6 +187,13 @@ parentPort.on('message', ([id, type, subtype, args]) => {
         try {
             const func = (type === 'storeFns' ? storeFns : logFns)[subtype];
             parentPort.postMessage(['result', id, func(...args)]);
+        } catch (e) {
+            parentPort.postMessage(['error', id, e.message]);
+        }
+    } else if (type === 'query') {
+        try {
+            const [method, query, params] = args;
+            parentPort.postMessage(['result', id, prepare(query)[method](...params)]);
         } catch (e) {
             parentPort.postMessage(['error', id, e.message]);
         }
