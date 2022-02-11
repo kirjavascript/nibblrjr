@@ -156,7 +156,7 @@ function createEventManager(node) {
                 target: channel.toLowerCase(),
                 server: node.config.address,
             };
-            emit(name, eventData ? Object.assign(eventData, defaultData) : defaultData);
+            emit(name, eventData ? Object.assign({}, eventData, defaultData) : defaultData);
         });
     }
 
