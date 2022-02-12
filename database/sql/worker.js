@@ -21,8 +21,6 @@ const traverse = item => {
             && name.includes('extension')
         ) throw new Error('dont breathe this');
 
-        console.log(item);
-
         for (const child of Object.values(item)) {
             if (typeof child === 'object' && child !== null) {
                 traverse(child);

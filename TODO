@@ -1,7 +1,6 @@
 sudo: debug|reboot|reload|update|join|part|mode|topic|kick|nick|msg|redirect|ignore
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
-migrate cuteserv data
 
 remind pms not working
     remind.pending
