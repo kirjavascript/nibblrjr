@@ -110,7 +110,7 @@ module.exports = async ({ parent, app }) => {
         return items.filter(d => d[accessor] === max);
     }
 
-    app.post('/api/stats/all', (req, res) => {
+    app.post('/api/stats/all', async (req, res) => {
         const { server, channel, month } = req.body;
         const dateTo = month ? `${addMonth(month)}-01` : 'now';
         const dbList = databases.filter(({ name }) => !server || name === server);
@@ -118,14 +118,15 @@ module.exports = async ({ parent, app }) => {
             ? ['AND lower(target) = ?', [channel]]
             : ['', []];
 
-        function getStat(statement, args) {
-            return dbList.reduce((acc, server) => {
-                acc.push(...server.db.prepare(statement(server)).all(...args))
-                return acc;
-            }, []);
+        async function getStat(statement, args) {
+            const acc = [];
+            for (const server of dbList) {
+                acc.push(...(await (server.query('all', statement(server), args))));
+            }
+            return acc;
         }
 
-        const commands = dedupe(getStat(({ trigger }) => `
+        const commands = dedupe(await getStat(({ trigger }) => `
             SELECT command_trigger as command, count(command_trigger) as count
             FROM (
                 SELECT CASE WHEN instr(message, ' ') <> 0 THEN substr(message, 1, instr(message, ' ')-1) ELSE message END as command_trigger
@@ -142,7 +143,7 @@ module.exports = async ({ parent, app }) => {
         `, [dateTo, dateTo, ...channelArgs]), 'command', (a, b) => b.count - a.count)
             .slice(0, 10).reverse();
 
-        const activityHours = dedupe(getStat(() => `
+        const activityHours = dedupe(await getStat(() => `
             SELECT strftime('%H', time) as hour, count(*) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -151,7 +152,7 @@ module.exports = async ({ parent, app }) => {
             GROUP BY hour
         `, [dateTo, dateTo, ...channelArgs]), 'hour');
 
-        const activityDays = dedupe(getStat(() => `
+        const activityDays = dedupe(await getStat(() => `
             SELECT strftime('%Y-%m-%d', time) as day, count(*) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -160,8 +161,10 @@ module.exports = async ({ parent, app }) => {
             GROUP BY day
         `, [dateTo, dateTo, ...channelArgs]), 'day');
 
-        const linkItems = dbList.map(({ db, name }) => {
-            const activity = db.prepare(`
+        const linkItems = [];
+
+        for (const { query, name } of dbList) {
+            const activity = await query('all', `
                 SELECT user, count(lower(user)) as count
                 FROM log
                 WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -169,14 +172,13 @@ module.exports = async ({ parent, app }) => {
                 GROUP BY lower(user)
                 ORDER BY count DESC
                 LIMIT 10
-            `)
-                .all([dateTo, dateTo, ...channelArgs])
+            `, [dateTo, dateTo, ...channelArgs]);
 
             const users = activity.map(d => d.user);
 
             if (!users.length) return [name, activity, []];
 
-            return [name, activity, db.prepare(
+            linkItems.push([name, activity, await query('all',
                 users.map(() => `
                     SELECT user as source, count(*) as count, ? as target
                     FROM log
@@ -185,18 +187,17 @@ module.exports = async ({ parent, app }) => {
                     AND message LIKE ?
                     AND command = 'PRIVMSG'
                     GROUP BY source
-                `).join(' UNION ')
-            ).all(
+                `).join(' UNION '),
                 users.flatMap((user) => [
                     user, dateTo, dateTo, ...channelArgs, `%${user}%`,
-                ])
-            )];
-        });
+                ]))]
+            );
+        }
 
         // crush up the data for storage / interchange
         const links = linkItems.map(([name, activity, links]) => {
             const data = {};
-            for ({ source, count, target } of links) {
+            for (const { source, count, target } of links) {
                 if (!data[source]) {
                     data[source] = {};
                 }
@@ -207,7 +208,7 @@ module.exports = async ({ parent, app }) => {
 
         // short stats
 
-        const avgLineLengthHigh = getBest(getStat(() => `
+        const avgLineLengthHigh = getBest(await getStat(() => `
             SELECT user, avg(length(message)) as average
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -219,7 +220,7 @@ module.exports = async ({ parent, app }) => {
             LIMIT 1
         `, [dateTo, dateTo, ...channelArgs]), 'average');
 
-        const avgLineLengthLow = getBest(getStat(() => `
+        const avgLineLengthLow = getBest(await getStat(() => `
             SELECT user, avg(length(message)) as average
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -231,7 +232,7 @@ module.exports = async ({ parent, app }) => {
             LIMIT 1
         `, [dateTo, dateTo, ...channelArgs]), 'average', 'min');
 
-        const shouting = getBest(getStat(() => `
+        const shouting = getBest(await getStat(() => `
             SELECT user, count(message) as count
             FROM LOG
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -244,7 +245,7 @@ module.exports = async ({ parent, app }) => {
             LIMIT 1
         `, [dateTo, dateTo, ...channelArgs]));
 
-        const questions = getBest(getStat(() => `
+        const questions = getBest(await getStat(() => `
             SELECT user, count(message) as count
             FROM LOG
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -255,7 +256,7 @@ module.exports = async ({ parent, app }) => {
             LIMIT 1
         `, [dateTo, dateTo, ...channelArgs]));
 
-        const kicks = getBest(getStat(() => `
+        const kicks = getBest(await getStat(() => `
             SELECT user, count(lower(user)) as count
             FROM log
             WHERE time BETWEEN date(?, '-1 month') AND date(?)
@@ -266,7 +267,7 @@ module.exports = async ({ parent, app }) => {
             LIMIT 10
         `, [dateTo, dateTo, ...channelArgs]));
 
-        const kicked = getBest(getStat(() => `
+        const kicked = getBest(await getStat(() => `
             SELECT user, count(user) as count
             FROM (
                 SELECT substr(message, 1, instr(message, ' ')-1) as user
@@ -292,6 +293,7 @@ module.exports = async ({ parent, app }) => {
             kicks,
             kicked,
         });
+
     });
 
 };
