@@ -14,11 +14,14 @@ const traverse = item => {
         if (variant === 'attach') throw new Error('parity interrupt');
         if (variant === 'detach') throw new Error('wrong calendar');
         if (variant === 'pragma') throw new Error('insert floppy #2');
+        if (variant === 'recursive') throw new Error('pls hold');
         if (
             type === 'identifier'
             && variant === 'function'
             && name.includes('extension')
         ) throw new Error('dont breathe this');
+
+        console.log(item);
 
         for (const child of Object.values(item)) {
             if (typeof child === 'object' && child !== null) {
