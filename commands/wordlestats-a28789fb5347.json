@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "wordle.stats",
+    "command": "print(\"It's a cooperative game!\")"
+}

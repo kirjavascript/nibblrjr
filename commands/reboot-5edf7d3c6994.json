@@ -1,6 +1,6 @@
 {
     "name": "reboot",
-    "command": "IRC.sudo().exit();",
+    "command": "IRC.sudo().node.parent.exitHandler.call();",
     "locked": true,
     "starred": true
 }

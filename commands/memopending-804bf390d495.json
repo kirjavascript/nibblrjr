@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "memo.pending",
+    "command": "const _ = require('lodash');\n\nconst memos = SQL.many`\n    SELECT \"key\", \"from\", \"to\", server, channel, message FROM memo \n    WHERE \"from\" = ${IRC.message.from}\n    AND (${String(+!IRC.channel)} OR channel = ${IRC.channel})\n`;\n\n\nif (memos.length) {\n\n    if (memos.length < 5) {\n        print.success(\n            memos.map(({key, to, message}) => {\n                return `${key}: ${IRC.colors.nick(to, true)} ${_.truncate(message)}`\n            })\n            .join(', ')\n        )\n    } else if (messages.length > 1) {\n        const text = memos.map(({key, to, message}) => {\n            return `${key}: <${to}> ${_.truncate(message)}`\n        }).join('\\n');\n        const url = IRC.require('module.paste')(text)\n        print(`${from}: you have {o}${memos.length}{/} pending messages ${url}`);\n    }\n} else {\n    print.info('no pending memos')\n}"
+}
