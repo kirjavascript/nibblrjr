@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "memo.dupe",
+    "command": "imput = input.trim();\nif (!input) throw `usage: ${IRC.colors.cmd('memo.dupe', 'id')} (get the id from ${IRC.colors.cmd('memo.pending')})`;\n\nconst memo = SQL.one`\n    SELECT * FROM memo\n    WHERE \"from\" = ${IRC.message.from}\n    AND \"key\" = ${+input}\n`;\n\nif (memo) {\n  SQL.run`\n    INSERT INTO memo (\"from\", \"to\", server, channel, message) \n    VALUES (${IRC.message.from}, ${memo.to}, ${memo.server}, ${memo.channel}, ${memo.message})\n`;\n    print.success(`memo ${input} duplicated`)\n} else {\n    throw `memo does not exist`\n}"
+}

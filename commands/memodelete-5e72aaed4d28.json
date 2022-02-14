@@ -3,5 +3,5 @@
     "locked": false,
     "starred": false,
     "name": "memo.delete",
-    "command": "imput = input.trim();\nif (!input) throw `usage: ${IRC.colors.cmd('memo', 'id')} (get the id from ${IRC.colors.cmd('memo.pending')})`;\n\nconst memo = SQL.one`\n    SELECT 1 FROM memo\n    WHERE \"from\" = ${IRC.message.from}\n    AND \"key\" = ${+input}\n`;\n\nif (memo) {\n    SQL.run`DELETE FROM memo WHERE \"key\" = ${input}`;\n    print.success(`memo ${input} deleted`)\n} else {\n    throw `memo does not exist`\n}"
+    "command": "imput = input.trim();\nif (!input) throw `usage: ${IRC.colors.cmd('memo.delete', 'id')} (get the id from ${IRC.colors.cmd('memo.pending')})`;\n\nconst memo = SQL.one`\n    SELECT 1 FROM memo\n    WHERE \"from\" = ${IRC.message.from}\n    AND \"key\" = ${+input}\n`;\n\nif (memo) {\n    SQL.run`DELETE FROM memo WHERE \"key\" = ${input}`;\n    print.success(`memo ${input} deleted`)\n} else {\n    throw `memo does not exist`\n}"
 }

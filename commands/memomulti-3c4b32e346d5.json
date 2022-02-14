@@ -3,5 +3,5 @@
     "locked": false,
     "starred": false,
     "name": "memo.multi",
-    "command": "const names = IRC.command.params;\n\nif (!names.length || !input.trim()) throw `usage: ${IRC.colors.cmd('memo', 'message', ['name1', 'name2', '...'])}`;\n\n\nnames.forEach(name => {\n    SQL.run`\n        INSERT INTO memo (\"from\", \"to\", server, channel, message) \n        VALUES (${IRC.message.from}, ${String(name)}, ${IRC.server}, ${IRC.channel}, ${input})\n    `;\n});\n\n\nprint(`Saved message for ${names.map(name => IRC.colors.nick(name, false)).join(', ')}`);"
+    "command": "const names = IRC.command.params;\n\nif (!names.length || !input.trim()) throw `usage: ${IRC.colors.cmd('memo', 'message', ['name1', 'name2', '...'])}`;\n\n\nnames.forEach(name => {\n    SQL.run`\n        INSERT INTO memo (\"from\", \"to\", server, channel, message) \n        VALUES (${IRC.message.from}, ${String(name.trim())}, ${IRC.server}, ${IRC.channel}, ${input})\n    `;\n});\n\n\nprint(`Saved message for ${names.map(name => IRC.colors.nick(name.trim(), false)).join(', ')}`);"
 }
