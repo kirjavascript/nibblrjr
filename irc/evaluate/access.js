@@ -1,5 +1,5 @@
 function checkAccess({ from, node, callback }) {
-    const name = /libera/.test(node.address)
+    const name = /libera/.test(node.config.address)
         ? 'ACC'
         : 'STATUS';
 
