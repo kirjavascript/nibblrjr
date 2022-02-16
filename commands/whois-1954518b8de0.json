@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": true,
+    "starred": false,
+    "name": "whois",
+    "command": "log(IRC.whois(input.trim()));"
+}
