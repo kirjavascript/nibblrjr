@@ -1,6 +1,6 @@
 {
     "name": "lfm",
-    "command": "if (IRC.message.from == 'megasconed') IRC.message.from = 'megaproxy';\nconst from = input.trim() || IRC.message.from;\nconst { recenttracks, error, message } = fetchSync.json(`http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${from}&api_key=a5db9686e8a52248af25d9d4d8965527&format=json`);\nif (error) throw message;\nconst { track } = recenttracks;\nif (track.length) {\n    const NP = '@attr' in track[0] && track[0]['@attr'].nowplaying;\n    const [{ name, artist, album }] = track;\n    print(`{y}♫{/} ${IRC.colors.nick(from, false)} ${NP?'is now playing':'last played'} {dc}${name}{/} by ${artist['#text']} {dgr}from ${album['#text']}`)\n}",
+    "command": "if (IRC.message.from == 'megasconed') IRC.message.from = 'megaproxy';\nconst from = input.trim() || store.get(IRC.message.from) || IRC.message.from;\nconst { recenttracks, error, message } = fetchSync.json(`http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${from}&api_key=a5db9686e8a52248af25d9d4d8965527&format=json`);\nif (error) throw message;\nconst { track } = recenttracks;\nif (track.length) {\n    const NP = '@attr' in track[0] && track[0]['@attr'].nowplaying;\n    const [{ name, artist, album }] = track;\n    print(`{y}♫{/} ${IRC.colors.nick(from, false)} ${NP?'is now playing':'last played'} {dc}${name}{/} by ${artist['#text']} {dgr}from ${album['#text']}`)\n}",
     "locked": true,
     "starred": false
 }
