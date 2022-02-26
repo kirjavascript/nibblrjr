@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "sponge",
+    "command": "print([...input].map(d => (Math.random()-.5)>0?d.toUpperCase():d).join``)"
+}
