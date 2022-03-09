@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "source",
+    "command": "IRC.require('command.source')"
+}
