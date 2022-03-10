@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "antonym",
+    "command": "const { document } = fetchSync.dom(`https://www.wordhippo.com/what-is/the-opposite-of/${encodeURIComponent(input)}.html`);\nconst words = Array.from(new Set(Array.from(document.querySelectorAll('.wb a')).map(a => a.textContent)));\nprint(new Intl.ListFormat(\"en-CA\").format(words.slice(0, 10)));"
+}

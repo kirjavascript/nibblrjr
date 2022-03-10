@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": true,
+    "starred": true,
+    "name": "char",
+    "command": "const { document } = fetchSync.dom(`https://www.compart.com/en/unicode/U+${input.codePointAt(0).toString(16)}`);\nconst nodes = [...document.querySelectorAll('.second-column')].map(d => d.textContent.replace(/\\[.*?\\]/g,''));\n\nif (nodes.length) {\n\tprint(`${input.trim()} name: ${nodes[0]} version: ${nodes[1]}`);\n}"
+}
