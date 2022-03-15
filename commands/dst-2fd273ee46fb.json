@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "dst",
+    "command": "print(fetchSync.dom('https://www.gov.uk/when-do-the-clocks-change').document.querySelector('main article > div').textContent.replace(/\\s+/g,' ').trim())"
+}
