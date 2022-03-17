@@ -3,5 +3,5 @@
     "locked": true,
     "starred": true,
     "name": "event.IBIP",
-    "command": "// handle IBIP (https://git.teknik.io/Teknikode/IBIP)\n\nIRC.listen('message', event => {\n    if (event.message.text === '.bots' && IRC.queryConfig('enableIBIP', true)) {\n      \tIRC.require('help');\n      \t// spec conforming version:\n     \t//print(`Reporting in! [JavaScript] use ${IRC.trigger}help`);\n    }\n});"
+    "command": "// handle IBIP (https://git.teknik.io/Teknikode/IBIP)\n\nIRC.listen('message', event => {\n    if (event.message.text === '.bots' && IRC.queryConfig('enableIBIP', true)) {\n      \t//IRC.require('help');\n     \tprint(`Reporting in! [JavaScript] use ${IRC.trigger}help`);\n    }\n});"
 }
