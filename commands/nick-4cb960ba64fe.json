@@ -1,6 +1,6 @@
 {
     "name": "nick",
-    "command": "if (IRC.command.params[0] === 'auth' || !IRC.setNick(input)) {\n    const str = input.replace(/[^a-zA-Z0-9]+/g, '');\n    const sudo = IRC.sudo();\n    sudo.node.client.send.call('NICK', str);\n    // reauth in case we got deauthed for whatever reason\n    if (str.toLowerCase() == sudo.node.nickname.get().toLowerCase()) {\n        sudo.node.client.say.call('nickserv', `identify ${sudo.node.password.get()}`);\n    }\n}",
+    "command": "if (IRC.command.params[0] === 'auth' || !IRC.setNick(input)) {\n    const str = input.replace(/[^a-zA-Z0-9]+/g, '');\n    const sudo = IRC.sudo();\n    sudo.node.client.send.call('NICK', str);\n    // reauth in case we got deauthed for whatever reason\n    if (str.toLowerCase() == sudo.node.config.nickname.get().toLowerCase()) {\n        sudo.node.client.say.call('nickserv', `identify ${sudo.node.password.get()}`);\n    }\n}",
     "locked": true,
     "starred": true
 }
