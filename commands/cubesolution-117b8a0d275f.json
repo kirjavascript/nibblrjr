@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "cube.solution",
+    "command": "IRC.require('cube').solution(input);"
+}
