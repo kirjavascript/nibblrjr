@@ -3,5 +3,5 @@
     "locked": true,
     "starred": false,
     "name": "whois",
-    "command": "log(IRC.whois(input.trim()));"
+    "command": "log(IRC.whois(input.trim()||IRC.message.from));"
 }
