@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "whendowegettothereyet",
+    "command": "var arrival = new Date(); arrival.setHours(19); arrival.setMinutes(07); var departure = new Date(Date.now()); var diff = (arrival.getTime() - departure.getTime())/(1000*60*60); print(`Arrival at there yet in ${Math.floor(diff)} hours and ${Math.floor((diff - Math.floor(diff))*60)} minutes`);"
+}
