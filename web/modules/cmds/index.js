@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback }  from 'react';
 import { Route } from 'react-router-dom';
 import Checkbox from '../checkbox';
 import Lock from './lock';
+import Star from './star';
 
 import Editor from './editor';
 import CmdList from './cmd-list';
@@ -14,7 +15,8 @@ import { parseCommand } from '../../../irc/evaluate/scripts/parse-command';
 export function CommandName({ command }) {
     return <>
         {command.name}
-        {command.starred && <span className="star"> ★</span>}
+        {' '}
+        {command.starred && <Star />}
         {' '}
         {command.locked && <Lock />}
         {command.event && <span className="event"> (event)</span>}
@@ -96,7 +98,7 @@ function Cmds({ history }) {
                     <div className="cmd-filter">
                         <span> {commandSrch.length} / {commandFltr.length} </span>
                         <div className="cmd-toggle">
-                            <span className="star">★</span>
+                            <Star />
                             <Checkbox
                                 checked={starred}
                                 onChange={() => setStarred(!starred)}
