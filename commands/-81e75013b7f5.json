@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "🍎👖",
-    "command": "print(`https://youtu.be/${['wrSj1kdplhU','wNdhUo8jsS4','74uQ4Rvvk5g','xANZ4Qy37q4','tVNZ3Nk8hyU','VQk_zn030bM','PdtU-kWAarM','Pz5YwfE1kC0','RSEenbHzMFQ','xDaBUmlJoRU','-jR2Eo8yGMc','-30T2GKsRFg','l6QFiRBnPeA','kQnDCaXnJmQ','NcNlp3xn0Wc','dDZraqq9nTw','8ldMkkqDg9U'][(Math.random()*17)|0]}`);"
+    "command": ""
 }

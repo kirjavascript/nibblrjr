@@ -2,6 +2,6 @@
     "event": false,
     "locked": false,
     "starred": false,
-    "name": "===",
-    "command": ""
+    "name": "webmd",
+    "command": "print(`it's cancer`)"
 }

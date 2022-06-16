@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "morbcheck",
+    "command": "/*__TEXTCMD__*/print(`https://i.redd.it/h5w1s2qlrd291.jpg`);"
+}

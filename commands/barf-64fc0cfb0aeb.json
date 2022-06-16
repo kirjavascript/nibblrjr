@@ -1,6 +1,6 @@
 {
     "name": "barf",
-    "command": "print.raw(\"https://imgur.com/XdnbTRW\");",
+    "command": "print(`https://imgur.com/XdnbTRW\nhttps://i.redd.it/izwj51xy2n291.jpg`);",
     "locked": false,
     "starred": false
 }

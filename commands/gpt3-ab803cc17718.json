@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": true,
+    "starred": false,
+    "name": "gpt3",
+    "command": "const out = fetchSync.json('https://api.openai.com/v1/completions', {\n    method: 'POST',\n    headers: {\n        \"Content-Type\": \"application/json\",\n        \"Authorization\": `Bearer ${IRC.secret}`,\n    },\n    body: JSON.stringify({\n        model: 'text-davinci-002',\n        prompt: input,\n        temperature: 0.7,\n        max_tokens: 256,\n        top_p: 1,\n        frequency_penalty: 0,\n        presence_penalty: 0\n    }),\n});\n\nprint(out.choices.map(d=>d.text).join` `.replace(/\\s+/g, ' ').trim().slice(0,400))"
+}

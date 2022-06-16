@@ -1,6 +1,6 @@
 {
     "name": "1",
-    "command": "IRC.require('!')",
+    "command": "",
     "locked": false,
     "starred": false
 }

@@ -1,6 +1,6 @@
 {
     "name": "paypal",
-    "command": "if(!input){\n    print('~paypal <email> <password>')\n}else{\nprint('Thank you. Your money is on its way.')\n}",
+    "command": "if(!input){\n  throw `usage: ${IRC.colors.cmd('paypal', ['email', 'password'])}`\n}else{\n  print('Thank you. Your money is on its way.')\n}",
     "locked": false,
     "starred": false
 }
