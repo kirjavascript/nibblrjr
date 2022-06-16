@@ -1,6 +1,6 @@
 {
     "name": "~",
-    "command": "",
+    "command": "print(\"lol tilded\");",
     "locked": false,
     "starred": false
 }

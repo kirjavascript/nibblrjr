@@ -1,6 +1,6 @@
 {
     "name": ":>",
-    "command": "",
+    "command": "print(`<:`)",
     "locked": false,
     "starred": false
 }

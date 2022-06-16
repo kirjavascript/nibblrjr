@@ -3,5 +3,5 @@
     "locked": false,
     "starred": false,
     "name": "===",
-    "command": ""
+    "command": "const cool = 7\n\nif (! 'cr0sis' === cool) {\n  print('{r}cr0sis gay lelmao')\n} else {\n  print('{r}cr0sis gay lelmAo')\n}"
 }

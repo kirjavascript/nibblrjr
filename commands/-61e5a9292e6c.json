@@ -1,6 +1,6 @@
 {
     "name": "£",
-    "command": "",
+    "command": "print.raw(\"FUCK ALL MATE\");",
     "locked": false,
     "starred": false
 }

@@ -1,6 +1,6 @@
 {
     "name": "",
-    "command": "",
+    "command": "print('{r}❤')",
     "locked": false,
     "starred": false
 }
