@@ -1,6 +1,6 @@
 {
     "name": "speak",
-    "command": "const text = IRC.log.random(1+(new Date%2)).map(d => d.message).join` `.split` `;\n\nconst out = fetchSync.json('https://api.openai.com/v1/completions', {\n    method: 'POST',\n    headers: {\n        \"Content-Type\": \"application/json\",\n        \"Authorization\": `Bearer ${IRC.secret}`,\n    },\n    body: JSON.stringify({\n        model: 'text-davinci-002',\n        prompt: input || text,\n        temperature: 0.7,\n        max_tokens: 256,\n        top_p: 1,\n        frequency_penalty: 0,\n        presence_penalty: 0\n    }),\n});\n\nprint(out.choices.map(d=>d.text).join` `.replace(/\\s+/g, ' ').trim().slice(0,400))",
+    "command": "const text = IRC.log.get('', 5).filter(d=>d.command=='PRIVMSG').map(d=>d.message).reverse().join` `;\n\nconst out = fetchSync.json('https://api.openai.com/v1/completions', {\n    method: 'POST',\n    headers: {\n        \"Content-Type\": \"application/json\",\n        \"Authorization\": `Bearer ${IRC.secret}`,\n    },\n    body: JSON.stringify({\n        model: 'text-davinci-002',\n        prompt: text + (input ? ' ' + input : ''),\n        temperature: 0.7,\n        max_tokens: 256,\n        top_p: 1,\n        frequency_penalty: 0,\n        presence_penalty: 0\n    }),\n});\n\nprint(out.choices.map(d=>d.text).join` `.replace(/\\s+/g, ' ').trim().slice(0,400))",
     "locked": true,
     "starred": false
 }

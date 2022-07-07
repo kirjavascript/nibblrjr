@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "~horo",
+    "command": "var map = {\n  'aries': 1,\n  'taurus': 2,\n  'gemini': 3,\n  'cancer': 4,\n  'leo': 5,\n  'virgo': 6,\n  'libra': 7,\n  'scorpio': 8,\n  'scorpion': 8,\n  'sagittarius': 9,\n  'capricorn': 10,\n  'aquarius': 11,\n  'pices': 12,\n  'pisces': 12\n}\nvar bols = '♈️♉️♊️♋️♌️♍️♎️♏️♐️♑️♒️';\nvar query = map[input]\nvar res = fetchSync.dom(\"https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-today.aspx?sign=\" + query).document.querySelector('.main-horoscope > p')\nif(res){\n  res=res.textContent;\n\tprint.raw(bols[query-1] + ' ' + res);\n}\nelse {\n  print.raw(input + '?');\n}\n"
+}
