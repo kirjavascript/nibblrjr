@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "horoscope",
+    "command": "const signs = `aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces`.split(/[ ,]+/)\n\nconst arg = IRC.command.input.toLowerCase().trim()\n\nif (!signs.includes(arg)) {\n  print(`Valid signs: ${signs.join(' ')}`)\n}\n\nconst o = fetchSync.json(`https://aztro.sameerkumar.website?sign=${arg}`,\n                         {method: 'POST'})\n\nconst capitalizedSign = arg.replace(/^\\w/, (c) => c.toUpperCase())\n\nprint(`💫 ${capitalizedSign} for ${o.current_date}: ${o.description}`)"
+}
