@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "crc32",
+    "command": "print(require('crc32')(input))"
+}
