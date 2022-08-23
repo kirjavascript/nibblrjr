@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "burgur",
+    "command": "/*__TEXTCMD__*/print(`https://i.imgur.com/gQGchuc.jpeg`);"
+}

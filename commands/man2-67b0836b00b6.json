@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "man2",
+    "command": "/*__TEXTCMD__*/print(`https://pbs.twimg.com/media/FaCW0qwXkAAOq9q?format=jpg&name=large`);"
+}

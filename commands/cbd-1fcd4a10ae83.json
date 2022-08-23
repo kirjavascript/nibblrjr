@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "cbd",
+    "command": "/*__TEXTCMD__*/print(`https://pbs.twimg.com/media/Dw0lam1X0AEiQVB?format=jpg&name=large`);"
+}
