@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "dweet",
+    "command": "const link = fetchSync('https://dweet.net/dweet.php', {method: 'POST', body: JSON.stringify({ link: input })}); print(`https://dweet.net/${link.trim()}`)"
+}
