@@ -1,6 +1,6 @@
 // this probably looks dangerous, but since we only ever end up passing a string to be evaluated, it is as safe as allowing any other arbitrary code to run
 
-const npm = require('global-npm');
+const npm = require('npm');
 const path = require('path');
 const esbuild = require('esbuild');
 const pkgname = require('parse-package-name');
