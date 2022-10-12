@@ -1,9 +1,33 @@
 sudo: debug|reboot|reload|update|join|part|mode|topic|kick|nick|msg|redirect|ignore
 repl: rs|clojure|vlang|cj|scheme|jsx|html
 
+https://modern.ircdocs.horse/
+https://libredirect.github.io/
 
+poker3 https://en.wikipedia.org/wiki/Playing_cards_in_Unicode
+
+cache image recog results
+
+~log tap
+
+walmartian not appearing in logs
+
+17:09 <@Budrick> cake^: bug report, pls do the needful. Web interface apparently can't deal with commands that have / in them
+17:09 <~barf> how big the jow.moe
+17:09 <@Budrick> see 5/7, 7/10 commands
+17:09 <@Budrick> won't load em
+const SQL = IRC.getNamespace(); (so you only have to do it once...)
+
+02:24 <+KLARSTRUP> ~> global.Buffer={isBuffer:()=>true},(m=>(m.seed("gnu, for 2FA there's google authenticator, twillio authy or duo mobile that works great, and most password managers supports 2FA too"),m.respond("for")))(require('markov')())
+02:24 <+CuteServ> [ 'too', 'supports 2FA', 'password managers', 'gnu, for', 'and most', '2FA there\'s', 'works great,', 'google authenticator,', 'mobile that', 'twillio authy', 'or duo' ]
+
+use sql databases as html pasta -> simple api extension /api/text|html/namespace/key
+// have shortlinks /api/t/hash
+dont let people steal localstorage data
+namespacestore aliases/groups in config
 remind pms not working
     remind.pending
+delayed memos
 <s>dont resolve URLs from self</s>bcz apis
 
 redditvideourl
