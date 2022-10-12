@@ -167,6 +167,9 @@ function createEventManager(node) {
         broadcast,
         reloadEvents,
         dispose: () => ref.vm.dispose(),
+        get isDisposed() {
+            return ref.vm.isolate.isDisposed;
+        },
     };
 }
 

@@ -52,7 +52,7 @@ module.exports = function({ context }) {
             const controller = new AbortController();
             const timeout = setTimeout(() => {
                 controller.abort();
-            }, 5000);
+            }, 20000);
             config.signal = controller.signal;
 
             fetch(url, config)

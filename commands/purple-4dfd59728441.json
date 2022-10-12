@@ -1,6 +1,6 @@
 {
     "name": "purple",
-    "command": "print(\"2 parts {b}Blueberry Bonbon{/}, 1 part {r}sweet cherry{/}, 1 part {p}ribena{/} (all Big Juice)\\n<~barf> thx for flying 8bv\");",
+    "command": "print(\"{g}13.33%{/} (2 part) {b}Blueberry Candy{/} {o}BigJuice{/} https://u.ddxt.cc/ongw\")\nprint(\"{g} 6.66%{/} (1 part) {r}Cherry Sweet{/}    {o}BigJuice{/} https://u.ddxt.cc/OA08\")\nprint(\"{g} 6.66%{/} (1 part) {p}Black Squash{/}    {o}BigJuice{/} https://u.ddxt.cc/oj93\")\nprint(\"{rb}thx 4 flying 8bv{/}\")",
     "locked": false,
     "starred": false
 }

@@ -17,9 +17,10 @@ nibblrjr is an IRC bot framework for creating custom behaviour dynamically
 * hot reloading of environment
 * 1000+ example commands; 
     * memo system / reminders
-    * url scraping
+    * url scraping / title parsing
     * various API integrations
     * texas hold em, roulette, blackjack, roll7, slots
+    * rubiks cube simulator
     * stuff that prints cute things
 
 [//]: # (__repo__)

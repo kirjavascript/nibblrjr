@@ -44,6 +44,10 @@ async function createVM({ node, maxTimeout = 60000 }) {
         }, maxTimeout);
     }
 
+    function setNamespace(namespace) {
+        env.namespace = namespace;
+    }
+
     const timeoutRef = wrapTimeout(ivm.Reference, env);
     const timeoutCallback = wrapTimeout(ivm.Callback, env);
 
@@ -128,6 +132,8 @@ async function createVM({ node, maxTimeout = 60000 }) {
             });
         })
     )));
+
+    ctx.setSync('_setNamespace', timeoutCallback(setNamespace));
 
     ctx.setSync('_sudoProxy', timeoutRef((config) => {
         const { key, value, path } = config;
@@ -399,6 +405,7 @@ async function createVM({ node, maxTimeout = 60000 }) {
             }
             return {
                 node: node(),
+                setNamespace: ref.setNamespace,
             };
         };
 
@@ -534,10 +541,6 @@ async function createVM({ node, maxTimeout = 60000 }) {
             ctx.setSync('onPrint', timeoutRef(config.onPrint));
         }
         await configScript.run(context);
-    }
-
-    function setNamespace(namespace) {
-        env.namespace = namespace;
     }
 
     async function evaluate(script, { timeout = 30000, evalType }) {

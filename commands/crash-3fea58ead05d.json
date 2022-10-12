@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "crash",
+    "command": "SQL.many`with recursive f(x) as (select 1 union all select 1 from f) select * from f`"
+}

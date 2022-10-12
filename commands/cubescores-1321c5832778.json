@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "cube.scores",
+    "command": "IRC.require('cube').scores(input);"
+}

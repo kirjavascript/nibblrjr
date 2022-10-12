@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "nisn",
+    "command": "print(fetchSync.json(\"https://random-word-form.herokuapp.com/random/noun\")[0]+\" is \"+fetchSync.json(\"https://random-word-form.herokuapp.com/random/noun\")[0])"
+}

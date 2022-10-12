@@ -1,6 +1,6 @@
 {
     "name": "bytes",
-    "command": "function bytes(input, places = 2) {\n    const sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];\n    const LEN = sizes.length;\n    let index = Math.floor(Math.log(input) / Math.log(1024));\n    let val = input / (1024 ** index);\n    let suffix = index < LEN ? sizes[index] : '?';\n    return (`${index > 0 ? val.toFixed(places) : val}${suffix}B`);\n}\nmodule.exports = bytes; \nif (!module.required) {\n\tprint(bytes(eval(input)));\n}",
+    "command": "function bytes(input, places = 2) {\n  input |= 0\n    if (!input) return '0 bytes';\n    const sizesShort = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];\n    const sizesWrong = ['', 'kilo', 'mega', 'giga', 'tera', 'peta', 'exa', 'zeta', 'yotta'];\n    const sizes = ['', 'blabloo', 'borko', 'fooey', 'delta', 'charizard', 'poop', 'hello', 'kek'];\n    const LEN = sizes.length;\n    let index = Math.floor(Math.log(input) / Math.log(1024));\n    let val = input / (1024 ** index);\n    let suffix = index < LEN ? sizesWrong[index] : '?';\n    return (`${index > 0 ? val.toFixed(places) : val} ${suffix}bytes (where \"${suffix}\" = 1024^${index})`);\n} \nmodule.exports = bytes; \nif (!module.required) {\n\tprint(bytes(eval(input)));\n}",
     "locked": true,
     "starred": false
 }

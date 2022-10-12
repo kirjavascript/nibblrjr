@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "cr0sissucks",
+    "command": "let sucks = 'cr0sis sucks '\n\nwhile (true) {\n  sucks += 'cr0sis sucks '\n  print(sucks) \n}"
+}

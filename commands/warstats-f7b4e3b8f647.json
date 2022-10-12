@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "warstats",
+    "command": "print(fetchSync.dom('https://en.wikipedia.org/wiki/Russo-Ukrainian_War').document.querySelector('.infobox tbody tr:nth-child(12)').textContent.replace(/\\n[^\\n]/g, r=>' '+r.slice(1)).replace(/\\[(.*?)\\]/g, ''))"
+}

@@ -125,7 +125,7 @@ const logMessage = (currentNick, message) => {
 const logFns = (() => {
     const randomQuery = db.prepare(`
         SELECT * FROM log
-        WHERE command = 'PRIVMSG' AND target = ?
+        WHERE command = 'PRIVMSG' AND lower(target) = lower(?)
         ORDER BY RANDOM() LIMIT ?
     `);
     const random = (target, qty = 1) => {
@@ -133,7 +133,7 @@ const logFns = (() => {
     };
     const getQuery = db.prepare(`
         SELECT * FROM log
-        WHERE message LIKE ? AND target = ?
+        WHERE message LIKE ? AND lower(target) = lower(?)
         ORDER BY idx DESC LIMIT ? OFFSET ?
     `);
     const get = (target, text, limit = 1, offset = 0) => {
@@ -156,7 +156,7 @@ const logFns = (() => {
     };
     const regexQuery = db.prepare(`
         SELECT * FROM log
-        WHERE message REGEXP ? AND target = ?
+        WHERE message REGEXP ? AND lower(target) = lower(?)
         ORDER BY idx DESC LIMIT ? OFFSET ?
     `);
     const regex = (target, rgx, limit = 1, offset = 0) => {

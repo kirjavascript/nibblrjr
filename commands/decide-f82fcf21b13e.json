@@ -1,6 +1,6 @@
 {
     "name": "decide",
-    "command": "const choices = input.split(/(?:, ?)?\\s+or\\s+|, ?|or ?/)\nprint(choices[Math.floor(Math.random() * choices.length)])",
+    "command": "const choices = input.split(/,?\\s+or\\s+|, /g)\nprint(choices[Math.floor(Math.random() * choices.length)])",
     "locked": false,
     "starred": false
 }

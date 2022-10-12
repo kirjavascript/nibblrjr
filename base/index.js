@@ -41,6 +41,16 @@ new (class Nibblr {
             });
         };
 
+        const checkAliveInterval = setInterval(() => {
+            this.servers.forEach(node => {
+                if (node.events.isDisposed) {
+                    console.error(`${node.config.address} was disposed at ${(new Date()).toISOString()}). restarting...`);
+                    node.events.dispose();
+                    node.createEventManager();
+                }
+            })
+        }, 60000);
+
         this.database = new Database(this);
 
         this.servers = [];
@@ -106,6 +116,7 @@ new (class Nibblr {
 
         this.exitHandler = () => {
             console.log('cleaning up resources...');
+            clearInterval(checkAliveInterval);
             this.webServer && this.webServer.close();
             this.servers.forEach(node => {
                 node.dispose();

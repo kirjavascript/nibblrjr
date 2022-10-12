@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "police",
-    "command": "/*__TEXTCMD__*/print(`https://i.imgur.com/4osUobh.png`);"
+    "command": "print(`https://i.imgur.com/4osUobh.png`)\nprint(`https://i.imgur.com/vq5o0NQ.jpeg`)"
 }

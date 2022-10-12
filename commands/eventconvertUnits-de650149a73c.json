@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "event.convertUnits",
+    "command": "const miles = /\\b(\\d+\\.?\\d*|\\.\\d+) ?mi(les)?\\b/;\nconst feet = /\\b(\\d+\\.?\\d*|\\.\\d+) ?(feet|ft)\\b/;\nconst inch = /\\b(\\d+\\.?\\d*|\\.\\d+) ?inch(es)?\\b/;\nconst yards = /\\b(\\d+\\.?\\d*|\\.\\d+) ?(yards|yd)\\b/;\n\nconst km = /\\b(\\d+\\.?\\d*|\\.\\d+) ?(kilomet(re|er)s|km)\\b/;\nconst cm = /\\b(\\d+\\.?\\d*|\\.\\d+) ?(centimet(re|er)s|cm)\\b/;\nconst { wordsToNumbers } = require('words-to-numbers');\n\nIRC.listen('message', (event) => {\n    let { text } = event.message;\n    text = wordsToNumbers(text);\n    if (miles.test(text)) {\n        const value = text.match(miles)[1];\n        print(`${+(+value * 1.60934).toFixed(2)}km`);\n    } else if (feet.test(text)) {\n        const value = text.match(feet)[1];\n        print(`${+(+value * 0.3048).toFixed(2)}m`);\n    } else if (yards.test(text)) {\n        const value = text.match(yards)[1];\n        print(`${+(+value * 0.9144).toFixed(2)}m`);\n    } else if (km.test(text)) {\n        const value = text.match(km)[1];\n        print(`${+(+value * 0.621371).toFixed(2)} miles`);\n    } else if (cm.test(text)) {\n        const value = text.match(cm)[1];\n        print(`${+(+value * 0.393701).toFixed(2)} inches`);\n    } else if (inch.test(text)) {\n        const value = text.match(inch)[1];\n        print(`${+(+value * 2.54).toFixed(2)}cm`);\n    }\n});"
+}

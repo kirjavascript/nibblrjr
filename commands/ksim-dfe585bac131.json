@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "ksim",
+    "command": "const keys = [\n    ['i', 'R'], ['k', 'R\\''], ['8', 'R2'], ['u', 'r'], ['m', 'r\\''], ['j', 'U'], ['f', 'U\\''], ['s', 'D'], ['l', 'D\\''], ['n', 'F'], ['v', 'F\\''], ['o', 'B\\''], ['w', 'B'], ['g', 'M\\''], ['H', 'E2'], ['G', 'E2'], ['h', 'M'], ['d', 'L'], ['e', 'L\\''], ['3', 'L2'], ['c', 'l'], ['r', 'l\\''], [';', 'y'], ['a', 'y\\''], ['y', 'x'], ['t', 'x\\''], ['p', 'z'], ['q', 'z\\'']\n];\nconst lookup = Object.fromEntries(keys);\nprint(input.replace(new RegExp(keys.map(d=>d[0]).join`|`,'g'), d => lookup[d]));"
+}

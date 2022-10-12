@@ -1,6 +1,6 @@
 {
     "name": "poker2",
-    "command": "throw new Error('coming 2046™');",
+    "command": "throw new Error('coming 2022™');",
     "locked": true,
     "starred": false
 }

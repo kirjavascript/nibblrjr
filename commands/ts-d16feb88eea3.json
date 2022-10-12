@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "ts",
-    "command": "const { transform } = require('@babel/standalone');\nconst { code, map, ast } = transform(input, {\n    plugins: [\n        require('@babel/plugin-transform-typescript'),\n    ],\n});\nlog((0, eval)(code));"
+    "command": "Object.assign(global, require('buffer'));\nconst { transform } = require('@babel/standalone');\nconst { code, map, ast } = transform(input, {\n    plugins: [\n        require('@babel/plugin-transform-typescript'),\n    ],\n});\nlog((0, eval)(code));"
 }

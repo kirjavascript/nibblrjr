@@ -65,7 +65,7 @@ function createSend({
         }
 
         if (charLimit) {
-            const remaining = lineLimit - charCount;
+            const remaining = charLimit - charCount;
             const chars = lines.join('\n').slice(0, remaining);
             lines = chars.split('\n');
             charCount += chars.length;

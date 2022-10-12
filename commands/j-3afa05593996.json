@@ -1,6 +1,6 @@
 {
     "name": "j",
-    "command": "print(\"j\");",
+    "command": "print(`{y}        +:+\n        +#+   \n        +#+    \n        #+#     \n:+:     :+: \n:::::::::::`);",
     "locked": false,
     "starred": false
 }

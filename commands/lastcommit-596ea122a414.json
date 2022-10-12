@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": true,
+    "starred": false,
+    "name": "lastcommit",
+    "command": "const repo = input.trim() || 'sector-f/eggchan';\ntry{\nconst branch = fetchSync.json(`https://api.github.com/repos/${repo}`).default_branch\nconst { sha, commit} = fetchSync.json(`https://api.github.com/repos/${repo}/commits/${branch}`);\nconst diff = require('date-fns@1.30.1').distanceInWordsStrict(commit.committer.date, new Date());\nprint(`{r}{bo}${sha.slice(0,6)}{/} - ${commit.message.replace(/\\s+/g,' ')} {dg}(${diff} ago){/} ${IRC.colors.nick(commit.author.name)}{/}`);\n}catch{ throw 'oh no' };\n"
+}

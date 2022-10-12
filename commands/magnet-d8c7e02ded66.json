@@ -1,6 +1,6 @@
 {
     "name": "magnet",
-    "command": "getDOM(`https://thepiratebay.org/s/?q=${encodeURIComponent(input)}&page=0&orderby=99`)\n    .then(obj => {\n        obj.qsa('tr')\n            .splice(1, IRC.command.params[0] || 1)\n            .forEach(result => {\n                const cols = result.querySelectorAll('td');\n                const magnet = result.querySelector('.detName').nextElementSibling.href;\n                const size = result.querySelector('.detDesc').textContent.match(/Size (.*?),/mi);\n                \n                print(`{r}${result.querySelector('.detLink').textContent}{/} SE {g}${cols[2].textContent}{/} LE {o}${cols[3].textContent} {p}${size&&size[1]}{/}`);\n                print(IRC.colors.link(magnet))\n            })\n    })\n    .catch((e) => {print(`{r}found nothing`)})",
+    "command": "const { document } = fetchSync.dom(`https://piratebay.party/search/${encodeURIComponent(input)}/1/99/0`);\ntry {\n\nconst item = document.querySelector('tr');\nconst cells = [...document.querySelectorAll('td')];\n\nconst magnet = IRC.require('module.paste')(cells[3].querySelector('a').href)\nconst slim = d => d.replace(/\\s+/g,' ').trim();\n\nprint(`{c}${slim(cells[1].textContent)}{/} SE {g}${cells[5].textContent}{/} LE {o}${cells[6].textContent} {p}${cells[4].textContent}{/} 🧲${IRC.colors.link(magnet)}`);\n  \n} catch(e) {\n \tthrow 'cannot find ' + input \n}",
     "locked": true,
     "starred": true
 }
