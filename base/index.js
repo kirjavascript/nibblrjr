@@ -49,7 +49,7 @@ new (class Nibblr {
                     node.createEventManager();
                 }
             })
-        }, 60000);
+        }, 10000);
 
         this.database = new Database(this);
 
