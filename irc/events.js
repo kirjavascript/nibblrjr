@@ -123,7 +123,7 @@ function createEventManager(node) {
 
             function run() {
                 runningEvents = true;
-                ref.vm
+                !ref.vm.isolate.isDisposed && ref.vm
                     .setConfig({
                         print: {
                             target: eventData.target,
