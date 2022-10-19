@@ -134,7 +134,7 @@ function createEventManager(node) {
                         },
                     })
                     .then(() => ref.runEvents.run(ref.vm.context))
-                    .catch(console.error)
+                    .catch((error) => console.error(error, eventData, new Date()))
                     .finally(() => {
                         runningEvents = false;
                         if (queue.length) queue.pop()();
