@@ -175,7 +175,7 @@ function createEventManager(node) {
         },
         unresponsive: (callback) => {
             if (ref.vm?.isolate.isDisposed) {
-                callback(new Error('Isolate has been disposed'));
+                return callback(new Error('Isolate has been disposed'));
             }
             const timeout = setTimeout(callback, 1000);
             ref.vm.context.eval('1')
