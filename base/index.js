@@ -43,11 +43,11 @@ new (class Nibblr {
 
         const checkAliveInterval = setInterval(() => {
             this.servers.forEach(node => {
-                if (node.events.isDisposed) {
-                    console.error(`${node.config.address} was disposed at ${(new Date()).toISOString()}). restarting...`);
+                node.events.unresponsive((err) => {
+                    console.error(err, `${node.config.address} died at ${(new Date()).toISOString()}). restarting...`);
                     node.events.dispose();
                     node.createEventManager();
-                }
+                });
             })
         }, 10000);
 

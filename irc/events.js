@@ -166,9 +166,20 @@ function createEventManager(node) {
         emit,
         broadcast,
         reloadEvents,
-        dispose: () => ref.vm.dispose(),
-        get isDisposed() {
-            return ref.vm.isolate.isDisposed;
+        dispose: () => {
+            queue.splice(0, queue.length);
+            ref.vm.dispose();
+        },
+        get _isDisposed() {
+            return ref.vm?.isolate.isDisposed;
+        },
+        unresponsive: (callback) => {
+            const timeout = setTimeout(callback, 1000);
+            ref.vm.context.eval('1')
+                .then(() => {
+                    clearTimeout(timeout);
+                })
+                .catch(callback);
         },
     };
 }
