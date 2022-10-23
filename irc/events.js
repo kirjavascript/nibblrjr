@@ -168,7 +168,7 @@ function createEventManager(node) {
         reloadEvents,
         dispose: () => {
             queue.splice(0, queue.length);
-            ref.vm.dispose();
+            ref.vm && ref.vm.dispose();
         },
         get _isDisposed() {
             return ref.vm?.isolate.isDisposed;
