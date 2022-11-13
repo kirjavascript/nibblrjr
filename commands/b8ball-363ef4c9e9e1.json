@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "b8ball",
+    "command": "print((\n   function(a){return '{g}'+ [\"It is SHUT\",\"It is decidedly SHUT\",\"Without a SHUT\",\"Yes, SHUT\",\"You may SHUT on it\",\"As I see it, SHUT\",\"Most SHUT\",\"Outlook SHUT\",\"SHUT\",\"Signs point to SHUT\",\"Reply hazy try SHUT\",\"SHUT again later\",\"Better not tell you SHUT\",\"Cannot predict SHUT\",\"Concentrate and SHUT again\",\"Don't count on SHUT\",\"My reply is SHUT\",\"My sources say SHUT\",\"Outlook not so SHUT\",\"Very SHUTful\"][a.split(\"\").map(d => d.charCodeAt(0)).reduce((a,b) => a+b)%20|0]}\n)(input));"
+}

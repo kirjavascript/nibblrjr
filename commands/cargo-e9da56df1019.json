@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "cargo",
+    "command": "print('{c}{bo}Blocking{/} waiting for file lock on package cache');"
+}

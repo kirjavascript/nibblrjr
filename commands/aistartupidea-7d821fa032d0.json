@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "aistartupidea",
+    "command": "print(fetchSync.json('https://kq4z97l2ba.execute-api.ap-northeast-1.amazonaws.com/dev/get').idea)"
+}

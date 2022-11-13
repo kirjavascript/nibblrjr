@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": true,
+    "starred": false,
+    "name": "lichess",
+    "command": "const ratings = [...fetchSync.dom(`https://lichess.org/@/${input}`).document.querySelectorAll('aside a')].map(node => {\n\tconst type = node.querySelector('h3').textContent;\n\tconst rating = node.querySelector('strong').textContent;\n    return [type, rating];\n});\n\nprint(ratings.filter(([_,r])=>!~'?0'.indexOf(r)).map(([type, rating])=> `${type}: {bo}${rating}{/}`).join(' '));"
+}

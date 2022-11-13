@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "ai_test",
+    "command": "const response = await fetchSync.json(\n        \"https://api-inference.huggingface.co/models/Nicki/gpt3-base\",\n        {\nheaders: { Authorization: \"Bearer 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\" },\nmethod: \"POST\",\nbody: JSON.stringify({\"inputs\": input}),\n}\n);\n\nlog(response);\n"
+}

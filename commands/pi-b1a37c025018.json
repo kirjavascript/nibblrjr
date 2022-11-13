@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "pi",
+    "command": "let ndigits = 100;\nlet start = 0;\n\nconst params = input.match(/\\b(\\d+)\\b/g);\nif (params != null) {\n    ndigits = Math.min(params[0], 400);\n    start = Math.min(params[1] === undefined ? 0 : params[1], 100000000000000);\n}\nconst out = fetchSync.json('https://api.pi.delivery/v1/pi?numberOfDigits=' + ndigits + '&start=' + start);\n\nif (out.content)\n    print(out.content);\nelse\n    throw 'google pulled the plug probably?';\n"
+}

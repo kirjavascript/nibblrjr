@@ -3,5 +3,5 @@
     "locked": false,
     "starred": false,
     "name": "barfsucks",
-    "command": "let sucks = 'SPIDERS TICKLING YOUR LEGS WHILE IN BED '\nlet ye = true\nwhile (true) {\n  if (ye) {\n    sucks += 'barf sucks '\n  } else {\n    sucks += 'CAMERA AHEAD '\n  }\n  \n  print(sucks) \n}"
+    "command": "let sucks = 'jessy is from Sudan '\n\nwhile (true) {\n  sucks += 'Oh hi im jessy can i get a mud please ty :) '\n  print(sucks) \n}"
 }

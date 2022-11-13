@@ -461,6 +461,11 @@ async function createVM({ node, maxTimeout = 60000 }) {
             },
         });
 
+        global.crypto = {
+            getRandomValues: () => Uint8Array.from(Array.from({length: 100}, () => 0| Math.random() * 65535)),
+            randomUUID: () => require('uuid').v4(),
+        };
+
         // patch RegExp.$_
         /\s*/.test('');
 
