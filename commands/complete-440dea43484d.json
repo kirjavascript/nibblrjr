@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "complete",
+    "command": "const res = fetchSync.json('https://api.textsynth.com/v1/engines/gptneox_20B/completions', {\n  headers: {\n\tAuthorization: `Bearer ${IRC.secret}`,\n    \"Content-Type\": 'application/json',\n  },\n  method: 'POST',\n  body: JSON.stringify({ prompt: input })\n});\n\n//log(res);\nprint(res.text.replace(/\\s+/g,' '));"
+}

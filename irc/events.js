@@ -47,6 +47,9 @@ function createEventManager(node) {
         );
         for (cmd of node.parent.database.commands.events()) {
             try {
+                if (!vm) {
+                    throw new Error('vm not loaded');
+                }
                 await vm.context.eval(`;(async()=>{\n${cmd.command}\n})()`);
             } catch (e) {
                 // note which script has the error in
@@ -174,7 +177,7 @@ function createEventManager(node) {
             return ref.vm?.isolate.isDisposed;
         },
         unresponsive: (callback) => {
-            if (ref.vm?.isolate.isDisposed) {
+            if (ref.vm?.isolate.isDisposed || !ref.vm) {
                 return callback(new Error('Isolate has been disposed'));
             }
             const timeout = setTimeout(callback, 1000);
