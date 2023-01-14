@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui"
+        />
+        <title>pasta</title>
+        <link
+            href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/4QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEREREREQAAEAAAAAABAAAQAAAAAAEAABAAEAEAAQAAEAEAABABAAAQEAAAAQEAABABAAAQAQAAEAAQAQABAAAQAAAAAAEAABAAAAAAAQAAEAAAERERAAAQAAAQARAAABAAABARAAAAEAAAERAAAAAQAAARAAAAABERERAAAADAAwAA3/sAAN/7AADduwAA29sAANfrAADb2wAA3bsAAN/7AADf+wAA3wMAAN9nAADfTwAA3x8AAN8/AADAfwAA"
+            rel="icon"
+            type="image/x-icon"
+        />
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                    height: 100%;
+                position: relative;
+            }
+            iframe {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                    width: 100vw;
+                        height: 100vh;
+                top: 0;
+                    border: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <iframe sandbox="allow-downloads alllow-forms allow-scripts"></iframe>
+        <script id="content" type="text/plain">PGI+aGVsbG88L2I+IHRlc3QgPC9zY3JpcHQ+IGFzZGFzZA==</script>
+        <script>
+            const content = atob(document.getElementById('content').textContent);
+console.log(content);
+            const url = URL.createObjectURL(new Blob([content]));
+            document.querySelector('iframe').src = url;
+        </script>
+    </body>
+</html>

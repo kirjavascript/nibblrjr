@@ -2,6 +2,7 @@ const { readFile } = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const initAPI = require('./api');
+const initPasta = require('./pasta');
 const esbuild = require('esbuild');
 const sassPlugin = require('esbuild-plugin-sass');
 const path = require('path');
@@ -18,6 +19,7 @@ function initWeb(parent) {
     });
 
     initAPI({ parent, app });
+    initPasta({ parent, app });
 
     // load esbuild middleware
 
@@ -49,9 +51,11 @@ function initWeb(parent) {
 
     app.use('/', express.static(__dirname + '/../static'));
 
+    // html pasta
+
     // wildcard defaulting
 
-    app.use(/^(?!\/api)/, (_req, res) => {
+    app.use('*', (_req, res) => {
         readFile(__dirname + '/../static/index.html', 'utf8', (err, out) => {
             res.send(out);
         });

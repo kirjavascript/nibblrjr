@@ -7,26 +7,21 @@ https://libredirect.github.io/
 
 cache image recog results
 
-~log tap
-
 walmartian not appearing in logs
 
 const SQL = IRC.getNamespace(); (so you only have to do it once...)
 
-02:24 <+KLARSTRUP> ~> global.Buffer={isBuffer:()=>true},(m=>(m.seed("gnu, for 2FA there's google authenticator, twillio authy or duo mobile that works great, and most password managers supports 2FA too"),m.respond("for")))(require('markov')())
-02:24 <+CuteServ> [ 'too', 'supports 2FA', 'password managers', 'gnu, for', 'and most', '2FA there\'s', 'works great,', 'google authenticator,', 'mobile that', 'twillio authy', 'or duo' ]
-
 https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe
+
+<iframe sandbox>
+library for url generation
+new apis, pasta storage
 
 use sql databases as html pasta -> simple api extension /text|html/namespace/key
 // have shortlinks /api/t/hash
-dont let people steal localstorage data
-namespacestore aliases/groups in config
 remind pms not working
     remind.pending
 delayed memos
-
-make webhooks local only
 
 ---------
 
