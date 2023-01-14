@@ -39,7 +39,7 @@ function useSQLDB(parent, namespace) {
 
     const queueQuery = (id, type, query, resolve, reject) => {
         if (isClosed) {
-            reject(new Error(`db restart`));
+            reject(new Error(`db restart - closed`));
         } else {
             queries.set(id, { type, query, resolve, reject });
             if (isOnline) sendQuery(id);
@@ -57,7 +57,7 @@ function useSQLDB(parent, namespace) {
         isClosed = true;
         // flush queries
         for (const { reject } of queries.values()) {
-            reject(new Error(`db restart`));
+            reject(new Error(`db restart - closing`));
         }
         // close worker
         worker.postMessage(['close']);

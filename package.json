@@ -22,7 +22,7 @@
         "irc-upd": "^0.11.0",
         "isolated-vm": "^4.4.1",
         "marked": "^0.7.0",
-        "node-fetch": "^2.2.0",
+        "node-fetch": "^2.6.7",
         "npm": "7.24.2",
         "parse-package-name": "^0.1.0",
         "react": "^16.13.1",
