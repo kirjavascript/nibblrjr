@@ -1,4 +1,4 @@
-const { readFile } = require('fs');
+const { readFileSync } = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const initAPI = require('./api');
@@ -19,7 +19,7 @@ function initWeb(parent) {
     });
 
     initAPI({ parent, app });
-    initPasta({ parent, app });
+    initPasta({ parent, app }); // html page hosting
 
     // load esbuild middleware
 
@@ -51,14 +51,12 @@ function initWeb(parent) {
 
     app.use('/', express.static(__dirname + '/../static'));
 
-    // html pasta
-
     // wildcard defaulting
 
+    const homepage = readFileSync(__dirname + '/../static/index.html', 'utf8');
+
     app.use('*', (_req, res) => {
-        readFile(__dirname + '/../static/index.html', 'utf8', (err, out) => {
-            res.send(out);
-        });
+        res.send(homepage);
     });
 
     return server;

@@ -64,7 +64,7 @@ const set = (namespace, key, value) => {
     // update / add data
     else if (!hasData) {
         if (String(value).length > 1048576) {
-            throw new Error('Store size limit is 1MB');
+            throw new Error('store size limit is 1MB');
         }
         setInsertQuery.run(String(value), namespace, key);
     }

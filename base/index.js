@@ -13,6 +13,7 @@ process.on('uncaughtException', console.error);
     'storage',
     'storage/server',
     'storage/namespace',
+    'storage/pasta',
 ].forEach((dir) => {
     const path = join(__dirname, '..', dir);
     if (!fs.existsSync(path)) {
