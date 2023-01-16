@@ -14,6 +14,9 @@ async function loadPasta(commandName, pastaName) {
     return await fs.readFile(filename, 'utf8');
 }
 async function savePasta(commandName, pastaName, content) {
+// TODO: https://stackoverflow.com/questions/30448002/how-to-get-directory-size-in-node-js-without-recursively-going-through-directory
+    throw new Error('asd');
+
     const filename = getFilename(commandName, pastaName);
     if (typeof content !== 'string') throw new Error('content must be a string');
     if (!content.length) throw new Error('string cannot be length zero');
