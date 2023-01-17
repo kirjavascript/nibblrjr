@@ -208,6 +208,11 @@ async function createVM({ node, maxTimeout = 60000 }) {
         }
     }));
 
+    ctx.setSync('_makePasta', timeoutRef((name, content) => (
+        env.namespace
+            && node.parent.database.pasta.save(env.namespace, name, content)
+    )));
+
     const scriptRef = await (await isolate.compileScript(`
         (function () {
             const scripts = {};
@@ -353,6 +358,10 @@ async function createVM({ node, maxTimeout = 60000 }) {
                 );
             });
         });
+
+        IRC.makePasta = (name, pasta) => {
+            return ref.makePasta.applySyncPromise(undefined, [name, pasta]);
+        };
 
         IRC.resetBuffer = () => {
             ref.resetBuffer.applySync();
