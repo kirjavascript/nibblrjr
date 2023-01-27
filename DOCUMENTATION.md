@@ -13,6 +13,7 @@
     * [colours / formatting](#colours--formatting)
     * [dealing with time](#dealing-with-time)
     * [reading logs](#reading-logs)
+    * [text / HTML hosting](#text--html-hosting)
     * [manipulating commands](#manipulating-commands)
     * [authentication](#authentication)
     * [modules](#modules)
@@ -235,7 +236,7 @@ async versions of the SQLite API
 
 change the namespace the key-value and SQLite stores use. this gives the events full access to all command data
 
-#### webhooks
+### webhooks
 
 multiple webhooks can be created on the fly to allow pushing data to the bot
 
@@ -508,6 +509,12 @@ pull random messages from the log
 <a name="IRC-log-regex" href="#IRC-log-regex">#</a> IRC.log.<b>regex</b>(<i>string</i>[, <i>limit</i>[, <i>offset</i>]]) -> <i>array</i>
 
 takes a regex as a *string* to search the database with
+
+### text / HTML hosting
+
+<a name="IRC-makePasta" href="#IRC-makepasta">#</a> IRC.<b>makePasta</b>(<i>name</i>, <i>content</i>)
+
+host some content as HTML or text. returns URLs for each
 
 ### manipulating commands
 
