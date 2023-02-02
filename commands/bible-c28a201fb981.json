@@ -1,6 +1,6 @@
 {
     "name": "bible",
-    "command": "getJSON(`https://bible-api.com/${input}`).then(obj => print(obj.text.replace('\\n', ' '))).catch(() => new Error('not found'))",
+    "command": "getJSON(`https://bible-api.com/${input}`).then(obj => print(obj.text.replace(/\\n/mg, ' ').replace(/^\\s+/, '').replace(/\\s{2,}/gm, ' '))).catch(() => new Error('not found'))",
     "locked": false,
     "starred": false
 }

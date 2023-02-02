@@ -1,6 +1,6 @@
 {
     "name": "shreddy",
-    "command": "print.raw(\"https://www.youtube.com/watch?v=G7gwaBXRVG0\");",
+    "command": "print.raw(\"https://www.youtube.com/watch?v=G7gwaBXRVG0\");\nprint('https://i.imgur.com/iwxxLVY.jpeg');",
     "locked": false,
     "starred": false
 }

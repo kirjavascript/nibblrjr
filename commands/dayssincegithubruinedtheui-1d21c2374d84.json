@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "dayssincegithubruinedtheui",
-    "command": "const dateFns = require('date-fns@1.30.1')\nn=dateFns.differenceInDays(new Date(), new Date('2020-06-23T19:04:15.522Z'));\nn=`${n} day${n==1?'':'s'}`\nm=dateFns.differenceInDays(new Date(), new Date('2022-06-10T21:38:45.522Z')); \nm=`${m} day${m==1?'':'s'}`\n\nprint(`initially: ${n}, most recently: ${m}`)"
+    "command": "const dateFns = require('date-fns@1.30.1')\nn=dateFns.differenceInDays(new Date(), new Date('2020-06-23T19:04:15.522Z'));\nn=`${n} day${n==1?'':'s'}`\nm=dateFns.differenceInDays(new Date(), new Date('2023-01-18T21:38:45.522Z')); \nm=`${m} day${m==1?'':'s'}`\n\nprint(`initially: ${n}, most recently: ${m}`)"
 }

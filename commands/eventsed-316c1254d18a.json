@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "event.sed",
+    "command": "IRC.listen('message', (event) => {\n    if (event.message.text.startsWith('s/')) {\n        const rx = event.message.text.slice(2);\n\n        // or use this regex\n        // s\\/(.*?)(?<!\\\\)\\/(.*?)(?<!\\\\)(\\/.+)?$\n        const chunks = rx.split('/').reduce((acc, chunk) => {\n            if (([]+acc.slice(-1)).slice(-1) === '\\\\') {\n                acc[acc.length-1] += '\\/' + chunk\n            } else {\n                acc.push(chunk);\n            }\n            return acc;\n        }, []);\n\n        const [search, replace, flags] = chunks;\n        const [item] = IRC.log.regex('^(?!s\\\\/).*?' + search, 1, 0);\n        if (item) {\n            const { user, message } = item;\n            const replacement = `${IRC.colors.nick(IRC.breakHighlight(user), true)} ${message.replace(new RegExp(search), replace)}`;\n            print(replacement);\n        }\n    }\n});"
+}
