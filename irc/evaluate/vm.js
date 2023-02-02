@@ -360,7 +360,7 @@ async function createVM({ node, maxTimeout = 60000 }) {
             });
         });
 
-        IRC.pasta = (pasta, name = '') => {
+        IRC.paste = (pasta, name = '') => {
             const { html, text } = ref.makePasta
                 .applySyncPromise(undefined, [pasta, name]);
 

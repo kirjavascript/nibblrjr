@@ -512,7 +512,7 @@ takes a regex as a *string* to search the database with
 
 ### text / HTML hosting
 
-<a name="IRC-pasta" href="#IRC-pasta">#</a> IRC.<b>pasta</b>(<i>content</i>, <i>name</i>)
+<a name="IRC-paste" href="#IRC-paste">#</a> IRC.<b>paste</b>(<i>content</i>, <i>name</i>)
 
 host some content as HTML or text. HTML is sandboxed 
 
