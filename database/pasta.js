@@ -42,7 +42,10 @@ async function savePasta(commandName, pastaName, content) {
     if (!content.length) throw new Error('string cannot be length zero');
     if (content.length > 1048576) throw new Error('paste size limit is 1MB');
     await fs.writeFile(filename, content, 'utf8');
-    const url = `/${encodeURIComponent(commandName)}/${encodeURIComponent(pastaName)}`;
+    let url = `/${encodeURIComponent(commandName)}`;
+    if (pastaName) {
+        url += `/${encodeURIComponent(pastaName)}`;
+    }
     return {
         html: `/html${url}`,
         text: `/text${url}`,
