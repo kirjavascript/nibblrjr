@@ -5,9 +5,9 @@ module.exports = ({ app, parent }) => {
     const { pasta } = parent.database;
     const btoa = str => Buffer.from(str).toString('base64');
 
-    app.get('/:type(html|text)/:cmd/:name', (req, res) => {
+    const sendPasta = (req, res) => {
         const { cmd, name, type } = req.params;
-        pasta.load(cmd, name)
+        pasta.load(cmd, name || '')
             .then(data => {
                 if (type === 'html') {
                     res.send(htmlTemplate.replace(/----content----/, btoa(data)));
@@ -19,5 +19,9 @@ module.exports = ({ app, parent }) => {
             .catch(() => {
                 res.sendStatus(404);
             });
-    });
+    };
+
+    app.get('/:type(html|text)/:cmd', sendPasta);
+
+    app.get('/:type(html|text)/:cmd/:name', sendPasta);
 };
