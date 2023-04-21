@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "sotb",
+    "command": "(function(){\n  const { window, document } = fetchSync.dom('https://feeds.soundcloud.com/users/soundcloud:users:328351167/sounds.rss');\n\n  print(JSON.stringify([window,document], null, 4))\n})();"
+}

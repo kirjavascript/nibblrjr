@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "ph",
+    "command": "const Google = IRC.require('module.google');\n\ninput && Google('site:pornhub.com ' + input, IRC.command.params[0])\n    .forEach(({ title, url }) => {\n        print(`{r}${title}{/} - ${IRC.colors.link(url)}`)\n    });"
+}

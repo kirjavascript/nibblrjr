@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "proxy",
+    "command": "const url = IRC.makePasta(Math.random().toString(36).slice(2), fetchSync(input)).html;\nprint(IRC.colors.link(url));"
+}

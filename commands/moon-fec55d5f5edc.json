@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "moon",
+    "command": "const {document} = fetchSync.dom('https://www.timeanddate.com/moon/phases/')\nconst percent = parseInt(document.getElementById('cur-moon-percent').textContent)\n\nif (percent < 5) {\n  print('🌑 {1.23} eat pussy');\n} else if (percent < 35) {\n  print('🌒 ((( moon people )))');\n} else if (percent < 65) {\n  print('🌓 {4.20} have a wank have a wank have a motherfuckin wank');\n} else if (percent < 95) {\n  print('🌔 {no} go to sleep');\n} else {\n  print('🌕 hello monqui from the moon :)');\n}"
+}
