@@ -2,5 +2,5 @@
     "locked": false,
     "starred": false,
     "name": "module.google",
-    "command": "module.exports = (input, quantity = 3) => {\n    const { window, document } = fetchSync.dom('http://www.startpage.com/do/search?query=' + encodeURIComponent(input));\n\n    return [...document.querySelectorAll('.w-gl__result')]\n        .slice(0, quantity)\n        .map(node => {\n            const title = node.querySelector('h3').textContent.trim();\n            const url = node.querySelector('.result-link').href;\n            const description = node.querySelector('p').textContent;\n            return ({ title, url, description });\n        });\n};"
+    "command": "module.exports = (input, quantity = 3) => {\n    return [{ title: 'startpage.com know we\\'re a robot now :('}]\n    const { window, document } = fetchSync.dom('http://www.startpage.com/do/search?query=' + encodeURIComponent(input));\n\n    return [...document.querySelectorAll('.w-gl__result')]\n        .slice(0, quantity)\n        .map(node => {\n            const title = node.querySelector('h3').textContent.trim();\n            const url = node.querySelector('.result-link').href;\n            const description = node.querySelector('p').textContent;\n            return ({ title, url, description });\n        });\n};"
 }

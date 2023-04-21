@@ -1,6 +1,0 @@
-{
-    "locked": false,
-    "starred": false,
-    "name": "temp2",
-    "command": "var adler32 = function(str) {\n    var base = 65521;\n    var a = 1;\n    var b = 0;\n    for (i = 0;i < str.length;i++) {\n        a = (a + str.charCodeAt(i)) % base;\n        b = (b + a) % base;\n        }\n    return ((b << 16) | a)%101;\n}\n\nprint(adler32(input))"
-}

@@ -1,6 +1,6 @@
 {
     "name": "yes",
-    "command": "print('https://cdn.discordapp.com/attachments/634929156626579471/776143582422892595/yes_ha_ha_ha_yes.png')",
+    "command": "print('yes')",
     "locked": false,
     "starred": false
 }
