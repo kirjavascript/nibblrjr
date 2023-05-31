@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "event.emoji",
+    "command": "const { nameToEmoji } = require('gemoji');\nIRC.listen('message', ({ message: { from, text } }) => {\n  \tif (/:(\\S*?):/.test(text)) {\n     \t//print('🤔'); \n      const result = text.match(/:(\\S*?):/g)\n      if (result) {\n        const out = result.map(d => nameToEmoji[d.slice(1,-1)]);\n        print(out.join(''));\n      }\n    }\n});"
+}

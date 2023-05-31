@@ -1,6 +1,0 @@
-{
-    "name": "usa",
-    "command": "if (!input) {\n    print('{r}~usa <input>')\n}\nelse {\n    getDOM(\"http://textart.io/figlet?text=\"+encodeURIComponent(input).replace(/%20/g, '')+\"&font=usaflag\")\n        .then(dom => {\n            print(dom.qs('pre').textContent\n                .replace(/\\s*$/g,'')\n                .replace(/(=+)/g, (a, b) => `{w,r}${b}{/}`)\n                .replace(/(:+)/g, (a, b) => `{w,db}${b}{/}`))\n        })\n        .catch(print.error)\n}",
-    "locked": true,
-    "starred": false
-}

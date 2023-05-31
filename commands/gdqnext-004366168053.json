@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "gdqnext",
+    "command": "print([...fetchSync.dom('https://gamesdonequick.com/tracker/runs/SGDQ2023').document.querySelectorAll(\"table >tbody > tr.small\")].find(el=>new Date((el.querySelector(\".datetime\")?.dataset.epoch)*1000)> new Date()).previousElementSibling.textContent.trim())"
+}
