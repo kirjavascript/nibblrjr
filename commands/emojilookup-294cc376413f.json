@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "emoji-lookup",
+    "command": "print(Object.keys(require('gemoji').nameToEmoji).filter(d=>d.startsWith(input.trim())))"
+}

@@ -1,6 +1,0 @@
-{
-    "locked": false,
-    "starred": false,
-    "name": "ginger",
-    "command": "const rnd = () => 'G'+'INGER'.split('').sort(function(){return 0.5-Math.random()}).join('')\n\nprint(rnd())"
-}

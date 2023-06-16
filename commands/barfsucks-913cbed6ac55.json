@@ -3,5 +3,5 @@
     "locked": false,
     "starred": false,
     "name": "barfsucks",
-    "command": "let sucks = 'barf sucks '\n\nwhile (true) {\n  sucks += 'barf sucks '\n  print(sucks) \n}"
+    "command": "let sucks = 'shreddy sucks '\n\nwhile (true) {\n  sucks += 'shreddy sucks '\n  print(sucks) \n}"
 }

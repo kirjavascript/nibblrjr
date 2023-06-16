@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "gdqrun",
+    "command": "const currentEvent = fetchSync.json(\"https://gamesdonequick.com/tracker/api/v2/events/\").results.find(({datetime})=>new Date(datetime) < new Date())\n\nconst eventRuns = fetchSync.json(\"https://gamesdonequick.com/tracker/api/v2/runs/?offset=4000\").results.filter(({event})=>event.id===currentEvent.id)\n\nconst run = eventRuns.find(({starttime,endtime})=>new Date(starttime)<new Date() && new Date(endtime)>new Date())\n\nconst formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });\n\nprint(run ? `${run.name} by ${formatter.format(run.runners.map(({name,pronouns})=>`${name}(${pronouns.toLowerCase().split(\"/\").map(pronoun=>pronoun.trim()).join(\"/\")})`))}` : \"Noone's running :{\")"
+}

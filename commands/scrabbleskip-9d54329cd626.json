@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "scrabble.skip",
+    "command": "const { endGame,isGameRunning } = IRC.require(\"scrabble.game\")\n\nif (isGameRunning()){\n    print(`The correct answer was {dc}${store.get(\"game\")}{/}, better luck next time`)\n    endGame();  \n}\n\n"
+}

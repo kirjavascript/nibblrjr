@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "notrekt",
+    "command": "print.raw(( // legacy command wrapper\n   x => {\n    return '☑ Not REKT ☐ REKT';\n}\n)(input, input.split(' '), IRC.message));"
+}
