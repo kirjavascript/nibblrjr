@@ -286,7 +286,7 @@ async function createVM({ node, maxTimeout = 60000 }) {
             if (obj) {
                 const module = new Function(`
                         const module = { required: true };
-                        ${obj.command}
+                        (() => { ${obj.command} })();
                         return module;
                     `)();
                 requireCache[str] = module.exports;

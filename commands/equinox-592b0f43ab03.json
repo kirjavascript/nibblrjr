@@ -3,5 +3,5 @@
     "locked": false,
     "starred": false,
     "name": "equinox",
-    "command": "for (y of require(\"solstices-and-equinoxes\")) for (e of [y.spring, y.summer, y.fall, y.winter]) if (new Date(e) > new Date()) return print(require('date-fns@2.28.0').formatDistance(new Date(e), new Date(),{addSuffix:true}));\n"
+    "command": "for (y of require(\"solstices-and-equinoxes\")) for (e of [y.spring, y.fall]) if (new Date(e) > new Date()) return print(require('date-fns@2.28.0').formatDistance(new Date(e), new Date(),{addSuffix:true}));\n"
 }

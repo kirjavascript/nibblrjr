@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "log.paste",
+    "command": "const paste = IRC.require('module.paste');\nconst { renderLogs } = IRC.require('log');\n\nconst data = IRC.log.get(input, IRC.command.params[0] || 3, IRC.command.params[1] || 0);\n\npaste(renderLogs(data));"
+}
