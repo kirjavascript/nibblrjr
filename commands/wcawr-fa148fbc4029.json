@@ -1,6 +1,6 @@
 {
     "name": "wca.wr",
-    "command": "getJSON('https://www.worldcubeassociation.org/api/v0/records')\n    .then(obj => {\n        const data = obj.world_records[input || '333'];\n        if (data) {\n            print(`{y}[${input || '333'}]{/} Single: {g}${(data.single/100).toFixed(2)}{/} Average: {g}${(data.average/100).toFixed(2)}`);\n        }\n        else {\n            print('No event found for ' + input + '. Valid events:');\n            IRC.require('wca.events');\n        }\n    })\n    .catch(print.error);",
+    "command": "getJSON('https://api.worldcubeassociation.org/records')\n    .then(obj => {\n        const data = obj.world_records[input || '333'];\n        if (data) {\n            print(`{y}[${input || '333'}]{/} Single: {g}${(data.single/100).toFixed(2)}{/} Average: {g}${(data.average/100).toFixed(2)}`);\n        }\n        else {\n            print('No event found for ' + input + '. Valid events:');\n            IRC.require('wca.events');\n        }\n    })\n    .catch(print.error);",
     "locked": false,
     "starred": false
 }

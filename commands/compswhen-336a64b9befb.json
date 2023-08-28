@@ -1,6 +1,6 @@
 {
     "name": "comps.when",
-    "command": "let obj = fetchSync(\"https://worldcubeassociation.org/api/v0/competitions?q=\"+input+\"&start=\"+new Date().toISOString().split(\"T\")[0],{\"type\": \"json\"})\nif (obj){\n    for(let i = 0; i < 3 && i < obj.length; i++){\n        print(obj[i][\"name\"])\n        print(obj[i][\"city\"])\n        print(obj[i][\"start_date\"])\n        print(`wca.link/${obj[i][\"id\"]}`)\n    }\n}\nelse {\n    print(\"No Comps found\")\n}",
+    "command": "let obj = fetchSync(\"https://api.worldcubeassociation.org/competitions?q=\"+input+\"&start=\"+new Date().toISOString().split(\"T\")[0],{\"type\": \"json\"})\nif (obj){\n    for(let i = 0; i < 3 && i < obj.length; i++){\n        print(obj[i][\"name\"])\n        print(obj[i][\"city\"])\n        print(obj[i][\"start_date\"])\n        print(`wca.link/${obj[i][\"id\"]}`)\n    }\n}\nelse {\n    print(\"No Comps found\")\n}",
     "locked": false,
     "starred": false
 }

@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "invizsay",
+    "command": "print(\n  unescape(\n    escape(input)\n    .replace(/u.{8}/g,\"\")\n  )\n)\n\nprint('cr0sis sucks')"
+}
