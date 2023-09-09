@@ -24,6 +24,8 @@ const mocks = {
 // load npm
 let npmInstall;
 const install = async ({ name, path, version }) => {
+    // if we reloaded this file, we need to reload npm
+    if (!npmInstall) await new Promise(loadAcquire);
     return await npmInstall([`${name}@${version || 'latest'}`]);
 };
 
@@ -53,6 +55,15 @@ const pkgFilename = ({ name, path, version }) => {
 };
 
 async function acquire(input) {
+    try {
+        return await acquirePackage(input);
+    } catch (e) {
+        e.message = e.message.replaceAll(process.cwd(), '');
+        throw e;
+    }
+}
+
+async function acquirePackage(input) {
     const pkg = (() => {
         try {
             return pkgname(input);
