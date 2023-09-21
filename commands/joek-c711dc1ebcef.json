@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "joek",
+    "command": "getJSON('https://v2.jokeapi.dev/joke/Dark').then(obj => {\n  if (obj) {\n    if (obj.type == \"single\") {\n      print(`{rand}${obj.joke}`)\n    } else {\n      print(`{rand}${obj.setup}`)\n      print(`{rand}${obj.delivery}`) \n    }\n  } else {\n    print('no');\n  }\n}).catch(print.error);"
+}

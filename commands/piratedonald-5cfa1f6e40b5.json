@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "piratedonald",
+    "command": "let url = 'https://api.whatdoestrumpthink.com/api/v1/quotes/'\n\nif (input) {\n  url += `personalized?q=${input}`\n} else {\n  url += 'random' \n}\n\ngetJSON(url).then(obj => {\n  if (obj) {\n    if (obj.error) {\n      print('not found')\n      return\n    }\n    url = 'https://pirate.monkeyness.com/api/'\n    url += `translate?english=${encodeURIComponent(obj.message)}`\n    const data = fetchSync(url)\n\n    print(`{o}${data}`)\n  }\n  else {\n    print('not found');\n  }\n}).catch(print.error);"
+}

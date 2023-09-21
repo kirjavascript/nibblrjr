@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "insult",
+    "command": "// https://evilinsult.com/generate_insult.php?lang=en&type=json\n\nlet url = 'https://evilinsult.com/generate_insult.php?lang=en&type=json'\n\ngetJSON(url).then(obj => {\n  if (obj) {\n    print(`{o}${obj.insult}`)\n  }\n  else {\n    print('not found');\n  }\n}).catch(print.error);"
+}

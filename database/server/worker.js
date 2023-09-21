@@ -142,10 +142,11 @@ const logFns = (() => {
     const userQuery = db.prepare(`
         SELECT * FROM log
         WHERE lower(user) = lower(?) AND message LIKE ?
+        AND command LIKE ?
         ORDER BY idx DESC LIMIT ? OFFSET ?
     `);
-    const user = (_target, name, text = '', limit = 1, offset = 0) => {
-        return userQuery.all(name, `%${text}%`, limit, offset);
+    const user = (_target, name, text = '', limit = 1, offset = 0, cmd = '') => {
+        return userQuery.all(name, `%${text}%`, `%${cmd}%`, limit, offset);
     }
     const countQuery = db.prepare(`
         SELECT count(idx) FROM log

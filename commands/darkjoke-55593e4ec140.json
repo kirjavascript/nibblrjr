@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "darkjoke",
+    "command": "getJSON('https://www.reddit.com/r/darkjokes/random/.json')\n    .then(d => {\n        const post = d.data.children[0].data;\n        print(`{rand}${post.title} ${post.selftext}`)\n    })\n    .catch(print.error)"
+}

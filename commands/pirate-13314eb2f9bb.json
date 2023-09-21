@@ -1,6 +1,6 @@
 {
     "name": "pirate",
-    "command": "print(\"https://www.youtube.com/watch?v=pMhfbLRoGEw\");",
+    "command": "let url = 'https://pirate.monkeyness.com/api/'\n\nif (input) {\n  url += `translate?english=${encodeURIComponent(input)}`\n} else {\n  url += 'insult' \n}\n\nconst data = fetchSync(url)\n\nprint(`{r}${data}`)",
     "locked": false,
     "starred": false
 }
