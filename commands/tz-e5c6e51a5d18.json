@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "tz",
+    "command": "print(new Intl.DateTimeFormat('en',{timeZoneName:'long'}).format(new Date).split(', ').pop())"
+}

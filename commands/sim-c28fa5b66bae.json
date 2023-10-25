@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "sim",
+    "command": "/* ========================================\n * Simsalabimbambasaladusaladim!\n * Written by The_Blode\n * 25/10/23\n * Script Description\n * Version 0.1\n * Changelog\n * - script initial build. (25/10/2023)\n/* ========================================\n * ========================================\n * Global Variables\n * ========================================= */\n\n/* ========================================\n * Main Logic\n * ========================================= */\nprint(\"Simsalabimbambasaladusaladim! -> https://www.youtube.com/watch?v=G3T0r0kzn3w\");  \n\n/* ========================================\n * Functions\n * ========================================= */\n"
+}

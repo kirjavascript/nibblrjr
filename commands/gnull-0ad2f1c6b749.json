@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "gnull",
+    "command": "Object.defineProperty(global, 'gnull', {\n  get: function () {\n    const v = [-0, null, undefined, Symbol(), [], NaN, BigInt(0), '', async function*(){}];\n    return v[0|Math.random()*v.length]\n  },\n});\nlog((eval(input)));"
+}
