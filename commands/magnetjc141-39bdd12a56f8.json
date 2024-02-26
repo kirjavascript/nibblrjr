@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "magnet.jc141",
+    "command": "const list = fetchSync.json(`https://github.com/jc141x/releases-feed/releases/download/feeds/releases.json`);\n\nconst item = list.find(d=>d.name.toLowerCase().includes(input.trim()));\n\nprint(`{c}${item.name}{/} SE {g}${item.seeds}{/} LE {o}${item.leeches} {p}${item.size}{/} 🧲${IRC.colors.link(IRC.require('module.paste')(item.magnet))}`);\n  "
+}

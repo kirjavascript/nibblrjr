@@ -3,5 +3,5 @@
     "locked": false,
     "starred": false,
     "name": "shreddysucks",
-    "command": "print('true')\nprint('Not a Number')"
+    "command": "let sucks = 'google shitting dick nipples '\n\nwhile (true) {\n  sucks += 'google shitting dick nipples '\n  print(sucks) \n}"
 }

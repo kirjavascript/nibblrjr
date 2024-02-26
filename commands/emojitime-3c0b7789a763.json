@@ -1,6 +1,6 @@
 {
     "name": "emojitime",
-    "command": "(async () => {print((await acquire('emoji-time@2.2.5'))())} )()",
+    "command": "print(require('emoji-time@2.2.5')())",
     "locked": true,
     "starred": false
 }

@@ -1,6 +1,6 @@
 {
     "name": "date",
-    "command": "print(`friday smarch 15nd 2028`)",
+    "command": "days=['solday','lunday', 'noctday', 'apolloday', 'arteday', 'raeday', 'heliday']\nmonths=['celestuary','bembuary', 'smarch', 'dazzleton', 'zephyrion', 'luminarch', 'jomber', 'blimber']\nordinals=['st','nd','rd']\nnow=new Date\nprint(`${days[now.getDay()%days.length]} ${months[now.getMonth()%months.length]} ${IRC.require('fliptext')(String(now.getDate()))}${ordinals[now.getDate()%ordinals.length]} ${now.getFullYear() + 4}`)",
     "locked": false,
     "starred": false
 }

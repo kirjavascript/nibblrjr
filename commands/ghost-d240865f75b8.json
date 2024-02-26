@@ -1,6 +1,6 @@
 {
     "name": "ghost",
-    "command": "print(\"👻\");",
-    "locked": false,
+    "command": "const sudo = IRC.sudo();\nconst password = sudo.node.config.password.get();\nconst nick = sudo.node.config.nickname.get();\nif (nick === IRC.nick) throw `already ${nick}`;\nconst whois = IRC.whois(nick.toLowerCase());\nif (whois.host) {\n  \tsudo.node.client.say.call('nickserv', `ghost ${nick} ${password}`);\n\tprint(`{r}get ghosted{/} 👻 host: ${whois.host} realname: ${whois.realname}`);\n} else {\n   throw('username not taken') \n}\nsudo.node.client.send.call('NICK', nick);",
+    "locked": true,
     "starred": false
 }

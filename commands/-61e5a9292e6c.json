@@ -1,6 +1,6 @@
 {
     "name": "£",
-    "command": "print.raw(\"FUCK ALL MATE\");",
+    "command": "print.raw(\"FUCK ALL MATE\");\n_resetBuffer();",
     "locked": false,
     "starred": false
 }

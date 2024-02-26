@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "nopyborgrandom",
+    "command": "print.raw(( // legacy command wrapper\n   function(x){ return input.split(' | ')[(Math.random()*input.split(' | ').length)|0];}\n)(input, input.split(' '), IRC.message));"
+}

@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "blockedFromReddit?",
+    "command": "print(fetchSync.dom('https://www.reddit.com').document.body.textContent.includes('blocked')?'yep :(':'nope!!')"
+}

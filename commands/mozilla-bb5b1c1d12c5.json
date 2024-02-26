@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "mozilla",
+    "command": "print(\"https://calpaterson.com/assets/mozilla-boss-pay.svg\");"
+}

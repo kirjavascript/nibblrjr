@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "volcano",
+    "command": "print('!volcano')\nprint('https://www.youtube.com/watch?v=804nPrAUAxg')"
+}

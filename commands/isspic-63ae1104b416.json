@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "isspic",
+    "command": "//print(`https://cr0s.is/frame.jpg?t=${parseInt((new Date().getTime() / 1000).toFixed(0))}`)"
+}

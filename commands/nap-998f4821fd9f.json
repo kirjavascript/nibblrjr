@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "nap",
+    "command": "if (Math.floor(Math.random() * 2) == 1) {\n  print('ye');\n} else {\n  print('no');\n}"
+}

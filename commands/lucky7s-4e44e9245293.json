@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "lucky7s",
+    "command": "function rollDice() {\n  return 1 + Math.floor(Math.random() * 6);\n}\n\nfunction playRound() {\n  const dice1 = rollDice();\n  const dice2 = rollDice();\n  const sum = dice1 + dice2;\n  print(`You rolled a {g}${dice1}{/} and a {g}${dice2}{/}. Sum: {o}${sum}`);\n\n  if (sum === 7) {\n    print(\"{rb}Congratulations! You hit Lucky 7!\");\n  } else {\n    print(\"{r}Unlucky! Didn't hit 7 this time.\");\n  }\n}\n\nplayRound()"
+}

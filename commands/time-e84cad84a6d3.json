@@ -1,6 +1,6 @@
 {
     "name": "time",
-    "command": "let aryIannaTimeZones = Intl.supportedValuesOf('timeZone');\nlet time_format_options = {\n  timeZoneName: \"short\",\n  year: \"numeric\",\n  month: \"2-digit\",\n  day: \"2-digit\",\n  hour: \"2-digit\",\n  hour12: false,\n  minute: \"2-digit\",\n  second: \"2-digit\",\n};\n\nconst capitalize = (s) => {\n  if (typeof s !== 'string') return ''\n  return (s.charAt(0).toUpperCase() + s.slice(1)).replace(\" \",\"_\")\n}\n\nlet date = new Date();\nlet tz = aryIannaTimeZones.filter( x => x.includes(capitalize(input)) )[0]\n\nif(!tz){\n  print(\"invalid timezone\")\n}else{\n  time_format_options.timeZone = tz;\n  print(\n    print(date.toLocaleString(\"ja-JP\", time_format_options).replaceAll('/','-'))\n  )\n}",
+    "command": "let aryIannaTimeZones = Intl.supportedValuesOf('timeZone');\nlet time_format_options = {\n  timeZoneName: \"short\",\n  year: \"numeric\",\n  month: \"2-digit\",\n  day: \"2-digit\",\n  hour: \"2-digit\",\n  hour12: false,\n  minute: \"2-digit\",\n  second: \"2-digit\",\n};\n\nconst capitalize = (s) => s.replace(/\\w+/g,_=>(_[0].toUpperCase()+_.slice(1)))\n\nlet date = new Date();\nlet tz = aryIannaTimeZones.filter( x => x.includes(capitalize(input)) )[0]\n\nif(!tz){\n  print(\"invalid timezone\")\n}else{\n  time_format_options.timeZone = tz;\n  print(\n    print(date.toLocaleString(\"ja-JP\", time_format_options).replaceAll('/','-'))\n  )\n}",
     "locked": false,
     "starred": false
 }

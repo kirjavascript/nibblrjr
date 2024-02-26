@@ -360,7 +360,10 @@ async function createVM({ node, maxTimeout = 60000 }) {
             });
         });
 
-        IRC.paste = (pasta, name = '') => {
+        IRC.paste = (
+            pasta,
+            name = String.fromCharCode(...[...Array(10)].map((_=Math.random()*16)=>_< 10?_+48:_+87))
+        ) => {
             const { html, text } = ref.makePasta
                 .applySyncPromise(undefined, [pasta, name]);
 
