@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "lse-nm",
+    "command": "const scramble = 'R2 '+IRC.require('scramble').getLSEScramble().trim() + ['', ' M2'][0|Math.random()*2];\n\nprint(`LSE-NM scramble #${IRC.require('module.count').next()}: ${scramble}`)"
+}

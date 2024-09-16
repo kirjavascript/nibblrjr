@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "findCommand",
+    "command": "print(IRC.commandFns.list().filter(d => d.name.toLowerCase().includes(input.toLowerCase())).map(d=>d.name).join`, `)"
+}

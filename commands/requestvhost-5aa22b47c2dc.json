@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "request-vhost",
+    "command": "IRC.sudo().node.client.say.call('hostserv', `REQUEST cute.fox`);"
+}

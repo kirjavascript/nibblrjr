@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "hipsum",
+    "command": "try {\n  let url = 'http://hipsum.co/api/?type=hipster-centric&paras=2'\n  getJSON(url)\n    .then(d => {\n      print(`${d}`)\n    }).catch('user error')\n} catch (e) {\n\tprint('user error') \n}"
+}

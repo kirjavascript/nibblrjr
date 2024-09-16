@@ -1,6 +1,6 @@
 {
     "event": false,
-    "locked": false,
+    "locked": true,
     "starred": false,
     "name": "swatch",
     "command": "print(require('swatch').swatchNow())"

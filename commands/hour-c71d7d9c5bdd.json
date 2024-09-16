@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "hour",
+    "command": "let aryIannaTimeZones = Intl.supportedValuesOf('timeZone');\nlet time_format_options = {\n  hour: \"2-digit\",\n};\n\nconst capitalize = (s) => s.replace(/\\w+/g,_=>(_[0].toUpperCase()+_.slice(1)))\n\nlet date = new Date();\nlet tz = aryIannaTimeZones.filter( x => x.includes(capitalize(input)) )[0]\n\nh='zerith|quintrix|septavor|dodecom|hexadim|novatide|tridur|octasol|decanex|pentoria|heptalux|duodecca'.split`|`[(new Date()).getHours()% 12]\n\nif(!tz){\n  print(\"invalid timezone\")\n}else{\n  time_format_options.timeZone = tz;\n  print(\n    print(h+' '+date.toLocaleString(\"ja-JP\", time_format_options).replaceAll('/','-').replace(\"時\",\"\"))\n  )\n}"
+}

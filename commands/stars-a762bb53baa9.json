@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "stars",
+    "command": "const { stars, forks } = fetchSync.json(`https://api.github-star-counter.workers.dev/user/${input}`);\n\nprint(`${stars} ⭐ ${forks} ⛙`)"
+}

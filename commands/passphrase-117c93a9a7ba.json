@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "passphrase",
+    "command": "function getRandomWord(min=8){\n    let filtered = IRC.wordList.filter(x =>  x.length > min);\n    return filtered[Math.floor(Math.random() * filtered.length)];\n}\n\nprint([8,3,8].map((m) => getRandomWord(m).toLowerCase()).join(\"-\"))"
+}

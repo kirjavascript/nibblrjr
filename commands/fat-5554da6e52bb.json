@@ -1,6 +1,6 @@
 {
     "name": "fat",
-    "command": "print.raw(\"\u000f\u00035(\u000f\u000309\u000f\u000309 \u000f\u000309ﾟ\u000f\u000308ヮ\u000f\u000311ﾟ\u000f\u000304)\u000f\u000f *heavy breathing*\");",
+    "command": "print.raw(\"\u000f\u00035(\u000f\u000309\u000f\u000309 \u000f\u000309ﾟ\u000f\u000308ヮ\u000f\u000311ﾟ\u000f\u000304)\u000f\u000f *heavy breathing*\");\nprint('https://lsd.ddxt.cc/irc/uploads/8cab4c6b2e09e0d8/GTOcIJSWkAAVeQT.jpg');",
     "locked": false,
     "starred": false
 }

@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "edit",
+    "command": "print((new Date).getHours())"
+}
