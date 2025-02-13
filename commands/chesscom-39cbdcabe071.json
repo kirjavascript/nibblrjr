@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "chesscom",
+    "command": "const getLastRatings = (stats) => {\n  return Object.entries(stats)\n    .filter(([key]) => key.startsWith('chess_'))\n    .reduce((acc, [key, value]) => ({\n      ...acc,\n      [key.replace('chess_', '')]: value.last.rating\n    }), {})\n}\n\n\nconst ratings = getLastRatings(fetchSync.json(`https://api.chess.com/pub/player/${encodeURIComponent(input)}/stats`))\nprint(`Blitz: {bo}${ratings.blitz}{/} Rapid: {bo}${ratings.rapid}{/} Bullet: {bo}${ratings.bullet}{/} Daily: {bo}${ratings.daily}{/}`)\n"
+}

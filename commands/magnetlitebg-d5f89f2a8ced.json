@@ -1,7 +1,0 @@
-{
-    "event": false,
-    "locked": false,
-    "starred": false,
-    "name": "magnet.litebg",
-    "command": "const { document } = fetchSync.dom(`http://litebg.se/search?q=${encodeURIComponent(input)}&page=1`);\nconst item = document.querySelector('#results tbody tr');\nconst [, name, date, size, magnet] = [...item.querySelectorAll('td')];\n\nconst magnetLink = IRC.require('module.paste')(magnet.querySelector('a').href)\n\nprint(`{c}${name.textContent.trim()}{/} 🧲${IRC.colors.link(magnetLink)}`);\n  "
-}

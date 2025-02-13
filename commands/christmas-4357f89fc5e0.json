@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "christmas?",
+    "command": "const d = new Date();\n\nif (d.getDate() === 25 && d.getMonth() === 11) {\n\tprint('merry christmas 🎄');\n} else {\n\tprint('not yet');\n}"
+}

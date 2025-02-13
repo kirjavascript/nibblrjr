@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": true,
+    "starred": true,
+    "name": "magnets",
+    "command": "const { document } = fetchSync.dom(`https://piratebay.party/search/${encodeURIComponent(input)}/1/99/0`);\n//try {\n\nconst items = [...document.querySelectorAll('tr')].slice(1);\nconst slim = d => d.replace(/\\s+/g,' ').trim();\n  \nlet output = ''\n  \n items.forEach(item => {\n   const cells = [...item.querySelectorAll('td')];\n   \n   if (!cells[1]?.textContent) return;\n   \n   const magnet = cells[3]?.querySelector('a')?.href\n \n \toutput += (`🧲 ${cells[1]?.textContent} SE ${cells[5]?.textContent} LE ${cells[6]?.textContent} ${cells[4]?.textContent}\\n\\n${magnet}\\n\\n`);\n \n })\n  \n  print(`{o}${items.length}{/} results - ${IRC.colors.link(IRC.require('module.paste')(output))}`);\n  \n//} catch(e) {\n \t//throw 'cannot find ' + input \n//}"
+}

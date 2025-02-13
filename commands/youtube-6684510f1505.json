@@ -1,6 +1,6 @@
 {
     "name": "youtube",
-    "command": "const Google = IRC.require('module.google');\n\ninput && Google('youtube.com ' + input, IRC.command.params[0])\n    .forEach(({ title, url }) => {\n        print(`{r}${title}{/} - ${IRC.colors.link(url)}`)\n    });",
+    "command": "const Google = IRC.require('module.google');\n\ninput && Google('site:youtube.com ' + input, IRC.command.params[0])\n    .forEach(({ title, url }) => {\n        print(`{r}${title}{/} - ${IRC.colors.link(url)}`)\n    });",
     "locked": true,
     "starred": true
 }

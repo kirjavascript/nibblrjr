@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "2025?",
+    "command": "print((new Date).getFullYear()>=2025?'{y}yes!{/} (*⌒∇⌒*) //// 🎉 {rb}ｈａｐｐｙ ｎｅｗ ｙｅａｒ':'not yet')"
+}

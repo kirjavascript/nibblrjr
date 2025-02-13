@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "~beer",
+    "command": "/* ========================================\n * Beerio for everyone!!!\n * Written by The_Blode (Translation provided by toni)\n * 2025-01-17\n * Script Description: give folks a pint.\n * Version 0.1\n * Changelog\n * - script initial build. (2025-01-17)\n * ========================================\n * Global Variables\n * ========================================= */\nvar given_input = input.split(\" \");\nvar target = given_input[0];\n\n/* ========================================\n * Main Logic\n * ========================================= */\nif (target != undefined && target != \"\") {\n\tprint(IRC.message.from + \" gives \" + target + \" a pint of 🍺.\");\n} else {\n\tprint(\"Please give us a name of the person you'd like to klapp!\");  \n}\n\n/* ========================================\n * Functions\n * ========================================= */\n"
+}

@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "bang?",
+    "command": "let lethal = Math.floor(Math.random() * 6) === 1\naction(`spins revolver cylindar, takes aim at ${IRC.message.from}, and pulls the trigger`)\nprint(lethal ? 'bang!' : 'click!')"
+}

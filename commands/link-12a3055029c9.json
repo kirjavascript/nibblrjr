@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "link",
+    "command": "if (!input) {\n    print(`{r}Syntax:{/} {p}${IRC.trigger}command.link{/} name`)\n}\nelse {\n    const [command, flags] = input.split(' ');\n    const cmdData = IRC.commandFns.get(command);\n    if (!cmdData) {\n        throw 'no such command';\n    }\n  else {\n    print(`https://nibblr.pw/cmds/${command}`)\n  }\n}\n"
+}

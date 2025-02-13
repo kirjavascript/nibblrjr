@@ -1,6 +1,7 @@
 {
+    "event": false,
     "locked": false,
     "starred": false,
-    "name": "test",
+    "name": "c2c",
     "command": "const dom = await getDOM('https://www.coasttocoastam.com/shows/upcoming/')\ntitle = dom.qs('.feed-cards .component-heading').textContent\nhost = dom.qs('.feed-cards .coast-linked-host .linked-value').textContent\nprint(title + ' (Hosted by ' + host + ')');\nprint(dom.qs('.feed-cards .heading-title a').href.replace('localhost', 'www.coasttocoastam.com'))"
 }
