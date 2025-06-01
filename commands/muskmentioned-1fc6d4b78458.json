@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "muskmentioned",
+    "command": "const dateFns = require('date-fns@4.1.0'); \nconst diff = dateFns.formatDistanceToNow(new Date(IRC.log.get('elon musk', 1)?.[0].time));\nprint(diff + ' ago');"
+}

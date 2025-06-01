@@ -1,0 +1,7 @@
+{
+    "event": false,
+    "locked": false,
+    "starred": false,
+    "name": "technotronic",
+    "command": "const dateFns = require('date-fns@4.1.0'); \nconst diff = new Date() - new Date('1989-08-18T00:00:00Z');\nprint((diff/1000|0) + ' secs');"
+}

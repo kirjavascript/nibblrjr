@@ -1,6 +1,6 @@
 {
     "name": "weather",
-    "command": "IRC.require('weather.current').get()",
+    "command": "IRC.require('weather.current').get();\n// TODO: try tomorrow.io",
     "locked": true,
     "starred": true
 }
